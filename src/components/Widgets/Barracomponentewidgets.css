@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 380px;
     height: 100%;
     background-color: #f4f4f4;
     border-right: 1px solid #ccc;
@@ -15,6 +15,26 @@
     background-color: transparent;
     border: none;
     font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .widget-image {
+    width: 20px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 20px;
+    margin-right: 8px; /* Espacio entre la imagen y el texto */
+    vertical-align: middle;
+  }
+  .widget-image-above {
+    width: 220px; /* Ajusta el tamaño según sea necesario */
+    height: 171px;
+    margin-bottom: 8px; /* Espacio entre la imagen y el texto */
+  }
+  .widget-btn {
+    display: flex;
+    flex-direction: column; /* Esto apila la imagen y el texto verticalmente */
+    align-items: center; /* Centra la imagen y el texto horizontalmente */
+    padding: 10px;
+    background: none;
+    border: none;
     cursor: pointer;
   }
   

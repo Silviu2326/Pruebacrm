@@ -1,0 +1,119 @@
+.filtrodediasyhoras-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .filtrodediasyhoras-modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+  }
+  
+  .filtrodediasyhoras-modal h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .filtrodediasyhoras-modal form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .filtrodediasyhoras-modal label {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .filtrodediasyhoras-modal input[type="text"],
+  .filtrodediasyhoras-modal input[type="date"],
+  .filtrodediasyhoras-modal input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .filtrodediasyhoras-modal input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .filtrodediasyhoras-modal button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .filtrodediasyhoras-modal button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .filtrodediasyhoras-modal button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .filtrodediasyhoras-modal button[type="submit"]:hover {
+    background-color: #218838;
+  }
+  
+  .filtrodediasyhoras-modal button[type="button"]:hover {
+    background-color: #c82333;
+  }
+  .filtrodediasyhoras-horario-semanal {
+    margin-top: 20px;
+  }
+  
+  .horario-semanal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .horario-dia {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 300px;
+    text-align: center;
+  }
+  
+  .horario-dia h3 {
+    margin-bottom: 10px;
+  }
+  
+  .horario-dia label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .horario-dia input[type="time"] {
+    margin-bottom: 10px;
+  }
+  
+  .horario-dia button {
+    margin-right: 10px;
+  }
+  
+  .horario-dia select {
+    margin-top: 10px;
+  }
+  

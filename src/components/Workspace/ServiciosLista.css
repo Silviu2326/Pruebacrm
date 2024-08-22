@@ -34,169 +34,128 @@
     --create-button-bg-dark: #006B5A; /* Fondo del botón Crear Dieta en modo oscuro */
   }
   
-  /* Estilo general para la lista de servicios */
-  .servicioslista-servicios-lista {
-      padding: 20px;
-      background-color: var(--background-light);
-      color: var(--text-light);
-  }
-  
-  /* Botones de acciones */
-  .servicioslista-botones-acciones {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
-  }
-  
-  .servicioslista-botones-acciones button {
-      background-color: var(--button-bg-light);
-      border: 1px solid var(--button-border-light);
-      color: var(--button-text-light);
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-  }
-  
-  .servicioslista-botones-acciones button:hover {
-      background-color: var(--button-bg-dark);
-      color: var(--button-text-dark);
-  }
-  
-  /* Contenedor de tablas */
-  .servicioslista-tablas-contenedor {
-      display: flex;
-      gap: 20px;
-      justify-content: space-between;
-  }
-  
-  /* Contenedor de una tabla individual */
-  .servicioslista-tabla-contenedor {
-      flex: 1;
-  }
-  
-  /* Filtro de búsqueda */
-  .servicioslista-filtro-busqueda {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-  }
-  
-  .servicioslista-input-filtro {
-      flex-grow: 1;
-  }
-  
-  .servicioslista-dropdown-filtro {
-      min-width: 150px;
-  }
-  
-  /* Estilos de la tabla */
-  .servicioslista-tabla-servicios {
-      width: 100%;
-      border-collapse: collapse;
-  }
-  
-  .servicioslista-tabla-servicios th,
-  .servicioslista-tabla-servicios td {
-      padding: 8px;
-      border: 1px solid var(--secondary-light);
-      text-align: left;
-  }
-  
-  .servicioslista-tabla-servicios th {
-      background-color: var(--header-bg-light);
-      color: var(--header-text-light);
-  }
-  
-  .servicioslista-tabla-servicios tbody tr:hover {
-      background-color: var(--secondary-light);
-  }
-  
-  /* Estilos para el modo oscuro */
-  body.dark-mode .servicioslista-servicios-lista {
-      background-color: var(--background-dark);
-      color: var(--text-dark);
-  }
-  
-  body.dark-mode .servicioslista-botones-acciones button {
-      background-color: var(--button-bg-dark);
-      border: 1px solid var(--button-border-dark);
-      color: var(--button-text-dark);
-  }
-  
-  body.dark-mode .servicioslista-tabla-servicios th,
-  body.dark-mode .servicioslista-tabla-servicios td {
-      border-color: var(--secondary-dark);
-  }
-  
-  body.dark-mode .servicioslista-tabla-servicios th {
-      background-color: var(--header-bg-dark);
-      color: var(--header-text-dark);
-  }
-  
-  body.dark-mode .servicioslista-tabla-servicios tbody tr:hover {
-      background-color: var(--secondary-dark);
-  }
-  
-  /* Estilos personalizados para los diálogos (pop-ups) */
-  .custom-dialog .MuiPaper-root {
-      background-color: var(--background-light);
-      border-radius: 10px;
-      padding: 20px;
-      max-width: 600px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .custom-dialog-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary-light);
-      margin-bottom: 10px;
-  }
-  
-  .custom-dialog-content {
-      font-size: 1rem;
-      color: var(--text-light);
-      margin-bottom: 20px;
-  }
-  
-  .custom-dialog-actions {
-      display: flex;
-      justify-content: flex-end;
-      padding-top: 10px;
-  }
-  
-  .custom-dialog-actions .MuiButton-root {
-      margin-left: 10px;
-      background-color: var(--create-button-bg-light);
-      color: var(--button-text-light);
-  }
-  
-  .custom-dialog-actions .MuiButton-root:hover {
-      background-color: var(--create-button-bg-dark);
-      color: var(--button-text-dark);
-  }
-  
-  /* Modo oscuro para los diálogos */
-  body.dark-mode .custom-dialog .MuiPaper-root {
-      background-color: var(--background-dark);
-  }
-  
-  body.dark-mode .custom-dialog-title {
-      color: var(--primary-dark);
-  }
-  
-  body.dark-mode .custom-dialog-content {
-      color: var(--text-dark);
-  }
-  
-  body.dark-mode .custom-dialog-actions .MuiButton-root {
-      background-color: var(--create-button-bg-dark);
-      color: var(--button-text-dark);
-  }
-  
-  body.dark-mode .custom-dialog-actions .MuiButton-root:hover {
-      background-color: var(--primary-light);
-      color: var(--text-dark);
-  }
-  
+/* Estilo general para la lista de servicios */
+.servicioslista-servicios-lista {
+    padding: 20px;
+    background-color: var(--background-light);
+    color: var(--text-light);
+}
+
+/* Botones de acciones */
+.servicioslista-botones-acciones {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.servicioslista-botones-acciones button {
+    background-color: var(--button-bg-light);
+    border: 1px solid var(--button-border-light);
+    color: var(--button-text-light);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.servicioslista-botones-acciones button:hover {
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
+}
+
+/* Filtro de búsqueda */
+.servicioslista-filtro-busqueda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.servicioslista-input-filtro {
+    flex-grow: 1;
+}
+
+.servicioslista-dropdown-filtro {
+    min-width: 150px;
+}
+
+/* Estilos de la tabla */
+.servicioslista-tabla-servicios {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.servicioslista-tabla-servicios th,
+.servicioslista-tabla-servicios td {
+    padding: 10px;
+    border: 1px solid var(--secondary-light);
+    text-align: left;
+}
+
+.servicioslista-tabla-servicios th {
+    background-color: var(--header-bg-light);
+    color: var(--header-text-light);
+}
+
+.servicioslista-tabla-servicios tbody tr:hover {
+    background-color: var(--secondary-light);
+}
+
+/* Estilos específicos para la tabla de planes de pago */
+.servicioslista-tabla-planes {
+    width: 95%; /* Disminuir el ancho para dar la impresión de desplazamiento */
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 20px; /* Desplazar la tabla hacia la derecha */
+    background-color: var(--background-light);
+}
+
+.servicioslista-tabla-planes th,
+.servicioslista-tabla-planes td {
+    padding: 8px;
+    border: 1px solid var(--secondary-light);
+    text-align: left;
+}
+
+.servicioslista-tabla-planes th {
+    background-color: var(--header-bg-light);
+    color: var(--header-text-light);
+}
+
+.servicioslista-tabla-planes tbody tr:hover {
+    background-color: var(--secondary-light);
+}
+
+.servicioslista-plan-row td {
+    padding: 0;
+}
+
+/* Estilos para el modo oscuro */
+body.dark-mode .servicioslista-servicios-lista {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+body.dark-mode .servicioslista-botones-acciones button {
+    background-color: var(--button-bg-dark);
+    border: 1px solid var(--button-border-dark);
+    color: var(--button-text-dark);
+}
+
+body.dark-mode .servicioslista-tabla-servicios th,
+body.dark-mode .servicioslista-tabla-servicios td,
+body.dark-mode .servicioslista-tabla-planes th,
+body.dark-mode .servicioslista-tabla-planes td {
+    border-color: var(--secondary-dark);
+}
+
+body.dark-mode .servicioslista-tabla-servicios th,
+body.dark-mode .servicioslista-tabla-planes th {
+    background-color: var(--header-bg-dark);
+    color: var(--header-text-dark);
+}
+
+body.dark-mode .servicioslista-tabla-servicios tbody tr:hover,
+body.dark-mode .servicioslista-tabla-planes tbody tr:hover {
+    background-color: var(--secondary-dark);
+}

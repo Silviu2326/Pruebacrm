@@ -1,0 +1,131 @@
+.AsesoriaPopup-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    max-width: 800px;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.AsesoriaPopup-popup-inner {
+    padding: 30px;
+}
+
+.AsesoriaPopup-title {
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.AsesoriaPopup-client-details, .AsesoriaPopup-details {
+    margin-bottom: 25px;
+}
+
+.AsesoriaPopup-client-details h3, .AsesoriaPopup-details h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #007bff;
+    border-left: 4px solid #007bff;
+    padding-left: 10px;
+}
+
+.AsesoriaPopup-details p, .AsesoriaPopup-client-details p {
+    margin: 8px 0;
+    color: #444;
+    font-size: 16px;
+}
+
+.AsesoriaPopup-subtipo-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.AsesoriaPopup-subtipo-card h4 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.AsesoriaPopup-subtipo-card p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.AsesoriaPopup-payment-dates {
+    list-style-type: none;
+    padding: 0;
+    color: #555;
+    margin-top: 10px;
+
+}
+
+.AsesoriaPopup-payment-dates li {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.AsesoriaPopup-payment-dates li:before {
+    content: '\1F4C5'; /* Icono de calendario */
+    margin-right: 10px;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.AsesoriaPopup-payment-dates li + li {
+    margin-top: 10px;
+}
+
+
+.AsesoriaPopup-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.AsesoriaPopup-close-btn, .AsesoriaPopup-generate-link-btn {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.AsesoriaPopup-close-btn:hover, .AsesoriaPopup-generate-link-btn:hover {
+    background-color: #0056b3;
+}
+
+.AsesoriaPopup-create-btn {
+    padding: 12px 25px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.AsesoriaPopup-create-btn:hover {
+    background-color: #218838;
+}

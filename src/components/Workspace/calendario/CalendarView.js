@@ -8,6 +8,7 @@ import AddEventForm from './AddEventForm';
 import Sidebar from './Sidebar';
 import EventTooltip from './EventTooltip';
 import MonthTool from './MonthTool';
+import Filtrodediasyhoras from './Filtrodediasyhoras'; // Importamos el nuevo componente
 
 const locales = {
   'es-US': enUS,
@@ -49,6 +50,7 @@ const MyCalendar = ({ theme }) => {
   const [highlightedHours, setHighlightedHours] = useState({});
   const [dayEvents, setDayEvents] = useState([]);
   const [monthToolPosition, setMonthToolPosition] = useState({ top: 0, left: 0 });
+  const [isHorarioModalOpen, setIsHorarioModalOpen] = useState(false); // Estado para manejar el modal de horarios
 
   useEffect(() => {
     fetchEvents();
@@ -218,6 +220,14 @@ const MyCalendar = ({ theme }) => {
     setHighlightedHours(dailyAvailableHours);
   };
 
+  const handleOpenHorarioModal = () => {
+    setIsHorarioModalOpen(true);
+  };
+
+  const handleCloseHorarioModal = () => {
+    setIsHorarioModalOpen(false);
+  };
+
   useEffect(() => {
     const applyAdvancedFilters = (events, filters) => {
       return events.filter(event => {
@@ -283,6 +293,8 @@ const MyCalendar = ({ theme }) => {
       />
       <div className={`Calendarioclass-calendar-container ${theme}`}>
         <h1>My Calendar</h1>
+        <button onClick={handleOpenHorarioModal}>Configurar Horarios Válidos</button> {/* Botón para abrir el modal */}
+
         <Calendar
           localizer={localizer}
           events={filteredEvents}
@@ -363,6 +375,7 @@ const MyCalendar = ({ theme }) => {
             ),
           }}
         />
+
         {modalOpen && (
           <AddEventForm
             onClose={handleCloseModal}
@@ -383,11 +396,17 @@ const MyCalendar = ({ theme }) => {
             theme={theme}
           />
         )}
+
         {hoveredEvent && (
           <EventTooltip event={hoveredEvent} position={tooltipPosition} onDelete={handleDeleteEvent} theme={theme} />
         )}
+        
         {dayEvents.length > 0 && (
           <MonthTool events={dayEvents} position={monthToolPosition} theme={theme} />
+        )}
+        
+        {isHorarioModalOpen && (  // Si el modal de horarios está abierto, mostramos el componente
+          <Filtrodediasyhoras onClose={handleCloseHorarioModal} />
         )}
       </div>
     </div>

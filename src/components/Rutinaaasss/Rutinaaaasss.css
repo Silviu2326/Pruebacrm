@@ -18,6 +18,7 @@
 .btn-create {
   padding: 10px 20px;
   cursor: pointer;
+  margin-right: 10px; /* Agrega espacio entre los botones */
 }
 
 .btn-create.light {
@@ -30,6 +31,25 @@
   background-color: var(--button-background-dark);
   color: var(--button-text-dark);
   border: 2px dashed var(--button-text-dark);
+}
+
+/* Styles for the new "Crear Rutina con IA" button */
+.btn-create-ai {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 2px solid; /* Bordes sólidos para el nuevo botón */
+}
+
+.btn-create-ai.light {
+  background-color: var(--button-background-light);
+  color: var(--button-text-light);
+  border-color: var(--button-text-light);
+}
+
+.btn-create-ai.dark {
+  background-color: var(--button-background-dark);
+  color: var(--button-text-dark);
+  border-color: var(--button-text-dark);
 }
 
 /* Search input styles */
@@ -257,4 +277,19 @@
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 300ms, transform 300ms;
+}
+
+.rutina-container {
+  padding: 20px;
+  max-width: 100%; /* Para asegurar que la página se adapte correctamente */
+}
+
+.preview-modal-content {
+  margin: 5% auto;
+  padding: 20px;
+  width: 80%; /* Hacemos este modal también más ancho */
+  max-width: 1200px; /* Máximo ancho permitido */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
 }

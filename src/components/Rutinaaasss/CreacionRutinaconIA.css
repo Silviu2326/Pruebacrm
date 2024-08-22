@@ -1,0 +1,128 @@
+/* CreacionRutinaconIA.css */
+
+.ia-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.ia-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 95%;
+    max-width: 900px;  /* Aumentamos el ancho máximo */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);  /* Un poco más de sombra */
+    position: relative;
+}
+
+.ia-modal-content h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #f00; /* Color rojo para destacar el botón de cerrar */
+    background: none;
+    border: none;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Mayor margen entre los campos */
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-group input[type="number"] {
+    max-width: 150px;
+}
+
+.generate-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: center;
+}
+
+.generate-btn:hover {
+    background-color: #45a049;
+}
+
+.ia-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 95%;
+    max-width: 900px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-height: 90vh; /* Limitar la altura máxima del modal */
+    overflow-y: auto; /* Añadir scroll vertical si es necesario */
+  }
+  
+  .ia-modal-content::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .ia-modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .ia-modal-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  .ia-modal-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #f00;
+    background: none;
+    border: none;
+  }
+  
+  .modal-main-content {
+    flex: 1;
+  }

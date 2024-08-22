@@ -1,5 +1,6 @@
 import React from 'react';
 import './Barracomponentewidgets.css'; // Asegúrate de crear el archivo CSS para estilizar la barra
+import PlanesVendidosImg from './Planes_vendidos.png'; // Importa la imagen
 
 function Barracomponentewidgets({ onClose, theme, removedWidgets, onReaddWidget }) {
   return (
@@ -10,8 +11,13 @@ function Barracomponentewidgets({ onClose, theme, removedWidgets, onReaddWidget 
         {removedWidgets.length > 0 ? (
           removedWidgets.map(widget => (
             <li key={widget.i}>
-              <button onClick={() => onReaddWidget(widget)}>
-                {widget.i} - Añadir
+              <button onClick={() => onReaddWidget(widget)} className="widget-btn">
+                {widget.i === 'planesVendidos' && (
+                  <>
+                    <img src={PlanesVendidosImg} alt="Planes Vendidos" className="widget-image-above" />
+                    <span>{widget.i} - Añadir</span>
+                  </>
+                )}
               </button>
             </li>
           ))

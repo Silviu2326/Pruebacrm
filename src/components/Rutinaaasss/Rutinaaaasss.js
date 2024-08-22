@@ -1,13 +1,17 @@
+// Ruta: C:\Users\carlo\Downloads\Pruebacrm\src\components\Rutinaaasss\Rutinaaaasss.js
+
 import React, { useState, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import CreacionDeRutina from './CreacionDeRutina';
 import UnionDeRutinas from './UnionDeRutinas';
-import './Rutinaaaasss.css';
+import CreacionRutinaconIA from './CreacionRutinaconIA'; // Importamos el nuevo componente
+import './Rutinaaaasss.css'; // Importar el archivo CSS con el nombre correcto
 
-const Rutinaaasss = ({ theme }) => {
+const Rutinaaaasss = ({ theme }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [routines, setRoutines] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isIAModalOpen, setIsIAModalOpen] = useState(false); // Nuevo estado para el modal de IA
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isUnionModalOpen, setIsUnionModalOpen] = useState(false);
   const [currentRoutine, setCurrentRoutine] = useState(null);
@@ -40,6 +44,10 @@ const Rutinaaasss = ({ theme }) => {
     setIsModalOpen(true);
   };
 
+  const handleCreateRoutineWithAI = () => {
+    setIsIAModalOpen(true); // Abrir el modal de IA
+  };
+
   const handleEditRoutine = (routine) => {
     setCurrentRoutine(routine);
     setIsModalOpen(true);
@@ -52,6 +60,10 @@ const Rutinaaasss = ({ theme }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const closeIAModal = () => {
+    setIsIAModalOpen(false); // Cerrar el modal de IA
   };
 
   const closePreview = () => {
@@ -92,6 +104,7 @@ const Rutinaaasss = ({ theme }) => {
       <h1>Rutinas</h1>
       <div className="actions">
         <button className={`btn-create ${theme}`} onClick={handleCreateRoutine}>Crear Rutina</button>
+        <button className={`btn-create-ai ${theme}`} onClick={handleCreateRoutineWithAI}>Crear Rutina con IA</button>
       </div>
       <input
         type="text"
@@ -145,6 +158,17 @@ const Rutinaaasss = ({ theme }) => {
           onAddRoutine={addRoutine}
           onUpdateRoutine={updateRoutine}
           routine={currentRoutine}
+          theme={theme}
+        />
+      </CSSTransition>
+      <CSSTransition
+        in={isIAModalOpen}
+        timeout={300}
+        classNames="modal"
+        unmountOnExit
+      >
+        <CreacionRutinaconIA
+          onClose={closeIAModal}
           theme={theme}
         />
       </CSSTransition>
@@ -208,4 +232,4 @@ const Rutinaaasss = ({ theme }) => {
   );
 };
 
-export default Rutinaaasss;
+export default Rutinaaaasss;

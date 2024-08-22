@@ -1,0 +1,113 @@
+.SuscripcionesPopup-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.SuscripcionesPopup-popup-inner {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 600px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.SuscripcionesPopup-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.SuscripcionesPopup-details {
+    margin-bottom: 20px;
+}
+
+.SuscripcionesPopup-details p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.SuscripcionesPopup-services-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.SuscripcionesPopup-services-table th,
+.SuscripcionesPopup-services-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.SuscripcionesPopup-services-table th {
+    background-color: #f2f2f2;
+}
+
+.SuscripcionesPopup-client-management {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.SuscripcionesPopup-client-select {
+    flex-grow: 1;
+    padding: 8px;
+}
+
+.SuscripcionesPopup-add-client-btn {
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.SuscripcionesPopup-add-client-btn:hover {
+    background-color: #0056b3;
+}
+
+.SuscripcionesPopup-client-list h4 {
+    margin-bottom: 10px;
+}
+
+.SuscripcionesPopup-client-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.SuscripcionesPopup-client-list ul li {
+    background: #f9f9f9;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.SuscripcionesPopup-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.SuscripcionesPopup-close-btn {
+    padding: 5px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.SuscripcionesPopup-close-btn:hover {
+    background-color: #0056b3;
+}

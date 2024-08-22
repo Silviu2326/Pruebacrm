@@ -1,0 +1,196 @@
+.AsesoriaIndividual-container {
+    padding: 30px;
+    background-color: #f4f6f8;
+    border-radius: 10px;
+    max-width: 800px;
+    height: 800px;
+    overflow-y: auto;
+    margin: auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.AsesoriaIndividual-field {
+    margin-bottom: 20px;
+}
+
+.AsesoriaIndividual-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+.AsesoriaIndividual-field input,
+.AsesoriaIndividual-field select,
+.AsesoriaIndividual-field textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+}
+
+.AsesoriaIndividual-field input:focus,
+.AsesoriaIndividual-field select:focus,
+.AsesoriaIndividual-field textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.AsesoriaIndividual-botones-definido-indefinido {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.AsesoriaIndividual-botones-definido-indefinido button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 16px;
+}
+
+.AsesoriaIndividual-botones-definido-indefinido button.AsesoriaIndividual-active {
+    background-color: #0056b3;
+}
+
+.AsesoriaIndividual-botones-definido-indefinido button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.AsesoriaIndividual-subtipo-separator {
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+.AsesoriaIndividual-subtipo-container {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccd0d5;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.AsesoriaIndividual-subtipo-first-row,
+.AsesoriaIndividual-subtipo-second-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.AsesoriaIndividual-tipo-plan-pago-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.AsesoriaIndividual-tipo-plan-pago-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 16px;
+}
+
+.AsesoriaIndividual-tipo-plan-pago-buttons button.AsesoriaIndividual-active {
+    background-color: #0056b3;
+}
+
+.AsesoriaIndividual-tipo-plan-pago-buttons button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.AsesoriaIndividual-remove-subtipo {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.AsesoriaIndividual-remove-subtipo:hover {
+    background-color: #b02a37;
+    transform: translateY(-2px);
+}
+
+.AsesoriaIndividual-add-subtipo {
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    font-size: 18px;
+    padding: 12px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 20px;
+}
+
+.AsesoriaIndividual-add-subtipo:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.AsesoriaIndividual-informacion-precios-planes {
+    padding: 20px;
+    border: 1px solid #ccd0d5;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+
+.AsesoriaIndividual-informacion-precios-planes h2 {
+    margin-bottom: 15px;
+    color: #007bff;
+}
+
+.AsesoriaIndividual-asignar-cliente {
+    margin-bottom: 30px;
+}
+
+.AsesoriaIndividual-asignar-cliente h2 {
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.AsesoriaIndividual-crear-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.AsesoriaIndividual-crear-button {
+    padding: 15px 30px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 18px;
+}
+
+.AsesoriaIndividual-crear-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}

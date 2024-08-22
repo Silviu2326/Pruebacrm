@@ -46,12 +46,13 @@ const ClientesLista = ({ theme, setTheme }) => {
     const [selectedCliente, setSelectedCliente] = useState(null);
     const [filtro, setFiltro] = useState('');
     const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
+    const [selectAll, setSelectAll] = useState(false); // Estado para el checkbox general
     const [mostrarModalCrearCliente, setMostrarModalCrearCliente] = useState(false);
     const [mostrarModalCategorias, setMostrarModalCategorias] = useState(false);
     const [camposVisibles, setCamposVisibles] = useState(camposDisponibles.map(campo => campo.key));
     const [orden, setOrden] = useState({ campo: null, direccion: null });
     const [vistaCalendario, setVistaCalendario] = useState(false);
-    const [vistaServicios, setVistaServicios] = useState(false); // Estado para controlar la vista de servicios
+    const [vistaServicios, setVistaServicios] = useState(false);
     const [vistaCalendarioTipo, setVistaCalendarioTipo] = useState('month');
     const [mostrarPopupCSV, setMostrarPopupCSV] = useState(false);
     const [mostrarCommandPopup, setMostrarCommandPopup] = useState(false);
@@ -68,7 +69,7 @@ const ClientesLista = ({ theme, setTheme }) => {
     const [mostrarActualizarMetodoPagoModal, setMostrarActualizarMetodoPagoModal] = useState(false);
     const [mostrarModalBonos, setMostrarModalBonos] = useState(false);
     const [openDialogPlantilla, setOpenDialogPlantilla] = useState(false);
-    const [openDialogServicio, setOpenDialogServicio] = useState(false); // Estado para el diálogo de servicio
+    const [openDialogServicio, setOpenDialogServicio] = useState(false);
 
     useEffect(() => {
         cargarClientes();
@@ -76,7 +77,7 @@ const ClientesLista = ({ theme, setTheme }) => {
 
     const cargarClientes = () => {
         axios.get(`${API_BASE_URL}/api/clientes`)
-        .then(response => {
+            .then(response => {
                 setClientes(response.data);
                 toast.success('Clientes cargados correctamente');
             })
@@ -91,9 +92,7 @@ const ClientesLista = ({ theme, setTheme }) => {
 
     const handleToggleServicios = () => { 
         setVistaServicios(prev => !prev);
-        setVistaCalendario(false); // Asegurarse de que la vista de calendario se desactive
-
-        // Abrir o cerrar el diálogo de servicio cuando se active la vista de servicios
+        setVistaCalendario(false);
         if (!vistaServicios) {
             handleOpenDialogServicio();
         } else {
@@ -105,10 +104,19 @@ const ClientesLista = ({ theme, setTheme }) => {
         e.stopPropagation();
         if (clientesSeleccionados.includes(cliente._id)) {
             setClientesSeleccionados(prev => prev.filter(id => id !== cliente._id));
-            setSelectedCliente(null); // Limpiar la selección si se deselecciona
+            setSelectedCliente(null);
         } else {
-            setClientesSeleccionados([cliente._id]); // Solo permitimos un cliente seleccionado
-            setSelectedCliente(cliente); // Actualizar el cliente seleccionado
+            setClientesSeleccionados([cliente._id]);
+            setSelectedCliente(cliente);
+        }
+    };
+
+    const handleSelectAll = () => {
+        setSelectAll(!selectAll);
+        if (!selectAll) {
+            setClientesSeleccionados(clientes.map(cliente => cliente._id));
+        } else {
+            setClientesSeleccionados([]);
         }
     };
 
@@ -155,7 +163,7 @@ const ClientesLista = ({ theme, setTheme }) => {
     };
 
     const applyAdvancedFilters = (clientes, filtros) => {
-        if (!Array.isArray(clientes)) return []; // Asegurarse de que 'clientes' sea un array
+        if (!Array.isArray(clientes)) return [];
         return clientes.filter(cliente =>
             Object.keys(filtros).every(key => {
                 if (!filtros[key]) return true;
@@ -165,7 +173,7 @@ const ClientesLista = ({ theme, setTheme }) => {
     };
     
     const sortClientes = (clientes) => {
-        if (!Array.isArray(clientes)) return []; // Asegurarse de que 'clientes' sea un array
+        if (!Array.isArray(clientes)) return [];
         if (!orden.campo || !orden.direccion) return clientes;
     
         return [...clientes].sort((a, b) => {
@@ -257,7 +265,7 @@ const ClientesLista = ({ theme, setTheme }) => {
             const clienteSeleccionado = clientes.find(cliente => cliente._id === clientesSeleccionados[0]);
             if (clienteSeleccionado) {
                 setSelectedCliente(clienteSeleccionado);
-                setMostrarModalAgregarNota(true); // Actualiza el estado para mostrar el modal
+                setMostrarModalAgregarNota(true);
                 toast.info(`Agregar Nota seleccionado para: ${clienteSeleccionado.nombre}`);
             }
         } else {
@@ -265,7 +273,6 @@ const ClientesLista = ({ theme, setTheme }) => {
         }
     };
 
-    // Función para manejar cuando la nota ha sido agregada
     const handleNotaAgregada = (nota) => {
         setClientes(prevClientes =>
             prevClientes.map(cliente =>
@@ -283,9 +290,8 @@ const ClientesLista = ({ theme, setTheme }) => {
                 try {
                     const response = await axios.get(`/api/clientes/${clienteSeleccionado._id}/rutinas`);
                     const rutina = response.data;
-    
-                    setSelectedCliente({ ...clienteSeleccionado, rutina }); // Guardar la rutina en el cliente seleccionado
-                    setMostrarPlanEntrenamientoModal(true); // Mostrar el modal de plan de entrenamiento
+                    setSelectedCliente({ ...clienteSeleccionado, rutina });
+                    setMostrarPlanEntrenamientoModal(true);
                     toast.info(`Plan de Entrenamiento Actual seleccionado para: ${clienteSeleccionado.nombre}`);
                 } catch (error) {
                     toast.error('Error al obtener la rutina del cliente.');
@@ -296,12 +302,11 @@ const ClientesLista = ({ theme, setTheme }) => {
         }
         setAnchorEl(null);
     };
-    
+
     const handleClosePlanEntrenamientoModal = () => {
         setMostrarPlanEntrenamientoModal(false);
     };
-    
-    
+
     const handleAsignarObjetivos = () => {
         if (clientesSeleccionados.length === 1) {
             const clienteSeleccionado = clientes.find(cliente => cliente._id === clientesSeleccionados[0]);
@@ -315,7 +320,6 @@ const ClientesLista = ({ theme, setTheme }) => {
         }
         setAnchorEl(null);
     };
-    
 
     const handlePlanDieta = () => {
         if (clientesSeleccionados.length === 1) {
@@ -330,9 +334,8 @@ const ClientesLista = ({ theme, setTheme }) => {
         }
         setAnchorEl(null);
     };
-    
+
     const handleVerMensajes = () => {
-        // Lógica para ver los mensajes
         toast.info('Ver Mensajes seleccionado');
         setAnchorEl(null);
     };
@@ -356,7 +359,7 @@ const ClientesLista = ({ theme, setTheme }) => {
             const clienteSeleccionado = clientes.find(cliente => cliente._id === clientesSeleccionados[0]);
             if (clienteSeleccionado) {
                 setSelectedCliente(clienteSeleccionado);
-                setMostrarModalBonos(true); // Muestra el modal de bonos
+                setMostrarModalBonos(true);
                 toast.info(`Ver Bonos Asociados para: ${clienteSeleccionado.nombre}`);
             }
         } else {
@@ -368,26 +371,25 @@ const ClientesLista = ({ theme, setTheme }) => {
     const handleCloseModalBonos = () => {
         setMostrarModalBonos(false);
     };
+
     const handleCloseAsignarObjetivosModal = () => {
         setMostrarAsignarObjetivosModal(false);
     };
-    
+
     const handleCloseDietaModalActual = () => {
         setMostrarDietaModalActual(false);
     };
-    
+
     const handleCloseActualizarMetodoPagoModal = () => {
         setMostrarActualizarMetodoPagoModal(false);
     };
-    
+
     const handleVerEstadisticas = () => {
-        // Lógica para ver estadísticas generadas
         toast.info('Ver Estadísticas seleccionado');
         setAnchorEl(null);
     };
 
     const handleExportarClientes = () => {
-        // Lógica para exportar clientes
         toast.info('Exportar Clientes seleccionado');
         setAnchorEl(null);
     };
@@ -455,7 +457,7 @@ const ClientesLista = ({ theme, setTheme }) => {
                         {vistaCalendario ? <MdViewList size={20} /> : <MdViewModule size={20} />}
                         {vistaCalendario ? 'Ver Tabla' : 'Ver Calendario'}
                     </button>
-                    <button className={`cliente-action-btn ${theme}`} onClick={handleToggleServicios}> {/* Botón de Servicios */}
+                    <button className={`cliente-action-btn ${theme}`} onClick={handleToggleServicios}>
                         Servicios
                     </button>
                     <div>
@@ -498,7 +500,6 @@ const ClientesLista = ({ theme, setTheme }) => {
                                 onNotaAgregada={handleNotaAgregada}
                             />
 
-
                             <MenuItem onClick={handlePlanEntrenamiento} disabled={clientesSeleccionados.length !== 1}>
                                 <MdFitnessCenter size={20} />
                                 Plan de Entrenamiento Actual
@@ -520,7 +521,6 @@ const ClientesLista = ({ theme, setTheme }) => {
                                 cliente={selectedCliente}
                                 theme={theme}
                                 onObjetivosAsignados={(nuevosObjetivos) => {
-                                    // Actualizar el cliente con los nuevos objetivos en la lista
                                     setClientes(prevClientes => 
                                         prevClientes.map(cliente =>
                                             cliente._id === selectedCliente._id
@@ -581,7 +581,7 @@ const ClientesLista = ({ theme, setTheme }) => {
                 </div>
                 {renderAppliedFilters()}
                 <button className="fixed-button" onClick={handleDetailsClick}>Ver Detalles</button>
-                {vistaServicios ? ( // Renderizado condicional de la vista de servicios
+                {vistaServicios ? (
                     <ServiciosLista 
                         theme={theme}
                         isOpenServicioDialog={openDialogServicio}
@@ -594,7 +594,13 @@ const ClientesLista = ({ theme, setTheme }) => {
                     <table className="clientes-table">
                         <thead className={theme === 'dark' ? 'dark' : ''}>
                             <tr>
-                                <th></th>
+                                <th>
+                                    <input 
+                                        type="checkbox" 
+                                        checked={selectAll}
+                                        onChange={handleSelectAll}
+                                    />
+                                </th>
                                 {camposDisponibles.map(campo => camposVisibles.includes(campo.key) && (
                                     <th key={campo.key} onClick={() => handleSort(campo.key)}>
                                         {campo.label} {orden.campo === campo.key && (orden.direccion === 'asc' ? '▲' : 'desc' ? '▼' : '')}
