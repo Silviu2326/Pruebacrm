@@ -163,7 +163,7 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
   const getDurationLabel = () => {
     switch (newGasto.frequency) {
       case 'weekly':
-        return 'Duración (en semanas)';
+        return 'Duración (een semanas)';
       case 'biweekly':
         return 'Duración (cada 15 días)';
       case 'monthly':
