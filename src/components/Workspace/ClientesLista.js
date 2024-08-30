@@ -411,174 +411,65 @@ const ClientesLista = ({ theme, setTheme }) => {
     };
 
     return (
-        <div className={`clientes-lista ${theme}`}>
-            <ToastContainer />
-            <div className="clientes-lista-header">
-                <button className="theme-toggle-btn" onClick={toggleTheme}>
-                    {theme === 'light' ? <MdBrightness3 size={20} /> : <MdWbSunny size={20} />}
-                    Cambiar a {theme === 'light' ? 'Tema Oscuro' : 'Tema Claro'}
+<div className={`clientes-lista ${theme}`}>
+    <ToastContainer />
+
+    <ResizableBox
+        className="resizable-componentedesplegable-wrapper"
+        width="100%"
+        height={mostrarComponentedesplegable ? 300 : 0}
+        minConstraints={[100, 150]}
+        maxConstraints={[Infinity, 600]}
+        axis="y"
+        resizeHandles={['s']}
+        handle={<div className="resize-handle" />}
+    >
+        {mostrarComponentedesplegable && (
+            <Componentedesplegable
+                onClose={() => setMostrarComponentedesplegable(false)}
+                openChatModal={openChatModal}
+                theme={theme}
+            />
+        )}
+    </ResizableBox>
+
+    {/* Sección de Encabezado */}
+    <div className="clientes-lista-header">
+        <div className="header-title-row">
+            <h1 className="tituloClientes">¡Bienvenido de nuevo!</h1>
+            <button className={`cliente-action-btn nuevo-cliente-btn ${theme}`} onClick={handleCrearCliente}>
+                <MdOpenInBrowser size={20} />
+                Nuevo Cliente
+            </button>
+        </div>
+        <p className="subtituloClientes">¡Aquí tienes una lista de tus clientes!</p>
+        <div className="actions">
+            <input
+                type="text"
+                placeholder="Buscar clientes"
+                value={filtro}
+                onChange={handleFiltroChange}
+                className={`filtro ${theme}`}
+            />
+            <ClientFilterDropdown onFilterChange={handleFilterChange} theme={theme} />
+            <button className={`cliente-action-btn ${theme}`} onClick={() => setVistaCalendario(!vistaCalendario)}>
+                {vistaCalendario ? <MdViewList size={20} /> : <MdViewModule size={20} />}
+                {vistaCalendario ? 'Ver Tabla' : 'Ver Calendario'}
+            </button>
+            <button className={`cliente-action-btn ${theme}`} onClick={handleToggleServicios}>
+                Servicios
+            </button>
+            <div>
+                <button className={`cliente-action-btn ${theme}`} onClick={handleMenuClick}>
+                    <MdExpandMore size={20} />
+                    Más Acciones
                 </button>
             </div>
-            <ResizableBox
-                className="resizable-componentedesplegable-wrapper"
-                width="100%"
-                height={mostrarComponentedesplegable ? 300 : 0}
-                minConstraints={[100, 150]}
-                maxConstraints={[Infinity, 600]}
-                axis="y"
-                resizeHandles={['s']}
-                handle={<div className="resize-handle" />}
-            >
-                {mostrarComponentedesplegable && (
-                    <Componentedesplegable
-                        onClose={() => setMostrarComponentedesplegable(false)}
-                        openChatModal={openChatModal}
-                        theme={theme}
-                    />
-                )}
-            </ResizableBox>
+        </div>
+    </div>
+
+            {/* Contenido Principal */}
             <div className="clientes-lista-contenido">
-                <h1 className="tituloClientes">¡Bienvenido de nuevo!</h1>
-                <p className="subtituloClientes">¡Aquí tienes una lista de tus clientes!</p>
-                <div className="actions">
-                    <input
-                        type="text"
-                        placeholder="Filtrar clientes"
-                        value={filtro}
-                        onChange={handleFiltroChange}
-                        className={`filtro ${theme}`}
-                    />
-                    <ClientFilterDropdown onFilterChange={handleFilterChange} theme={theme} />
-                    <button className={`cliente-action-btn ${theme}`} onClick={handleCrearCliente}>
-                        <MdOpenInBrowser size={20} />
-                        Crear Cliente
-                    </button>
-                    <button className={`cliente-action-btn ${theme}`} onClick={() => setVistaCalendario(!vistaCalendario)}>
-                        {vistaCalendario ? <MdViewList size={20} /> : <MdViewModule size={20} />}
-                        {vistaCalendario ? 'Ver Tabla' : 'Ver Calendario'}
-                    </button>
-                    <button className={`cliente-action-btn ${theme}`} onClick={handleToggleServicios}>
-                        Servicios
-                    </button>
-                    <div>
-                        <button className={`cliente-action-btn ${theme}`} onClick={handleMenuClick}>
-                            <MdExpandMore size={20} />
-                            Más Acciones
-                        </button>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                        >
-                            <MenuItem onClick={handleEliminarClientes} disabled={clientesSeleccionados.length === 0}>
-                                <MdDelete size={20} />
-                                Eliminar Clientes Seleccionados
-                            </MenuItem>
-                            <MenuItem onClick={() => setMostrarModalCategorias(true)}>
-                                <MdViewModule size={20} />
-                                Seleccionar Categorías
-                            </MenuItem>
-                            <MenuItem onClick={handleOpenCommandPopup}>
-                                <MdOpenInBrowser size={20} />
-                                Abrir Comandos
-                            </MenuItem>
-                            <MenuItem>
-                                <label className={`importar-clientes-label ${theme}`}>
-                                    <MdUpload size={20} />
-                                    Importar Clientes
-                                    <input type="file" accept=".csv" onClick={handleFileUpload} className="importar-clientes-input" />
-                                </label>
-                            </MenuItem>
-                            <MenuItem onClick={handleAgregarNota} disabled={clientesSeleccionados.length !== 1}>
-                                <MdNoteAdd size={20} />
-                                Agregar Nota
-                            </MenuItem>
-                            <AgregarNotaModal
-                                open={mostrarModalAgregarNota}
-                                onClose={() => setMostrarModalAgregarNota(false)}
-                                cliente={selectedCliente}
-                                onNotaAgregada={handleNotaAgregada}
-                            />
-
-                            <MenuItem onClick={handlePlanEntrenamiento} disabled={clientesSeleccionados.length !== 1}>
-                                <MdFitnessCenter size={20} />
-                                Plan de Entrenamiento Actual
-                            </MenuItem>
-                            <PlanEntrenamientoModal
-                                open={mostrarPlanEntrenamientoModal}
-                                onClose={handleClosePlanEntrenamientoModal}
-                                cliente={selectedCliente}
-                                theme={theme}
-                            />
-
-                            <MenuItem onClick={handleAsignarObjetivos} disabled={clientesSeleccionados.length !== 1}>
-                                <MdFlag size={20} />
-                                Asignar Objetivos
-                            </MenuItem>
-                            <AsignarObjetivosModal
-                                open={mostrarAsignarObjetivosModal}
-                                onClose={handleCloseAsignarObjetivosModal}
-                                cliente={selectedCliente}
-                                theme={theme}
-                                onObjetivosAsignados={(nuevosObjetivos) => {
-                                    setClientes(prevClientes => 
-                                        prevClientes.map(cliente =>
-                                            cliente._id === selectedCliente._id
-                                                ? { ...cliente, objetivos: nuevosObjetivos }
-                                                : cliente
-                                        )
-                                    );
-                                }}
-                            />
-
-                            <MenuItem onClick={handlePlanDieta} disabled={clientesSeleccionados.length !== 1}>
-                                <MdRestaurant size={20} />
-                                Plan de Dieta Actual
-                            </MenuItem>
-                            <DietaModalActual
-                                open={mostrarDietaModalActual}
-                                onClose={handleCloseDietaModalActual}
-                                cliente={selectedCliente}
-                                theme={theme}
-                            />
-
-                            <MenuItem onClick={handleVerMensajes} disabled={clientesSeleccionados.length !== 1}>
-                                <MdMessage size={20} />
-                                Ver Mensajes
-                            </MenuItem>
-                            <MenuItem onClick={handleActualizarMetodoPago} disabled={clientesSeleccionados.length !== 1}>
-                                <MdPayment size={20} />
-                                Actualizar Método de Pago
-                            </MenuItem>
-                            <ActualizarMetodoPagoModal
-                                open={mostrarActualizarMetodoPagoModal}
-                                onClose={handleCloseActualizarMetodoPagoModal}
-                                cliente={selectedCliente}
-                                theme={theme}
-                            />
-
-                            <MenuItem onClick={handleVerBonos} disabled={clientesSeleccionados.length !== 1}>
-                                <MdCardGiftcard size={20} />
-                                Ver Bonos Asociados
-                            </MenuItem>
-                            <ModalBonos
-                                open={mostrarModalBonos}
-                                onClose={handleCloseModalBonos}
-                                cliente={selectedCliente}
-                                theme={theme}
-                            />
-
-                            <MenuItem onClick={handleVerEstadisticas} disabled={clientesSeleccionados.length !== 1}>
-                                <MdBarChart size={20} />
-                                Ver Estadísticas Generadas
-                            </MenuItem>
-                            <MenuItem onClick={handleExportarClientes}>
-                                <MdFileDownload size={20} />
-                                Exportar Clientes
-                            </MenuItem>
-                        </Menu>
-                    </div>
-                </div>
                 {renderAppliedFilters()}
                 <button className="fixed-button" onClick={handleDetailsClick}>Ver Detalles</button>
                 {vistaServicios ? (
@@ -649,6 +540,8 @@ const ClientesLista = ({ theme, setTheme }) => {
                         </tbody>
                     </table>
                 )}
+    
+                {/* Modales y Otros Componentes */}
                 {mostrarModalCrearCliente && (
                     <CrearCliente
                         onClose={handleCerrarModalCrearCliente}
@@ -686,6 +579,7 @@ const ClientesLista = ({ theme, setTheme }) => {
             </div>
         </div>
     );
+    
 };
 
 export default ClientesLista;

@@ -1,0 +1,76 @@
+/* CrearHistoria.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 30px;  /* Aumenté el padding para que sea más espacioso */
+    border-radius: 12px;  /* Incrementé el radio para bordes más suaves */
+    width: 80%;  /* Hice el modal más ancho */
+    max-width: 1000px;  /* Ajusté el max-width para limitar el tamaño en pantallas grandes */
+    max-height: 80%;  /* Limité la altura máxima para que no ocupe toda la pantalla */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);  /* Ajusté la sombra para mayor visibilidad */
+    position: relative;
+    overflow-y: auto;  /* Permito que el contenido se desplace si es necesario */
+  }
+  
+  .modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+  }
+  
+  .modal-header {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  .modal-body {
+    max-height: 60vh;  /* Aumenté la altura máxima del cuerpo del modal */
+    overflow-y: auto;
+  }
+  
+  .modal-body h3 {
+    margin-top: 0;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+  }
+  
+  .modal-footer button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  .modal-footer button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .modal-footer button:last-child {
+    background-color: #28a745;
+  }
+  

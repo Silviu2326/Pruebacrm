@@ -1,79 +1,110 @@
-import React, { useState } from 'react';
+// HorarioSemanal.js
+import React, { useState, useEffect } from 'react';
+import './HorasDisponibles.css';
 
-const diasDeLaSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+const HorarioSemanal = ({ horariosValidos, eventType }) => {
+  const horas = Array.from({ length: 24 }, (_, i) => `${i}:00 - ${i + 1}:00`);
+  const dias = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
 
-const HorarioSemanal = ({ onHorarioChange }) => {
-  const [horarios, setHorarios] = useState({
-    Lunes: { inicio: '', fin: '' },
-    Martes: { inicio: '', fin: '' },
-    Miércoles: { inicio: '', fin: '' },
-    Jueves: { inicio: '', fin: '' },
-    Viernes: { inicio: '', fin: '' },
-    Sábado: { inicio: '', fin: '' },
-    Domingo: { inicio: '', fin: '' },
-  });
+  const [selecciones, setSelecciones] = useState({});
+  const [modoSeleccion, setModoSeleccion] = useState('valido');
 
-  const handleHorarioChange = (dia, tipo, value) => {
-    const nuevosHorarios = {
-      ...horarios,
-      [dia]: {
-        ...horarios[dia],
-        [tipo]: value,
-      },
-    };
-    setHorarios(nuevosHorarios);
-    onHorarioChange(nuevosHorarios);  // Actualizar el estado en el componente padre
+  useEffect(() => {
+    // Cargar las selecciones guardadas desde el localStorage al montar el componente
+    const storedSelecciones = localStorage.getItem('horarioSemanal');
+    if (storedSelecciones) {
+      setSelecciones(JSON.parse(storedSelecciones));
+    }
+
+    if (horariosValidos.length > 0 && eventType) {
+      const seleccionesIniciales = {};
+
+      horariosValidos.forEach((horario) => {
+        if (horario.eventType.toLowerCase() === eventType.toLowerCase()) {
+          horario.horariosSemanales.forEach((hs) => {
+            const dia = hs.dia.toLowerCase();
+
+            hs.horas.forEach((h) => {
+              const horaInicio = parseInt(h.horaInicio.split(':')[0], 10);
+              const horaFin = parseInt(h.horaFin.split(':')[0], 10);
+
+              for (let hora = horaInicio; hora < horaFin; hora++) {
+                const key = `${dia}-${hora}:00 - ${hora + 1}:00`;
+                seleccionesIniciales[key] = h.valido ? 'valido' : 'no-valido';
+              }
+            });
+          });
+        }
+      });
+
+      setSelecciones(seleccionesIniciales);
+    }
+  }, [horariosValidos, eventType]);
+
+  const handleCellClick = (dia, hora) => {
+    const key = `${dia}-${hora}`;
+    setSelecciones(prevSelecciones => {
+      const newState = {
+        ...prevSelecciones,
+        [key]: prevSelecciones[key] === modoSeleccion ? null : modoSeleccion,
+      };
+      return newState;
+    });
   };
 
-  const copiarHorario = (fromDia, toDia) => {
-    const nuevosHorarios = {
-      ...horarios,
-      [toDia]: { ...horarios[fromDia] },
-    };
-    setHorarios(nuevosHorarios);
-    onHorarioChange(nuevosHorarios);  // Actualizar el estado en el componente padre
+  const handleModoSeleccionChange = (modo) => {
+    setModoSeleccion(modo);
   };
 
-  const aplicarMismoHorarioATodos = (dia) => {
-    const nuevoHorario = { ...horarios[dia] };
-    const nuevosHorarios = diasDeLaSemana.reduce((acc, d) => {
-      acc[d] = nuevoHorario;
-      return acc;
-    }, {});
-    setHorarios(nuevosHorarios);
-    onHorarioChange(nuevosHorarios);  // Actualizar el estado en el componente padre
+  const handleGuardarYSalir = () => {
+    // Guardar las selecciones en localStorage
+    localStorage.setItem('horarioSemanal', JSON.stringify(selecciones));
+    alert('Horario guardado exitosamente.');
   };
 
   return (
-    <div className="horario-semanal-container">
-      {diasDeLaSemana.map((dia) => (
-        <div key={dia} className="horario-dia">
-          <h3>{dia}</h3>
-          <label>
-            Hora de Inicio:
-            <input
-              type="time"
-              value={horarios[dia].inicio}
-              onChange={(e) => handleHorarioChange(dia, 'inicio', e.target.value)}
-            />
-          </label>
-          <label>
-            Hora de Fin:
-            <input
-              type="time"
-              value={horarios[dia].fin}
-              onChange={(e) => handleHorarioChange(dia, 'fin', e.target.value)}
-            />
-          </label>
-          <button onClick={() => aplicarMismoHorarioATodos(dia)}>Aplicar a Todos</button>
-          <select onChange={(e) => copiarHorario(dia, e.target.value)}>
-            <option value="">Copiar a...</option>
-            {diasDeLaSemana.filter(d => d !== dia).map((d) => (
-              <option key={d} value={d}>{d}</option>
-            ))}
-          </select>
+    <div>
+      <div className="botones-seleccion">
+        <button
+          className={`boton-seleccion ${modoSeleccion === 'valido' ? 'activo' : ''}`}
+          onClick={() => handleModoSeleccionChange('valido')}
+        >
+          Marcar como Válido (Verde)
+        </button>
+        <button
+          className={`boton-seleccion ${modoSeleccion === 'no-valido' ? 'activo' : ''}`}
+          onClick={() => handleModoSeleccionChange('no-valido')}
+        >
+          Marcar como No Válido (Rojo)
+        </button>
+      </div>
+      <div className="horario-semanal-container">
+        <div className="horas-column">
+          {horas.map(hora => (
+            <div key={hora}>{hora}</div>
+          ))}
         </div>
-      ))}
+        {dias.map((dia) => (
+          <div key={dia} className="horario-dia">
+            <div className="horas-disponibles-dia">{dia}</div>
+            {horas.map((hora) => {
+              const key = `${dia}-${hora}`;
+              const estado = selecciones[key] || '';  // Si no hay estado, asigna una cadena vacía.
+              return (
+                <div
+                  key={hora}
+                  className={`horas-disponibles-hora ${estado}`}
+                  onClick={() => handleCellClick(dia, hora)}
+                >
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <button onClick={handleGuardarYSalir} className="guardar-horario-button">
+        Guardar y Salir
+      </button>
     </div>
   );
 };

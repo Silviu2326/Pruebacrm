@@ -1,0 +1,86 @@
+.botones-seleccion {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.boton-seleccion {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.boton-seleccion.activo {
+    background-color: #007bff;
+    color: white;
+}
+
+.boton-seleccion:not(.activo) {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.horario-semanal-container {
+    display: grid;
+    grid-template-columns: auto repeat(7, 1fr);
+    gap: 0;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.horas-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.horas-column div {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.horario-dia {
+    display: flex;
+    flex-direction: column;
+}
+
+.horas-disponibles-hora {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.horas-disponibles-hora.valido {
+    background-color: #cce5ff;
+}
+
+.horas-disponibles-hora.no-valido {
+    background-color: #f8d7da;
+}
+
+.horas-disponibles-dia {
+    text-align: center;
+    font-weight: bold;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+    padding: 12px 0;
+    box-sizing: border-box;
+}

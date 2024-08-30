@@ -3,18 +3,18 @@ import { TextField, Button, Typography, Box, Select, MenuItem } from '@mui/mater
 import axios from 'axios';
 import './Citas.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
 
 const Citas = ({ onSave }) => {
     const [actividad, setActividad] = useState('');
     const [nombreCita, setNombreCita] = useState('');
     const [numeroSesiones, setNumeroSesiones] = useState(1);
-    const [importeTotal, setImporteTotal] = useState('');
+    const [frecuencia, setFrecuencia] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const handleGuardarCita = () => {
-        if (!actividad || !nombreCita || !numeroSesiones || !importeTotal) {
+        if (!actividad || !nombreCita || !numeroSesiones || !frecuencia) {
             setError('Todos los campos son obligatorios.');
             return;
         }
@@ -23,7 +23,7 @@ const Citas = ({ onSave }) => {
             actividad,
             nombre: nombreCita,
             sesiones: numeroSesiones,
-            precioHora: importeTotal,
+            frecuencia,
         };
 
         setLoading(true);
@@ -50,7 +50,7 @@ const Citas = ({ onSave }) => {
         setActividad('');
         setNombreCita('');
         setNumeroSesiones(1);
-        setImporteTotal('');
+        setFrecuencia('');
         setError(null);
     };
 
@@ -108,16 +108,38 @@ const Citas = ({ onSave }) => {
             </div>
 
             <div className="suscripcionesservicios-field">
-                <label>Precio por Hora (€)</label>
-                <TextField
-                    value={importeTotal}
-                    onChange={(e) => setImporteTotal(e.target.value)}
+                <label>Frecuencia</label>
+                <Select
+                    value={frecuencia}
+                    onChange={(e) => setFrecuencia(e.target.value)}
                     fullWidth
-                    margin="normal"
-                    type="number"
                     variant="outlined"
                     disabled={loading}
-                />
+                >
+                    <MenuItem value="">Seleccionar frecuencia</MenuItem>
+                    <MenuItem value="semanal">Semanal</MenuItem>
+                    <MenuItem value="mensual">Mensual</MenuItem>
+                    <MenuItem value="3_meses">Cada 3 meses</MenuItem>
+                    <MenuItem value="6_meses">Cada 6 meses</MenuItem>
+                    <MenuItem value="anual">Anual</MenuItem>
+                </Select>
+            </div>
+
+            <div className="suscripcionesservicios-field">
+                <label>Fecha de Caducidad</label>
+                <Select
+                    value={frecuencia} // Usa la frecuencia para calcular la caducidad
+                    onChange={(e) => setFrecuencia(e.target.value)} // Cambia la frecuencia y, por lo tanto, la caducidad
+                    fullWidth
+                    variant="outlined"
+                    disabled={loading}
+                >
+                    <MenuItem value="semanal">Caduca en 1 semana</MenuItem>
+                    <MenuItem value="mensual">Caduca en 1 mes</MenuItem>
+                    <MenuItem value="3_meses">Caduca en 3 meses</MenuItem>
+                    <MenuItem value="6_meses">Caduca en 6 meses</MenuItem>
+                    <MenuItem value="anual">Caduca en 1 año</MenuItem>
+                </Select>
             </div>
 
             <Button

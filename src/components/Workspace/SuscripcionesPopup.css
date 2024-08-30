@@ -1,3 +1,4 @@
+/* Estilos generales existentes */
 .SuscripcionesPopup-popup {
     position: fixed;
     top: 0;
@@ -36,23 +37,73 @@
     font-size: 16px;
 }
 
-.SuscripcionesPopup-services-table {
-    width: 100%;
-    border-collapse: collapse;
+/* Nuevos estilos para las secciones con diferentes colores de fondo */
+.SuscripcionesPopup-services {
     margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #e7f1ff; /* Fondo azul claro */
+    border: 1px solid #b3d4fc;
 }
 
-.SuscripcionesPopup-services-table th,
-.SuscripcionesPopup-services-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.SuscripcionesPopup-services h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #004085;
+    border-bottom: 2px solid #b3d4fc;
+    padding-bottom: 5px;
 }
 
-.SuscripcionesPopup-services-table th {
-    background-color: #f2f2f2;
+.SuscripcionesPopup-services ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
+.SuscripcionesPopup-services ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #d1e9ff;
+}
+
+.SuscripcionesPopup-services ul li:last-child {
+    border-bottom: none;
+}
+
+/* Estilos para la sección de planes de pago */
+.SuscripcionesPopup-payment-plans {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff4e6; /* Fondo naranja claro */
+    border: 1px solid #ffdab3;
+}
+
+.SuscripcionesPopup-payment-plans h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #8a4500;
+    border-bottom: 2px solid #ffdab3;
+    padding-bottom: 5px;
+}
+
+.SuscripcionesPopup-payment-plans ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.SuscripcionesPopup-payment-plans ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ffe4cc;
+}
+
+.SuscripcionesPopup-payment-plans ul li:last-child {
+    border-bottom: none;
+}
+
+/* Estilos existentes para la gestión de clientes */
 .SuscripcionesPopup-client-management {
     display: flex;
     gap: 10px;
@@ -87,7 +138,7 @@
 }
 
 .SuscripcionesPopup-client-list ul li {
-    background: #f9f9f9;
+    background: #ffffff;
     margin: 5px 0;
     padding: 8px;
     border-radius: 5px;
@@ -110,4 +161,51 @@
 
 .SuscripcionesPopup-close-btn:hover {
     background-color: #0056b3;
+}
+
+.SuscripcionesPopup-client-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.SuscripcionesPopup-client-info {
+    flex: 1;
+}
+
+.SuscripcionesPopup-client-action {
+    display: flex;
+    gap: 10px;
+}
+
+.client-name {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.client-email {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Clase personalizada para el botón rojo */
+.btn-red {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-red:hover {
+    background-color: #dc2626;
+}
+
+.btn-red:disabled {
+    background-color: #f87171;
+    opacity: 0.5;
+    cursor: not-allowed;
 }

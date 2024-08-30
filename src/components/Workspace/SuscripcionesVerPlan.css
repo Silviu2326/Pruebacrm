@@ -1,0 +1,78 @@
+/* SuscripcionesVerPlan.css */
+.SuscripcionesVerPlan-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.SuscripcionesVerPlan-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-family: 'Arial', sans-serif;
+}
+
+.SuscripcionesVerPlan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.SuscripcionesVerPlan-tabSection {
+    margin-top: 20px;
+}
+
+.SuscripcionesVerPlan-detail {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.SuscripcionesVerPlan-select {
+    width: 60%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.SuscripcionesVerPlan-select:hover {
+    border-color: #888;
+}
+
+.SuscripcionesVerPlan-clientsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.SuscripcionesVerPlan-clientsTable th, 
+.SuscripcionesVerPlan-clientsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.SuscripcionesVerPlan-clientsTable th {
+    background-color: #f5f5f5;
+}
+
+.SuscripcionesVerPlan-clientsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

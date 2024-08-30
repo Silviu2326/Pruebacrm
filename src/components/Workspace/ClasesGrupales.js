@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ClasesGrupales.css';
 
 const ClasesGrupales = () => {
@@ -7,24 +7,14 @@ const ClasesGrupales = () => {
     const [nombreClase, setNombreClase] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [maxParticipantes, setMaxParticipantes] = useState('');
-    const [cobroTipo, setCobroTipo] = useState('fijo');
-    const [precio, setPrecio] = useState('');
-    const [frecuenciaCobro, setFrecuenciaCobro] = useState('mensual');
-    const [fechaInicio, setFechaInicio] = useState(new Date());
-    const [duracionIndefinida, setDuracionIndefinida] = useState(false);
-    const [duracionMeses, setDuracionMeses] = useState('');
-    const [paqueteSesiones, setPaqueteSesiones] = useState(1);
-    const [informacionPagos, setInformacionPagos] = useState([]);
+    const [estatus, setEstatus] = useState('activa');
+    const [mensaje, setMensaje] = useState('');  // Para mostrar mensajes de éxito o error
 
     const clasesDisponibles = [
         { id: 'clase1', nombre: 'Yoga Avanzado', descripcion: 'Clases intensivas de yoga avanzado', maxParticipantes: 20 },
         { id: 'clase2', nombre: 'Pilates Básico', descripcion: 'Curso de pilates para principiantes', maxParticipantes: 15 },
         { id: 'clase3', nombre: 'Crossfit', descripcion: 'Entrenamiento de alta intensidad en grupo', maxParticipantes: 25 }
     ];
-
-    const handleTipoCobroChange = (tipo) => {
-        setCobroTipo(tipo);
-    };
 
     const handleClaseSeleccionada = (e) => {
         const seleccionada = clasesDisponibles.find(clase => clase.id === e.target.value);
@@ -36,55 +26,38 @@ const ClasesGrupales = () => {
         }
     };
 
-    useEffect(() => {
-        const calcularInformacionPagos = () => {
-            const pagos = [];
-            const fecha = new Date(fechaInicio);
-            let frecuenciaDias;
-
-            switch (frecuenciaCobro) {
-                case 'semanal':
-                    frecuenciaDias = 7;
-                    break;
-                case 'mensual':
-                    frecuenciaDias = 30;
-                    break;
-                case '3_meses':
-                    frecuenciaDias = 90;
-                    break;
-                case '6_meses':
-                    frecuenciaDias = 180;
-                    break;
-                case 'anual':
-                    frecuenciaDias = 365;
-                    break;
-                default:
-                    frecuenciaDias = 30;
-            }
-
-            if (cobroTipo === 'fijo') {
-                const numeroPagos = duracionIndefinida 
-                    ? 12 
-                    : Math.ceil((parseInt(duracionMeses) || 0) / (frecuenciaDias / 30));
-                
-                for (let i = 0; i < numeroPagos; i++) { 
-                    pagos.push({
-                        fecha: new Date(fecha.getTime() + (frecuenciaDias * i * 24 * 60 * 60 * 1000)).toLocaleDateString(),
-                        monto: `${precio}€`
-                    });
-                }
-            } else if (cobroTipo === 'por_sesion') {
-                pagos.push({ mensaje: `Cada sesión tiene un costo de ${precio}€` });
-            } else if (cobroTipo === 'paquete_sesiones') {
-                pagos.push({ mensaje: `El paquete de ${paqueteSesiones} sesiones cuesta ${precio}€` });
-            }
-
-            return pagos;
+    const handleSubmit = async () => {
+        const data = {
+            name: nombreClase, // Cambiado de "nombreClase" a "name"
+            description: descripcion, // Cambiado de "descripcion" a "description"
+            maxParticipants: parseInt(maxParticipantes),
+            status: estatus, // Cambiado de "estatus" a "status"
         };
-
-        setInformacionPagos(calcularInformacionPagos());
-    }, [cobroTipo, precio, frecuenciaCobro, fechaInicio, duracionIndefinida, duracionMeses, paqueteSesiones]);
-
+    
+        try {
+            const response = await fetch('https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com/api/groupClasses/group-classes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                setMensaje('Clase creada exitosamente');
+                console.log('Clase creada:', result);
+            } else {
+                const errorData = await response.json();
+                setMensaje(`Error: ${errorData.error}`);
+                console.error('Error al crear la clase:', errorData);
+            }
+        } catch (error) {
+            setMensaje(`Error de red: ${error.message}`);
+            console.error('Error de red:', error);
+        }
+    };
+    
     return (
         <div className="Clasegrupal-container">
             <h1>{tipoCreacion === 'nueva' ? 'Crear Clase Grupal' : 'Importar Clase Grupal'}</h1>
@@ -128,6 +101,15 @@ const ClasesGrupales = () => {
                             placeholder="Máximo número de participantes"
                         />
                     </div>
+
+                    <div className="Clasegrupal-field">
+                        <label>Estatus</label>
+                        <select value={estatus} onChange={(e) => setEstatus(e.target.value)}>
+                            <option value="activa">Activa</option>
+                            <option value="inactiva">Inactiva</option>
+                            <option value="completada">Completada</option>
+                        </select>
+                    </div>
                 </>
             ) : (
                 <div className="Clasegrupal-field">
@@ -143,147 +125,13 @@ const ClasesGrupales = () => {
                 </div>
             )}
 
-            <h2>Opciones de Cobro</h2>
-            <div className="Clasegrupal-tipo-cobro-buttons">
-                <button
-                    className={cobroTipo === 'fijo' ? "Clasegrupal-active" : ""}
-                    onClick={() => handleTipoCobroChange('fijo')}
-                >
-                    Fijo
-                </button>
-                <button
-                    className={cobroTipo === 'por_sesion' ? "Clasegrupal-active" : ""}
-                    onClick={() => handleTipoCobroChange('por_sesion')}
-                >
-                    Por Sesión
-                </button>
-                <button
-                    className={cobroTipo === 'paquete_sesiones' ? "Clasegrupal-active" : ""}
-                    onClick={() => handleTipoCobroChange('paquete_sesiones')}
-                >
-                    Paquete de Sesiones
-                </button>
-            </div>
-
-            {cobroTipo === 'fijo' && (
-                <>
-                    <div className="Clasegrupal-botones-duracion">
-                        <button
-                            className={!duracionIndefinida ? "Clasegrupal-active" : ""}
-                            onClick={() => setDuracionIndefinida(false)}
-                        >
-                            Duración Determinada
-                        </button>
-                        <button
-                            className={duracionIndefinida ? "Clasegrupal-active" : ""}
-                            onClick={() => setDuracionIndefinida(true)}
-                        >
-                            Duración Indeterminada
-                        </button>
-                    </div>
-
-                    {!duracionIndefinida && (
-                        <div className="Clasegrupal-field">
-                            <label>Duración (en meses)</label>
-                            <input
-                                type="number"
-                                value={duracionMeses}
-                                onChange={(e) => setDuracionMeses(e.target.value)}
-                                placeholder="Ejemplo: 3 meses"
-                            />
-                        </div>
-                    )}
-
-                    <div className="Clasegrupal-field">
-                        <label>Precio</label>
-                        <input
-                            type="number"
-                            value={precio}
-                            onChange={(e) => setPrecio(e.target.value)}
-                            placeholder="Ejemplo: 50€"
-                        />
-                    </div>
-
-                    <div className="Clasegrupal-field">
-                        <label>Frecuencia de Cobro</label>
-                        <select value={frecuenciaCobro} onChange={(e) => setFrecuenciaCobro(e.target.value)}>
-                            <option value="semanal">Semanal</option>
-                            <option value="mensual">Mensual</option>
-                            <option value="3_meses">Cada 3 meses</option>
-                            <option value="6_meses">Cada 6 meses</option>
-                            <option value="anual">Anual</option>
-                        </select>
-                    </div>
-
-                    <div className="Clasegrupal-field">
-                        <label>Fecha de Inicio</label>
-                        <input
-                            type="date"
-                            value={fechaInicio.toISOString().split('T')[0]}
-                            onChange={(e) => setFechaInicio(new Date(e.target.value))}
-                        />
-                    </div>
-                </>
-            )}
-
-            {cobroTipo === 'por_sesion' && (
-                <div className="Clasegrupal-field">
-                    <label>Precio por Sesión</label>
-                    <input
-                        type="number"
-                        value={precio}
-                        onChange={(e) => setPrecio(e.target.value)}
-                        placeholder="Ejemplo: 10€/sesión"
-                    />
-                </div>
-            )}
-
-            {cobroTipo === 'paquete_sesiones' && (
-                <>
-                    <div className="Clasegrupal-field">
-                        <label>Precio por Paquete</label>
-                        <input
-                            type="number"
-                            value={precio}
-                            onChange={(e) => setPrecio(e.target.value)}
-                            placeholder="Ejemplo: 80€ por 10 sesiones"
-                        />
-                    </div>
-                    <div className="Clasegrupal-field">
-                        <label>Sesiones por Paquete</label>
-                        <input
-                            type="number"
-                            value={paqueteSesiones}
-                            onChange={(e) => setPaqueteSesiones(e.target.value)}
-                            placeholder="Ejemplo: 10 sesiones"
-                        />
-                    </div>
-                </>
-            )}
-
-            {/* Información de los Pagos */}
-            <div className="Clasegrupal-info-pagos">
-                <h3>Información de Pagos</h3>
-                {informacionPagos.length > 0 ? (
-                    informacionPagos.map((pago, index) => (
-                        <div key={index}>
-                            {pago.fecha ? (
-                                <p>Pago {index + 1}: {pago.fecha} - {pago.monto}</p>
-                            ) : (
-                                <p>{pago.mensaje}</p>
-                            )}
-                        </div>
-                    ))
-                ) : (
-                    <p>No hay información de pagos disponible.</p>
-                )}
-            </div>
-
             <div className="Clasegrupal-crear-button-container">
-                <button className="Clasegrupal-crear-button">
+                <button className="Clasegrupal-crear-button" onClick={handleSubmit}>
                     {tipoCreacion === 'nueva' ? 'Crear Clase Grupal' : 'Importar Clase'}
                 </button>
             </div>
+
+            {mensaje && <p className="Clasegrupal-mensaje">{mensaje}</p>}
         </div>
     );
 };

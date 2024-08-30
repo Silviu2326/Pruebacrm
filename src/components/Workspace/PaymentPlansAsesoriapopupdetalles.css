@@ -1,0 +1,117 @@
+/* src/components/PaymentPlansAsesoriapopupdetalles.css */
+
+.PaymentPlansAsesoriapopupdetalles-dialog {
+    width: 100%;
+    max-width: 768px;
+    margin: auto;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.PaymentPlansAsesoriapopupdetalles-dialog-title {
+    font-size: 2em;
+    font-weight: 700;
+    padding: 20px;
+    background-color: #4a90e2;
+    color: #ffffff;
+    text-align: center;
+    border-bottom: 5px solid #357ABD;
+}
+
+.PaymentPlansAsesoriapopupdetalles-dialog-content {
+    padding: 30px;
+    line-height: 1.8;
+    background-color: #f7f8fa;
+}
+
+.PaymentPlansAsesoriapopupdetalles-section {
+    margin-bottom: 30px;
+}
+
+.PaymentPlansAsesoriapopupdetalles-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #4a90e2;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #d6d8db;
+    padding-bottom: 5px;
+}
+
+.PaymentPlansAsesoriapopupdetalles-content {
+    font-size: 1.2em;
+    color: #555;
+    margin-left: 15px;
+}
+
+.PaymentPlansAsesoriapopupdetalles-clientes {
+    margin-top: 40px;
+}
+
+.PaymentPlansAsesoriapopupdetalles-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 15px;
+    background-color: #ffffff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.PaymentPlansAsesoriapopupdetalles-table th,
+.PaymentPlansAsesoriapopupdetalles-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 1em;
+    color: #333;
+}
+
+.PaymentPlansAsesoriapopupdetalles-table th {
+    background-color: #f5f7fa;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.PaymentPlansAsesoriapopupdetalles-table tr:hover {
+    background-color: #f1f5fc;
+}
+
+.PaymentPlansAsesoriapopupdetalles-no-clients {
+    margin-top: 15px;
+    color: #868e96;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+.PaymentPlansAsesoriapopupdetalles-dialog-actions {
+    padding: 20px;
+    text-align: right;
+    background-color: #f5f7fa;
+    border-top: 5px solid #d6d8db;
+}
+
+.PaymentPlansAsesoriapopupdetalles-close-button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(230, 57, 70, 0.4);
+}
+
+.PaymentPlansAsesoriapopupdetalles-close-button:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}

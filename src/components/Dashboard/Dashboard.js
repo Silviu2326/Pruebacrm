@@ -1,6 +1,8 @@
+// src/components/Dashboard/Dashboard.js
 import React, { useState } from 'react';
 import './Dashboard.css';
 import CredentialsModal from './CredentialsModal';
+import Canva from './Canva';  // Importa el nuevo componente Canva
 
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +26,10 @@ function Dashboard() {
       <button onClick={openModal}>Agregar Credenciales</button>
       <CredentialsModal isOpen={isModalOpen} onClose={closeModal} onGoogleLoginSuccess={handleGoogleLoginSuccess} />
 
-      {/* Aquí está el iFrame directamente apuntando a la URL proporcionada */}
+      {/* Aquí se integra el componente Canva */}
+      <Canva />
+
+      {/* iFrame apuntando a la URL proporcionada */}
       <iframe
         src="https://app.metricool.com/autoin/3085147"
         width="100%"

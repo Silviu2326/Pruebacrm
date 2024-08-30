@@ -1,0 +1,160 @@
+/* PanelClienteAsesoria.css */
+
+/* Estilo para el fondo oscuro cuando el popup está abierto */
+.PanelClienteAsesoria-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo ligeramente más oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px); /* Difumina el fondo para mayor enfoque en el popup */
+}
+
+/* Estilo para el popup centrado */
+.PanelClienteAsesoria-dialog {
+    width: 90%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    z-index: 1001;
+    position: relative;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Transición suave */
+    transform: translateY(0); /* Inicia en su posición */
+    opacity: 1; /* Inicia completamente visible */
+}
+
+/* Estilo para el header del popup */
+.PanelClienteAsesoria-header {
+    font-size: 1.6em;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #333;
+}
+
+/* Sección de contenido del popup */
+.PanelClienteAsesoria-section {
+    margin-bottom: 25px;
+}
+
+/* Estilo para el título de las secciones */
+.PanelClienteAsesoria-section h6 {
+    font-size: 1.3em;
+    margin-bottom: 12px;
+    color: #007bff;
+}
+
+/* Estilo para los párrafos dentro de las secciones */
+.PanelClienteAsesoria-section p {
+    margin: 6px 0;
+    font-size: 1em;
+    color: #444;
+    line-height: 1.5;
+}
+
+/* Estilo para la sección de acciones del popup */
+.PanelClienteAsesoria-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+/* Contenedor para el select y los botones de acción */
+.PanelClienteAsesoria-select-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+/* Estilo para los selects dentro del popup */
+.PanelClienteAsesoria-select {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    margin-right: 12px;
+    max-width: calc(100% - 170px);
+    background-color: #f9f9f9;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.PanelClienteAsesoria-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Estilo para los botones principales del popup */
+.PanelClienteAsesoria-button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 12px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.PanelClienteAsesoria-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el botón secundario que aparece al seleccionar rutina o dieta */
+.PanelClienteAsesoria-button-secondary {
+    padding: 12px 25px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 12px;
+    align-self: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.PanelClienteAsesoria-button-secondary:hover {
+    background-color: #5a6268;
+}
+/* Estilo cuando hay una rutina asociada */
+.PanelClienteAsesoria-associated-routine {
+    background-color: #f0f8ff; /* Fondo azul claro */
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Estilo para el botón de borrar */
+.PanelClienteAsesoria-button-delete {
+    padding: 8px 15px;
+    background-color: #dc3545; /* Color rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.PanelClienteAsesoria-button-delete:hover {
+    background-color: #c82333;
+}

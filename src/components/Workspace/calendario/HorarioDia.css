@@ -1,0 +1,132 @@
+.horariodia-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.horariodia-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.horariodia-botones-seleccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.horariodia-boton-seleccion {
+  background-color: #ffffff;
+  color: #050a24;
+  padding: 10px 20px;
+  border-color: #aaaaaa;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.horariodia-horas-column {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.horariodia-horas-disponibles-hora {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.horariodia-horas-disponibles-hora.valido {
+  background-color: #e2e6ea;
+}
+
+.horariodia-time-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.horariodia-time {
+  font-size: 14px;
+  flex-grow: 1;
+}
+
+.horariodia-switch {
+  display: flex;
+  align-items: center;
+}
+
+.horariodia-checkbox {
+  display: none;
+}
+
+.horariodia-slider {
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 15px;
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.horariodia-slider:before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  top: 1px;
+  left: 1px;
+  transition: transform 0.2s;
+}
+
+.horariodia-checkbox:checked + .horariodia-slider {
+  background-color: #28a745;
+}
+
+.horariodia-checkbox:checked + .horariodia-slider:before {
+  transform: translateX(20px);
+}
+
+.horariodia-label {
+  font-size: 14px;
+  color: #333;
+  margin-left: 10px;
+}
+
+.horariodia-settings-icon {
+  font-size: 18px;
+  color: #6c757d;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.horariodia-event {
+  background-color: #e7f1ff;
+  padding: 5px 10px;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+
+.horariodia-event-label {
+  font-size: 12px;
+  color: #007bff;
+}

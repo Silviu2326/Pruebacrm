@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import AsesoriaPlantilla from './AsesoriaPlantilla';  // Importamos el nuevo componente
 import './AsesoriaPopup.css';
 
-const AsesoriaPopup = ({ service, onClose, onCreateAsesoriaFromTemplate }) => {
+const AsesoriaPopup = ({ service, onClose }) => {
     const [loading, setLoading] = useState(false);
     const [paymentLink, setPaymentLink] = useState(null);
 
     if (!service) return null;
-
-    const isPlantilla = service.type === 'plantilla';
-
-    const handleCreateAsesoria = () => {
-        if (onCreateAsesoriaFromTemplate) {
-            onCreateAsesoriaFromTemplate(service);
-        }
-    };
 
     const handleGeneratePaymentLink = async () => {
         setLoading(true);
@@ -25,7 +16,7 @@ const AsesoriaPopup = ({ service, onClose, onCreateAsesoriaFromTemplate }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    amount: service.subtipo.reduce((total, subtype) => total + subtype.price, 0), // suma todos los precios de subtipo
+                    amount: service.paymentPlans.reduce((total, plan) => total + plan.price, 0), // suma todos los precios de los planes
                     currency: 'eur',
                     description: `Pago de Asesoría: ${service.name}`,
                 }),
@@ -47,88 +38,71 @@ const AsesoriaPopup = ({ service, onClose, onCreateAsesoriaFromTemplate }) => {
     return (
         <div className="AsesoriaPopup-popup">
             <div className="AsesoriaPopup-popup-inner">
-                <h2 className="AsesoriaPopup-title">
-                    {isPlantilla ? 'Detalles de la Plantilla' : 'Detalles de la Asesoría'}
-                </h2>
+                <h2 className="AsesoriaPopup-title">{service.name}</h2>
+                
+                <div className="AsesoriaPopup-details">
+                    <p><strong>Descripción:</strong> {service.description}</p>
+                    <p><strong>Objetivos:</strong> {service.objectives}</p>
+                </div>
 
-                {isPlantilla ? (
-                    <AsesoriaPlantilla initialData={service} onCreate={onClose} />
-                ) : (
-                    <>
-                        {/* Información del Cliente, solo si no es plantilla */}
-                        {service.cliente && (
-                            <div className="AsesoriaPopup-client-details">
-                                <h3>Información del Cliente</h3>
-                                <p><strong>Nombre:</strong> {service.cliente.nombre} {service.cliente.apellido}</p>
-                                <p><strong>Email:</strong> {service.cliente.email}</p>
-                                <p><strong>Edad:</strong> {service.cliente.edad} años</p>
-                                <p><strong>Género:</strong> {service.cliente.genero}</p>
-                                <p><strong>Ciudad:</strong> {service.cliente.city}, {service.cliente.country}</p>
-                            </div>
-                        )}
-
-                        {/* Información de la Asesoría */}
-                        <div className="AsesoriaPopup-details">
-                            <h3>Información de la Asesoría</h3>
-                            <p><strong>Nombre:</strong> {service.name}</p>
-                            <p><strong>Descripción:</strong> {service.description}</p>
-                            <p><strong>Objetivos:</strong> {service.objectives}</p>
-                            <p><strong>Duración:</strong> {service.duration} meses</p>
-                            <p><strong>Frecuencia:</strong> {service.frequency.charAt(0).toUpperCase() + service.frequency.slice(1)}</p>
-                            <p><strong>Fecha de Inicio:</strong> {new Date(service.startDate).toLocaleDateString()}</p>
+                <div className="AsesoriaPopup-subtipos">
+                    <h3>Servicios Incluidos</h3>
+                    {service.subtipo.map((subtype) => (
+                        <div key={subtype._id} className="AsesoriaPopup-subtipo-card">
+                            <h4>{subtype.name}</h4>
+                            <p><strong>Servicio:</strong> {subtype.service}</p>
                         </div>
+                    ))}
+                </div>
 
-                        {/* Sección para cada Subtipo */}
-                        <div className="AsesoriaPopup-subtipo-section">
-                            <h3>Servicios Incluidos</h3>
-                            {service.subtipo.map((subtype) => (
-                                <div key={subtype._id} className="AsesoriaPopup-subtipo-card">
-                                    <h4>{subtype.name}</h4>
-                                    <p><strong>Servicio:</strong> {subtype.service}</p>
-                                    <p><strong>Precio:</strong> {subtype.price}€</p>
-                                    <p><strong>Tipo de Pago:</strong> {subtype.paymentType === 'fijo' ? 'Fijo' : 'Variable'}</p>
+                <div className="AsesoriaPopup-payment-plans">
+                    <h3>Planes de Pago</h3>
+                    {service.paymentPlans.length > 0 ? (
+                        service.paymentPlans.map(plan => (
+                            <div key={plan._id} className="AsesoriaPopup-plan-card">
+                                <h4>{plan.planName}</h4>
+                                <p><strong>Frecuencia:</strong> {plan.frequency}</p>
+                                <p><strong>Duración:</strong> {plan.durationValue} {plan.durationUnit}</p>
+                                <p><strong>Precio:</strong> {plan.price}€</p>
+                                <p><strong>Descuento:</strong> {plan.discount}%</p>
+
+                                <div className="AsesoriaPopup-clients">
+                                    <h5>Clientes en este Plan:</h5>
+                                    {service.clients.filter(client => client.paymentPlan === plan._id).length > 0 ? (
+                                        service.clients.filter(client => client.paymentPlan === plan._id).map(client => (
+                                            <div key={client._id} className="AsesoriaPopup-client-card">
+                                                <p><strong>Nombre:</strong> {client.client.nombre} {client.client.apellido}</p>
+                                                <p><strong>Email:</strong> {client.client.email}</p>
+                                                <p><strong>Estado:</strong> {client.status}</p>
+                                                <p><strong>Fecha de Inicio:</strong> {new Date(client.startDate).toLocaleDateString()}</p>
+                                                <p><strong>Fecha de Fin:</strong> {new Date(client.endDate).toLocaleDateString()}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No hay clientes en este plan.</p>
+                                    )}
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* Fechas de Pago Programadas */}
-                        <div>
-                            <h3>Fechas de Pago Programadas</h3>
-                            <ul className="AsesoriaPopup-payment-dates">
-                                {service.paymentDates.map((date, index) => (
-                                    <li key={index}>{new Date(date).toLocaleDateString()}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Botón para Generar Link de Pago */}
-                        <div className="AsesoriaPopup-payment-link">
-                            <button 
-                                onClick={handleGeneratePaymentLink} 
-                                className="AsesoriaPopup-generate-link-btn" 
-                                disabled={loading}
-                            >
-                                {loading ? 'Generando Link...' : 'Generar Link de Pago'}
-                            </button>
-                            {paymentLink && (
-                                <p>
-                                    <a href={paymentLink} target="_blank" rel="noopener noreferrer">
-                                        Ir al link de pago
-                                    </a>
-                                </p>
-                            )}
-                        </div>
-                    </>
-                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p>No hay planes de pago disponibles.</p>
+                    )}
+                </div>
 
                 <div className="AsesoriaPopup-actions">
-                    {isPlantilla && (
-                        <button 
-                            onClick={handleCreateAsesoria} 
-                            className="AsesoriaPopup-create-btn"
-                        >
-                            Crear Asesoría desde esta Plantilla
-                        </button>
+                    <button 
+                        onClick={handleGeneratePaymentLink} 
+                        className="AsesoriaPopup-generate-link-btn" 
+                        disabled={loading}
+                    >
+                        {loading ? 'Generando Link...' : 'Generar Link de Pago'}
+                    </button>
+                    {paymentLink && (
+                        <p>
+                            <a href={paymentLink} target="_blank" rel="noopener noreferrer">
+                                Ir al link de pago
+                            </a>
+                        </p>
                     )}
                     <button onClick={onClose} className="AsesoriaPopup-close-btn">Cerrar</button>
                 </div>

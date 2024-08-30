@@ -1,0 +1,87 @@
+/* CrearPost.css */
+
+.crearpost-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .crearpost-modal-content {
+    background: white;
+    padding: 30px;  /* Aumentado para hacer el contenido más espacioso */
+    border-radius: 12px;  /* Un poco más grande para bordes suaves */
+    width: 80%;  /* Ancho incrementado */
+    max-width: 800px;  /* Ajuste del max-width para pantallas grandes */
+    position: relative;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  /* Sombra más visible */
+  }
+  
+  .crearpost-modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;  /* Tamaño de la fuente aumentado */
+    cursor: pointer;
+  }
+  
+  .crearpost-modal-progress {
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 1.2rem;  /* Fuente más grande para mayor claridad */
+  }
+  
+  .crearpost-modal-title {
+    font-size: 1.7rem;  /* Tamaño de fuente aumentado */
+    margin-bottom: 15px;  /* Más espacio debajo del título */
+  }
+  
+  .crearpost-modal-description {
+    font-size: 1.1rem;  /* Tamaño de fuente aumentado */
+    margin-bottom: 15px;  /* Más espacio debajo de la descripción */
+  }
+  
+  .crearpost-modal-content-text {
+    font-size: 1rem;  /* Fuente ligeramente más grande */
+    background-color: #f9f9f9;
+    padding: 15px;  /* Padding incrementado */
+    border-radius: 8px;  /* Borde más suave */
+    overflow-x: auto;
+    margin-bottom: 25px;  /* Más espacio debajo del texto */
+  }
+  
+  .crearpost-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;  /* Espaciado incrementado */
+  }
+  
+  .crearpost-modal-buttons button {
+    padding: 12px 20px;  /* Botones más grandes */
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;  /* Tamaño de fuente incrementado */
+    transition: background-color 0.3s;
+  }
+  
+  .crearpost-modal-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .crearpost-modal-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  

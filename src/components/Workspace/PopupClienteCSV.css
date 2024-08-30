@@ -162,20 +162,9 @@ body.dark .csv-preview td, .popup-content.dark .csv-preview td {
     gap: 10px;
 }
 
-button {
-    background-color: var(--button-background-light);
-    color: var(--button-text-light);
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-button:hover {
-    background-color: var(--primary-light);
-    color: var(--text-light);
-}
+
+
 
 
 

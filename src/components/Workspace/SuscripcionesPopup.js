@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SuscripcionesPopup.css';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ComponentsReutilizables/tabs.tsx';
+import { Button } from '../ComponentsReutilizables/Button.tsx';
+import { FaInfoCircle, FaUserMinus } from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
 
-const SuscripcionesPopup = ({ service, onClose, onAddClient }) => {
+const SuscripcionesPopup = ({ service, onClose }) => {
     const [allClients, setAllClients] = useState([]);
-    const [selectedClient, setSelectedClient] = useState('');
     const [clients, setClients] = useState(service?.clients || []);
     const [editingService, setEditingService] = useState(false);
     const [subscriptionDetails, setSubscriptionDetails] = useState({ ...service });
@@ -16,13 +18,6 @@ const SuscripcionesPopup = ({ service, onClose, onAddClient }) => {
             .then(response => setAllClients(response.data))
             .catch(error => console.error('Error al cargar los clientes:', error));
     }, []);
-
-    const handleAddClient = () => {
-        if (selectedClient) {
-            onAddClient(selectedClient);
-            setSelectedClient('');
-        }
-    };
 
     const handleRemoveClient = (clientId) => {
         const updatedClients = clients.filter(client => client._id !== clientId);
@@ -49,6 +44,21 @@ const SuscripcionesPopup = ({ service, onClose, onAddClient }) => {
         setSubscriptionDetails(prev => ({ ...prev, [name]: value }));
     };
 
+    const getPaymentPlanName = () => {
+        const annualPlan = service.paymentPlans.find(p => p.planName === "Pago Anual");
+        return annualPlan ? annualPlan.planName : 'Pago Anual';
+    };
+
+    const combinedClientsWithPlans = clients.map(client => {
+        const clientDetails = allClients.find(c => c._id === client.client);
+
+        return {
+            ...client,
+            ...clientDetails,
+            paymentPlanName: getPaymentPlanName()
+        };
+    });
+
     if (!service) return null;
 
     return (
@@ -56,89 +66,100 @@ const SuscripcionesPopup = ({ service, onClose, onAddClient }) => {
             <div className="SuscripcionesPopup-popup-inner">
                 <h2 className="SuscripcionesPopup-title">Detalles de la Suscripción</h2>
                 
-                <div className="SuscripcionesPopup-details">
-                    {editingService ? (
-                        <>
-                            <input
-                                type="text"
-                                name="name"
-                                value={subscriptionDetails.name}
-                                onChange={handleChangeDetail}
-                                placeholder="Nombre de la suscripción"
-                            />
-                            <input
-                                type="number"
-                                name="paymentDay"
-                                value={subscriptionDetails.paymentDay}
-                                onChange={handleChangeDetail}
-                                placeholder="Día de Pago"
-                            />
-                            {/* Más campos editables según necesidad */}
-                            <button onClick={() => updateSubscription({ ...subscriptionDetails })}>Guardar Cambios</button>
-                        </>
-                    ) : (
-                        <>
-                            <p><strong>Nombre:</strong> {subscriptionDetails.name}</p>
-                            <p><strong>Frecuencia de Pago:</strong> {subscriptionDetails.paymentFrequency === 'monthly' ? 'Mensual' : subscriptionDetails.paymentFrequency}</p>
-                            <p><strong>Día de Pago:</strong> {subscriptionDetails.paymentDay}</p>
-                            {/* Más detalles no editables */}
-                        </>
-                    )}
-                    <button onClick={handleEditService}>
-                        {editingService ? 'Cancelar Edición' : 'Editar Suscripción'}
-                    </button>
-                </div>
+                <Tabs defaultValue="details">
+                    <TabsList>
+                        <TabsTrigger value="details">Detalles de la Suscripción</TabsTrigger>
+                        <TabsTrigger value="clients">Gestión de Clientes</TabsTrigger>
+                    </TabsList>
 
-                <h3>Servicios Incluidos</h3>
-                {/* Código para gestionar y editar servicios... */}
+                    <TabsContent value="details">
+                    <div className="SuscripcionesPopup-details">
+    {editingService ? (
+        <>
+            <input
+                type="text"
+                name="name"
+                value={subscriptionDetails.name}
+                onChange={handleChangeDetail}
+                placeholder="Nombre de la suscripción"
+            />
+            <input
+                type="number"
+                name="paymentDay"
+                value={subscriptionDetails.paymentDay}
+                onChange={handleChangeDetail}
+                placeholder="Día de Pago"
+            />
+            <Button onClick={() => updateSubscription({ ...subscriptionDetails })}>Guardar Cambios</Button>
+        </>
+    ) : (
+        <>
+            <p><strong>Nombre:</strong> {subscriptionDetails.name}</p>
+            
+            {/* Mostrar servicios de la suscripción */}
+            <div className="SuscripcionesPopup-services">
+                <h3>Servicios Incluidos:</h3>
+                <ul>
+                    {subscriptionDetails.services.map(service => (
+                        <li key={service._id}>
+                            <strong>{service.serviceName}</strong> - ${service.price}
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-                <h3>Gestión de Clientes</h3>
-                <div className="SuscripcionesPopup-client-management">
-                    <select
-                        value={selectedClient}
-                        onChange={(e) => setSelectedClient(e.target.value)}
-                        className="SuscripcionesPopup-client-select"
-                    >
-                        <option value="">Selecciona un cliente</option>
-                        {allClients.map(client => (
-                            <option key={client._id} value={client._id}>
-                                {client.nombre} {client.apellido}
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={handleAddClient} className="SuscripcionesPopup-add-client-btn">
-                        Añadir Cliente
-                    </button>
-                </div>
+            {/* Mostrar planes de pago */}
+            <div className="SuscripcionesPopup-payment-plans">
+                <h3>Planes de Pago Disponibles:</h3>
+                <ul>
+                    {subscriptionDetails.paymentPlans.map(plan => (
+                        <li key={plan._id}>
+                            <strong>{plan.planName}</strong> - Frecuencia: {plan.frequency}, Precio: ${plan.price}, Descuento: {plan.discount}%
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
+    )}
+    <Button onClick={handleEditService} variant="secondary">
+        {editingService ? 'Cancelar Edición' : 'Editar Suscripción'}
+    </Button>
+</div>
+                    </TabsContent>
 
-                <div className="SuscripcionesPopup-client-list">
-                    <h4>Clientes en la Suscripción:</h4>
-                    <ul>
-                        {clients.map(client => (
-                            <li key={client._id} className="SuscripcionesPopup-client-item">
-                                <div className="SuscripcionesPopup-client-info">
-                                    <p><strong>Nombre:</strong> {client.nombre}</p>
-                                    <p><strong>Email:</strong> {client.email}</p>
-                                    <p><strong>Edad:</strong> {client.edad} años</p>
-                                    <p><strong>Género:</strong> {client.genero}</p>
-                                    <p><strong>Ciudad:</strong> {client.city}</p>
-                                    <p><strong>País:</strong> {client.country}</p>
-                                </div>
-                                <div className="SuscripcionesPopup-client-action">
-                                    <button 
-                                        onClick={() => handleRemoveClient(client._id)} 
-                                        className="SuscripcionesPopup-remove-client-btn"
-                                    >
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                    <TabsContent value="clients">
+                        <h3>Gestión de Clientes</h3>
+                        <div className="SuscripcionesPopup-client-list">
+                            <h4>Clientes en la Suscripción:</h4>
+                            <ul>
+                                {combinedClientsWithPlans.map(client => (
+                                    <li key={client._id} className="SuscripcionesPopup-client-item">
+                                        <div className="SuscripcionesPopup-client-info">
+                                            <p className="client-name"><strong>{client.nombre}</strong></p>
+                                            <p className="client-email">{client.email}</p>
+                                        </div>
+                                        <div className="SuscripcionesPopup-client-action">
+                                            <Button variant="white" size="sm" className="mr-2 flex items-center">
+                                                <FaInfoCircle className="mr-1" /> Ver Info
+                                            </Button>
+                                            <Button 
+                                            variant="red" 
+                                            size="sm" 
+                                            className="btn-red flex items-center"
+                                            onClick={() => handleRemoveClient(client._id)} 
+                                            >
+                                            <FaUserMinus className="mr-1" /> Quitar
+                                            </Button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </TabsContent>
+                </Tabs>
 
                 <div className="SuscripcionesPopup-actions">
-                    <button onClick={onClose} className="SuscripcionesPopup-close-btn">Cerrar</button>
+                    <Button onClick={onClose} variant="black" className="SuscripcionesPopup-close-btn">Cerrar</Button>
                 </div>
             </div>
         </div>

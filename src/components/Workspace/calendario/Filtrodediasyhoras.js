@@ -1,145 +1,117 @@
-import React, { useState } from 'react';
+// Filtrodediasyhoras.js
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction'; 
-
-// Importación correcta de los estilos CSS de FullCalendar
-
-import DatePicker from 'react-datepicker';
+import interactionPlugin from '@fullcalendar/interaction';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Filtrodediasyhoras.css';
-
-import HorarioSemanal from './HorarioSemanal'; // Asegúrate de tener la ruta correcta
+import Horariodia from './HorarioDia';
+import Horariovalidosemanal from './Horariovalidosemanal';
 
 const Filtrodediasyhoras = ({ onClose }) => {
-  const [eventType, setEventType] = useState('');
   const [fechaEspecifica, setFechaEspecifica] = useState('');
-  const [horaInicio, setHoraInicio] = useState('');
-  const [horaFin, setHoraFin] = useState('');
-  const [valido, setValido] = useState(true);
   const [events, setEvents] = useState([]);
-  const [horariosSemanales, setHorariosSemanales] = useState({});
+  const [horariosValidos, setHorariosValidos] = useState([]);
+  const [mostrarCalendario, setMostrarCalendario] = useState(false);
 
-  const eventTypes = ['Entrenamiento', 'Consulta', 'Clase Grupal'];
+  useEffect(() => {
+    // Cargar los horarios válidos guardados desde localStorage al montar el componente
+    const storedHorariosValidos = localStorage.getItem('horariosValidos');
+    if (storedHorariosValidos) {
+      setHorariosValidos(JSON.parse(storedHorariosValidos));
+    }
+  }, []);
 
   const handleDateClick = (arg) => {
     setFechaEspecifica(arg.dateStr);
+    const esDiaValido = verificarDiaValido(arg.dateStr);
+    if (!esDiaValido) {
+      alert('El día seleccionado no tiene horarios válidos.');
+    }
   };
 
-  const handleHorarioSemanalChange = (nuevosHorarios) => {
-    setHorariosSemanales(nuevosHorarios);
+  const verificarDiaValido = (dateStr) => {
+    const fechaSeleccionada = new Date(dateStr);
+    const diaSemanaSeleccionado = fechaSeleccionada.toLocaleString('es-ES', { weekday: 'long' }).toLowerCase();
+
+    const horarioEspecifico = horariosValidos.find(horario => {
+      const fechaEspecifica = horario.fechaEspecifica ? new Date(horario.fechaEspecifica).toISOString().split('T')[0] : null;
+      return fechaEspecifica === dateStr;
+    });
+
+    const horarioSemanal = horariosValidos.find(horario =>
+      horario.horariosSemanales?.some(hs => hs.dia.toLowerCase() === diaSemanaSeleccionado)
+    );
+
+    return !!(horarioEspecifico || horarioSemanal);
   };
 
-  const handleSubmit = async (e) => {
+  const handleGuardarHorarioDia = (fecha, horario) => {
+    alert(`Horario para el día ${fecha} guardado.`);
+    // Actualizar el estado y el localStorage con el nuevo horario
+    const nuevoHorario = [...horariosValidos, { fechaEspecifica: fecha, horarios: horario }];
+    setHorariosValidos(nuevoHorario);
+    localStorage.setItem('horariosValidos', JSON.stringify(nuevoHorario));
+  };
+
+  const handleMostrarCalendario = () => {
+    setMostrarCalendario(true);
+  };
+
+  const handleGuardarYSalir = (e) => {
     e.preventDefault();
-
-    if (horaFin <= horaInicio) {
-      alert('La hora de fin debe ser después de la hora de inicio');
-      return;
-    }
-
-    const newHorarioValido = {
-      eventType,
-      fechaEspecifica,
-      horaInicio,
-      horaFin,
-      valido,
-      horariosSemanales,
-    };
-
-    try {
-      const response = await fetch('http://localhost:5005/api/horarios-validos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newHorarioValido),
-      });
-
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
-      }
-
-      alert('Horario válido creado exitosamente');
-      onClose();
-    } catch (error) {
-      console.error('Error creando horario válido:', error);
-      alert('Hubo un problema al crear el horario válido');
-    }
+    // Guardar el horario válido en localStorage
+    localStorage.setItem('horariosValidos', JSON.stringify(horariosValidos));
+    alert('Horario válido guardado en el navegador');
+    onClose(); // Cerrar el modal
   };
 
   return (
     <div className="filtrodediasyhoras-overlay">
       <div className="filtrodediasyhoras-modal">
-        <h2>Crear Horario Válido</h2>
-        <form onSubmit={handleSubmit} className="filtrodediasyhoras-form">
-          <label className="filtrodediasyhoras-label">
-            Tipo de Evento:
-            <select
-              value={eventType}
-              onChange={(e) => setEventType(e.target.value)}
-              required
-              className="filtrodediasyhoras-select"
-            >
-              <option value="" disabled>Selecciona un tipo de evento</option>
-              {eventTypes.map((type) => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-          </label>
-          <label className="filtrodediasyhoras-label">
-            Fecha Específica:
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              dateClick={handleDateClick}
-              selectable={true}
-              editable={true}
-              events={events}
-            />
-          </label>
-          <label className="filtrodediasyhoras-label">
-            Hora de Inicio:
-            <input
-              type="time"
-              value={horaInicio}
-              onChange={(e) => setHoraInicio(e.target.value)}
-              required
-              className="filtrodediasyhoras-input"
-            />
-          </label>
-          <label className="filtrodediasyhoras-label">
-            Hora de Fin:
-            <input
-              type="time"
-              value={horaFin}
-              onChange={(e) => setHoraFin(e.target.value)}
-              required
-              className="filtrodediasyhoras-input"
-            />
-          </label>
-          <label className="filtrodediasyhoras-label">
-            Válido:
-            <input
-              type="checkbox"
-              checked={valido}
-              onChange={(e) => setValido(e.target.checked)}
-              className="filtrodediasyhoras-checkbox"
-            />
-          </label>
+        <h2>Horarios Válidos</h2>
 
-          {/* Agregamos el componente HorarioSemanal aquí */}
-          <div className="filtrodediasyhoras-horario-semanal">
-            <HorarioSemanal onHorarioChange={handleHorarioSemanalChange} />
-          </div>
+        <div className="filtrodediasyhoras-button-container-top">
+          <button type="button" onClick={handleGuardarYSalir} className="filtrodediasyhoras-submit-button">Guardar y Salir</button>
+          <button type="button" onClick={onClose} className="filtrodediasyhoras-cancel-button">Cancelar</button>
+        </div>
 
-          <div className="filtrodediasyhoras-button-container">
-            <button type="submit" className="filtrodediasyhoras-submit-button">Guardar</button>
-            <button type="button" onClick={onClose} className="filtrodediasyhoras-cancel-button">Cancelar</button>
-          </div>
-        </form>
+        <div className="filtrodediasyhoras-horario-semanal">
+          <Horariovalidosemanal horariosValidos={horariosValidos} />
+        </div>
+
+        {!mostrarCalendario && (
+          <button
+            type="button"
+            className="filtrodediasyhoras-boton-configurar"
+            onClick={handleMostrarCalendario}
+          >
+            Configurar horario especial
+          </button>
+        )}
+
+        {mostrarCalendario && (
+          <form onSubmit={handleGuardarYSalir} className="filtrodediasyhoras-form">
+            <label className="filtrodediasyhoras-label">
+              Fecha Específica:
+              <FullCalendar
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                dateClick={handleDateClick}
+                selectable={true}
+                editable={true}
+                events={events}
+              />
+            </label>
+
+            {fechaEspecifica && (
+              <div className="filtrodediasyhoras-horario-dia">
+                <Horariodia fecha={fechaEspecifica} onGuardar={handleGuardarHorarioDia} />
+              </div>
+            )}
+          </form>
+        )}
       </div>
     </div>
   );

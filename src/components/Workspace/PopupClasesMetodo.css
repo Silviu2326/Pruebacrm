@@ -1,0 +1,116 @@
+.Popupclasesmetodo-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.Popupclasesmetodo-tipo-cobro-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.Popupclasesmetodo-tipo-cobro-buttons button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Popupclasesmetodo-tipo-cobro-buttons button.Popupclasesmetodo-active {
+    background-color: #0056b3;
+}
+
+.Popupclasesmetodo-tipo-cobro-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.Popupclasesmetodo-field {
+    margin-bottom: 15px;
+}
+
+.Popupclasesmetodo-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.Popupclasesmetodo-field input,
+.Popupclasesmetodo-field select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.Popupclasesmetodo-botones-duracion {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.Popupclasesmetodo-botones-duracion button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.Popupclasesmetodo-botones-duracion button:last-child {
+    margin-right: 0;
+}
+
+.Popupclasesmetodo-botones-duracion button.Popupclasesmetodo-active {
+    background-color: #218838;
+}
+
+.Popupclasesmetodo-botones-duracion button:hover {
+    background-color: #218838;
+}
+
+.Popupclasesmetodo-info-pagos {
+    margin-top: 20px;
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.Popupclasesmetodo-info-pagos h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.Popupclasesmetodo-info-pagos p {
+    margin: 0 0 5px;
+}
+
+.Popupclasesmetodo-crear-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.Popupclasesmetodo-crear-button {
+    background-color: #17a2b8;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Popupclasesmetodo-crear-button:hover {
+    background-color: #138496;
+}
