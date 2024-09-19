@@ -1,0 +1,94 @@
+.variables-container {
+    margin-top: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .variable-category {
+    margin-bottom: 30px;
+  }
+  
+  .variable-category h4 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+    text-transform: capitalize;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+  }
+  
+  .variable-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .variable-details {
+    flex-grow: 1;
+  }
+  
+  .variable-details strong {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .variable-options {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-top: 5px;
+  }
+  
+  .variable-options li {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .variable-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .variable-actions button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .variable-actions button:hover {
+    background-color: #0056b3;
+  }
+  
+  .variable-actions .btn-delete {
+    background-color: #dc3545;
+  }
+  
+  .variable-actions .btn-delete:hover {
+    background-color: #c82333;
+  }
+  
+  .btn-add-variable {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-add-variable:hover {
+    background-color: #218838;
+  }
+  

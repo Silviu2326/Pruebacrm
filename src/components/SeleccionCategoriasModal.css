@@ -75,8 +75,8 @@
   }
   
   input.light {
-      border: 1px solid var(--secondary-light);
-      background-color: var(--background-light);
+      border: 3px solid #dac9c9;
+      background-color: #f7faff;
       color: var(--text-light);
   }
   

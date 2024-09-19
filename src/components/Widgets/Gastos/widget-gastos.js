@@ -39,7 +39,7 @@ function WidgetCuentaBancaria({ beneficio, valueClass, theme }) {
   const beneficioSeguro = typeof beneficio === 'number' ? beneficio : 0;
 
   return (
-    <div className={`widget-cuenta-bancaria-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
+    <div className={`widget-cuenta-bancaria-container ${theme}`}>
       <button 
         onClick={handleSaveDefaultView} 
         className="widget-cuenta-bancaria-save-btn"

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './Tablacomidas.module.css';
+import './Tablacomidas.css';
 
 const Tablacomidas = ({ theme }) => {
   const [comidas, setComidas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchComidas = async () => {
@@ -18,33 +19,45 @@ const Tablacomidas = ({ theme }) => {
     fetchComidas();
   }, []);
 
+  const filteredComidas = comidas.filter((comida) =>
+    comida.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className={`${styles.tableContainer} ${theme === 'dark' ? styles.dark : ''}`}>
-      <h2>Comidas</h2>
-      <table className={styles.styledTable}>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Calorías</th>
-            <th>Carbohidratos</th>
-            <th>Proteínas</th>
-            <th>Grasas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {comidas.map((comida) => (
-            <tr key={comida._id}>
-              <td>{comida.nombre}</td>
-              <td>{comida.descripcion}</td>
-              <td>{comida.calorias}</td>
-              <td>{comida.carb}</td>
-              <td>{comida.protein}</td>
-              <td>{comida.fat}</td>
+    <div className={theme === 'dark' ? 'Tablacomida-dark' : ''}>
+      <input
+        className={`Tablacomida-searchInput ${theme === 'dark' ? 'Tablacomida-dark' : ''}`}
+        type="text"
+        placeholder="Buscar comidas"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <div className="Tablacomida-tableContainer">
+        <table className="Tablacomida-styledTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Calorías</th>
+              <th>Carbohidratos</th>
+              <th>Proteínas</th>
+              <th>Grasas</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredComidas.map((comida) => (
+              <tr key={comida._id}>
+                <td>{comida.nombre}</td>
+                <td>{comida.descripcion}</td>
+                <td>{comida.calorias}</td>
+                <td>{comida.carb}</td>
+                <td>{comida.protein}</td>
+                <td>{comida.fat}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

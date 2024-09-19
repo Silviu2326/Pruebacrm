@@ -1,12 +1,17 @@
 /* src/Chater.css */
+
 .Chater-column {
     width: 30%;
+    height: 95%;
     background-color: #2a2a2a;
     padding: 20px;
     border-radius: 10px;
     color: white;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    /* Removido justify-content: space-between; */
 }
 
 .Chater-column h3 {
@@ -15,18 +20,48 @@
     text-align: center;
     font-weight: bold;
     color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.checkins-detalles-button,
+.alertas-personalizar-button,
+.chater-detalles-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.checkins-detalles-button:hover,
+.alertas-personalizar-button:hover,
+.chater-detalles-button:hover {
+    background-color: #0056b3;
 }
 
 .Chater-chater-container {
-    max-height: 400px;
+    max-height: 80%;
     overflow-y: auto;
     padding-right: 10px;
-    margin-top: 10px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+    padding: 10px;
+    margin-top: 15px; /* Agregado margen superior */
+    flex-grow: 1; /* Para expandir el contenedor */
 }
 
 /* Custom scrollbar styles */
 .Chater-chater-container::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 .Chater-chater-container::-webkit-scrollbar-track {
@@ -45,11 +80,11 @@
 
 .Chater-item {
     background-color: #d5f4f2;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
     margin: 10px 0;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -61,23 +96,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.Chater-profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.Chater-profile-pic-large {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
 .Chater-item p {
-    margin: 5px 0;
+    margin: 0;
     font-size: 16px;
     color: #2a2a2a;
 }
@@ -89,11 +109,8 @@
 }
 
 .Chater-date {
-    display: flex;
-    align-items: center;
-    color: gray;
+    color: #888888;
     font-size: 14px;
-    margin-top: 5px;
 }
 
 .Chater-modal {
@@ -105,20 +122,19 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     justify-content: center;
     align-items: center;
 }
 
 .Chater-modal-content {
-    background-color: #E6F2F1;
+    background-color: #e6f2f1;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     pointer-events: auto;
-    z-index: 10000000;
 }
 
 .Chater-close {
@@ -126,33 +142,37 @@
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
 }
 
 .Chater-modal-body {
     flex-grow: 1;
-    padding: 15px;
-    background-color: #EBF7EE;
+    padding: 20px;
+    background-color: #ebf7ee;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
 
+/* Custom scrollbar styles */
 .Chater-modal-body::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 .Chater-modal-body::-webkit-scrollbar-track {
-    background: #E6F2F1;
+    background: #e6f2f1;
     border-radius: 10px;
 }
 
 .Chater-modal-body::-webkit-scrollbar-thumb {
-    background: #39393A;
+    background: #39393a;
     border-radius: 10px;
 }
 
 .Chater-modal-body::-webkit-scrollbar-thumb:hover {
-    background: #5B5E5E;
+    background: #5b5e5e;
 }
 
 .Chater-message {
@@ -167,22 +187,22 @@
 
 .Chater-message.received {
     align-self: flex-start;
-    background-color: #F6FFE8;
+    background-color: #f6ffe8;
 }
 
 .Chater-message.sent {
     align-self: flex-end;
-    background-color: #DCF8C6;
+    background-color: #dcf8c6;
 }
 
 .Chater-message p {
     margin: 0;
-    color: #39393A;
+    color: #39393a;
 }
 
 .Chater-modal-date {
     font-size: 12px;
-    color: #7E8383;
+    color: #7e8383;
     align-self: flex-end;
     margin-top: 5px;
 }
@@ -193,20 +213,22 @@
     padding: 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: #B2BBBA;
+    background-color: #b2bbba;
 }
 
 .Chater-input {
     flex-grow: 1;
     padding: 10px 15px;
     border-radius: 20px;
-    border: 1px solid #989F9F;
+    border: 1px solid #989f9f;
     margin-right: 10px;
     font-size: 16px;
+    background-color: #f7f7f7;
+    color: #39393a;
 }
 
 .Chater-send-button {
-    background-color: #39393A;
+    background-color: #39393a;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -217,5 +239,5 @@
 }
 
 .Chater-send-button:hover {
-    background-color: #5B5E5E;
+    background-color: #5b5e5e;
 }

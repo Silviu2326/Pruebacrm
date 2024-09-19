@@ -1,0 +1,209 @@
+/* Archivo: PopupSubidaTikTok.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.PopupSubidaTikTok-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.PopupSubidaTikTok-content {
+  background-color: #010101;
+  padding: 40px;
+  border-radius: 16px;
+  width: 500px;
+  max-width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.PopupSubidaTikTok-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.PopupSubidaTikTok-close:hover {
+  color: #EE1D52;
+}
+
+.PopupSubidaTikTok-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.PopupSubidaTikTok-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+}
+
+.PopupSubidaTikTok-content h2 {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 600;
+  color: #fff;
+}
+
+.PopupSubidaTikTok-form-group {
+  margin-bottom: 20px;
+}
+
+.PopupSubidaTikTok-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.icono-label {
+  vertical-align: middle;
+  margin-right: 8px;
+  color: #EE1D52; /* Color característico de TikTok */
+}
+
+.PopupSubidaTikTok-form-group input,
+.PopupSubidaTikTok-form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: #1c1c1c;
+  color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.PopupSubidaTikTok-form-group input::placeholder,
+.PopupSubidaTikTok-form-group textarea::placeholder {
+  color: #888;
+}
+
+.PopupSubidaTikTok-form-group input:focus,
+.PopupSubidaTikTok-form-group textarea:focus {
+  border-color: #EE1D52;
+  box-shadow: 0 0 0 3px rgba(238, 29, 82, 0.2);
+  outline: none;
+}
+
+.PopupSubidaTikTok-form-group input[type="file"] {
+  padding: 6px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+}
+
+.PopupSubidaTikTok-form-group input[type="file"]::-webkit-file-upload-button {
+  background-color: #EE1D52;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.PopupSubidaTikTok-form-group input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #c81a45;
+}
+
+.PopupSubidaTikTok-video-preview {
+  margin-bottom: 20px;
+}
+
+.PopupSubidaTikTok-video-preview video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(238, 29, 82, 0.3);
+}
+
+.PopupSubidaTikTok-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.PopupSubidaTikTok-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.PopupSubidaTikTok-actions button[type="button"] {
+  background-color: #333;
+  color: #fff;
+}
+
+.PopupSubidaTikTok-actions button[type="submit"] {
+  background-color: #EE1D52;
+  color: #fff;
+}
+
+.PopupSubidaTikTok-actions button:hover {
+  transform: translateY(-2px);
+}
+
+.PopupSubidaTikTok-actions button[type="button"]:hover {
+  background-color: #444;
+}
+
+.PopupSubidaTikTok-actions button[type="submit"]:hover {
+  background-color: #c81a45;
+}
+
+@media (max-width: 480px) {
+  .PopupSubidaTikTok-content {
+    padding: 20px;
+  }
+
+  .PopupSubidaTikTok-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .PopupSubidaTikTok-actions button {
+    width: 100%;
+  }
+}

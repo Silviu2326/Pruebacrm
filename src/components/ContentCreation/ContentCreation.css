@@ -1,10 +1,51 @@
+:root {
+  --background-light: #f8f1ec;
+  --background-dark: #333333;
+  --text-light: #000000;
+  --text-dark: #ffffff;
+  --primary-light: #d9bfae;
+  --primary-dark: #4a4a4a;
+  --secondary-light: #ddd;
+  --secondary-dark: #555;
+
+  --button-bg-light: #ffffff;
+  --button-border-light: #000000;
+  --button-text-light: #000000;
+
+  --button-bg-dark: #444444;
+  --button-border-dark: #ffffff;
+  --button-text-dark: #ffffff;
+
+  --header-bg-light: #ddd;
+  --header-bg-dark: #444444;
+  --header-text-light: #000;
+  --header-text-dark: #fff;
+
+  --search-button-bg-light: #fff;
+  --search-button-border-light: #000;
+  --search-button-text-light: #000;
+
+  --search-button-bg-dark: #444;
+  --search-button-border-dark: #fff;
+  --search-button-text-dark: #fff;
+
+  --create-button-bg-light: #09BC8A;
+  --create-button-bg-dark: #006B5A;
+}
+
 /* General Styles */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f2f5;
-  color: #333;
+  background-color: var(--background-light);
+  color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s; /* Suaviza el cambio de tema */
+}
+
+body.dark {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
 }
 
 /* Content Creation Section */
@@ -13,13 +54,100 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 40px;
-  background-color: #ffffff;
+  background-color: var(--background-light);
   border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
 }
 
 .content-creation.dark {
-  background-color: #1f1f1f;
+  background-color: var(--background-dark);
+}
+
+/* Rectangle Styles */
+.content-creation-rectangles {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  grid-column: span 3;
+}
+
+/* Rectangle Styles */
+.creation-rectangle {
+  background-color: #c9b9a7; /* Cambiado a blanco */
+  border: 1px solid var(--secondary-light);
+  border-radius: 15px;
+  width: 48%;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  color: var(--text-light);
+}
+
+.creation-rectangle.dark {
+  background-color: var(--primary-dark);
+  border: 1px solid var(--secondary-dark);
+  color: var(--text-dark);
+}
+
+.creation-rectangle .rectangle-header {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-light);
+}
+
+.creation-rectangle.dark .rectangle-header {
+  color: var(--text-dark);
+}
+
+.creation-rectangle.expanded {
+  padding: 40px;
+  min-height: 300px;
+  cursor: default;
+}
+
+.creation-rectangle.expanded .rectangle-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.rectangle-button {
+  flex: 1 1 45%;
+  height: 60px;
+  background-color: var(--button-bg-light);
+  border: 1px solid var(--button-border-light);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--button-text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.rectangle-button.dark {
+  background-color: var(--button-bg-dark);
+  border: 1px solid var(--button-border-dark);
+  color: var(--button-text-dark);
+}
+
+.rectangle-button:hover {
+  background-color: var(--header-bg-light);
+}
+
+.rectangle-button.dark:hover {
+  background-color: var(--header-bg-dark);
 }
 
 /* Process Buttons */
@@ -33,7 +161,7 @@ body {
 
 .content-button {
   padding: 15px 30px;
-  background-color: #28a745; /* Verde brillante */
+  background-color: var(--create-button-bg-light);
   color: white;
   border: none;
   border-radius: 30px;
@@ -43,57 +171,61 @@ body {
   transition: background-color 0.3s, transform 0.2s;
 }
 
+.content-button.dark {
+  background-color: var(--create-button-bg-dark);
+}
+
 .content-button:hover {
-  background-color: #218838; /* Verde más oscuro */
-  transform: translateY(-3px);
+  background-color: #007bff;
+}
+
+.content-button.dark:hover {
+  background-color: #004d3a;
 }
 
 .content-button:active {
   background-color: #1e7e34; /* Verde aún más oscuro */
 }
 
-/* Button Colors for Specific Actions */
-.content-button.generate-title {
-  background-color: #17a2b8; /* Azul celeste */
-}
-
-.content-button.generate-title:hover {
-  background-color: #138496; /* Azul celeste oscuro */
-}
-
-.content-button.generate-description {
-  background-color: #ffc107; /* Amarillo brillante */
-}
-
-.content-button.generate-description:hover {
-  background-color: #e0a800; /* Amarillo oscuro */
+.content-button.dark:active {
+  background-color: #003d2f;
 }
 
 /* Content Cards */
 .content-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
   align-items: center;
   justify-content: center;
   padding: 30px;
-  border: 1px solid rgba(0, 123, 255, 0.2);
+  border: 2px solid var(--secondary-light); /* Bordes más gruesos */
   border-radius: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-light);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
-  color: #333;
+  color: var(--text-light);
 }
 
 .content-card.dark {
-  border: 1px solid #444;
-  background-color: #333;
-  color: #ccc;
+  border: 2px solid var(--secondary-dark); /* Bordes más gruesos en modo oscuro */
+  background-color: var(--background-dark);
+  color: var(--text-dark);
 }
 
 .content-card:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Reorganizar el contenido para que el título esté arriba de la imagen */
+.content-card h2 {
+  order: -1; /* Mueve el título al inicio */
+  font-size: 1.6em;
+  font-weight: bold;
+  margin: 10px 0 20px 0; /* Ajusta el margen para espaciar correctamente */
+  color: inherit;
+  text-align: center;
 }
 
 .content-card img {
@@ -110,10 +242,6 @@ body {
   margin: 10px 0 0 0;
   color: inherit;
   text-align: center;
-}
-
-.content-card.dark h2 {
-  color: inherit;
 }
 
 /* Recovery Button */
@@ -143,20 +271,32 @@ body {
   transform: translate(-50%, -50%);
   background-color: #ffffff;
   padding: 25px;
-  border: 2px solid #007bff;
+  border: 2px solid var(--primary-light);
   border-radius: 20px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
+  max-width: 90%; /* Asegura que el popup sea responsivo */
+  width: 400px;
+}
+
+.recovery-popup.dark {
+  background-color: var(--background-dark);
+  border: 2px solid var(--primary-dark);
 }
 
 .recovery-item {
   margin: 10px 0;
   padding: 15px;
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
+  background-color: var(--secondary-light);
+  border: 1px solid var(--secondary-light);
   border-radius: 15px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.recovery-item.dark {
+  background-color: var(--secondary-dark);
+  border: 1px solid var(--secondary-dark);
 }
 
 .recovery-item:hover {
@@ -166,9 +306,9 @@ body {
 .recovery-popup button {
   margin-top: 20px;
   padding: 12px 25px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  background-color: var(--search-button-bg-light);
+  color: var(--search-button-text-light);
+  border: 1px solid var(--search-button-border-light);
   border-radius: 25px;
   cursor: pointer;
   font-size: 1rem;
@@ -176,7 +316,17 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.recovery-popup.dark button {
+  background-color: var(--search-button-bg-dark);
+  color: var(--search-button-text-dark);
+  border: 1px solid var(--search-button-border-dark);
+}
+
 .recovery-popup button:hover {
-  background-color: #0056b3;
+  background-color: var(--header-bg-light);
+}
+
+.recovery-popup.dark button:hover {
+  background-color: var(--header-bg-dark);
   transform: translateY(-2px);
 }

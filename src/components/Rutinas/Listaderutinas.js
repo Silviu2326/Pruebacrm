@@ -4,18 +4,21 @@ import axios from 'axios';
 import './Listaderutinas.css';
 import FileTable from './FileTable';
 import PopupDeCreacionDePlanificacion from './PopupDeCreacionDePlanificacion';
+import ModalGenerarFormula from './ModalGenerarFormula'; // Importamos el nuevo componente
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const Listaderutinas = ({ theme, setTheme }) => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [showModalFormula, setShowModalFormula] = useState(false); // Estado para mostrar el modal
   const [searchTerm, setSearchTerm] = useState('');
   const [plans, setPlans] = useState([]);
   const [clients, setClients] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState(null);
   const [planToAssociate, setPlanToAssociate] = useState(null);
   const [viewFiles, setViewFiles] = useState(false);
+  const [editingPlan, setEditingPlan] = useState(null); // Nuevo estado para el plan en edición
 
   const predefinedMetas = [
     'cardio', 'fuerza', 'hipertrofia', 'resistencia', 'movilidad',
@@ -59,6 +62,11 @@ const Listaderutinas = ({ theme, setTheme }) => {
     navigate(`/edit-routine/${planId}`, { state: { theme } });
   };
 
+  const handleOpenPopup = (plan) => {
+    setEditingPlan(plan); // Establecer el plan a editar
+    setShowPopup(true); // Mostrar el popup
+  };
+
   const handleDeletePlan = async (planId) => {
     try {
       await axios.delete(`${API_BASE_URL}/api/routines/${planId}`);
@@ -82,7 +90,11 @@ const Listaderutinas = ({ theme, setTheme }) => {
     }
   };
 
-  console.log('Plans:', plans);
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   const filteredPlans = Array.isArray(plans) ? plans.filter((plan) =>
     plan.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   ) : [];
@@ -100,7 +112,6 @@ const Listaderutinas = ({ theme, setTheme }) => {
   };
 
   return (
-
     <div className={`listaderutinas-contenedor ${theme}`}>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Planificaciones</h2>
@@ -122,6 +133,12 @@ const Listaderutinas = ({ theme, setTheme }) => {
             onClick={() => setViewFiles(!viewFiles)}
           >
             {viewFiles ? 'Ver Planificaciones' : 'Ver Archivos'}
+          </button>
+          <button
+            className="button"
+            onClick={() => setShowModalFormula(true)} // Mostrar el modal
+          >
+            Generar Fórmula
           </button>
         </div>
       </div>
@@ -151,23 +168,22 @@ const Listaderutinas = ({ theme, setTheme }) => {
               </thead>
               <tbody>
                 {filteredPlans.map((plan) => (
-                  <tr key={plan._id}>
+                  <tr key={plan._id} onClick={() => handleEditPlan(plan._id)} style={{ cursor: 'pointer' }}>
                     <td>{plan.nombre}</td>
                     <td>{plan.descripcion}</td>
                     <td>{plan.duracion}</td>
-                    <td>{plan.fechaInicio}</td>
+                    <td>{formatDate(plan.fechaInicio)}</td> {/* Formatear la fecha */}
                     <td>{plan.meta}</td>
                     <td>
                       {plan.cliente ? plan.cliente.nombre : 'No asociado'}
-                      {console.log('Clientes asociados a la planificación:', plan.cliente)}
                     </td>
-                    <td className="listaderutinas-actions">
+                    <td className="listaderutinas-actions" onClick={(e) => e.stopPropagation()}>
                       <div className="listaderutinas-dropdown">
                         <button className="listaderutinas-dropbtn">⋮</button>
                         <div className="listaderutinas-dropdown-content">
-                          <a href="#" onClick={() => handleEditPlan(plan._id)}>Editar</a>
-                          <a href="#" onClick={() => handleDeletePlan(plan._id)}>Borrar</a>
-                          <a href="#" onClick={() => setPlanToAssociate(plan._id)}>Asociar Cliente</a>
+                          <a href="#" onClick={(e) => { e.preventDefault(); handleOpenPopup(plan); }}>Editar</a>
+                          <a href="#" onClick={(e) => { e.preventDefault(); handleDeletePlan(plan._id); }}>Borrar</a>
+                          <a href="#" onClick={(e) => { e.preventDefault(); setPlanToAssociate(plan._id); }}>Asociar Cliente</a>
                         </div>
                       </div>
                       {planToAssociate === plan._id && (
@@ -202,9 +218,18 @@ const Listaderutinas = ({ theme, setTheme }) => {
       )}
       <PopupDeCreacionDePlanificacion
         show={showPopup}
-        onClose={() => setShowPopup(false)}
+        onClose={() => {
+          setShowPopup(false);
+          setEditingPlan(null); // Resetear el plan en edición cuando se cierre el popup
+        }}
         predefinedMetas={predefinedMetas}
-        theme={theme}  // Pasar el tema como prop
+        theme={theme}
+        planToEdit={editingPlan}  // Pasar el plan a editar al popup
+      />
+      <ModalGenerarFormula
+        show={showModalFormula}
+        onClose={() => setShowModalFormula(false)} // Cerrar el modal
+        theme={theme}
       />
     </div>
   );

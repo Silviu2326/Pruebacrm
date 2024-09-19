@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './popupdecomidas.module.css';
 
-const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComidas }) => {
+const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComidas, isOption }) => {
   const [comida, setComida] = useState({
     nombre: '',
     descripcion: '',
@@ -31,7 +31,6 @@ const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComida
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Cambiando el campo ${name} a ${value}`); // Log del cambio en el campo
     setComida({
       ...comida,
       [name]: value
@@ -41,16 +40,13 @@ const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComida
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Enviando comida:', comida); // Log al enviar la comida
       if (comidaToEdit) {
-        // Update existing comida
-        await axios.put(`/api/comidas/${comidaToEdit._id}`, comida);
+        await axios.put(`/api/${isOption ? 'opciones' : 'comidas'}/${comidaToEdit._id}`, comida);
       } else {
-        // Create new comida
-        await axios.post('/api/comidas', comida);
+        await axios.post(`/api/${isOption ? 'opciones' : 'comidas'}`, comida);
       }
-      refreshComidas(); // Refresh the list of comidas after updating or creating
-      closeModal(); // Close the modal
+      refreshComidas(); 
+      closeModal();
     } catch (error) {
       console.error('Error saving comida:', error);
     }
@@ -58,28 +54,62 @@ const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComida
 
   const generateComidaWithAI = async () => {
     setLoading(true);
+    
+    const predefinedComidas = {
+      "macarrones con tomate": {
+        descripcion: 'Deliciosos macarrones con salsa de tomate casera.',
+        calorias: '350',
+        carb: '50',
+        protein: '12',
+        fat: '10'
+      },
+      "ensalada cesar": {
+        descripcion: 'Ensalada César con aderezo cremoso.',
+        calorias: '250',
+        carb: '20',
+        protein: '8',
+        fat: '15'
+      },
+      "pizza margarita": {
+        descripcion: 'Pizza Margarita con queso y tomate fresco.',
+        calorias: '400',
+        carb: '60',
+        protein: '15',
+        fat: '18'
+      }
+    };
+
     try {
-      console.log('Generando comida con IA para:', comida.nombre); // Log antes de la generación con IA
-      const response = await axios.post('/api/comidas/generate-comida', {
-        nombre: comida.nombre,
-        descripcion: comida.descripcion || '', // Enviar la descripción si está disponible
-      });
+      const comidaNombre = comida.nombre.toLowerCase();
+      console.log('Generando comida para:', comidaNombre);
 
-      console.log('Respuesta de IA recibida:', response.data); // Log de la respuesta de IA
-
-      if (response.data) {
+      if (predefinedComidas[comidaNombre]) {
+        const comidaGenerada = predefinedComidas[comidaNombre];
         setComida({
           ...comida,
-          descripcion: response.data.descripcion || comida.descripcion,
-          calorias: response.data.calorias || '',
-          carb: response.data.carb || '',
-          protein: response.data.protein || '',
-          fat: response.data.fat || ''
+          ...comidaGenerada
         });
-        console.log('Campos actualizados con IA:', comida); // Log después de actualizar los campos
+        console.log('Comida predefinida aplicada:', comidaGenerada);
+      } else {
+        const response = await axios.post('/api/comidas/generate-comida', {
+          nombre: comida.nombre,
+          descripcion: comida.descripcion || '',
+        });
+
+        if (response.data) {
+          setComida({
+            ...comida,
+            descripcion: response.data.descripcion || comida.descripcion,
+            calorias: response.data.calorias || '',
+            carb: response.data.carb || '',
+            protein: response.data.protein || '',
+            fat: response.data.fat || ''
+          });
+          console.log('Datos generados por IA:', response.data);
+        }
       }
     } catch (error) {
-      console.error('Error generating comida with AI:', error);
+      console.error('Error generando comida:', error);
     } finally {
       setLoading(false);
     }
@@ -90,7 +120,7 @@ const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComida
   return (
     <div className={`${styles.modalOverlay} ${theme === 'dark' ? styles.dark : ''}`}>
       <div className={`${styles.modalContent} ${theme === 'dark' ? styles.dark : ''}`}>
-        <h2>{comidaToEdit ? 'Editar Comida' : 'Crear Comida'}</h2>
+        <h2>{comidaToEdit ? (isOption ? 'Editar Opción' : 'Editar Comida') : (isOption ? 'Crear Opción' : 'Crear Comida')}</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.flexContainer}>
             <div className={styles.formGroup}>
@@ -167,7 +197,7 @@ const PopupDeComidas = ({ theme, isOpen, closeModal, comidaToEdit, refreshComida
               type="submit"
               className={`${styles.btnPrimary} ${theme === 'dark' ? styles.dark : ''}`}
             >
-              {comidaToEdit ? 'Guardar Cambios' : 'Crear Comida'}
+              {comidaToEdit ? (isOption ? 'Guardar Opción' : 'Guardar Cambios') : (isOption ? 'Crear Opción' : 'Crear Comida')}
             </button>
             <button
               type="button"

@@ -1,78 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Listadedietas.module.css';
+import './Listadedietas.css'; // Asegúrate de que el CSS modificado esté vinculado correctamente
 import axios from 'axios';
 import Tablacomidas from './Tablacomidas';
 import PopupDeComidas from './PopupDeComidas';
+import PopupFormDieta from './PopupFormDieta';
+import { Edit, Trash2 } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const Listadedietas = ({ theme, setTheme }) => {
   const navigate = useNavigate();
   const [dietas, setDietas] = useState([]);
   const [clientes, setClientes] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [dieta, setDieta] = useState({
-    nombre: '',
-    cliente: '',
-    fechaInicio: '',
-    duracionSemanas: 1,
-    objetivo: '',
-    restricciones: '',
-  });
-  const [customObjetivo, setCustomObjetivo] = useState('');
-  const [showDietas, setShowDietas] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showDietas, setShowDietas] = useState(true);
   const [comidaToEdit, setComidaToEdit] = useState(null);
-
-  const objetivosPredefinidos = [
-    'Pérdida de peso',
-    'Ganancia muscular',
-    'Mantenimiento de peso',
-    'Mejora del rendimiento deportivo',
-    'Mejora de la salud general',
-    'Aumento de la energía',
-    'Control de enfermedades',
-    'Mejora de la digestión',
-    'Reducción de la grasa corporal',
-    'Detoxificación',
-    'Aumento de la masa corporal',
-    'Preparación para competencias',
-    'Rehabilitación y recuperación',
-    'Otro'
-  ];
 
   useEffect(() => {
     const fetchDietas = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/dietas`);
-        console.log('Respuesta de dietas:', response.data);
-        if (Array.isArray(response.data)) {
-          setDietas(response.data);
-        } else {
-          console.error('La respuesta de dietas no es un array:', response.data);
-          setDietas([]);
-        }
+        setDietas(response.data);
       } catch (error) {
         console.error('Error fetching dietas:', error);
-        setDietas([]);
       }
     };
 
     const fetchClientes = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/clientes`);
-        console.log('Respuesta de clientes:', response.data);
-        if (Array.isArray(response.data)) {
-          setClientes(response.data);
-        } else {
-          console.error('La respuesta de clientes no es un array:', response.data);
-          setClientes([]);
-        }
+        setClientes(response.data);
       } catch (error) {
         console.error('Error fetching clientes:', error);
-        setClientes([]);
       }
     };
 
@@ -80,41 +41,18 @@ const Listadedietas = ({ theme, setTheme }) => {
     fetchClientes();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDieta({
-      ...dieta,
-      [name]: value,
-    });
-
-    if (name === 'objetivo' && value !== 'Otro') {
-      setCustomObjetivo('');
-    }
+  const addDieta = (newDieta) => {
+    setDietas([...dietas, newDieta]);
   };
 
-  const handleCustomObjetivoChange = (e) => {
-    setCustomObjetivo(e.target.value);
+  const openPopup = (comida = null) => {
+    setComidaToEdit(comida);
+    setIsPopupOpen(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const objetivoFinal = dieta.objetivo === 'Otro' ? customObjetivo : dieta.objetivo;
-      const response = await axios.post(`${API_BASE_URL}/api/dietas`, { ...dieta, objetivo: objetivoFinal });
-      setDietas([...dietas, response.data]);
-      setDieta({
-        nombre: '',
-        cliente: '',
-        fechaInicio: '',
-        duracionSemanas: 1,
-        objetivo: '',
-        restricciones: '',
-      });
-      setCustomObjetivo('');
-      setShowForm(false);
-    } catch (error) {
-      console.error('Error creating dieta:', error);
-    }
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setComidaToEdit(null);
   };
 
   const handleEditDieta = (dietaId) => {
@@ -134,196 +72,87 @@ const Listadedietas = ({ theme, setTheme }) => {
     dieta.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const openPopup = (comida = null) => {
-    setComidaToEdit(comida);
-    setIsPopupOpen(true);
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  const closePopup = () => {
-    setIsPopupOpen(false);
-    setComidaToEdit(null);
+  const getClienteNombre = (clienteId) => {
+    const cliente = clientes.find((c) => c._id === clienteId);
+    return cliente ? cliente.nombre : 'Cliente no encontrado';
   };
 
-  const refreshComidas = async () => {
-    // Lógica para refrescar la lista de comidas después de crear o editar una
+  // Función para formatear las fechas
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
   };
 
   return (
-    <div className={`${styles.containerFull} ${theme === 'dark' ? styles.dark : styles.light}`}>
-      <div className={`${styles.header} ${theme === 'dark' ? styles.dark : ''}`}>
+    <div className={`Listadedietas-containerFull ${theme === 'dark' ? 'dark' : ''}`}>
+      <div className="Listadedietas-header">
         <h2>{showDietas ? 'Dietas' : 'Comidas'}</h2>
-        <div className={styles.headerButtons}>
-          <button
-            className={`${styles.btnPrimary} ${theme === 'dark' ? styles.dark : ''}`}
-            onClick={() => {
-              if (showDietas) {
-                setShowForm(!showForm);
-              } else {
-                openPopup();
-              }
-            }}
-          >
-            {showForm || isPopupOpen ? 'Cerrar Formulario' : `Crear ${showDietas ? 'Dieta' : 'Comida'}`}
+        <div className="Listadedietas-headerButtons">
+          <button className="Listadedietas-btnPrimary" onClick={() => setIsPopupOpen(!isPopupOpen)}>
+            {isPopupOpen ? 'Cerrar Formulario' : `Crear ${showDietas ? 'Dieta' : 'Comida'}`}
           </button>
-          <button
-            className={`${styles.btnPrimary} ${theme === 'dark' ? styles.dark : ''}`}
-            onClick={() => setShowDietas(!showDietas)}
-          >
+          <button className="Listadedietas-btnPrimary" onClick={() => setShowDietas(!showDietas)}>
             {showDietas ? 'Mostrar Comidas' : 'Mostrar Dietas'}
           </button>
         </div>
       </div>
+      {/* Contenido que cambia entre dietas y comidas */}
       {showDietas ? (
-        <>
-          {showForm && (
-            <div className={styles.formContainer}>
-              <h2>Crear Dieta</h2>
-              <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                  <label>Nombre</label>
-                  <input
-                    type="text"
-                    name="nombre"
-                    value={dieta.nombre}
-                    onChange={handleChange}
-                    className={theme === 'dark' ? styles.dark : ''}
-                    required
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Cliente</label>
-                  <select
-                    name="cliente"
-                    value={dieta.cliente}
-                    onChange={handleChange}
-                    className={theme === 'dark' ? styles.dark : ''}
-                    required
-                  >
-                    <option value="">Selecciona un cliente</option>
-                    {clientes.map((cliente) => (
-                      <option key={cliente._id} value={cliente._id}>
-                        {cliente.nombre} {cliente.apellido}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Fecha de Inicio</label>
-                  <input
-                    type="date"
-                    name="fechaInicio"
-                    value={dieta.fechaInicio}
-                    onChange={handleChange}
-                    className={theme === 'dark' ? styles.dark : ''}
-                    required
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Duración (semanas)</label>
-                  <input
-                    type="number"
-                    name="duracionSemanas"
-                    value={dieta.duracionSemanas}
-                    onChange={handleChange}
-                    className={theme === 'dark' ? styles.dark : ''}
-                    min="1"
-                    required
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Objetivo</label>
-                  <select
-                    name="objetivo"
-                    value={dieta.objetivo}
-                    onChange={handleChange}
-                    className={theme === 'dark' ? styles.dark : ''}
-                    required
-                  >
-                    {objetivosPredefinidos.map((obj, index) => (
-                      <option key={index} value={obj}>
-                        {obj}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {dieta.objetivo === 'Otro' && (
-                  <div className={styles.formGroup}>
-                    <label>Objetivo Personalizado</label>
-                    <input
-                      type="text"
-                      name="customObjetivo"
-                      value={customObjetivo}
-                      onChange={handleCustomObjetivoChange}
-                      className={theme === 'dark' ? styles.dark : ''}
-                      required
-                    />
-                  </div>
-                )}
-                <div className={styles.formGroup}>
-                  <label>Restricciones Alimentarias</label>
-                  <textarea
-                    name="restricciones"
-                    value={dieta.restricciones}
-                    onChange={handleChange}
-                    className={theme === 'dark' ? styles.dark : ''}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className={`${styles.btnPrimary} ${theme === 'dark' ? styles.dark : ''}`}
-                >
-                  Crear Dieta
-                </button>
-              </form>
-            </div>
-          )}
+        <div className={`${theme === 'dark' ? 'dark' : ''}`}>
           <input
-            className={`${styles.searchInput} ${theme === 'dark' ? styles.dark : ''}`}
+            className={`Listadedietas-searchInput ${theme}`}
             type="text"
             placeholder="Buscar dietas"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <div className={styles.tableContainer}>
-            <table className={`${styles.styledTable} ${theme === 'dark' ? styles.dark : ''}`}>
-              <thead>
-                <tr>
-                  <th className={theme === 'dark' ? styles.dark : ''}>Nombre</th>
-                  <th className={theme === 'dark' ? styles.dark : ''}>Cliente</th>
-                  <th className={theme === 'dark' ? styles.dark : ''}>Fecha de Inicio</th>
-                  <th className={theme === 'dark' ? styles.dark : ''}>Objetivo</th>
-                  <th className={theme === 'dark' ? styles.dark : ''}>Restricciones</th>
-                  <th className={theme === 'dark' ? styles.dark : ''}>Acciones</th>
+          
+          <table className={`Listadedietas-styledTable ${theme}`}>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Cliente</th>
+                <th>Fecha de Inicio</th>
+                <th>Objetivo</th>
+                <th>Restricciones</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredDietas.map((dieta) => (
+                <tr key={dieta._id}>
+                  <td>{dieta.nombre}</td>
+                  <td>{getClienteNombre(dieta.cliente)}</td>
+                  <td>{formatDate(dieta.fechaInicio)}</td> {/* Formatear fecha */}
+                  <td>{dieta.objetivo}</td>
+                  <td>{dieta.restricciones}</td>
+                  <td>
+                    <button
+                      className="Listadedietas-btnActionEdit"
+                      onClick={() => handleEditDieta(dieta._id)}
+                    >
+                      <Edit size={16} />
+                    </button>
+                    <button
+                      className="Listadedietas-btnActionDelete"
+                      onClick={() => handleDeleteDieta(dieta._id)}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {filteredDietas.map((dieta) => (
-                  <tr key={dieta._id} className={theme === 'dark' ? styles.dark : ''}>
-                    <td>{dieta.nombre}</td>
-                    <td>{dieta.cliente}</td>
-                    <td>{dieta.fechaInicio}</td>
-                    <td>{dieta.objetivo}</td>
-                    <td>{dieta.restricciones}</td>
-                    <td className={styles.relative}>
-                      <button
-                        className={`${styles.btnAction} ${theme === 'dark' ? styles.dark : ''}`}
-                        onClick={() => handleEditDieta(dieta._id)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className={`${styles.btnAction} ${theme === 'dark' ? styles.dark : ''}`}
-                        onClick={() => handleDeleteDieta(dieta._id)}
-                      >
-                        Borrar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <>
           <Tablacomidas theme={theme} />
@@ -332,10 +161,17 @@ const Listadedietas = ({ theme, setTheme }) => {
             isOpen={isPopupOpen}
             closeModal={closePopup}
             comidaToEdit={comidaToEdit}
-            refreshComidas={refreshComidas}
+            refreshComidas={() => {}}
           />
         </>
       )}
+      <PopupFormDieta
+        isOpen={isPopupOpen}
+        onClose={closePopup}
+        clientes={clientes}
+        addDieta={addDieta}
+        theme={theme}
+      />
     </div>
   );
 };

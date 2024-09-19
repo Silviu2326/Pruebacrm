@@ -1,32 +1,40 @@
+// ContentCreation.jsx
+
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import CrearPost from './CrearPost';
-import CrearHistoria from './CrearHistoria';
-import Modal from './Modal';
+import CreaciondehistoriasconiaPopup from './CreaciondehistoriasconiaPopup';
+import CreaciondepostsconiaPopup from './CreaciondepostsconiaPopup';
 import WireframeModal from './WireframeModal';
 import ConexionConIA from './ConexionConIA';
 import './ContentCreation.css';
 import chatsConfig from './chatsConfig.json';
 
 const ContentCreation = ({ theme }) => {
-  const [showModal, setShowModal] = useState(false); // Modal general
+  const [showModal, setShowModal] = useState(false);
   const [selectedChatConfig, setSelectedChatConfig] = useState(null);
   const [showWireframe, setShowWireframe] = useState(false);
   const [selectedTool, setSelectedTool] = useState(null);
   const [activeChats, setActiveChats] = useState([]);
   const [showRecoveryPopup, setShowRecoveryPopup] = useState(false);
   const [savedChats, setSavedChats] = useState([]);
-  const [showPostModal, setShowPostModal] = useState(false); // Modal para posts, inicializado en false
-  const [showHistoriaModal, setShowHistoriaModal] = useState(false); // Modal para historias, inicializado en false
+
+  const handleConexionConIAClick = (title) => {
+    const newChat = { id: Date.now(), title };
+    setActiveChats([...activeChats, newChat]);
+  };
 
   const handleChatClick = (config) => {
     setSelectedChatConfig(config);
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedChatConfig(null);
+  const getIconPath = (title) => {
+    try {
+      return require(`./assets/icons/${title.toLowerCase()}.png`);
+    } catch (error) {
+      console.error(`Icon not found for ${title}`);
+      return null;
+    }
   };
 
   const handleToolClick = (tool) => {
@@ -39,15 +47,6 @@ const ContentCreation = ({ theme }) => {
     setSelectedTool(null);
   };
 
-  const handleConexionConIAClick = (title) => {
-    const newChat = { id: Date.now(), title };
-    setActiveChats([...activeChats, newChat]);
-  };
-
-  const handleCloseConexionConIA = (id) => {
-    setActiveChats(activeChats.filter(chat => chat.id !== id));
-  };
-
   const handleOpenRecoveryPopup = async () => {
     try {
       const response = await fetch('/api/getSavedChats');
@@ -56,7 +55,6 @@ const ContentCreation = ({ theme }) => {
     } catch (error) {
       console.error('Error al recuperar los chats guardados:', error);
     }
-
     setShowRecoveryPopup(true);
   };
 
@@ -69,41 +67,37 @@ const ContentCreation = ({ theme }) => {
     handleCloseRecoveryPopup();
   };
 
-  const getIconPath = (title) => {
-    try {
-      return require(`./assets/icons/${title.toLowerCase()}.png`);
-    } catch (error) {
-      console.error(`Icon not found for ${title}`);
-      return null;
-    }
+  const handleCloseConexionConIA = (id) => {
+    setActiveChats(activeChats.filter(chat => chat.id !== id));
   };
 
-  const handleProcessClick = (processType) => {
-    if (processType === 'post') {
-      setShowPostModal(true); // Abrir modal de posts
-    } else if (processType === 'story') {
-      setShowHistoriaModal(true); // Abrir modal de historias
-    }
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedChatConfig(null);
   };
-
-  const handleClosePostModal = () => setShowPostModal(false);
-  const handleCloseHistoriaModal = () => setShowHistoriaModal(false);
 
   return (
     <div className={`content-creation ${theme}`}>
-      <div className="process-buttons">
-        <button className="content-button" onClick={() => handleProcessClick('post')}>
-          Crear Post de Instagram
-        </button>
-        <button className="content-button" onClick={() => handleProcessClick('story')}>
-          Crear Historia de Instagram
-        </button>
+      <div className={`content-creation-rectangles`}>
+        {/* CREACION POSTS */}
+        <div className={`creation-rectangle expanded ${theme}`}>
+          <div className={`rectangle-header ${theme}`}>CREACION POSTS</div>
+          <div className={`rectangle-buttons ${theme}`}>
+            <CreaciondepostsconiaPopup /> {/* Renderiza el componente directamente */}
+          </div>
+        </div>
+        {/* CREACION HISTORIAS */}
+        <div className={`creation-rectangle expanded ${theme}`}>
+          <div className={`rectangle-header ${theme}`}>CREACION HISTORIAS</div>
+          <div className={`rectangle-buttons ${theme}`}>
+            <CreaciondehistoriasconiaPopup /> {/* Renderiza el componente de historias */}
+          </div>
+        </div>
       </div>
-
       {chatsConfig.map((config, index) => (
-        <div 
-          key={index} 
-          className={`content-card ${theme}`} 
+        <div
+          key={index}
+          className={`content-card ${theme}`}
           onClick={index < 6 ? () => handleConexionConIAClick(config.title) : () => handleChatClick(config)}
         >
           <img src={getIconPath(config.title)} alt={`${config.title} icon`} />
@@ -128,13 +122,13 @@ const ContentCreation = ({ theme }) => {
       </button>
 
       {showRecoveryPopup && (
-        <div className="recovery-popup">
+        <div className={`recovery-popup ${theme}`}>
           <h3>Recuperar Chat</h3>
           {savedChats.length > 0 ? (
             savedChats.map((chat, index) => (
-              <div 
-                key={index} 
-                className="recovery-item"
+              <div
+                key={index}
+                className={`recovery-item ${theme}`}
                 onClick={() => handleRecoverChat(chat.title)}
               >
                 {chat.title}
@@ -156,19 +150,11 @@ const ContentCreation = ({ theme }) => {
         </Draggable>
       ))}
 
-      <Modal showModal={showModal} handleCloseModal={handleCloseModal}>
-        <h2>{selectedChatConfig?.title}</h2>
-        <p>Contenido del chat seleccionado...</p>
-      </Modal>
-
-      <WireframeModal 
-        showWireframe={showWireframe} 
-        handleCloseWireframe={handleCloseWireframe} 
+      <WireframeModal
+        showWireframe={showWireframe}
+        handleCloseWireframe={handleCloseWireframe}
         tool={selectedTool}
       />
-
-      <CrearPost showModal={showPostModal} handleCloseModal={handleClosePostModal} />
-      <CrearHistoria showModal={showHistoriaModal} handleCloseModal={handleCloseHistoriaModal} />
     </div>
   );
 };

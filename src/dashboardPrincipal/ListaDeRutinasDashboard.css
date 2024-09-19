@@ -1,0 +1,47 @@
+.dashboard-rutinas-lista {
+    padding: 20px;
+    background-color: var(--DBP-card-background, #ffff);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border: 2px solid var(--DBP-header-border, #e0e0e0);
+  }
+  
+  .dashboard-rutinas-lista h2 {
+    margin-bottom: 20px;
+    color: var(--DBP-text-color, #333);
+  }
+  
+  .dashboard-rutinas-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--DBP-table-background);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .dashboard-rutinas-table th, .dashboard-rutinas-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--DBP-table-border, #ddd);
+    color: var(--DBP-text-color);
+  }
+  
+  .dashboard-rutinas-table th {
+    background-color: var(--DBP-table-header-bg, #f7f7f7);
+    color: var(--DBP-text-color-secondary, #555);
+    font-weight: bold;
+  }
+  
+  .dashboard-rutinas-table tr:nth-child(even) {
+    background-color: var(--DBP-table-row-even, #f9f9f9);
+  }
+  
+  .dashboard-rutinas-table tr:hover {
+    background-color: var(--DBP-table-row-hover, #eaeaea);
+  }
+  
+  .dashboard-rutinas-table tr:last-child td {
+    border-bottom: none;
+  }
+  

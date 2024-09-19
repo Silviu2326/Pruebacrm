@@ -1,0 +1,38 @@
+.dashboard-clientes-lista {
+    padding: 20px;
+    border: 2px solid var(--DBP-header-border);
+    background-color: var(--DBP-card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+  
+  .dashboard-clientes-lista h2 {
+    margin-bottom: 20px;
+    color: var(--DBP-text-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .dashboard-clientes-table th, .dashboard-clientes-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--DBP-table-border);
+    font-size: 0.95rem;
+    color: var(--DBP-text-color);
+  }
+  
+  .dashboard-clientes-table th {
+    background-color: var(--DBP-table-header-bg);
+    color: var(--DBP-text-color);
+  }
+  
+  .dashboard-clientes-table tr:nth-child(even) {
+    background-color: var(--DBP-table-row-even);
+  }
+  
+  .dashboard-clientes-table tr:hover {
+    background-color: var(--DBP-table-row-hover);
+    transition: background-color 0.3s ease;
+  }
+  

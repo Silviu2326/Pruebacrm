@@ -82,7 +82,7 @@
 }
 
 .widget-background {
-  background: var(--background);
+  background: var(--background-light);
   padding: 20px;
   padding-left: 0px;
   border-radius: 8px;
@@ -129,14 +129,14 @@
 }
 
 .widget {
-  background: var(--primary);
+  background: var(--background-widget-light);
   padding: 10px;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   color: var(--text);
   border-radius: 10px;
   z-index: 5; /* Este es lo suficientemente bajo como para que el dropdown lo sobrescriba */
-
+  color: var(--ClientesWorkspace-text-light);
 }
 
 .widget .widget-drag-handle {
@@ -299,4 +299,8 @@
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
   text-align: center;
+}
+
+.panelcontrol-recent-sales.light {
+  max-height: 500px;
 }

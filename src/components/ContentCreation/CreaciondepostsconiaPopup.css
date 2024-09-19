@@ -1,0 +1,441 @@
+/* CreaciondepostsconiaPopup.css */
+
+/* Importar la fuente Roboto desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Variables de colores para una fácil personalización */
+:root {
+  --primary-color: #1E3A8A; /* Azul Marino Profundo */
+  --secondary-color: #10B981; /* Verde Azulado Suave */
+  --danger-color: #EF4444; /* Rojo Vibrante */
+  --success-color: #16A34A; /* Verde Brillante */
+  --background-color: #FFFFFF; /* Blanco Puro */
+  --overlay-color: rgba(0, 0, 0, 0.7); /* Negro Semi-Transparente */
+  --text-color: #1F2937; /* Gris Oscuro para Texto Principal */
+  --light-text-color: #6B7280; /* Gris Medio para Texto Secundario */
+  --border-radius: 8px; /* Radio de borde uniforme */
+  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  --transition-speed: 0.3s; /* Velocidad de transición */
+  --font-family: 'Roboto', sans-serif; /* Fuente moderna */
+}
+
+/* Reset básico para evitar inconsistencias */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.CreaciondepostsconiaPopup-container {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+  font-family: var(--font-family);
+}
+
+/* Botón de abrir el modal */
+.CreaciondepostsconiaPopup-openButton {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+}
+
+.CreaciondepostsconiaPopup-openButton:hover {
+  background-color: #1E40AF; /* Azul más claro al pasar el mouse */
+  transform: translateY(-2px);
+}
+
+/* Modal Overlay */
+.CreaciondepostsconiaPopup-modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-speed), visibility var(--transition-speed);
+}
+
+.CreaciondepostsconiaPopup-modalOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal */
+.CreaciondepostsconiaPopup-modal {
+  position: relative;
+  padding-top: 60px;
+  width: 90%;
+  max-width: 1400px;
+  height: 70vh;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  animation: fadeIn var(--transition-speed) ease-out;
+  font-family: var(--font-family);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botón de cerrar */
+.CreaciondepostsconiaPopup-closeButton {
+  background-color: var(--danger-color); /* Rojo */
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+
+.CreaciondepostsconiaPopup-closeButton:hover {
+  background-color: #B91C1C; /* Rojo más oscuro */
+  transform: scale(1.05);
+}
+
+/* Tabs */
+.CreaciondepostsconiaPopup-tabList {
+  margin-right: 90px;
+  display: flex;
+  border-bottom: 2px solid #E5E7EB;
+}
+
+.CreaciondepostsconiaPopup-tabTrigger {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-color);
+  transition: color var(--transition-speed), border-bottom var(--transition-speed);
+}
+
+.CreaciondepostsconiaPopup-tabTrigger:hover,
+.CreaciondepostsconiaPopup-tabTrigger[data-state='active'] {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Cuerpo del Chat */
+.CreaciondepostsconiaPopup-chatBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(242, 248, 221);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  height: 500px;
+  overflow-y: auto;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Input de búsqueda */
+.CreaciondepostsconiaPopup-input {
+  flex-grow: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: var(--border-radius);
+  margin-right: 10px;
+  border: 1px solid #D1D5DB;
+  box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.CreaciondepostsconiaPopup-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(30, 58, 138, 0.5);
+  outline: none;
+}
+
+/* Botón de generar */
+.CreaciondepostsconiaPopup-generateFooterButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--secondary-color); /* Verde Azulado Suave */
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+}
+
+.CreaciondepostsconiaPopup-generateFooterButton:hover {
+  background-color: #059669; /* Verde más oscuro al pasar el mouse */
+  transform: translateY(-2px);
+}
+
+/* Nuevo contenedor para el input y el botón */
+.CreaciondepostsconiaPopup-inputButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background-color);
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel de Resultados */
+.CreaciondepostsconiaPopup-resultsPanel {
+  background-color: rgb(242, 248, 221);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Elementos de Resultados */
+.CreaciondepostsconiaPopup-resultItem,
+.CreaciondepostsconiaPopup-chatIdea {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background-color);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  width: 100%;
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.CreaciondepostsconiaPopup-resultItem:hover,
+.CreaciondepostsconiaPopup-chatIdea:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Botones dentro de las ideas */
+.CreaciondepostsconiaPopup-resultActions button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añadir sombra suave */
+}
+
+/* Botón de previsualizar */
+.CreaciondepostsconiaPopup-previewButton {
+  background-color: rgb(170, 166, 162); /* Azul Marino */
+  color: #FFFFFF;
+}
+
+.CreaciondepostsconiaPopup-previewButton:hover {
+  background-color: #1E40AF; /* Azul más claro */
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(30, 58, 138, 0.2);
+}
+
+/* Botón de seleccionar */
+.CreaciondepostsconiaPopup-selectButton {
+  background-color: var(--secondary-color); /* Verde Azulado */
+  color: #FFFFFF;
+}
+
+.CreaciondepostsconiaPopup-selectButton:hover {
+  background-color: #059669; /* Verde más oscuro */
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Botón de regenerar imágenes */
+.CreaciondepostsconiaPopup-regenerateButton {
+  background-color: var(--secondary-color); /* Verde Azulado */
+  color: #FFFFFF;
+}
+
+.CreaciondepostsconiaPopup-regenerateButton:hover {
+  background-color: #059669;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(16, 185, 129, 0.4);
+}
+
+/* Botón de guardar */
+.CreaciondepostsconiaPopup-saveButton {
+  background-color: var(--success-color); /* Verde Brillante */
+  color: #FFFFFF;
+}
+
+.CreaciondepostsconiaPopup-saveButton:hover {
+  background-color: #166534;
+  transform: scale(1.05);
+}
+
+/* Contenedores de pasos */
+.CreaciondepostsconiaPopup-step3Container,
+.CreaciondepostsconiaPopup-step4Container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Ajuste de las letras */
+.CreaciondepostsconiaPopup-selectedIdeaText,
+.CreaciondepostsconiaPopup-finalSelectedText {
+  font-size: 24px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+/* Botón de volver */
+.CreaciondepostsconiaPopup-backButton {
+  background-color: var(--danger-color); /* Rojo */
+  color: #FFFFFF;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.4);
+}
+
+.CreaciondepostsconiaPopup-backButton:hover {
+  background-color: #B91C1C;
+  transform: scale(1.05);
+}
+
+/* Imágenes más grandes */
+.CreaciondepostsconiaPopup-previewImage,
+.CreaciondepostsconiaPopup-fullImage {
+  max-width: 300px;
+  max-height: 200px;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform var(--transition-speed);
+}
+
+.CreaciondepostsconiaPopup-previewImage:hover {
+  transform: scale(1.05);
+}
+
+/* Contenedor completo de la imagen seleccionada */
+.CreaciondepostsconiaPopup-fullImageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Imagen en la pestaña "Vista Previa" */
+.CreaciondepostsconiaPopup-fullImage {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones debajo de la imagen en la pestaña "Vista Previa" */
+.CreaciondepostsconiaPopup-imageActions {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+}
+
+.CreaciondepostsconiaPopup-imageActions button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Modal de previsualización de imágenes */
+.CreaciondepostsconiaPopup-previewModal {
+  width: 90%;
+  max-width: 1200px;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-speed) ease-out;
+}
+
+.CreaciondepostsconiaPopup-previewModal:hover {
+  transform: scale(1.02);
+}
+
+/* Contenedor de las imágenes en el modal */
+.CreaciondepostsconiaPopup-previewImagesModal {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Imágenes en el modal */
+.CreaciondepostsconiaPopup-previewImageModal {
+  width: 23%;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-speed);
+}
+
+.CreaciondepostsconiaPopup-previewImageModal:hover {
+  transform: scale(1.05);
+}

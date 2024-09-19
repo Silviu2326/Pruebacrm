@@ -1,0 +1,78 @@
+.dashboard-beneficio-popup {
+  padding: 20px;
+  border-radius: 12px;
+  flex: 2;
+  min-width: 300px;
+  color: var(--DBP-text-color);
+  transition: background 0.3s ease;
+  border: 2px solid var(--DBP-header-border);
+  background-color: var(--DBP-card-background);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-beneficio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Espacio adicional para separación */
+}
+
+.dashboard-beneficio-header h3 {
+  margin: 0;
+  color: var(--DBP-text-color);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.dashboard-beneficio-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio uniforme entre controles */
+}
+
+.dashboard-dropdown-grafico {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--DBP-header-border);
+  background-color: var(--DBP-secondary-color);
+  color: var(--DBP-text-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.year-navigation,
+.month-navigation,
+.week-navigation {
+  display: flex;
+  align-items: center;
+}
+
+.year-navigation button,
+.month-navigation button,
+.week-navigation button {
+  background-color: var(--DBP-secondary-color);
+  color: var(--DBP-text-color);
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.year-navigation button:hover,
+.month-navigation button:hover,
+.week-navigation button:hover {
+  background-color: var(--DBP-button-hover-bg);
+  transform: translateY(-2px);
+}
+
+.dashboard-beneficio-chart-wrapper {
+  position: relative;
+  height: 300px; /* Altura fija para mantener la consistencia */
+  width: 100%;
+}
+
+.dashboard-beneficio-chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important; /* Asegura que el gráfico se ajuste al contenedor */
+}

@@ -1,0 +1,43 @@
+.condition-builder {
+    margin-top: 20px;
+  }
+  
+  .condition-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .conditions-list {
+    margin-bottom: 20px;
+  }
+  
+  .condition-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ced4da;
+  }
+  
+  .preview {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .preview p {
+    margin: 0;
+  }
+  
+  .preview h3 {
+    margin-bottom: 10px;
+  }
+  
+  button + button {
+    margin-left: 10px;
+  }
+  

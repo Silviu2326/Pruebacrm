@@ -1,10 +1,11 @@
 :root {
+    /* Paleta de Colores - Modo Claro */
     --ClientesWorkspace-background-light: #f7faff; /* Fondo principal claro */
     --ClientesWorkspace-background-dark: #1a1a1a;
     --ClientesWorkspace-text-light: #2a2a2a; /* Texto principal claro */
     --ClientesWorkspace-text-dark: #f1f1f1;
-    --ClientesWorkspace-primary-light: #3d8bfd; /* Azul primario para botones y elementos destacados */
-    --ClientesWorkspace-primary-dark: #1565c0;
+    --ClientesWorkspace-primary-light: #335484; /* Azul primario para botones y elementos destacados */
+    --ClientesWorkspace-primary-dark: #0d2049;
     --ClientesWorkspace-secondary-light: #a8a8a8;
     --ClientesWorkspace-secondary-dark: #555555;
     --ClientesWorkspace-button-background-light: #3d8bfd; /* Fondo de los botones en tema claro */
@@ -47,6 +48,7 @@ body, .clientes-lista {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
 }
+
 .header-title-row {
     display: flex;
     justify-content: space-between;
@@ -59,39 +61,34 @@ body, .clientes-lista {
     flex-direction: column;
     padding: 20px;
     background-color: var(--ClientesWorkspace-background-light);
-    border-bottom: 2px solid var(--ClientesWorkspace-primary-dark);
-    box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
-    border-radius: var(--ClientesWorkspace-border-radius);
     transition: box-shadow var(--ClientesWorkspace-transition-speed);
-
 }
+
+body.dark .clientes-lista-header {
+    background-color: var(--ClientesWorkspace-button-background-dark);
+    border-bottom: 2px solid var(--ClientesWorkspace-primary-dark);
+    box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-dark);
+}
+
 .header-title {
     display: flex;
     margin-bottom: 20px; /* Espacio entre el título/subtítulo y los botones */
-
     align-items: center;
     gap: 15px; /* Espacio entre el título y el botón */
 }
+
 .nuevo-cliente-btn {
     background: linear-gradient(135deg, #6b3fc9 0%, #9e5fff 100%);
-    color: #fff;
+    color: var(--ClientesWorkspace-button-text-light);
     border: none;
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: var(--ClientesWorkspace-border-radius);
     font-weight: bold;
     cursor: pointer;
     display: flex;
     align-self: flex-start; /* Alinea el botón de nuevo cliente al inicio (izquierda) */
     gap: 8px;
     margin-bottom: 10px; /* Añade un margen inferior para separar del input */
-
-}
-
-
-body.dark .clientes-lista-header {
-    background-color: var(--ClientesWorkspace-button-background-dark);
-    border-bottom: 2px solid var(--ClientesWorkspace-primary-dark);
-    box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-dark);
 }
 
 .theme-toggle-btn {
@@ -198,7 +195,9 @@ body.dark .actions button:hover {
 }
 
 .clientes-table {
-    width: 100%;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
     border-collapse: separate;
     border-spacing: 0;
     margin-top: 20px;
@@ -217,8 +216,6 @@ body.dark .clientes-table {
     padding: 15px;
     text-align: left;
     vertical-align: middle; /* Alinear verticalmente en el centro */
-    border-bottom: none; /* Quitar bordes inferiores */
-
     border-bottom: 1px solid var(--ClientesWorkspace-input-border-light);
     transition: background-color var(--ClientesWorkspace-transition-speed), color var(--ClientesWorkspace-transition-speed);
 }
@@ -228,8 +225,8 @@ body.dark .clientes-table th, body.dark .clientes-table td {
 }
 
 .clientes-table th {
-    background-color: #f5e1fa; /* Color de fondo para el encabezado */
-    color: var(--ClientesWorkspace-text-light);
+    background-color: #335484; /* Color de fondo para el encabezado */
+    color: #f7faff;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 700;
@@ -242,7 +239,6 @@ body.dark .clientes-table th {
     background-color: #3a3a3a;
     color: var(--ClientesWorkspace-text-dark);
 }
-
 
 .clientes-table tr:nth-child(even) {
     background-color: #f8f8f8; /* Fila par de color claro */
@@ -260,7 +256,6 @@ body.dark .clientes-table tr:hover {
     background-color: var(--ClientesWorkspace-selected-row-dark);
 }
 
-
 .selected-client {
     background-color: var(--ClientesWorkspace-selected-row-light);
     color: var(--ClientesWorkspace-text-light);
@@ -272,14 +267,14 @@ body.dark .selected-client {
 }
 
 .fixed-button {
-    padding: 15px;
-    border: 2px solid transparent; /* Añadimos un borde que luego será usado para el gradiente */
-    border-radius: var(--ClientesWorkspace-border-radius);
-    background-color: transparent; /* Fondo transparente para mostrar el gradiente */
-    background-image: linear-gradient(white, white), linear-gradient(to right, #d7e1fc, #f3e7fd); /* Dos gradientes: el fondo blanco y el borde de color */
+    border: 2px solid transparent;
+    width: 95%;
+    border-radius: 20px;
+    background-color: transparent;
+    background-image: linear-gradient(#335484, #335484), linear-gradient(to right, #90a7c8, #90a7c8);
     background-origin: border-box;
-    background-clip: content-box, border-box; /* Clip para que el fondo y el borde se vean correctamente */
-    color: #6c63ff; /* Color del texto */
+    background-clip: content-box, border-box;
+    color: #fafaff;
     cursor: pointer;
     transition: background-color var(--ClientesWorkspace-transition-speed), transform var(--ClientesWorkspace-transition-speed), box-shadow var(--ClientesWorkspace-transition-speed);
     box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
@@ -288,9 +283,9 @@ body.dark .selected-client {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espacio entre el icono y el texto */
-    width: 100%; /* Ajusta el ancho al 100% del contenedor */
-}
+    gap: 8px;
+    margin-left: auto;
+    margin-right: auto;}
 
 .fixed-button:hover {
     background-image: linear-gradient(white, white), linear-gradient(to right, #b0c4ff, #e5ccff); /* Cambia el gradiente al pasar el mouse */
@@ -298,7 +293,6 @@ body.dark .selected-client {
     box-shadow: 0px 4px 20px var(--ClientesWorkspace-shadow-light); /* Sombra más intensa al pasar el mouse */
     color: #3d73ff; /* Cambiar color del texto al pasar el mouse */
 }
-
 
 body.dark .fixed-button {
     background-color: transparent;
@@ -313,6 +307,7 @@ body.dark .fixed-button:hover {
     box-shadow: 0px 4px 20px var(--ClientesWorkspace-shadow-dark);
     color: #90a4ff; /* Cambiar color del texto en modo oscuro al pasar el mouse */
 }
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -334,6 +329,7 @@ body.dark .fixed-button:hover {
         transform: translateY(0);
     }
 }
+
 .cliente-action-btn {
     padding: 12px 24px;
     border: none;
@@ -345,6 +341,7 @@ body.dark .fixed-button:hover {
     box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
     font-weight: 600;
 }
+
 .cliente-action-btn:hover {
     background-color: var(--ClientesWorkspace-button-hover-light);
     transform: scale(1.05);
@@ -357,19 +354,11 @@ body.dark .cliente-action-btn {
 }
 
 body.dark .cliente-action-btn:hover {
-    border-bottom: none; /* Quitar borde de la última fila */
-}
-.clientes-table th:first-child, 
-.clientes-table td:first-child {
-    border-top-left-radius: var(--ClientesWorkspace-border-radius);
-    border-bottom-left-radius: var(--ClientesWorkspace-border-radius);
+    background-color: var(--ClientesWorkspace-button-hover-dark);
 }
 
-.clientes-table th:last-child, 
-.clientes-table td:last-child {
-    border-top-right-radius: var(--ClientesWorkspace-border-radius);
-    border-bottom-right-radius: var(--ClientesWorkspace-border-radius);
-}
+
+
 .clientes-table .selected-client {
     background-color: var(--ClientesWorkspace-selected-row-light);
     color: var(--ClientesWorkspace-text-light);
@@ -379,5 +368,93 @@ body.dark .clientes-table .selected-client {
     background-color: var(--ClientesWorkspace-selected-row-dark);
     color: var(--ClientesWorkspace-text-dark);
 }
+.clientes-table td button {
+    background-color: #335484; /* Color de fondo azul */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en modo puntero */
+    font-size: 14px; /* Tamaño de fuente */
+    transition: background-color 0.3s; /* Efecto de transición */
+}
 
+.clientes-table td button:hover {
+}
+.clientes-table td button {
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en modo puntero */
+    font-size: 14px; /* Tamaño de fuente */
+    transition: background-color 0.3s; /* Efecto de transición */
+}
 
+.clientes-table td button:hover {
+    background-color: #0d2947; /* Color de fondo más oscuro al pasar el mouse */
+}
+.modal-servicio {
+    position: fixed; /* Fijo en la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+/* Contenido del modal */
+.modal-servicio .modal-content {
+    background-color: white; /* Fondo blanco */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    max-width: 400px; /* Ancho máximo */
+    width: 100%; /* Ancho completo */
+    text-align: center; /* Centra el texto */
+}
+
+/* Título del modal */
+.modal-servicio .modal-content h2 {
+    margin-bottom: 20px; /* Espaciado inferior */
+    font-size: 18px; /* Tamaño de fuente */
+    color: #333; /* Color del texto */
+}
+
+/* Botones de selección de servicio */
+.modal-servicio .service-options button {
+    background-color: #28a745; /* Color de fondo verde */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 15px; /* Espaciado interno */
+    margin: 5px; /* Margen entre botones */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en modo puntero */
+    font-size: 14px; /* Tamaño de fuente */
+    transition: background-color 0.3s; /* Efecto de transición */
+}
+
+.modal-servicio .service-options button:hover {
+    background-color: #218838; /* Color de fondo más oscuro al pasar el mouse */
+}
+
+/* Botón para cerrar el modal */
+.modal-servicio .close-modal {
+    background-color: #dc3545; /* Color de fondo rojo */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en modo puntero */
+    font-size: 14px; /* Tamaño de fuente */
+    margin-top: 15px; /* Margen superior */
+    transition: background-color 0.3s; /* Efecto de transición */
+}
+
+.modal-servicio .close-modal:hover {
+    background-color: #c82333; /* Color de fondo más oscuro al pasar el mouse */
+}

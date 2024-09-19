@@ -4,13 +4,14 @@ import axios from 'axios';
 import Papa from 'papaparse';
 import AppNavbar from '../Centroderutinas/Navbar';
 import WeeklyView from '../Centroderutinas/WeeklyPlanner';
+import Componentedeexcel from '../Centroderutinas/Componentedeexcel'; // Importar Componentedeexcel
 import VistaCalendario from '../Centroderutinas/Vistacalendario/VistaCalendario';
 import ModalSemanaExcel from '../Centroderutinas/ModalSemanaExcel';
 import VistaCSVmodalsemanaaa from '../Centroderutinas/VistaCSVmodalsemanaaa';
 import Modaltransferenciarutinas from '../Centroderutinas/Modaltransferenciarutinas';
 import styles from './EditRoutinePage.module.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const EditRoutinePage = ({ theme }) => {
   const { id } = useParams();
@@ -28,6 +29,9 @@ const EditRoutinePage = ({ theme }) => {
   const [showModal, setShowModal] = useState(false);
   const [showCSVModal, setShowCSVModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
+
+  // Estado para alternar entre WeeklyView y Componentedeexcel
+  const [showWeeklyView, setShowWeeklyView] = useState(true);
 
   const navbarRef = useRef(null);
   const editContainerRef = useRef(null);
@@ -257,7 +261,6 @@ const EditRoutinePage = ({ theme }) => {
     reader.readAsText(file);
   };
 
-
   useEffect(() => {
     const link = document.createElement('link');
     link.href = 'https://emoji-css.afeld.me/emoji.css';
@@ -318,7 +321,7 @@ const EditRoutinePage = ({ theme }) => {
     });
     return weekData;
   };
-  
+
   return (
     <div className={`${styles.Contenedorrutinasmain} ${styles[theme]}`}>
       <div className={`${styles.topButtons} ${styles[theme]}`}>
@@ -327,6 +330,7 @@ const EditRoutinePage = ({ theme }) => {
         <button onClick={() => setShowModal(true)} className={`${styles.saveButtonTop} ${styles[theme]}`}>Semana Excel</button>
         <button onClick={() => setShowCSVModal(true)} className={`${styles.saveButtonTop} ${styles[theme]}`}>Vista de CSV de toda la semana</button>
       </div>
+      
       <div className={`${styles.topContainer} ${styles[theme]}`}>
         <div className={`${styles.calendarContainer} ${styles[theme]}`}>
           <VistaCalendario 
@@ -373,36 +377,48 @@ const EditRoutinePage = ({ theme }) => {
         </div>
       </div>
       
-      <div className={`${styles.container} ${styles[theme]}`}>
-        <WeeklyView 
-          routine={routine}
-          selectedWeekIndex={selectedWeekIndex}
-          setRoutine={setRoutine}
-          onAddDay={handleAddDay}
-          onAddSession={handleAddSession}
-          onAddActivity={handleAddActivity}
-          onAddExercise={handleAddExercise}
-          onSchemeChange={handleSchemeChange}
-          onIntensityChange={handleIntensityChange}
-          isEditing={isEditing}
-          scheme={routine.semanas[selectedWeekIndex]?.scheme || ''}
-          intensity={routine.semanas[selectedWeekIndex]?.intensity || '1/5'}
-          theme={theme}  // Asegúrate de que el tema se está pasando aquí
-        />
+      {/* Botón para alternar entre WeeklyView y Componentedeexcel */}
+      <div className={`${styles.viewToggleContainer} ${styles[theme]}`}>
+        <button onClick={() => setShowWeeklyView(!showWeeklyView)} className={`${styles.saveButtonTop} ${styles[theme]}`}>
+          {showWeeklyView ? 'Ver Excel' : 'Ver Vista Semanal'}
+        </button>
       </div>
+      
+      <div className={`${styles.container} ${styles[theme]}`}>
+        {showWeeklyView ? (
+          <WeeklyView 
+            routine={routine}
+            selectedWeekIndex={selectedWeekIndex}
+            setRoutine={setRoutine}
+            onAddDay={handleAddDay}
+            onAddSession={handleAddSession}
+            onAddActivity={handleAddActivity}
+            onAddExercise={handleAddExercise}
+            onSchemeChange={handleSchemeChange}
+            onIntensityChange={handleIntensityChange}
+            isEditing={isEditing}
+            scheme={routine.semanas[selectedWeekIndex]?.scheme || ''}
+            intensity={routine.semanas[selectedWeekIndex]?.intensity || '1/5'}
+            theme={theme}
+          />
+        ) : (
+          <Componentedeexcel />
+        )}
+      </div>
+      
       <ModalSemanaExcel 
         show={showModal} 
         handleClose={() => setShowModal(false)} 
         handleSave={handleSaveExcelRoutine} 
         weekData={getWeekDataForModal()} 
-        theme={theme}  // Asegúrate de que el tema se está pasando aquí
+        theme={theme}
       />
       <VistaCSVmodalsemanaaa show={showCSVModal} handleClose={() => setShowCSVModal(false)} routine={routine} />
       <Modaltransferenciarutinas 
         show={showTransferModal} 
         onClose={() => setShowTransferModal(false)}
         days={routine.semanas[selectedWeekIndex]?.dias || []}
-        theme={theme}  // Asegúrate de que el tema se está pasando aquí
+        theme={theme}
       />
     </div>
   );  

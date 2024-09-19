@@ -40,7 +40,7 @@
 }
 
 body {
-  background-color: var(--listaderutinas-background);
+  background-color: #f7faff;
   color: var(--listaderutinas-foreground);
 }
 
@@ -50,7 +50,7 @@ body.dark-mode {
 }
 
 .listaderutinas-contenedor.light {
-  background-color: var(--background-light);
+  background-color: #f7faff;
   border-radius: 0.5rem;
   padding: 2rem;
 }
@@ -69,7 +69,7 @@ body.dark-mode .listaderutinas-contenedor {
 .listaderutinas-table.light {
   width: 100%;
   border-collapse: collapse;
-  background-color: var(--listaderutinas-card);
+  background-color: #5c71b6;
   color: var(--listaderutinas-card-foreground);
   border: 1px solid var(--listaderutinas-border);
   border-radius: 0.5rem;
@@ -112,7 +112,7 @@ body.dark-mode .listaderutinas-table td {
 
 .listaderutinas-table.light th {
   background-color: var(--listaderutinas-light);
-  color: var (var(--listaderutinas-secondary-light));
+  color: #fbf7f2;
   font-weight: bold;
   text-align: left;
 }
@@ -141,17 +141,6 @@ body.dark-mode .listaderutinas-table td {
   width: 200px;
 }
 
-.listaderutinas-table th:first-child,
-.listaderutinas-table td:first-child {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-}
-
-.listaderutinas-table th:last-child,
-.listaderutinas-table td:last-child {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-}
 
 .listaderutinas-table th.listaderutinas-actions,
 .listaderutinas-table td.listaderutinas-actions {

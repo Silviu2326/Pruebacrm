@@ -1,0 +1,64 @@
+.component-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .exercise-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .exercise-table th, .exercise-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .select-field, .input-field {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: whitesmoke;
+  }
+  
+  .select-field:focus, .input-field:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .delete-button {
+    background-color: transparent;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    color: #ff0000;
+  }
+  
+  .add-session-button, .add-exercise-button {
+    background-color:#5c71b6;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .add-session-button:hover, .add-exercise-button:hover {
+    background-color: #1e357f;
+  }
+  
+  .session-container {
+    margin-bottom: 1.5rem;
+  }
+  
+  .exercise-subtable th, .exercise-subtable td {
+    padding: 8px;
+    text-align: left;
+  }
+  

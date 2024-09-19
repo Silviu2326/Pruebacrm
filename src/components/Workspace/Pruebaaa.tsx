@@ -30,8 +30,7 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
   const { name, description, maxParticipants } = service;
 
   const [participants, setParticipants] = useState([
-    { id: 1, name: "Ana García" },
-    { id: 2, name: "Carlos Rodríguez" }
+    { id: 1, name: "Juan Pérez" },
   ]);
 
   const [sessions, setSessions] = useState([

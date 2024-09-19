@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './PopupDeCreacionDePlanificacion.css';
 
-const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme }) => {
+const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme, planToEdit }) => {
   const navigate = useNavigate();
   const [plan, setPlan] = useState({
     nombre: '',
@@ -13,6 +13,19 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme 
     fechaInicio: '',
     meta: '',
   });
+
+  useEffect(() => {
+    if (planToEdit) {
+      setPlan({
+        nombre: planToEdit.nombre || '',
+        descripcion: planToEdit.descripcion || '',
+        creador: planToEdit.creador || '',
+        duracion: planToEdit.duracion || '',
+        fechaInicio: planToEdit.fechaInicio ? planToEdit.fechaInicio.split('T')[0] : '',
+        meta: planToEdit.meta || '',
+      });
+    }
+  }, [planToEdit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,22 +60,29 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/routines', {
-        nombre: plan.nombre,
-        descripcion: plan.descripcion,
-        creador: plan.creador,
-        duracion: plan.duracion,
-        fechaInicio: plan.fechaInicio,
-        meta: plan.meta,
-      });
+      if (planToEdit) {
+        // Editar una rutina existente
+        await axios.put(`/api/routines/${planToEdit._id}`, {
+          ...planToEdit,
+          ...plan,
+        });
+      } else {
+        // Crear una nueva rutina
+        const response = await axios.post('/api/routines', plan);
+        const newRoutine = response.data;
+        const generatedWeeks = generateWeeks(plan.duracion, plan.fechaInicio);
 
-      const newRoutine = response.data;
-      const generatedWeeks = generateWeeks(plan.duracion, plan.fechaInicio);
-
-      await axios.put(`/api/routines/${newRoutine._id}`, {
-        ...newRoutine,
-        rutinasSemanales: generatedWeeks,
-      });
+        await axios.put(`/api/routines/${newRoutine._id}`, {
+          ...newRoutine,
+          rutinasSemanales: generatedWeeks,
+        });
+        navigate(`/edit-routine/${newRoutine._id}`, {
+          state: {
+            duracion: plan.duracion,
+            fechaInicio: plan.fechaInicio,
+          },
+        });
+      }
 
       setPlan({
         nombre: '',
@@ -74,14 +94,8 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme 
       });
 
       onClose();
-      navigate(`/edit-routine/${newRoutine._id}`, {
-        state: {
-          duracion: plan.duracion,
-          fechaInicio: plan.fechaInicio,
-        }
-      });
     } catch (error) {
-      console.error('Error creating plan:', error);
+      console.error('Error creating or updating plan:', error);
     }
   };
 
@@ -93,7 +107,7 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme 
     <div className={`popupdecreaciondeplanificacion-popup ${theme}`}>
       <div className={`popupdecreaciondeplanificacion-popup-inner ${theme}`}>
         <button className={`popupdecreaciondeplanificacion-close-button ${theme}`} onClick={onClose}>X</button>
-        <h2 className="popupdecreaciondeplanificacion-title">Crear Planificación</h2>
+        <h2 className="popupdecreaciondeplanificacion-title">{planToEdit ? 'Editar Planificación' : 'Crear Planificación'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="popupdecreaciondeplanificacion-field">
             <label className="popupdecreaciondeplanificacion-label">Nombre</label>
@@ -179,7 +193,7 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme 
             type="submit"
             className={`popupdecreaciondeplanificacion-button ${theme}`}
           >
-            Crear Planificación
+            {planToEdit ? 'Guardar Cambios' : 'Crear Planificación'}
           </button>
         </form>
       </div>

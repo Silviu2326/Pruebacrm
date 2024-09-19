@@ -623,7 +623,7 @@ background-color: transparent;
 }
 /* Estilos para el tema claro */
 .light {
-  background-color: var(--background-light);
+  background-color: #f7faff;
   color: var(--text-light);
 }
 

@@ -1,59 +1,59 @@
 /* General styles */
-.rutina-container {
+.Rutinaaaasss-rutina-container {
   padding: 20px;
 }
 
 /* Theme styles */
-.rutina-container.light {
-  background-color: var(--background-light);
+.Rutinaaaasss-rutina-container.light {
+  background-color: #f7faff;
   color: var(--text-light);
 }
 
-.rutina-container.dark {
+.Rutinaaaasss-rutina-container.dark {
   background-color: var(--background-dark);
   color: var(--text-dark);
 }
 
 /* Button styles */
-.btn-create {
+.Rutinaaaasss-btn-create {
   padding: 10px 20px;
   cursor: pointer;
   margin-right: 10px; /* Agrega espacio entre los botones */
 }
 
-.btn-create.light {
+.Rutinaaaasss-btn-create.light {
   background-color: var(--button-background-light);
   color: var(--button-text-light);
   border: 2px dashed var(--button-text-light);
 }
 
-.btn-create.dark {
+.Rutinaaaasss-btn-create.dark {
   background-color: var(--button-background-dark);
   color: var(--button-text-dark);
   border: 2px dashed var(--button-text-dark);
 }
 
 /* Styles for the new "Crear Rutina con IA" button */
-.btn-create-ai {
+.Rutinaaaasss-btn-create-ai {
   padding: 10px 20px;
   cursor: pointer;
   border: 2px solid; /* Bordes sólidos para el nuevo botón */
 }
 
-.btn-create-ai.light {
+.Rutinaaaasss-btn-create-ai.light {
   background-color: var(--button-background-light);
   color: var(--button-text-light);
   border-color: var(--button-text-light);
 }
 
-.btn-create-ai.dark {
+.Rutinaaaasss-btn-create-ai.dark {
   background-color: var(--button-background-dark);
   color: var(--button-text-dark);
   border-color: var(--button-text-dark);
 }
 
 /* Search input styles */
-.search-input {
+.Rutinaaaasss-search-input {
   display: block;
   width: 100%;
   padding: 10px;
@@ -61,72 +61,75 @@
   border-radius: 5px;
 }
 
-.search-input.light {
+.Rutinaaaasss-search-input.light {
   background-color: var(--background-light);
   color: var(--text-light);
   border: 1px solid #747474;
 }
 
-.search-input.dark {
+.Rutinaaaasss-search-input.dark {
   background-color: var(--background-dark);
   color: var(--text-dark);
   border: 1px solid var(--button-text-dark);
 }
 
 /* Table styles */
-.routines-table {
+.Rutinaaaasss-routines-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  background-color: #5c71b6;
+  color: var(--listaderutinas-card-foreground);
+  border: 1px solid var(--listaderutinas-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
-.routines-table th, .routines-table td {
+.Rutinaaaasss-routines-table th, .Rutinaaaasss-routines-table td {
   padding: 10px;
   text-align: left;
 }
 
-.routines-table th {
-  background-color: var(--listaderutinas-secondary);
+.Rutinaaaasss-routines-table th {
   color: var(--listaderutinas-secondary-foreground);
   border-bottom: 2px solid var(--listaderutinas-border);
 }
 
-.routines-table.light th {
-  background-color: var(--listaderutinas-secondary);
-  color: var(--listaderutinas-secondary-foreground);
+.Rutinaaaasss-routines-table.light th {
+  background-color: #5c71b6;
+  color: #fbf7f2;
 }
 
-.routines-table.dark th {
+.Rutinaaaasss-routines-table.dark th {
   background-color: var(--listaderutinas-secondary-dark);
   color: var(--listaderutinas-secondary-foreground-dark);
 }
 
-.routines-table td {
+.Rutinaaaasss-routines-table td {
   border-bottom: 1px solid var(--listaderutinas-border);
 }
 
-.routines-table.light td {
+.Rutinaaaasss-routines-table.light td {
   background-color: var(--listaderutinas-card);
   color: var(--listaderutinas-card-foreground);
 }
 
-.routines-table.dark td {
+.Rutinaaaasss-routines-table.dark td {
   background-color: var(--listaderutinas-card-dark);
   color: var(--listaderutinas-card-foreground-dark);
 }
 
-.routines-table tr:hover {
+.Rutinaaaasss-routines-table tr:hover {
   background-color: var(--listaderutinas-muted);
   color: var(--listaderutinas-muted-foreground);
 }
 
-.routines-table.dark tr:hover {
+.Rutinaaaasss-routines-table.dark tr:hover {
   background-color: var(--listaderutinas-muted-dark);
   color: var(--listaderutinas-muted-foreground-dark);
 }
 
 /* Dropdown styles */
-.action-button {
+.Rutinaaaasss-action-button {
   background-color: var(--listaderutinas-primary);
   border: 2px dashed var(--listaderutinas-primary-foreground);
   color: var(--listaderutinas-primary-foreground);
@@ -134,18 +137,18 @@
   cursor: pointer;
 }
 
-.action-button.dark {
+.Rutinaaaasss-action-button.dark {
   background-color: var(--listaderutinas-primary-dark);
   border: 2px dashed var(--listaderutinas-primary-foreground-dark);
   color: var(--listaderutinas-primary-foreground-dark);
 }
 
-.dropdown {
+.Rutinaaaasss-dropdown {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-content {
+.Rutinaaaasss-dropdown-content {
   display: block;
   position: absolute;
   min-width: 160px;
@@ -153,17 +156,17 @@
   z-index: 1;
 }
 
-.dropdown-content.light {
+.Rutinaaaasss-dropdown-content.light {
   background-color: var(--listaderutinas-card);
   color: var(--listaderutinas-card-foreground);
 }
 
-.dropdown-content.dark {
+.Rutinaaaasss-dropdown-content.dark {
   background-color: var(--listaderutinas-card-dark);
   color: var(--listaderutinas-card-foreground-dark);
 }
 
-.dropdown-content button {
+.Rutinaaaasss-dropdown-content button {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -173,24 +176,24 @@
   text-align: left;
 }
 
-.dropdown-content.light button {
+.Rutinaaaasss-dropdown-content.light button {
   color: var(--listaderutinas-foreground);
 }
 
-.dropdown-content.dark button {
+.Rutinaaaasss-dropdown-content.dark button {
   color: var(--listaderutinas-foreground-dark);
 }
 
-.dropdown-content button:hover {
+.Rutinaaaasss-dropdown-content button:hover {
   background-color: var(--listaderutinas-muted);
 }
 
-.dropdown-content.dark button:hover {
+.Rutinaaaasss-dropdown-content.dark button:hover {
   background-color: var(--listaderutinas-muted-dark);
 }
 
 /* Modal styles */
-.preview-modal {
+.Rutinaaaasss-preview-modal {
   display: block;
   position: fixed;
   z-index: 1;
@@ -202,7 +205,7 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.preview-modal-content {
+.Rutinaaaasss-preview-modal-content {
   margin: 5% auto;
   padding: 20px;
   width: 60%;
@@ -211,80 +214,80 @@
   background-color: #fff;
 }
 
-.preview-modal-content.light {
+.Rutinaaaasss-preview-modal-content.light {
   background-color: var(--background-light);
   color: var(--text-light);
 }
 
-.preview-modal-content.dark {
+.Rutinaaaasss-preview-modal-content.dark {
   background-color: var(--background-dark);
   color: var(--text-dark);
 }
 
-.preview-close {
+.Rutinaaaasss-preview-close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.preview-close:hover,
-.preview-close:focus {
+.Rutinaaaasss-preview-close:hover,
+.Rutinaaaasss-preview-close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
-.preview-modal table {
+.Rutinaaaasss-preview-modal table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.preview-modal table th,
-.preview-modal table td {
+.Rutinaaaasss-preview-modal table th,
+.Rutinaaaasss-preview-modal table td {
   border: 1px solid var(--listaderutinas-border);
   padding: 8px;
   text-align: left;
 }
 
-.preview-modal table th.light,
-.preview-modal table td.light {
+.Rutinaaaasss-preview-modal table th.light,
+.Rutinaaaasss-preview-modal table td.light {
   background-color: var(--listaderutinas-secondary);
   color: var(--listaderutinas-secondary-foreground);
 }
 
-.preview-modal table th.dark,
-.preview-modal table td.dark {
+.Rutinaaaasss-preview-modal table th.dark,
+.Rutinaaaasss-preview-modal table td.dark {
   background-color: var(--listaderutinas-secondary-dark);
   color: var(--listaderutinas-secondary-foreground-dark);
 }
 
 /* Animation styles */
-.modal-enter {
+.Rutinaaaasss-modal-enter {
   opacity: 0;
   transform: scale(0.9);
 }
-.modal-enter-active {
+.Rutinaaaasss-modal-enter-active {
   opacity: 1;
   transform: scale(1);
   transition: opacity 300ms, transform 300ms;
 }
-.modal-exit {
+.Rutinaaaasss-modal-exit {
   opacity: 1;
   transform: scale(1);
 }
-.modal-exit-active {
+.Rutinaaaasss-modal-exit-active {
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 300ms, transform 300ms;
 }
 
-.rutina-container {
+.Rutinaaaasss-rutina-container {
   padding: 20px;
   max-width: 100%; /* Para asegurar que la página se adapte correctamente */
 }
 
-.preview-modal-content {
+.Rutinaaaasss-preview-modal-content {
   margin: 5% auto;
   padding: 20px;
   width: 80%; /* Hacemos este modal también más ancho */
@@ -292,4 +295,63 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: #fff;
+}
+
+/* Ajustes para el modo oscuro de la tabla */
+.Rutinaaaasss-routines-table.dark {
+  background-color: #343a40; /* Color de fondo general de la tabla */
+  color: #f8f9fa; /* Color de texto principal */
+  border: 1px solid #495057; /* Borde gris oscuro para la tabla */
+}
+
+.Rutinaaaasss-routines-table.dark th {
+  background-color: #3a3a3a; /* Encabezado de la tabla en color azul oscuro */
+  color: #f8f9fa; /* Texto blanco para el encabezado */
+  border-bottom: 2px solid #495057; /* Borde inferior para las celdas de encabezado */
+}
+
+.Rutinaaaasss-routines-table.dark td {
+  background-color: #1a1a1a; /* Fondo gris oscuro para las celdas */
+  color: #f8f9fa; /* Texto blanco para las celdas */
+  border-bottom: 1px solid #5c71b6; /* Borde inferior azul oscuro entre filas */
+}
+
+.Rutinaaaasss-routines-table.dark tr:hover {
+  background-color: #5c71b6; /* Color de fondo azul oscuro cuando se pasa el ratón */
+  color: #f8f9fa; /* Color de texto blanco al hacer hover */
+}
+
+.Rutinaaaasss-dropdown-content.dark {
+  background-color: #343a40; /* Fondo oscuro para el menú desplegable */
+  color: #f8f9fa; /* Texto blanco para el menú desplegable */
+}
+
+.Rutinaaaasss-dropdown-content.dark button {
+  color: #f8f9fa; /* Texto blanco para los botones del menú desplegable */
+}
+
+.Rutinaaaasss-dropdown-content.dark button:hover {
+  background-color: #5c71b6; /* Fondo azul oscuro cuando se pasa el ratón sobre el botón */
+}
+/* Estilos para la contenedor de acciones */
+.Rutinaaaasss-actions-icons {
+  display: flex; /* Usamos flex para alinear los iconos */
+  justify-content: space-around; /* Distribuye los iconos uniformemente */
+  align-items: center; /* Centra los iconos verticalmente */
+  padding: 5px 0;
+}
+
+/* Estilos para los íconos */
+.Rutinaaaasss-icon {
+  cursor: pointer; /* Cambia el cursor para que sea de tipo "mano" */
+  width: 24px; /* Ajusta el tamaño del icono */
+  height: 24px; /* Mantén la proporción del tamaño del icono */
+  margin: 0 8px; /* Añade margen horizontal entre los iconos */
+  color: #333; /* Color del icono */
+  transition: color 0.3s ease; /* Transición suave para cambios de color */
+}
+
+/* Efecto hover en los íconos */
+.Rutinaaaasss-icon:hover {
+  color: #007bff; /* Cambia el color del icono al pasar el ratón */
 }

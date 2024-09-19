@@ -6,7 +6,7 @@ import Modalcreacionplanes from './Modalcreacionplanes';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
 
-const Tablaplanescliente = ({ isEditMode, onTitleClick }) => {
+const Tablaplanescliente = ({ theme, isEditMode, onTitleClick }) => {
   const [fixedPlans, setFixedPlans] = useState([]);
   const [variablePlans, setVariablePlans] = useState([]);
   const [clientes, setClientes] = useState([]);
@@ -222,7 +222,7 @@ const Tablaplanescliente = ({ isEditMode, onTitleClick }) => {
   };
 
   return (
-    <div className="Widgetplanes-container">
+    <div className={`Widgetplanes-container ${theme}`}>
       <h2 onClick={onTitleClick}>{currentTable === 'planes' ? 'Planes de Clientes' : 'Clientes'}</h2>
       <div className="Widgetplanes-controls">
         <input

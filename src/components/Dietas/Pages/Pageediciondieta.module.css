@@ -9,6 +9,44 @@
   color: var(--text-light);
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.editButton {
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dietaInfo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  color: var(--header-bg-light);
+}
+
+.dietaInfo h3 {
+  margin: 5px 0;
+}
+
+.dietaheader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.formContainer {
+  display: block;
+  margin-bottom: 20px;
+}
+
 .pageEdicionDieta.light .formContainer {
   background-color: #ffffff;
   padding: 20px;
@@ -104,9 +142,9 @@
 /* Título principal */
 .pageEdicionDieta h2 {
   font-size: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   border-bottom: 2px solid var(--highlight-color);
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 
 /* Contenedor de formularios */
@@ -170,4 +208,9 @@
   color: inherit;
   border-bottom: 2px solid var(--highlight-color);
   padding-bottom: 10px;
+}
+
+.dietaInfo h3{
+  color: #7a7a7ac5 !important;
+  font-size: 1.5em;
 }

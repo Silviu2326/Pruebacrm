@@ -1,0 +1,448 @@
+/* Contenedor principal */
+.CreaciondehistoriasconiaPopup-container {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+  font-family: var(--font-family);
+}
+
+/* Botón de abrir el modal */
+.CreaciondehistoriasconiaPopup-openButton {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+}
+
+.CreaciondehistoriasconiaPopup-openButton:hover {
+  background-color: #1E40AF; /* Azul más claro al pasar el mouse */
+  transform: translateY(-2px);
+}
+
+/* Modal Overlay */
+.CreaciondehistoriasconiaPopup-modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-speed), visibility var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-modalOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal */
+.CreaciondehistoriasconiaPopup-modal {
+  position: relative;
+  padding-top: 60px; /* Espacio en la parte superior para el botón de cerrar */
+  width: 90%;
+  max-width: 1400px;
+  height: 70vh;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color); /* Alineado con el modal de referencia */
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  animation: fadeIn var(--transition-speed) ease-out;
+  font-family: var(--font-family);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botón de cerrar */
+.CreaciondehistoriasconiaPopup-closeButton {
+  background-color: var(--danger-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+
+.CreaciondehistoriasconiaPopup-closeButton:hover {
+  background-color: #B91C1C;
+  transform: scale(1.05);
+}
+
+/* Tabs */
+.CreaciondehistoriasconiaPopup-tabList {
+  margin-right: 90px; /* Alineado con el modal de referencia */
+  display: flex;
+  border-bottom: 2px solid #E5E7EB; /* Gris claro */
+}
+
+.CreaciondehistoriasconiaPopup-tabTrigger {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-color);
+  transition: color var(--transition-speed), border-bottom var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-tabTrigger:hover,
+.CreaciondehistoriasconiaPopup-tabTrigger[data-state='active'] {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Cuerpo del Chat */
+.CreaciondehistoriasconiaPopup-chatBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Alinear de manera similar al modal de referencia */
+  background-color: rgb(242, 248, 221); /* Fondo similar al modal de referencia */
+  padding: 15px;
+  border-radius: var(--border-radius);
+  height: 500px;
+  overflow-y: auto;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Input de búsqueda */
+.CreaciondehistoriasconiaPopup-input {
+  flex-grow: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: var(--border-radius);
+  margin-right: 10px;
+  border: 1px solid #D1D5DB;
+  box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(30, 58, 138, 0.5);
+  outline: none;
+}
+
+/* Botón de generar */
+.CreaciondehistoriasconiaPopup-generateFooterButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+}
+
+.CreaciondehistoriasconiaPopup-generateFooterButton:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+}
+
+/* Nuevo contenedor para el input y el botón */
+.CreaciondehistoriasconiaPopup-inputButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background-color);
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel de Resultados */
+.CreaciondehistoriasconiaPopup-resultsPanel {
+  background-color: rgb(242, 248, 221);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Elementos de Resultados */
+.CreaciondehistoriasconiaPopup-chatIdea {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background-color);
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  width: 100%;
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-chatIdea:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Botones dentro de las ideas */
+.CreaciondehistoriasconiaPopup-resultActions button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  font-weight: 500;
+}
+
+/* Botón de previsualizar */
+.CreaciondehistoriasconiaPopup-previewButton {
+  background-color: rgb(170, 166, 162);
+  color: #FFFFFF;
+}
+
+.CreaciondehistoriasconiaPopup-previewButton:hover {
+  background-color: #213466;
+  transform: scale(1.05);
+}
+
+/* Botón de seleccionar */
+.CreaciondehistoriasconiaPopup-selectButton {
+  background-color: #395580;
+  color: #000000;
+}
+
+.CreaciondehistoriasconiaPopup-selectButton:hover {
+  background-color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Contenedores de pasos */
+.CreaciondehistoriasconiaPopup-step3Container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Ajuste de las letras */
+.CreaciondehistoriasconiaPopup-selectedIdeaText {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* Botón de regenerar imágenes */
+.CreaciondehistoriasconiaPopup-regenerateButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.CreaciondehistoriasconiaPopup-regenerateButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--secondary-color);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-regenerateButton:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+}
+
+/* Imágenes más grandes */
+.CreaciondehistoriasconiaPopup-previewImage,
+.CreaciondehistoriasconiaPopup-fullImage {
+  max-width: 300px;
+  max-height: 200px;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-previewImage:hover {
+  transform: scale(1.05);
+}
+
+/* Contenedor completo de la imagen seleccionada */
+.CreaciondehistoriasconiaPopup-fullImageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Imagen en la pestaña "Vista Previa" */
+.CreaciondehistoriasconiaPopup-fullImage {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones debajo de la imagen en la pestaña "Vista Previa" */
+.CreaciondehistoriasconiaPopup-imageActions {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+}
+
+.CreaciondehistoriasconiaPopup-imageActions button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Botón de guardar */
+.CreaciondehistoriasconiaPopup-imageActions.saveButton {
+  background-color: var(--success-color);
+  color: #FFFFFF;
+}
+
+.CreaciondehistoriasconiaPopup-imageActions.saveButton:hover {
+  background-color: #166534;
+  transform: scale(1.05);
+}
+
+/* Contenedor de las imágenes en la previsualización */
+.CreaciondehistoriasconiaPopup-previewImages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Contenedor del modal de previsualización */
+.CreaciondehistoriasconiaPopup-previewBody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Modal de previsualización de imágenes */
+.CreaciondehistoriasconiaPopup-previewModal {
+  width: 90%;
+  max-width: 1200px;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  background-color: var(--background-color); /* Alineado con el modal de referencia */
+  border-radius: var(--border-radius);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-speed) ease-out;
+}
+
+.CreaciondehistoriasconiaPopup-previewModal:hover {
+  transform: scale(1.02);
+}
+
+/* Contenedor de las imágenes en el modal */
+.CreaciondehistoriasconiaPopup-previewImagesModal {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Imágenes en el modal */
+.CreaciondehistoriasconiaPopup-previewImageModal {
+  width: 23%;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-previewImageModal:hover {
+  transform: scale(1.05);
+}
+
+/* Botón "Volver" */
+.CreaciondehistoriasconiaPopup-backButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.CreaciondehistoriasconiaPopup-backButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--danger-color);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+.CreaciondehistoriasconiaPopup-backButton:hover {
+  background-color: #B91C1C;
+  transform: translateY(-2px);
+}

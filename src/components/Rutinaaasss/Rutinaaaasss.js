@@ -1,21 +1,19 @@
-// Ruta: C:\Users\carlo\Downloads\Pruebacrm\src\components\Rutinaaasss\Rutinaaaasss.js
-
 import React, { useState, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { Edit3, Eye, PlusCircle, Trash } from 'lucide-react'; // Importamos los iconos de Lucide
 import CreacionDeRutina from './CreacionDeRutina';
 import UnionDeRutinas from './UnionDeRutinas';
-import CreacionRutinaconIA from './CreacionRutinaconIA'; // Importamos el nuevo componente
+import CreacionRutinaconIA from './CreacionRutinaconIA';
 import './Rutinaaaasss.css'; // Importar el archivo CSS con el nombre correcto
 
 const Rutinaaaasss = ({ theme }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [routines, setRoutines] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isIAModalOpen, setIsIAModalOpen] = useState(false); // Nuevo estado para el modal de IA
+  const [isIAModalOpen, setIsIAModalOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isUnionModalOpen, setIsUnionModalOpen] = useState(false);
   const [currentRoutine, setCurrentRoutine] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(null);
 
   useEffect(() => {
     const fetchRoutines = async () => {
@@ -35,10 +33,6 @@ const Rutinaaaasss = ({ theme }) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleDropdownToggle = (index) => {
-    setDropdownOpen(dropdownOpen === index ? null : index);
-  };
-
   const handleCreateRoutine = () => {
     setCurrentRoutine(null); // Clear current routine to create a new one
     setIsModalOpen(true);
@@ -56,6 +50,11 @@ const Rutinaaaasss = ({ theme }) => {
   const handlePreviewRoutine = (routine) => {
     setCurrentRoutine(routine);
     setIsPreviewOpen(true);
+  };
+
+  const handleMergeRoutine = (routine) => {
+    setCurrentRoutine(routine);
+    setIsUnionModalOpen(true);
   };
 
   const closeModal = () => {
@@ -84,11 +83,6 @@ const Rutinaaaasss = ({ theme }) => {
     closeModal();
   };
 
-  const handleMergeRoutine = (routine) => {
-    setCurrentRoutine(routine);
-    setIsUnionModalOpen(true);
-  };
-
   const createCombinedRoutine = (newRoutine) => {
     setCurrentRoutine(newRoutine);
     setIsUnionModalOpen(false);
@@ -100,20 +94,20 @@ const Rutinaaaasss = ({ theme }) => {
   );
 
   return (
-    <div className={`rutina-container ${theme}`}>
+    <div className={`Rutinaaaasss-rutina-container ${theme}`}>
       <h1>Rutinas</h1>
-      <div className="actions">
-        <button className={`btn-create ${theme}`} onClick={handleCreateRoutine}>Crear Rutina</button>
-        <button className={`btn-create-ai ${theme}`} onClick={handleCreateRoutineWithAI}>Crear Rutina con IA</button>
+      <div className="Rutinaaaasss-actions">
+        <button className={`Rutinaaaasss-btn-create ${theme}`} onClick={handleCreateRoutine}>Crear Rutina</button>
+        <button className={`Rutinaaaasss-btn-create-ai ${theme}`} onClick={handleCreateRoutineWithAI}>Crear Rutina con IA</button>
       </div>
       <input
         type="text"
         placeholder="Buscar rutinas"
         value={searchTerm}
         onChange={handleSearch}
-        className={`search-input ${theme}`}
+        className={`Rutinaaaasss-search-input ${theme}`}
       />
-      <table className={`routines-table ${theme}`}>
+      <table className={`Rutinaaaasss-routines-table ${theme}`}>
         <thead>
           <tr>
             <th>Nombre</th>
@@ -131,16 +125,15 @@ const Rutinaaaasss = ({ theme }) => {
               <td>{routine.tags.join(', ')}</td>
               <td>{routine.notes}</td>
               <td>
-                <div className="dropdown">
-                  <button className={`action-button ${theme}`} onClick={() => handleDropdownToggle(index)}>⋮</button>
-                  {dropdownOpen === index && (
-                    <div className={`dropdown-content ${theme}`}>
-                      <button onClick={() => handleEditRoutine(routine)}>Editar</button>
-                      <button onClick={() => handlePreviewRoutine(routine)}>Previsualizar</button>
-                      <button onClick={() => handleMergeRoutine(routine)}>Unir Rutina</button>
-                      <button>Eliminar</button>
-                    </div>
-                  )}
+                <div className="Rutinaaaasss-actions-icons">
+                  {/* Editar Rutina */}
+                  <Edit3 className="Rutinaaaasss-icon" onClick={() => handleEditRoutine(routine)} />
+                  {/* Previsualizar Rutina */}
+                  <Eye className="Rutinaaaasss-icon" onClick={() => handlePreviewRoutine(routine)} />
+                  {/* Unir Rutina */}
+                  <PlusCircle className="Rutinaaaasss-icon" onClick={() => handleMergeRoutine(routine)} />
+                  {/* Eliminar Rutina */}
+                  <Trash className="Rutinaaaasss-icon" onClick={() => console.log("Eliminar rutina")} />
                 </div>
               </td>
             </tr>
@@ -150,7 +143,7 @@ const Rutinaaaasss = ({ theme }) => {
       <CSSTransition
         in={isModalOpen}
         timeout={300}
-        classNames="modal"
+        classNames="Rutinaaaasss-modal"
         unmountOnExit
       >
         <CreacionDeRutina
@@ -164,7 +157,7 @@ const Rutinaaaasss = ({ theme }) => {
       <CSSTransition
         in={isIAModalOpen}
         timeout={300}
-        classNames="modal"
+        classNames="Rutinaaaasss-modal"
         unmountOnExit
       >
         <CreacionRutinaconIA
@@ -175,7 +168,7 @@ const Rutinaaaasss = ({ theme }) => {
       <CSSTransition
         in={isUnionModalOpen}
         timeout={300}
-        classNames="modal"
+        classNames="Rutinaaaasss-modal"
         unmountOnExit
       >
         <UnionDeRutinas
@@ -189,20 +182,20 @@ const Rutinaaaasss = ({ theme }) => {
       <CSSTransition
         in={isPreviewOpen}
         timeout={300}
-        classNames="modal"
+        classNames="Rutinaaaasss-modal"
         unmountOnExit
       >
         {currentRoutine && (
-          <div className="preview-modal">
-            <div className={`preview-modal-content ${theme}`}>
-              <span className="preview-close" onClick={closePreview}>&times;</span>
+          <div className="Rutinaaaasss-preview-modal">
+            <div className={`Rutinaaaasss-preview-modal-content ${theme}`}>
+              <span className="Rutinaaaasss-preview-close" onClick={closePreview}>&times;</span>
               <h2>Previsualización de Rutina</h2>
               <p><strong>Nombre:</strong> {currentRoutine.name}</p>
               <p><strong>Descripción:</strong> {currentRoutine.description}</p>
               <p><strong>Tags:</strong> {currentRoutine.tags.join(', ')}</p>
               <p><strong>Notas Adicionales:</strong> {currentRoutine.notes}</p>
               <h3>Ejercicios/Actividades</h3>
-              <table className={`table ${theme}`}>
+              <table className={`Rutinaaaasss-table ${theme}`}>
                 <thead>
                   <tr>
                     <th className={theme}>Ejercicio</th>

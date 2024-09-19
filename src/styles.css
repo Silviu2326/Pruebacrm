@@ -1,39 +1,39 @@
 /* src/styles.css */
 /* styles.css 
+/* src/styles.css */
 :root {
-  --background-light: #f8f1ec; /* Fondo claro */
- /* --background-dark: #333333; /* Fondo oscuro */
- /* --text-light: #000000; /* Texto en modo claro */
- /* --text-dark: #ffffff; /* Texto en modo oscuro */
- /* --primary-light: #d9bfae; /* Cabecera y botones claros */
-/*  --primary-dark: #4a4a4a; /* Cabecera y botones oscuros */
-  /*--secondary-light: #ddd; /* Bordes y detalles claros */
-/*  --secondary-dark: #555; /* Bordes y detalles oscuros */
-
-/*  --button-bg-light: #ffffff; /* Fondo del botón en modo claro */
- /* --button-border-light: #000000; /* Borde del botón en modo claro */
-  /*--button-text-light: #000000; /* Texto del botón en modo claro */
-  
- /* --button-bg-dark: #444444; /* Fondo del botón en modo oscuro */
- /* --button-border-dark: #ffffff; /* Borde del botón en modo oscuro */
-/*  --button-text-dark: #ffffff; /* Texto del botón en modo oscuro */
-
-  /*--header-bg-light: #ddd; /* Fondo del encabezado en modo claro */
- /* --header-bg-dark: #444444; /* Fondo del encabezado en modo oscuro */
-  /*--header-text-light: #000; /* Texto del encabezado en modo claro */
-  /*--header-text-dark: #fff; /* Texto del encabezado en modo oscuro */
-
- /* --search-button-bg-light: #fff; /* Fondo del botón de búsqueda en modo claro */
-  /*--search-button-border-light: #000; /* Borde del botón de búsqueda en modo claro */
- /* --search-button-text-light: #000; /* Texto del botón de búsqueda en modo claro */
-  
-  /*--search-button-bg-dark: #444; /* Fondo del botón de búsqueda en modo oscuro */
-  /*--search-button-border-dark: #fff; /* Borde del botón de búsqueda en modo oscuro */
- /* --search-button-text-dark: #fff; /* Texto del botón de búsqueda en modo oscuro */
-
- /* --create-button-bg-light: #09BC8A; /* Fondo del botón Crear Dieta en modo claro */
- /* --create-button-bg-dark: #006B5A; /* Fondo del botón Crear Dieta en modo oscuro */
-/*}*/
+  --background-light: #f7faff;
+  --background-widget-light: #fff;
+  --shadow-widget: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --background-dark: #333333;
+  --background-darkblue: #335484;
+  --background-focus: #90a4ae;
+  --text-light: #000000;
+  --text-dark: #ffffff;
+  --primary-light: #d9bfae;
+  --primary-dark: #4a4a4a;
+  --secondary-light: #ddd;
+  --secondary-dark: #555;
+  --button-bg-light: #90a4ae;
+  --button-bg-lightblue: #3d8bfd;
+  --button-border-light: #000000;
+  --button-text-light: #000000;
+  --button-bg-dark: #444444;
+  --button-border-dark: #ffffff;
+  --button-text-dark: #ffffff;
+  --header-bg-light: #ddd;
+  --header-bg-dark: #444444;
+  --header-text-light: #000;
+  --header-text-dark: #fff;
+  --search-button-bg-light: #fff;
+  --search-button-border-light: #000;
+  --search-button-text-light: #000;
+  --search-button-bg-dark: #444;
+  --search-button-border-dark: #fff;
+  --search-button-text-dark: #fff;
+  --create-button-bg-light: #09BC8A;
+  --create-button-bg-dark: #006B5A;
+}
 /* styles.css */
 body.light {
   --background: var(--background-light);
@@ -76,7 +76,7 @@ body {
   .main-content {
     padding: 20px;
     flex: 1;
-    background-color: var(--background-light);
+    background-color: #f7faff;
     transition: margin-left 0.3s;
   }
   

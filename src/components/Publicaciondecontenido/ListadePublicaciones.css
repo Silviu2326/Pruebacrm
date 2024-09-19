@@ -1,0 +1,297 @@
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif; /* Cambiado a una fuente más moderna */
+  background-color: #f7f9fc; /* Fondo suave para toda la página */
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.contenedor-publicaciones {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Title */
+.contenedor-publicaciones h1 {
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center; /* Centrar el título */
+  text-transform: uppercase; /* Hacer el título en mayúsculas */
+  letter-spacing: 2px; /* Añadir espaciado entre letras */
+}
+
+/* Tabs for Social Network Filters */
+.filtros-superiores .tabs-list {
+  display: inline-flex;
+  margin-bottom: 20px;
+  background-color: #eceff1;
+  border-radius: 5px; /* Bordes redondeados */
+  overflow: hidden; /* Para que los bordes se corten correctamente */
+}
+
+.tabs-trigger {
+  background-color: #eceff1;
+  border: none;
+  color: #555;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.tabs-trigger:hover {
+  background-color: #cfd8dc;
+}
+
+.tabs-trigger[data-state='active'] {
+  background-color: #90a4ae;
+  color: #fff;
+}
+
+/* Search Field */
+.campo-busqueda {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #eceff1;
+  border-radius: 5px;
+}
+
+.campo-busqueda svg {
+  color: #888;
+  font-size: 1.2em;
+}
+
+.campo-busqueda input[type="text"] {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+  flex: 1; /* Tomar todo el ancho disponible */
+  font-size: 1em;
+}
+
+.campo-busqueda input::placeholder {
+  color: #aaa;
+}
+
+/* New Post Button */
+.btn-nueva-publicacion {
+  background-color: #1e88e5;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 50px; /* Bordes completamente redondeados */
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-nueva-publicacion:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px); /* Ligeramente elevar el botón al pasar el mouse */
+}
+
+/* View Controls */
+.controles-vista {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.vista-iconos svg {
+  font-size: 1.8em; /* Aumentar el tamaño de los íconos */
+  color: #888;
+  cursor: pointer;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+}
+
+.vista-iconos svg.activo {
+  color: #1e88e5;
+}
+
+.vista-iconos svg:hover {
+  color: #1565c0;
+}
+
+.filtro-estado select {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.filtro-estado select:hover {
+  border-color: #888;
+}
+
+/* List of Posts */
+.lista-publicaciones.cuadricula {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.lista-publicaciones.lista {
+  display: block;
+}
+
+/* Post Cards */
+.tarjeta-publicacion {
+  background-color: #fff;
+  border-radius: 15px; /* Bordes más redondeados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  padding: 25px;
+  padding-top: 60px; /* Añadido para dar espacio al estado */
+  flex: 1 1 calc(33.333% - 20px);
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tarjeta-publicacion:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.lista-publicaciones.lista .tarjeta-publicacion {
+  flex: 1 1 100%;
+  margin-bottom: 20px;
+}
+
+/* Post Information */
+.info-publicacion {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.info-publicacion h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.7em; /* Tamaño de fuente ligeramente más grande */
+  color: #333;
+}
+
+.info-publicacion p {
+  color: #888;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.info-publicacion p svg {
+  margin-right: 10px;
+  color: #1e88e5; /* Colorear el icono de la fecha */
+}
+
+/* Post Status */
+.estado {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 5px 15px;
+  border-radius: 50px; /* Bordes completamente redondeados */
+  color: #fff;
+  font-size: 0.9em;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.estado.programada {
+  background-color: #FF9800;
+}
+
+.estado.en-cola {
+  background-color: #FFB74D;
+}
+
+.estado.publicada {
+  background-color: #4CAF50;
+}
+
+/* Platform Icon */
+.icono-plataforma {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 1.8em; /* Aumentar el tamaño del icono */
+  color: #1e88e5; /* Hacer el icono del color principal */
+}
+
+/* Action Icons */
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px; /* Aumentar el espacio entre los íconos */
+}
+
+.acciones svg {
+  color: #555; /* Un color ligeramente más claro para los íconos */
+  font-size: 1.8em; /* Aumentar el tamaño de los íconos */
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.acciones svg:hover {
+  color: #FF9800;
+  transform: scale(1.1); /* Aumentar ligeramente el tamaño al pasar el mouse */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .lista-publicaciones.cuadricula {
+    flex-direction: column;
+  }
+
+  .tarjeta-publicacion {
+    flex: 1 1 100%;
+  }
+
+  .btn-nueva-publicacion {
+    width: 100%;
+    margin-bottom: 20px;
+    float: none;
+  }
+
+  .controles-vista {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .campo-busqueda,
+  .filtros-superiores .tabs-list {
+    flex-direction: column;
+  }
+
+  .campo-busqueda input[type="text"] {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+
+  .tabs-trigger {
+    margin-bottom: 10px;
+  }
+}
+
+/* Accessibility and Focus States */
+button:focus,
+input:focus,
+select:focus,
+svg:focus {
+  outline: 2px solid #1e88e5;
+}

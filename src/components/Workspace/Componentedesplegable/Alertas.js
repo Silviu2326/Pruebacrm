@@ -1,8 +1,8 @@
-// Alertas.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Alertas.css';
 import AjustesDeAlertas from './AjustesDeAlertas';
+import { Settings } from 'lucide-react';
 
 const Alertas = () => {
     const [alertas, setAlertas] = useState([]);
@@ -45,7 +45,25 @@ const Alertas = () => {
     return (
         <div className="alertas-column">
             <h3>Alertas</h3>
-            <button className="alertas-personalizar-button" onClick={openAjustesModal}>Personalizar</button>
+            <button 
+                className="alertas-personalizar-button" 
+                onClick={openAjustesModal}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#007bff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    color: '#fff',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '15px'
+                }}
+            >
+                <Settings size={20} color="white" style={{ marginRight: '8px' }} />
+                Filtrar Alertas Disponibles
+            </button>
             <div className="alertas-alerts-container">
                 {filteredAlertas.map((alerta) => (
                     <div className="alertas-item" key={alerta._id} onClick={() => handleItemClick(alerta)}>

@@ -1,0 +1,239 @@
+.modalgenerarformula-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+    
+  .modalgenerarformula-content {
+    position: relative;
+    max-width: 90%; /* Asegúrate de que el modal no exceda el ancho de la ventana */
+    max-height: 90vh; /* Limita la altura máxima para evitar que se salga de la pantalla */
+    overflow: hidden;
+    padding: 20px; /* Añade un poco de padding */
+    box-sizing: border-box;
+    background-color: white; /* Asegura que el fondo sea visible */
+    border-radius: 8px; /* Suaviza las esquinas del modal */
+    display: flex;
+    flex-direction: column;
+  }
+    
+  .modalgenerarformula-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .modalgenerarformula-close {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .tabs-list {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+  
+  .tabs-trigger {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tabs-trigger[data-state="active"] {
+    border-color: #007bff;
+    font-weight: bold;
+  }
+  
+  .tab-section-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+  
+  .variables-container,
+  .formula-container,
+  .condiciones-container,
+  .resultados-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    min-height: 200px;
+  }
+  
+  .add-variable-button {
+    margin-bottom: 10px;
+  }
+  .editor {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 200px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  .drop-target {
+    border: 2px dashed #007bff;
+  }
+  
+  .variables-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .toolbar {
+    margin-bottom: 10px;
+  }
+  
+  .preview {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .formula-editor-textarea {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: monospace;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .variables-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .toolbar {
+    margin-bottom: 10px;
+  }
+  
+  .preview {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .formula-editor-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .toolbar span {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .toolbar-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toolbar-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .variables-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .variable-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .variable-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .formula-editor-textarea {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: monospace;
+    margin-bottom: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .add-condition-button {
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-condition-button:hover {
+    background-color: #333;
+  }
+  
+  .preview {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+    
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  

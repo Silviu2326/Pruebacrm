@@ -116,12 +116,14 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed; /* Esto asegura que todas las columnas tengan el mismo ancho */
 }
 
 .table th, .table td {
   border: 1px solid var(--listaderutinas-border);
-  padding: 8px;
+  padding: 10px; /* Aumenta el padding para más espacio en las celdas */
   text-align: left;
+  vertical-align: middle; /* Asegura que el contenido esté centrado verticalmente */
 }
 
 .table th.light, .table td.light {
@@ -299,4 +301,67 @@
 
 .preview-modal h2 {
   margin-top: 0;
+}
+
+/* Nuevos estilos para el desplegable (select) */
+.table select {
+  width: 100%;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid var(--listaderutinas-border);
+  background-color: inherit;
+  color: inherit;
+  font-size: 14px;
+}
+
+/* Estilo para el botón de eliminación */
+.tableCell .deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ff5c5c;
+  padding: 0;
+  margin: 0;
+}
+
+.tableCell .deleteButton:hover {
+  color: #ff0000;
+}
+/* Estilo base para los botones de los tags */
+.tag-button {
+  padding: 8px 12px;
+  margin: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--listaderutinas-border);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tag-button.light {
+  background-color: var(--background-light);
+  color: var(--text-light);
+}
+
+.tag-button.dark {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+.tag-button:hover {
+  background-color: var(--listaderutinas-hover);
+  color: var(--listaderutinas-hover-foreground);
+}
+
+/* Estilo para los tags seleccionados */
+.tag-button.selected {
+  background-color: var(--listaderutinas-primary);
+  color: var(--listaderutinas-primary-foreground);
+  border: 1px solid var(--listaderutinas-primary);
+}
+
+/* Estilo para los tags seleccionados en modo oscuro */
+.tag-button.selected.dark {
+  background-color: var(--listaderutinas-primary-dark);
+  color: var(--listaderutinas-primary-foreground-dark);
+  border: 1px solid var(--listaderutinas-primary-dark);
 }

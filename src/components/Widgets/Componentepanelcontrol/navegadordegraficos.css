@@ -24,6 +24,6 @@
 
 .panelcontrol-nav-btn.active {
   color: var(--text);
-  background: var(--primary);
+  background: var(--background-focus);
   border-radius: 8px;
 }

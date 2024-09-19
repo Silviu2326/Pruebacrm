@@ -1,10 +1,29 @@
-/* Contenedor del calendario */
 .calendarContainer {
   background-color: var(--bg-color);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--highlight-color);
+  transition: color 0.3s ease;
+}
+
+.addButton:hover {
+  color: var(--highlight-color-hover);
 }
 
 .calendarContainer h2 {
@@ -50,6 +69,7 @@
   --button-bg-color: #f0f0f0;
   --button-border-color: #ccc;
   --highlight-color: #007bff; /* Azul para selección y hover */
+  --highlight-color-hover: #0056b3;
 }
 
 /* Tema Oscuro */
@@ -59,4 +79,5 @@
   --button-bg-color: #444;
   --button-border-color: #666;
   --highlight-color: #1e90ff; /* Azul claro para selección y hover */
+  --highlight-color-hover: #104e8b;
 }

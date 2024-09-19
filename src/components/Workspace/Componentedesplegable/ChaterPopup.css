@@ -1,0 +1,38 @@
+/* src/ChaterPopup.css */
+
+.Chater-popup-inner {
+    display: flex;
+    height: 100%;
+}
+
+.Chater-list-container {
+    width: 30%;
+    background-color: #1e1e1e;
+    padding: 15px;
+    overflow-y: auto;
+    border-right: 1px solid #39393a;
+}
+
+.Chater-list {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.Chater-list-item {
+    background-color: #d5f4f2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #2a2a2a;
+}
+
+.Chater-list-item:hover {
+    background-color: #b2e8e2;
+}
+
+.Chater-chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}

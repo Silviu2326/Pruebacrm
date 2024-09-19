@@ -1,0 +1,102 @@
+/* Estilos comunes para la tabla */
+.Tablacomida-tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+/* Modo Claro (por defecto) */
+.Tablacomida-styledTable {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: #ffffff; /* Fondo claro */
+  color: #333333; /* Texto oscuro */
+  border-radius: 8px;
+  overflow: hidden; /* Esto asegura que el contenido se mantenga dentro de los bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una ligera sombra para el efecto 3D */
+}
+
+.Tablacomida-styledTable th,
+.Tablacomida-styledTable td {
+  padding: 12px 15px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.Tablacomida-styledTable th {
+  background-color: #335484; /* Azul oscuro para encabezados */
+  color: white;
+  border: none;
+}
+
+.Tablacomida-styledTable td {
+  border-bottom: 1px solid #ddd;
+  color: #333; /* Texto oscuro */
+}
+
+.Tablacomida-styledTable tr:nth-child(even) {
+  background-color: #f9f9f9; /* Filas pares de color claro */
+}
+
+.Tablacomida-styledTable tr:nth-child(odd) {
+  background-color: #ffffff; /* Filas impares de color blanco */
+}
+
+.Tablacomida-styledTable tr:hover {
+  background-color: #f1f1f1; /* Color más claro en hover */
+}
+
+/* Modo Oscuro */
+.Tablacomida-dark .Tablacomida-styledTable {
+  background-color: #1c1c1c; /* Fondo oscuro */
+  color: #e0e0e0; /* Texto claro */
+}
+
+.Tablacomida-dark .Tablacomida-styledTable th {
+  background-color: #444; /* Encabezados oscuros */
+  color: white;
+}
+
+.Tablacomida-dark .Tablacomida-styledTable td {
+  color: #ddd; /* Texto claro */
+  border-bottom: 1px solid #444; /* Bordes oscuros */
+}
+
+.Tablacomida-dark .Tablacomida-styledTable tr:nth-child(even) {
+  background-color: #2a2a2a; /* Filas pares oscuras */
+}
+
+.Tablacomida-dark .Tablacomida-styledTable tr:nth-child(odd) {
+  background-color: #333333; /* Filas impares más claras */
+}
+
+.Tablacomida-dark .Tablacomida-styledTable tr:hover {
+  background-color: #3a3a3a; /* Hover en modo oscuro */
+}
+
+/* Estilos para el campo de búsqueda */
+.Tablacomida-searchInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.Tablacomida-dark .Tablacomida-searchInput {
+  background-color: #333; /* Fondo oscuro para el input */
+  color: #e0e0e0; /* Texto claro */
+  border: 1px solid #555; /* Borde oscuro */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .Tablacomida-styledTable th,
+  .Tablacomida-styledTable td {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

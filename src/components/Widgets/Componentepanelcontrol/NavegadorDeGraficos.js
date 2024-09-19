@@ -12,6 +12,7 @@ function NavegadorDeGraficos({ onTabChange, activeTab, theme }) {
       <button
         className={`panelcontrol-nav-btn ${activeTab === 'Panel de Control' ? 'active' : ''}`}
         onClick={() => handleTabClick('Panel de Control')}
+        style={{ width: '200px' }}
       >
         Panel de Control
       </button>

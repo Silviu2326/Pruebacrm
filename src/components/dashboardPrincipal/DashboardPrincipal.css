@@ -1,0 +1,102 @@
+:root {
+  /* Variables para el modo claro */
+  --DBP-background-color: #f4f4f9;
+  --DBP-text-color: #333;
+  --DBP-header-border: #e0e0e0;
+  --DBP-primary-color: #3d8bfd;
+  --DBP-button-text-color: #ffffff;
+  --DBP-button-hover-bg: #0056b3;
+  --DBP-card-background: #ffffff;
+  --DBP-secondary-color: #c9c9c9;
+  --DBP-table-border: #ddd;
+  --DBP-table-header-bg: #f7f7f7;
+  --DBP-table-row-even: #f9f9f9;
+  --DBP-table-row-hover: #eaeaea;
+}
+
+.dark {
+  /* Variables para el modo oscuro */
+  --DBP-background-color: #1f1f1f;
+  --DBP-text-color: #e0e0e0;
+  --DBP-header-border: #444;
+  --DBP-primary-color: #555;
+  --DBP-button-text-color: #ffffff;
+  --DBP-button-hover-bg: #777;
+  --DBP-card-background: #2b2b2b;
+  --DBP-secondary-color: #444;
+  --DBP-table-border: #555;
+  --DBP-table-header-bg: #333;
+  --DBP-table-row-even: #2b2b2b;
+  --DBP-table-row-hover: #444;
+}
+
+.dashboard-principal {
+  padding: 40px;
+  background-color: var(--DBP-background-color);
+  color: var(--DBP-text-color);
+  font-family: 'Roboto', sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--DBP-header-border);
+  padding-bottom: 10px;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  color: var(--DBP-primary-color);
+  margin: 0;
+  font-weight: 700;
+}
+
+.dashboard-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.dashboard-button {
+  color: var(--DBP-button-text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: var(--DBP-primary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+}
+
+.dashboard-button:hover {
+  background-color: var(--DBP-button-hover-bg);
+  transform: translateY(-2px);
+}
+
+.dashboard-cards-container {
+  margin-bottom: 40px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-radius: 12px;
+}
+
+.dashboard-charts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 40px;
+  border-radius: 12px;
+}
+
+.dashboard-clients-section,
+.dashboard-classes-section {
+  margin-top: 20px;
+  border-radius: 12px;
+}

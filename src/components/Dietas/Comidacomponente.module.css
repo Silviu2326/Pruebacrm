@@ -1,146 +1,135 @@
-/* src/components/Dietas/Comidacomponente.module.css */
-
-
-
 .comidaItem {
-    background-color: #E0F7FA; /* Ligero cambio para mejorar la visibilidad */
-    border: 1px solid #345A66; /* Dark slate gray */
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  
-/* Título del día en la tabla de macros */
-.componentedia-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 600px; /* Añadimos un ancho máximo */
+  margin: 0 auto; /* Centrar el contenedor */
+  position: relative; /* Para que los botones de acciones se posicionen correctamente */
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabButton {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.activeTab {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.macroInfo {
+  margin-top: 10px;
+  max-width: 100%; /* Hacer que las barras respeten el tamaño del contenedor */
+}
+
+.progressWrapper {
   margin-bottom: 15px;
-  color: var(--text-color);
 }
 
-/* Tema Oscuro */
-.componentedia-title.dark {
-  color: #f5f5f5; /* Asegura que el texto del título sea visible en modo oscuro */
-  background-color: #444; /* Fondo oscuro para contraste */
-  padding: 10px;
+.progressBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  background-color: #f1f1f1;
   border-radius: 5px;
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+  padding-right: 10px;
 }
 
-  
-  .comidaItem p {
-    margin: 8px 0;
-    font-size: 1em;
-    color: #12313D; /* Gunmetal */
-  }
-  
-  .macroInfo {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-  }
-  
-  .macroInfo span {
-    font-size: 0.9em;
-    color: #555;
-  }
-  
-  .topButtons {
-    display: flex;
-    gap: 8px;
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-  
-  .viewButton {
-    background-color: #508991; /* Blue (Munsell) */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
-  
-  .viewButton:hover {
-    background-color: #345A66; /* Dark slate gray */
-  }
-  
-  .deleteButton {
-    background-color: #ff4b4b;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
-  
-  .deleteButton:hover {
-    background-color: #e63939;
-  }
-  
-  .buttonGroup {
-    display: flex;
-    gap: 8px;
-    margin-top: 16px;
-  }
-  
-  .editButton, .addOptionsButton {
-    background-color: #09BC8A; /* Mint */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
-  
-  .editButton:hover, .addOptionsButton:hover {
-    background-color: #00897B; /* Similar a Mint pero más oscuro */
-  }
-  
-  button {
-    transition: background-color 0.3s ease;
-  }
-  
+.progress {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
 
-  
-  .comidasContainer {
-    margin-top: 16px;
-  }
-  
-  button.bg-blue-500 {
-    background-color: #75DDDD; /* Tiffany Blue */
-  }
-  
-  button.bg-blue-500:hover {
-    background-color: #508991; /* Blue (Munsell) */
-  }
-  
-  button.bg-blue-500:active {
-    background-color: #345A66; /* Dark slate gray */
-  }
-  
-  button.bg-blue-500:focus {
-    box-shadow: 0 0 0 3px rgba(117, 221, 221, 0.5); /* Tiffany Blue */
-  }
-  
-  button.bg-blue-500:disabled {
-    background-color: #c0c0c0;
-    cursor: not-allowed;
-  }
-  
-  button:focus {
-    outline: none;
-  }
-  
-  button:active {
-    transform: translateY(2px);
-  }
-  
-  .donutContainer {
-    width: 200px;
-    height: 200px;
-  }
-  
+.percentage {
+  font-size: 12px;
+  color: #666;
+}
+
+.highPercentage {
+  color: red;
+}
+
+.imageContainer {
+  text-align: center;
+}
+
+.foodImage {
+  max-width: 150px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.gramosSection {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.caloriasInfo {
+  margin-left: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+.gramosButtons button {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 5px;
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.gramosButtons button:hover {
+  background-color: #bdbdbd;
+}
+
+.buttonGroup {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.addOptionsButton {
+  background-color: #42a5f5;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.addOptionsButton:hover {
+  background-color: #1e88e5;
+}
+
+.actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

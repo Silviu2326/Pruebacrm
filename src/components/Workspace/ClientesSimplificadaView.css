@@ -1,0 +1,112 @@
+.clientes-simplificada-view {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+}
+
+.cliente-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.clientes-simplificada-view.dark .cliente-card {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.cliente-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cliente-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.cliente-avatar {
+    background-color: #ccc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+}
+
+.cliente-header-text {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cliente-header-text h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.cliente-status {
+    margin-left: auto;
+    font-size: 0.8em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cliente-status.active {
+    background-color: #ecf7ef;
+    color: #155724;
+    margin-left: 144px;
+}
+
+.cliente-email, .cliente-plan, .cliente-checkin {
+    margin: 8px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.clientes-simplificada-view.dark .cliente-email,
+.clientes-simplificada-view.dark .cliente-plan,
+.clientes-simplificada-view.dark .cliente-checkin {
+    color: #ccc;
+}
+
+.cliente-clases {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.cliente-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: 8px; /* Espacio entre el ícono de dumbbell y las etiquetas */
+}
+
+.cliente-tag {
+    background-color: #e0e0e0;
+    color: #555;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.clientes-simplificada-view.dark .cliente-tag {
+    background-color: #555;
+    color: #eee;
+}

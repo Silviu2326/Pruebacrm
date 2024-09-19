@@ -59,7 +59,7 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                 <h2>Crear Cliente</h2>
                 <form onSubmit={handleSubmit} className="form-grid">
                     <div>
-                        <label className={theme}>Nombre</label>
+                        <label className={theme}>Nombre<span className="required">*</span></label>
                         <input 
                             type="text" 
                             name="nombre" 
@@ -77,7 +77,6 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.apellido} 
                             onChange={handleChange} 
                             className={theme} 
-                            required 
                         />
                     </div>
                     <div>

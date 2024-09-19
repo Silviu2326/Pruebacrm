@@ -305,7 +305,7 @@ function Pestañaeconomiapage({ theme, setTheme }) {
 
       {isScanModalOpen && <ModalDeEscaneoDeFacturas isOpen={isScanModalOpen} onClose={handleCloseScanModal} theme={theme} setTheme={setTheme} />}
       {showControlPanel && !isDetailedModalOpen && !isDetailedDocumentoOpen && !isDetailedFacturaOpen && !isDetailedPlanesOpen && !isScanModalOpen && (
-        <div className="widget-background">
+        <div className={`widget-background ${theme}`}>
           <h1>Economía</h1>
           <div className="NavBtn">
             <NavegadorDeGraficos onTabChange={handleTabChange} activeTab={activeTab} theme={theme} setTheme={setTheme} />
@@ -331,8 +331,8 @@ function Pestañaeconomiapage({ theme, setTheme }) {
                 draggableHandle=".widget-handle"
                 isResizable={false}
               >
-                <div key="panelcontrol" className="main-widget">
-                  <div className="panelcontrol-widget">
+                <div key="panelcontrol" className={`main-widget ${theme}`}>
+                  <div className={`panelcontrol-widget ${theme}`}>
                     <ResponsiveGridLayout
                       className="layout"
                       layouts={{ lg: layout }}
@@ -344,7 +344,7 @@ function Pestañaeconomiapage({ theme, setTheme }) {
                       isResizable={isEditMode}
                     >
                       {layout.map(item => (
-                        <div key={item.i} className={`widget ${item.i}-widget`}>
+                        <div key={item.i} className={`widget ${item.i}${theme}-widget`}>
                           {isEditMode && (
                             <>
                               <div className="widget-drag-handle"></div>

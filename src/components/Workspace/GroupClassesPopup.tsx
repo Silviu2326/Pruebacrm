@@ -323,27 +323,3 @@ export default function GroupClassesPopup({ service, onClose }: GroupClassesPopu
     </Dialog>
   );
 }
-
-// GroupClassesPopup.tsx
-/*
-import React from 'react';
-import { Service } from '../types/Service';  // Asegúrate de que es la misma interfaz usada en todos los componentes
-
-interface GroupClassesPopupProps {
-  service: Service;  // Usa el tipo correcto de la interfaz unificada
-  onClose: () => void;
-}
-
-const GroupClassesPopup: React.FC<GroupClassesPopupProps> = ({ service, onClose }) => {
-  return (
-    <div className="popup">
-      <h2>{service.name}</h2>
-      <p>{service.description}</p>
-      <p>Max Participants: {service.maxParticipants ?? 'N/A'}</p> {/* Maneja undefined correctamente */ /*}
-      <button onClick={onClose}>Cerrar</button>
-    </div>
-  );
-};
-
-export default GroupClassesPopup;
-*/

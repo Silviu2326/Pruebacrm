@@ -25,6 +25,8 @@ import Rutinaaasss from './components/Rutinaaasss/Rutinaaaasss';
 import Login from './components/Login/login';
 import Ajustes from './components/Ajustes/Ajustes'; // Importar el componente Ajustes
 import './styles.css';
+import ListadePublicaciones from './components/Publicaciondecontenido/listadepublicaciones';
+import DashboardPrincipal from './components/dashboardPrincipal/DashboardPrincipal'; // Importa el nuevo componente DashboardPrincipal
 
 const App = () => {
   const [theme, setTheme] = useState('light');
@@ -65,6 +67,7 @@ const App = () => {
             <Route path="/edit-dieta/:id" element={<Pageediciondieta theme={theme} setTheme={setTheme}/>} />
             <Route path="/lista-clases" element={<Listadeclases theme={theme} setTheme={setTheme}/>} />
             <Route path="/plans" element={<Plans theme={theme} setTheme={setTheme}/>} />
+            <Route path="/dashboard-principal" element={<DashboardPrincipal theme={theme} setTheme={setTheme}/>} /> {/* Añade la nueva ruta para DashboardPrincipal */}
             <Route path="/forecasts" element={<Forecasts theme={theme} setTheme={setTheme}/>} />
             <Route path="/expenses" element={<Expenses theme={theme} setTheme={setTheme}/>} />
             <Route path="/income-expenses" element={<IncomeExpenses theme={theme} setTheme={setTheme}/>} />
@@ -78,6 +81,7 @@ const App = () => {
             <Route path="/funnels" element={<FunnelsList theme={theme} setTheme={setTheme}/>} />
             <Route path="/rutinaaasss" element={<Rutinaaasss theme={theme} setTheme={setTheme}/>} />
             <Route path="/login" element={<Login />} />
+            <Route path="/publicaciones" element={<ListadePublicaciones theme={theme} setTheme={setTheme}/>} />
             <Route path="/ajustes" element={<Ajustes theme={theme} setTheme={setTheme}/>} /> {/* Agregar la ruta Ajustes */}
           </Routes>
         </div>

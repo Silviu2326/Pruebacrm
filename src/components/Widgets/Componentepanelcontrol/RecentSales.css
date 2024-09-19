@@ -4,7 +4,6 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  min-height: 600px;
   box-sizing: border-box;
   overflow: hidden;
   color: var(--text);
@@ -130,16 +129,46 @@
 
 .panelcontrol-sales-table {
   width: 100%;
-  border-collapse: collapse;
   color: var(--text);
   flex-grow: 1;
-  overflow-y: auto;
+  max-height: 300px;
+  overflow-y: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: var(--ClientesWorkspace-background-light);
+  border-radius: var(--ClientesWorkspace-border-radius);
+  overflow: hidden;
+  box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
 }
 
 .panelcontrol-sales-table th,
 .panelcontrol-sales-table td {
   padding: 8px;
   text-align: left;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--ClientesWorkspace-input-border-light);
+  transition: background-color var(--ClientesWorkspace-transition-speed), color var(--ClientesWorkspace-transition-speed);
+}
+
+.panelcontrol-sales-table th{
+  background-color: #335484;
+  color: #f7faff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.panelcontrol-sales-table tr:nth-child(even) {
+  background-color: #f8f8f8; /* Fila par de color claro */
+}
+
+body.dark .panelcontrol-sales-table tr:nth-child(even) {
+  background-color: #2a2a2a; /* Fila par en modo oscuro */
 }
 
 .panelcontrol-sales-table tr {

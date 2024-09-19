@@ -10,12 +10,14 @@ const ExerciseList = ({ theme }) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
+  const [muscle, setMuscle] = useState('');
+  const [equipment, setEquipment] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [exercises, setExercises] = useState([]);
   const [currentExercise, setCurrentExercise] = useState(null);
+  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [savedRoutines, setSavedRoutines] = useState([]);
 
   useEffect(() => {
     const fetchExercises = async () => {
@@ -50,16 +52,43 @@ const ExerciseList = ({ theme }) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
+  const handleMuscleChange = (e) => {
+    setMuscle(e.target.value);
   };
 
-  const handleSubcategoryChange = (e) => {
-    setSubcategory(e.target.value);
+  const handleEquipmentChange = (e) => {
+    setEquipment(e.target.value);
   };
 
   const handleFilterChange = (filter) => {
     setSelectedFilter(filter);
+  };
+
+  const handleExerciseSelect = (exercise) => {
+    setSelectedExercises((prevSelected) => {
+      if (prevSelected.includes(exercise)) {
+        return prevSelected.filter((ex) => ex !== exercise);
+      } else {
+        return [...prevSelected, exercise];
+      }
+    });
+  };
+
+  const handleSaveRoutine = () => {
+    if (selectedExercises.length === 0) {
+      toast.error('No has seleccionado ningún ejercicio para la rutina');
+      return;
+    }
+
+    const routineName = prompt('Introduce un nombre para la rutina:');
+    if (routineName) {
+      setSavedRoutines((prevRoutines) => [
+        ...prevRoutines,
+        { name: routineName, exercises: selectedExercises },
+      ]);
+      setSelectedExercises([]);
+      toast.success('Rutina guardada exitosamente');
+    }
   };
 
   const closeModal = () => {
@@ -87,8 +116,8 @@ const ExerciseList = ({ theme }) => {
   const filteredExercises = exercises.filter((exercise) => {
     return (
       (selectedFilter === 'custom' ? exercise.creador === 'Juan Pérez' : true) &&
-      (category ? exercise.categoria === category : true) &&
-      (subcategory ? exercise.subcategoria === subcategory : true) &&
+      (muscle ? exercise.musculo === muscle : true) &&
+      (equipment ? exercise.equipamiento === equipment : true) &&
       (exercise.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
@@ -100,6 +129,13 @@ const ExerciseList = ({ theme }) => {
         <h1 className="titulo">Ejercicios</h1>
         <div className="actions">
           <button onClick={handleCreateExercise} className={`ejercicioButton ${theme}`}>Crear Ejercicio</button>
+          <button 
+            onClick={handleSaveRoutine} 
+            className={`ejercicioButton ${theme}`}
+            style={{ marginRight: '163px' }}  // Aquí se aplica el margin-right
+          >
+            Guardar Rutina
+          </button>
         </div>
       </div>
       <div className="filters">
@@ -120,17 +156,17 @@ const ExerciseList = ({ theme }) => {
               Propios
             </div>
           </div>
-          <select value={category} onChange={handleCategoryChange} className={theme}>
-            <option value="">Categorías</option>
-            <option value="Fuerza">Fuerza</option>
-            <option value="Cardio">Cardio</option>
-            {/* Agrega más categorías aquí */}
-          </select>
-          <select value={subcategory} onChange={handleSubcategoryChange} className={theme}>
-            <option value="">Subcategorías</option>
+          <select value={muscle} onChange={handleMuscleChange} className={theme}>
+            <option value="">Músculos</option>
             <option value="Piernas">Piernas</option>
             <option value="Pecho">Pecho</option>
-            {/* Agrega más subcategorías aquí */}
+            {/* Agrega más músculos aquí */}
+          </select>
+          <select value={equipment} onChange={handleEquipmentChange} className={theme}>
+            <option value="">Equipamiento</option>
+            <option value="Mancuernas">Mancuernas</option>
+            <option value="Barra">Barra</option>
+            {/* Agrega más equipamiento aquí */}
           </select>
         </div>
         <div className="right">
@@ -146,20 +182,28 @@ const ExerciseList = ({ theme }) => {
       <table className={`exercises-table ${theme}`}>
         <thead>
           <tr>
+            <th>Seleccionar</th>
             <th>Nombre</th>
             <th>Creador</th>
-            <th>Categoría</th>
-            <th>Subcategoría</th>
+            <th>Músculo</th>
+            <th>Equipamiento</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredExercises.map((exercise, index) => (
             <tr key={index}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={selectedExercises.includes(exercise)}
+                  onChange={() => handleExerciseSelect(exercise)}
+                />
+              </td>
               <td>{exercise.nombre}</td>
               <td>{exercise.creador}</td>
-              <td>{exercise.categoria}</td>
-              <td>{exercise.subcategoria}</td>
+              <td>{exercise.musculo}</td>
+              <td>{exercise.equipamiento}</td>
               <td>
                 <button onClick={() => handlePreviewExercise(exercise)} className={`action-button ${theme}`}>Previsualizar</button>
                 <button onClick={() => handleEditExercise(exercise)} className={`action-button ${theme}`}>Editar</button>
@@ -172,7 +216,7 @@ const ExerciseList = ({ theme }) => {
         isOpen={isPreviewModalOpen}
         onClose={closePreviewModal}
         exercise={currentExercise}
-        theme={theme} // Pasar el tema
+        theme={theme}
       />
       <ModalCreacionEjercicio
         isOpen={isModalOpen}
@@ -180,8 +224,25 @@ const ExerciseList = ({ theme }) => {
         addExercise={addExerciseToList}
         updateExercise={updateExerciseInList}
         currentExercise={currentExercise}
-        theme={theme} // Pasar el tema
+        theme={theme}
       />
+      {savedRoutines.length > 0 && (
+        <div className="saved-routines">
+          <h2 className="titulo">Rutinas Guardadas</h2>
+          <ul>
+            {savedRoutines.map((routine, index) => (
+              <li key={index}>
+                <strong>{routine.name}:</strong>
+                <ul>
+                  {routine.exercises.map((exercise, idx) => (
+                    <li key={idx}>{exercise.nombre}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

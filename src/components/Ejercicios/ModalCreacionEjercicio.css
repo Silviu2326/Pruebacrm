@@ -114,38 +114,66 @@
   justify-content: space-between;
 }
 
-.modal-creacion-ejercicio button {
+/* Estilos para el botón de crear con clase única */
+.crear-btn {
+  background-color: #28a745;
+  color: white;
   padding: 10px 20px;
-  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
-.modal-creacion-ejercicio button[type="submit"] {
-  background-color: #28a745;
-  color: white;
-}
-
-.modal-creacion-ejercicio button[type="submit"]:hover {
+.crear-btn:hover {
   background-color: #218838;
+  color: yellow;
 }
 
-.modal-creacion-ejercicio button[type="button"] {
+/* Estilos para el botón de cerrar con clase única */
+.cerrar-btn {
   background-color: #dc3545;
   color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.modal-creacion-ejercicio button[type="button"]:hover {
+.cerrar-btn:hover {
   background-color: #c82333;
 }
 
+/* Evitar conflictos con otros botones */
+.modal-creacion-ejercicio button[type="submit"],
 .modal-creacion-ejercicio button.red {
-  background-color: #dc3545;
-  color: white;
+  /* Reinicia o aplica estilos específicos solo si es necesario */
+  background-color: unset;
+  color: unset;
+  padding: unset;
+  border-radius: unset;
+  cursor: unset;
+  position: static;
+  font-size: unset;
+}
+.modal-creacion-ejercicio .checkbox-group.single-column {
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-creacion-ejercicio button.red:hover {
-  background-color: #c82333;
+.modal-creacion-ejercicio .checkbox-group.single-column label {
+  margin-bottom: 10px; /* Espacio entre cada checkbox */
+  display: flex;
+  align-items: center; /* Alinea el checkbox y el texto verticalmente */
+}
+
+/* Opcionalmente, puedes agregar un monigote o imagen de referencia al lado */
+.modal-creacion-ejercicio .checkbox-group.single-column label::before {
+  content: ""; /* Aquí puedes agregar una imagen de fondo */
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
 }

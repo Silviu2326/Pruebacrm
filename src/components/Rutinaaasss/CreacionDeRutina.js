@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './CreacionDeRutina.css';
 import { Icon } from 'react-icons-kit';
 import { plus } from 'react-icons-kit/fa/plus';
+import { trash } from 'react-icons-kit/fa/trash';
 
 const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, theme }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState([]);
   const [notes, setNotes] = useState('');
   const [tableData, setTableData] = useState([['', '', '', '', '']]);
+  const [attributes, setAttributes] = useState(['Repeticiones', 'Peso', 'Descanso']);
   const [showButton, setShowButton] = useState(null);
   const [focusedCell, setFocusedCell] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -31,24 +33,25 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
       setTableData(routine.exercises.map(e => [e.name, e.repetitions, e.weight, e.rest, e.notes]));
       setName(routine.name);
       setDescription(routine.description);
-      setTags(routine.tags.join(', '));
+      setTags(routine.tags);
       setNotes(routine.notes);
     }
   }, [routine]);
+
+  const predefinedTags = ['Upper body', 'Lower body', 'Push', 'Pull', 'Legs'];
+
+  const toggleTag = (tag) => {
+    if (tags.includes(tag)) {
+      setTags(tags.filter(t => t !== tag));
+    } else {
+      setTags([...tags, tag]);
+    }
+  };
 
   const handleInputChange = (rowIndex, columnIndex, value) => {
     const updatedData = [...tableData];
     updatedData[rowIndex][columnIndex] = value;
     setTableData(updatedData);
-
-    const isRepsPattern = columnIndex === 1 && /(\d+)x(\d+)/.test(value);
-    const isWeightPattern = columnIndex === 2 && /(\d+)(\+|\-)(\d+)/.test(value);
-
-    if ((isRepsPattern || isWeightPattern) && focusedCell && focusedCell.rowIndex === rowIndex && focusedCell.columnIndex === columnIndex) {
-      setShowButton({ rowIndex, columnIndex });
-    } else {
-      setShowButton(null);
-    }
 
     if (columnIndex === 0 && value.length > 1) {
       const filteredSuggestions = exercises.filter(exercise => typeof exercise === 'string' && exercise.toLowerCase().includes(value.toLowerCase()));
@@ -58,64 +61,13 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
     }
   };
 
-  const handleAddRows = (rowIndex) => {
-    const value = tableData[rowIndex][showButton.columnIndex];
-    const isRepsPattern = /(\d+)x(\d+)/.test(value);
-    const isWeightPattern = /(\d+)(\+|\-)(\d+)/.test(value);
-    const exerciseName = tableData[rowIndex][0];
-
-    if (isRepsPattern) {
-      const match = value.match(/(\d+)x(\d+)/);
-      const numRows = parseInt(match[1], 10);
-      const reps = match[2];
-
-      const baseRow = tableData[rowIndex];
-      const newRows = Array(numRows).fill().map(() => ([...baseRow.slice(0, 1), reps, ...baseRow.slice(2)]));
-
-      const updatedData = [
-        ...tableData.slice(0, rowIndex),
-        ...newRows,
-        ...tableData.slice(rowIndex + 1)
-      ];
-
-      setTableData(updatedData);
-    } else if (isWeightPattern) {
-      const match = value.match(/(\d+)(\+|\-)(\d+)/);
-      const baseWeight = parseInt(match[1], 10);
-      const increment = parseInt(match[3], 10);
-      const operator = match[2];
-
-      const baseRow = tableData[rowIndex];
-      const newRows = Array(tableData.length - rowIndex).fill().map((_, i) => {
-        if (tableData[rowIndex + i] && tableData[rowIndex + i][0] === exerciseName) {
-          return [
-            ...baseRow.slice(0, 2),
-            operator === '+' ? (baseWeight + increment * i).toString() : (baseWeight - increment * i).toString(),
-            ...baseRow.slice(3)
-          ];
-        }
-        return tableData[rowIndex + i];
-      });
-
-      const updatedData = [
-        ...tableData.slice(0, rowIndex),
-        ...newRows,
-      ];
-
-      setTableData(updatedData);
-    }
-
-    setShowButton(null);
-  };
-
   const handleFocus = (rowIndex, columnIndex) => {
     setFocusedCell({ rowIndex, columnIndex });
   };
 
   const handleBlur = () => {
     setFocusedCell(null);
-    setShowButton(null);
-    setTimeout(() => setSuggestions([]), 100);
+    setSuggestions([]);
   };
 
   const handleSuggestionClick = (rowIndex, suggestion) => {
@@ -129,19 +81,23 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
     setTableData([...tableData, ['', '', '', '', '']]);
   };
 
+  const deleteRow = (rowIndex) => {
+    const updatedData = tableData.filter((_, index) => index !== rowIndex);
+    setTableData(updatedData);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newRoutine = {
       name,
       description,
-      tags: tags.split(',').map(tag => tag.trim()),
+      tags,
       notes,
       exercises: tableData.map(row => ({
         name: row[0],
-        repetitions: row[1],
-        weight: row[2],
-        rest: row[3],
-        notes: row[4]
+        attribute1: row[1],
+        attribute2: row[2],
+        attribute3: row[3],
       }))
     };
 
@@ -173,6 +129,19 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
     }
   };
 
+  const handleAttributeChange = (index, newAttribute) => {
+    const updatedAttributes = [...attributes];
+    updatedAttributes[index] = newAttribute;
+    setAttributes(updatedAttributes);
+  };
+
+  // Lista de opciones traducidas al español
+  const attributeOptions = [
+    'Repeticiones', 'Peso', 'Descanso', 'Tempo', 'Esfuerzo Percibido (RPE)', 
+    'RPM', 'Repeticiones en Reserva (RIR)', 'Tiempo', 'Velocidad', 'Cadencia', 
+    'Distancia', 'Altura', 'Calorías', 'Ronda'
+  ];
+
   return (
     <div className={`creacion-de-rutina-modal ${theme}`}>
       <div className={`creacion-de-rutina-modal-content ${theme}`}>
@@ -189,7 +158,18 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
           </label>
           <label>
             Tags/Categorías:
-            <input type="text" name="tags" value={tags} onChange={e => setTags(e.target.value)} className={theme} required />
+            <div className="tag-selector">
+              {predefinedTags.map((tag, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  className={`tag-button ${tags.includes(tag) ? 'selected' : ''} ${theme}`}
+                  onClick={() => toggleTag(tag)}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </label>
           <label>
             Notas Adicionales:
@@ -201,44 +181,69 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
               <thead>
                 <tr>
                   <th className={theme}>Ejercicio</th>
-                  <th className={theme}>Repeticiones</th>
-                  <th className={theme}>Peso o %RP</th>
-                  <th className={theme}>Descanso</th>
-                  <th className={theme}>Nota</th>
+                  {attributes.map((attribute, index) => (
+                    <th key={index} className={theme}>
+                      <select
+                        value={attribute}
+                        onChange={(e) => handleAttributeChange(index, e.target.value)}
+                        className={theme}
+                      >
+                        {attributeOptions.map((option, optionIndex) => (
+                          <option 
+                            key={optionIndex} 
+                            value={option} 
+                            disabled={attributes.includes(option) && attributes[index] !== option} 
+                          >
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </th>
+                  ))}
+                  <th className={theme}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {tableData.map((row, rowIndex) => (
                   <tr key={rowIndex}>
-                    {row.map((cell, colIndex) => (
+                    <td className={`tableCell ${theme}`}>
+                      <input
+                        value={row[0]}
+                        onChange={(e) => handleInputChange(rowIndex, 0, e.target.value)}
+                        onFocus={() => handleFocus(rowIndex, 0)}
+                        onBlur={handleBlur}
+                        className={theme}
+                      />
+                      {suggestions.length > 0 && focusedCell && focusedCell.rowIndex === rowIndex && focusedCell.columnIndex === 0 && (
+                        <div className={`suggestions ${theme}`}>
+                          {suggestions.map((suggestion, index) => (
+                            <div
+                              key={index}
+                              className={`suggestion ${theme}`}
+                              onMouseDown={() => handleSuggestionClick(rowIndex, suggestion)}
+                            >
+                              {suggestion}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </td>
+                    {[1, 2, 3].map((colIndex) => (
                       <td key={colIndex} className={`tableCell ${theme}`}>
                         <input
-                          value={cell}
+                          value={row[colIndex]}
                           onChange={(e) => handleInputChange(rowIndex, colIndex, e.target.value)}
                           onFocus={() => handleFocus(rowIndex, colIndex)}
                           onBlur={handleBlur}
                           className={theme}
                         />
-                        {colIndex === 0 && suggestions.length > 0 && focusedCell && focusedCell.rowIndex === rowIndex && focusedCell.columnIndex === colIndex && (
-                          <div className={`suggestions ${theme}`}>
-                            {suggestions.map((suggestion, index) => (
-                              <div
-                                key={index}
-                                className={`suggestion ${theme}`}
-                                onMouseDown={() => handleSuggestionClick(rowIndex, suggestion)}
-                              >
-                                {suggestion}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {showButton && showButton.rowIndex === rowIndex && showButton.columnIndex === colIndex && (
-                          <button className="addButton" onMouseDown={() => handleAddRows(rowIndex)}>
-                            <Icon icon={plus} />
-                          </button>
-                        )}
                       </td>
                     ))}
+                    <td className={`tableCell ${theme}`}>
+                      <button type="button" className="deleteButton" onClick={() => deleteRow(rowIndex)}>
+                        <Icon icon={trash} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 <tr>
