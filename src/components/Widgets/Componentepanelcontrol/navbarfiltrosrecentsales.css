@@ -1,0 +1,24 @@
+.navbar-filtros-recentsales {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-tag {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .filter-clear {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+  }
+  

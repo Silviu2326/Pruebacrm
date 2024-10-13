@@ -95,63 +95,142 @@ function WidgetDocumentosOtros({ isEditMode, theme }) {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className={`Licencias-filter-input ${theme}`}
+          style={{
+            background: 'var(--search-button-bg)',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}
         />
-        <button className={`Licencias-add-button ${theme}`} onClick={handleAddDocumento}>
+        <button className={`Licencias-add-button ${theme}`} onClick={handleAddDocumento}
+        style={{
+          background:'var(--create-button-bg)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>
           Añadir Documento
         </button>
       </div>
-      <table className={`Licencias-table ${theme}`}>
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" />
-            </th>
-            {selectedColumns.nombre && <th>Nombre</th>}
-            {selectedColumns.descripcion && <th>Descripción</th>}
-            {selectedColumns.fecha && <th>Fecha</th>}
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((documento) => (
-            <tr key={documento.id}>
-              <td>
-                <input type="checkbox" />
-              </td>
-              {selectedColumns.nombre && <td>{documento.nombre}</td>}
-              {selectedColumns.descripcion && <td>{documento.descripcion}</td>}
-              {selectedColumns.fecha && <td>{documento.fecha}</td>}
-              <td>
-                <div className="Licencias-action-dropdown">
-                  <button
-                    className="Licencias-action-button"
-                    onClick={() => toggleActionDropdown(documento.id)}
-                  >
-                    ...
-                  </button>
-                  {actionDropdownOpen[documento.id] && (
-                    <div className="Licencias-action-content">
-                      <button
-                        className="Licencias-action-item"
-                        onClick={() => handleDownload(documento.archivoURL, documento.nombre)}
-                      >
-                        Descargar
-                      </button>
-                      <button className="Licencias-action-item">Borrar</button>
-                    </div>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <table className={`Licencias-table ${theme}`} 
+  style={{ 
+    borderRadius: '10px', 
+    borderCollapse: 'separate', 
+    borderSpacing: '0', 
+    width: '100%', 
+    overflow: 'hidden',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  }}
+>
+  <thead style={{ 
+      backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+      borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+  }}>
+    <tr>
+      <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>
+        <input type="checkbox" />
+      </th>
+      {selectedColumns.nombre && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Nombre</th>}
+      {selectedColumns.descripcion && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Descripción</th>}
+      {selectedColumns.fecha && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Fecha</th>}
+      <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {currentItems.map((documento, index) => (
+      <tr key={documento.id} className={theme} style={{ 
+          backgroundColor: theme === 'dark' 
+            ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+            : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+      }}>
+        <td style={{ padding: '12px' }}>
+          <input type="checkbox" />
+        </td>
+        {selectedColumns.nombre && <td style={{ padding: '12px' }}>{documento.nombre}</td>}
+        {selectedColumns.descripcion && <td style={{ padding: '12px' }}>{documento.descripcion}</td>}
+        {selectedColumns.fecha && <td style={{ padding: '12px' }}>{documento.fecha}</td>}
+        <td style={{ padding: '12px' }}>
+          <div className="Licencias-action-dropdown">
+            <button 
+              className={`Licencias-action-button ${theme}`} 
+              onClick={() => toggleActionDropdown(documento.id)}
+              style={{
+                background: 'var(--create-button-bg)', 
+                color: 'var(--button-text-dark)',
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>
+              ...
+            </button>
+            {actionDropdownOpen[documento.id] && (
+              <div className={`Licencias-action-content ${theme}`} style={{ padding: '10px', background: '#fff', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                <button 
+                  className="Licencias-action-item"
+                  onClick={() => handleDownload(documento.archivoURL, documento.nombre)}
+                  style={{
+                    background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--button-bg-light)',
+                    color: 'var(--button-text-dark)',
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    transition: 'background 0.3s ease',
+                  }}
+                >
+                  Descargar
+                </button>
+                <button 
+                  className="Licencias-action-item"
+                  style={{
+                    background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--button-bg-light)',
+                    color: 'var(--button-text-dark)',
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    transition: 'background 0.3s ease',
+                  }}
+                >
+                  Borrar
+                </button>
+              </div>
+            )}
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       <div className="Licencias-pagination">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
           className="Licencias-pagination-button"
-        >
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}>
           Anterior
         </button>
         <span className="Licencias-pagination-info">
@@ -161,7 +240,16 @@ function WidgetDocumentosOtros({ isEditMode, theme }) {
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
           className="Licencias-pagination-button"
-        >
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}>
           Siguiente
         </button>
       </div>
@@ -204,8 +292,28 @@ function WidgetDocumentosOtros({ isEditMode, theme }) {
                   required
                 />
               </div>
-              <button type="submit">Añadir Documento</button>
-              <button type="button" onClick={handleCloseModal}>
+              <button type="submit"
+              style={{
+                background:'var(--create-button-bg)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Añadir Documento</button>
+              <button type="button" onClick={handleCloseModal}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>
                 Cancelar
               </button>
             </form>

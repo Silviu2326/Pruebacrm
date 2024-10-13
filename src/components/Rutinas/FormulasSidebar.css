@@ -1,0 +1,76 @@
+.formulas-sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #f0f4f8; /* Fondo claro */
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  border-left: 3px solid #4caf50; /* Border verde */
+}
+
+.formulas-sidebar h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 10px;
+}
+
+.formulas-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  overflow-y: auto; /* Desplazamiento si hay muchas variables */
+}
+
+.formulas-sidebar li {
+  margin-bottom: 15px;
+}
+
+.formulas-sidebar button {
+  background-color: #4caf50; /* Verde de botones */
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.formulas-sidebar button:hover {
+  background-color: #45a049; /* Verde oscuro al hacer hover */
+}
+
+.formulas-sidebar .close-btn {
+  background-color: #f44336; /* Rojo para el botón cerrar */
+  align-self: flex-end;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+}
+
+.formulas-sidebar .close-btn:hover {
+  background-color: #d32f2f;
+}
+
+.formulas-sidebar ul button {
+  width: 100%;
+  text-align: left;
+}
+
+.formulas-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.formulas-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}

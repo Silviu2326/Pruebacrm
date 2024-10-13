@@ -1,0 +1,159 @@
+.Genpu-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.Genpu-modal-content {
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
+  padding: 30px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 600px;
+  max-height: 90vh;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.Genpu-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Genpu-modal-title {
+  font-size: 1.8rem;
+}
+
+.Genpu-modal-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--modal-text);
+}
+
+.Genpu-modal-body {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Genpu-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.Genpu-form-label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.Genpu-form-input {
+  padding: 10px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--input-bg);
+  color: var(--modal-text);
+}
+
+.Genpu-form-input:focus {
+  outline: none;
+  border-color: var(--button-bg);
+}
+
+.Genpu-imagen-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.Genpu-imagen-preview {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--button-bg);
+  margin-bottom: 10px;
+}
+
+.Genpu-imagen-placeholder {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9ecef;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 10px;
+}
+
+.Genpu-cambiar-imagen-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--button-bg);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.Genpu-cambiar-imagen-button:hover {
+  text-decoration: underline;
+}
+
+.Genpu-modal-footer {
+  margin-top: 30px;
+  text-align: right;
+}
+
+.Genpu-modal-button {
+  padding: 12px 24px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.3s ease;
+}
+
+.Genpu-modal-button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* Temas */
+.Genpu-modal-content.light {
+  --modal-bg: #ffffff;
+  --modal-text: #000000;
+  --button-bg: #007bff;
+  --button-text: #ffffff;
+  --button-hover-bg: #0056b3;
+  --input-bg: #f9f9f9;
+  --input-border: #ccc;
+}
+
+.Genpu-modal-content.dark {
+  --modal-bg: #2c2c2c;
+  --modal-text: #ffffff;
+  --button-bg: #1a73e8;
+  --button-text: #ffffff;
+  --button-hover-bg: #135ab8;
+  --input-bg: #3c3c3c;
+  --input-border: #555;
+}

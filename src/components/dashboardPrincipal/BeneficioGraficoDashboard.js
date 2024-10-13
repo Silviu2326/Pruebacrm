@@ -233,30 +233,92 @@ const BeneficioGraficoDashboard = ({ theme }) => {
       <div className="dashboard-beneficio-header">
         <h3>Cash Flow</h3>
         <div className="dashboard-beneficio-controls">
-          <select onChange={(e) => setView(e.target.value)} value={view} className="dashboard-dropdown-grafico">
+          <select onChange={(e) => setView(e.target.value)} value={view} className="dashboard-dropdown-grafico"
+            >
             <option value="semanal">Semanal</option>
             <option value="mensual">Mensual</option>
             <option value="anual">Anual</option>
           </select>
           {view === 'anual' && (
             <div className="year-navigation">
-              <button className="widget-button" onClick={handlePreviousYear}>Anterior</button>
+              <button className="widget-button" onClick={handlePreviousYear}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}
+              >Anterior</button>
               <span>{year}</span>
-              <button className="widget-button" onClick={handleNextYear}>Siguiente</button>
+              <button className="widget-button" onClick={handleNextYear}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Siguiente</button>
             </div>
           )}
           {view === 'mensual' && (
             <div className="month-navigation">
-              <button className="widget-button" onClick={handlePreviousMonth}>Anterior</button>
+              <button className="widget-button" onClick={handlePreviousMonth}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Anterior</button>
               <span>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
-              <button className="widget-button" onClick={handleNextMonth}>Siguiente</button>
+              <button className="widget-button" onClick={handleNextMonth}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Siguiente</button>
             </div>
           )}
           {view === 'semanal' && (
             <div className="week-navigation">
-              <button className="widget-button" onClick={handlePreviousWeek}>Anterior</button>
+              <button className="widget-button" onClick={handlePreviousWeek}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Anterior</button>
               <span>{`${weeks[weekIndex]?.start} - ${weeks[weekIndex]?.end}`}</span>
-              <button className="widget-button" onClick={handleNextWeek}>Siguiente</button>
+              <button className="widget-button" onClick={handleNextWeek}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Siguiente</button>
             </div>
           )}
         </div>

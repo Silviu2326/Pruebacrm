@@ -17,7 +17,7 @@
     --ClientesWorkspace-table-row-hover-light: #f0f8ff; /* Fondo de la fila al pasar el mouse en la tabla */
     --ClientesWorkspace-table-row-hover-dark: #333333;
     --ClientesWorkspace-selected-row-light: #e0f0ff; /* Fondo de fila seleccionada */
-    --ClientesWorkspace-selected-row-dark: #1e88e5;
+    --ClientesWorkspace-selected-row-dark: #2f4150;
     --ClientesWorkspace-input-background-light: #ffffff;
     --ClientesWorkspace-input-background-dark: #333333;
     --ClientesWorkspace-input-border-light: #d0e0ff; /* Bordes de los inputs */
@@ -35,7 +35,6 @@ body.light, .clientes-lista.light {
 }
 
 body.dark, .clientes-lista.dark {
-    background-color: var(--ClientesWorkspace-background-dark);
     color: var(--ClientesWorkspace-text-dark);
 }
 
@@ -65,9 +64,7 @@ body, .clientes-lista {
 }
 
 body.dark .clientes-lista-header {
-    background-color: var(--ClientesWorkspace-button-background-dark);
-    border-bottom: 2px solid var(--ClientesWorkspace-primary-dark);
-    box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-dark);
+    background-color: var(--background-dark);
 }
 
 .header-title {
@@ -78,7 +75,6 @@ body.dark .clientes-lista-header {
 }
 
 .nuevo-cliente-btn {
-    background: linear-gradient(135deg, #6b3fc9 0%, #9e5fff 100%);
     color: var(--ClientesWorkspace-button-text-light);
     border: none;
     padding: 10px 20px;
@@ -134,7 +130,7 @@ body.dark .theme-toggle-btn:hover {
 }
 
 body.dark .subtituloClientes {
-    color: var(--ClientesWorkspace-secondary-dark);
+    color: var(--text-transparente-dark);
 }
 
 .actions {
@@ -170,6 +166,7 @@ body.dark .actions input {
 .actions button {
     padding: 12px 24px;
     border: none;
+    background: linear-gradient(135deg, #6b3fc9 0%, #9e5fff 100%);
     border-radius: var(--ClientesWorkspace-border-radius);
     background-color: var(--ClientesWorkspace-primary-light);
     color: var(--ClientesWorkspace-button-text-light);
@@ -177,6 +174,12 @@ body.dark .actions input {
     transition: background-color var(--ClientesWorkspace-transition-speed), transform var(--ClientesWorkspace-transition-speed), box-shadow var(--ClientesWorkspace-transition-speed);
     box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
     font-weight: 600;
+    background: rgb(39,114,244);
+    background: var(--button-bg-light);
+}
+
+.actions.dark button {
+    background: var(--button-bg-dark);
 }
 
 .actions button:hover {
@@ -225,13 +228,14 @@ body.dark .clientes-table th, body.dark .clientes-table td {
 }
 
 .clientes-table th {
-    background-color: #335484; /* Color de fondo para el encabezado */
-    color: #f7faff;
+    background-color: #ededed;
+    color: #265db5;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 700;
     position: sticky;
     top: 0;
+    border-bottom: 1px solid #903ddf;
     z-index: 2;
 }
 
@@ -285,7 +289,10 @@ body.dark .selected-client {
     justify-content: center;
     gap: 8px;
     margin-left: auto;
-    margin-right: auto;}
+    margin-right: auto;
+    background: #265db5;;
+   
+}
 
 .fixed-button:hover {
     background-image: linear-gradient(white, white), linear-gradient(to right, #b0c4ff, #e5ccff); /* Cambia el gradiente al pasar el mouse */
@@ -295,10 +302,9 @@ body.dark .selected-client {
 }
 
 body.dark .fixed-button {
-    background-color: transparent;
-    background-image: linear-gradient(var(--ClientesWorkspace-background-dark), var(--ClientesWorkspace-background-dark)), linear-gradient(to right, #374151, #6b7280); /* Gradiente oscuro para el tema oscuro */
+    background: var(--button-bg-dos-dark);
     color: var(--ClientesWorkspace-text-dark);
-    box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-dark);
+    box-shadow: 0px 2px 5px var(--ClientesWorkspace-shadow-dark);
 }
 
 body.dark .fixed-button:hover {
@@ -334,12 +340,16 @@ body.dark .fixed-button:hover {
     padding: 12px 24px;
     border: none;
     border-radius: var(--ClientesWorkspace-border-radius);
-    background-color: var(--ClientesWorkspace-primary-light);
+    background: var(--create-button-bg-light);
     color: var(--ClientesWorkspace-button-text-light);
     cursor: pointer;
     transition: background-color var(--ClientesWorkspace-transition-speed), transform var(--ClientesWorkspace-transition-speed), box-shadow var(--ClientesWorkspace-transition-speed);
     box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
     font-weight: 600;
+}
+
+.nuevo-cliente-btn.dark {
+    background: var(--create-button-bg-dark);
 }
 
 .cliente-action-btn:hover {
@@ -370,6 +380,17 @@ body.dark .clientes-table .selected-client {
 }
 .clientes-table td button {
     background-color: #335484; /* Color de fondo azul */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en modo puntero */
+    font-size: 14px; /* Tamaño de fuente */
+    transition: background-color 0.3s; /* Efecto de transición */
+}
+
+.clientes-table.dark td button {
+    background: var(--button-bg-dos-dark); 
     color: white; /* Color del texto blanco */
     border: none; /* Sin borde */
     padding: 5px 10px; /* Espaciado interno */

@@ -3,8 +3,9 @@ import './TablaplanesclienteDuplicado.css';
 import Modalcreacionplanes from './ModalcreacionplanesDuplicado';
 import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/ColumnDropdown';
 import AsociarClientesDropdown from './AsociarClientesDropdown';
+import { Edit, Trash2, UserPlus } from 'lucide-react'; // Importamos los íconos necesarios
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const TablaPlanesDuplicado = ({ isEditMode, theme }) => {
   const [data, setData] = useState([]);
@@ -14,7 +15,7 @@ const TablaPlanesDuplicado = ({ isEditMode, theme }) => {
     nombre: true,
     clientes: true,
     precio: true,
-    tipoPlan: true, 
+    tipoPlan: true,
   });
   const [showCreatePlanModal, setShowCreatePlanModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -144,9 +145,32 @@ const TablaPlanesDuplicado = ({ isEditMode, theme }) => {
           value={filterText}
           onChange={handleFilterChange}
           className={`input-${theme}`}
+          style={{
+            background: 'var(--search-button-bg)',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}
         />
         <div className="Tablaplanescliente-button-group">
-          <button className={`button-${theme}`} onClick={handleOpenCreatePlanModal}>Crear Plan</button>
+          <button className={`button-${theme}`} onClick={handleOpenCreatePlanModal}
+            style={{
+              background: 'var(--create-button-bg)',
+              color: 'var(--button-text-dark)',
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>
+            Crear Plan
+          </button>
         </div>
         {isEditMode && (
           <ColumnDropdown
@@ -155,58 +179,88 @@ const TablaPlanesDuplicado = ({ isEditMode, theme }) => {
           />
         )}
       </div>
-      <table>
-        <thead>
+      <table className={`WidgetPlanes-table ${theme}`} 
+        style={{ 
+          borderRadius: '10px', 
+          borderCollapse: 'separate', 
+          borderSpacing: '0', 
+          width: '100%', 
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{ 
+          backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+          borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleSelectAllChange}
               />
             </th>
-            {/* La columna ID está eliminada pero las otras columnas mantienen sus medidas */}
-            {visibleColumns.nombre && <th>Nombre del Plan</th>}
-            {visibleColumns.clientes && <th>Clientes</th>}
-            {visibleColumns.precio && <th>Precio</th>}
-            {visibleColumns.tipoPlan && <th>Tipo de Plan</th>}
-            <th></th>
+            {visibleColumns.nombre && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Nombre del Plan</th>}
+            {visibleColumns.clientes && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Clientes</th>}
+            {visibleColumns.precio && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Precio</th>}
+            {visibleColumns.tipoPlan && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Tipo de Plan</th>}
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={index}>
-              <td>
+            <tr key={index} className={theme} style={{ 
+              backgroundColor: theme === 'dark'
+                ? (index % 2 === 0 ? '#333' : '#444')
+                : (index % 2 === 0 ? '#f9f9f9' : '#ffffff')
+            }}>
+              <td style={{ padding: '12px' }}>
                 <input
                   type="checkbox"
                   checked={selectedRows[index]}
                   onChange={() => handleRowCheckboxChange(index)}
                 />
               </td>
-              {/* Mantener el espacio de la columna ID eliminado para conservar las dimensiones */}
-              {visibleColumns.nombre && <td>{item.nombre}</td>}
-              {visibleColumns.clientes && <td>{item.clientes}</td>}
-              {visibleColumns.precio && <td>{item.precio}</td>}
-              {visibleColumns.tipoPlan && <td>{item.tipoPlan}</td>}
-              <td>
-                <div className="Tablaplanescliente-dropdown Tablaplanescliente-options-dropdown">
-                  <button className={`dropdown-toggle ${theme} options-btn`}>...</button>
-                  <div className={`dropdown-menu ${theme} options-menu`}>
-                    <button className={`dropdown-item ${theme}`}>Editar Plan</button>
-                    <button
-                      className={`dropdown-item ${theme}`}
-                      onClick={() => handleAsociarClientes(item)}
-                    >
-                      Asociar Clientes
-                    </button>
-                    <button className={`dropdown-item ${theme}`}>Borrar Plan</button>
-                  </div>
+              {visibleColumns.nombre && <td style={{ padding: '12px' }}>{item.nombre}</td>}
+              {visibleColumns.clientes && <td style={{ padding: '12px' }}>{item.clientes}</td>}
+              {visibleColumns.precio && <td style={{ padding: '12px' }}>{item.precio}</td>}
+              {visibleColumns.tipoPlan && <td style={{ padding: '12px' }}>{item.tipoPlan}</td>}
+              <td style={{ padding: '12px' }}>
+                <div className="actions-buttons">
+                  <button onClick={() => handleAsociarClientes(item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)' 
+                  }}>
+                    <UserPlus size={16} />
+                  </button>
+
+                  <button onClick={() => console.log('Edit plan', item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)' 
+                  }}>
+                    <Edit size={16} />
+                  </button>
+
+                  <button onClick={() => console.log('Delete plan', item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'red' 
+                  }}>
+                    <Trash2 size={16} />
+                  </button>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
       {showCreatePlanModal && (
         <Modalcreacionplanes onClose={handleCloseCreatePlanModal} />
       )}

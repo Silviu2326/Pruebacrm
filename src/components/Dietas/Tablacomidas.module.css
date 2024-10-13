@@ -1,0 +1,77 @@
+.tableContainer {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.styledTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.styledTable th,
+.styledTable td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilos para el modo claro */
+.styledTable th {
+  background-color: #4CAF50; /* Verde claro */
+  color: white;
+}
+
+.styledTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.styledTable td {
+  color: #333;
+}
+
+.styledTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styledTable tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Estilos para el modo oscuro */
+.dark .styledTable {
+  background-color: #1c1c1c;
+}
+
+.dark .styledTable th {
+  background-color: #388e3c; /* Un verde más oscuro que combina mejor con el modo oscuro */
+  color: #c7c7c7; /* Un gris claro para el texto */
+}
+
+.dark .styledTable td {
+  color: #c7c7c7;
+  border-bottom: 1px solid #444; /* Borde más oscuro */
+}
+
+.dark .styledTable tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+.dark .styledTable tr:nth-child(odd) {
+  background-color: #333333;
+}
+
+.dark .styledTable tr:hover {
+  background-color: #3a3a3a; /* Efecto hover en modo oscuro */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .styledTable th,
+  .styledTable td {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

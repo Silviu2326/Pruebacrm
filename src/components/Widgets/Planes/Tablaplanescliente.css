@@ -176,9 +176,9 @@
 }
 
 .Widgetplanes-container th {
-  background: var(--table-header-bg);
   font-weight: bold;
   text-transform: uppercase;
+  background: var(--table-th-bg);
 }
 
 .Widgetplanes-container tr:nth-child(even) {

@@ -6,8 +6,7 @@ import PopupCrearRutina from './PopupCrearRutina';
 import PopupCrearDieta from './PopupCrearDieta';
 import PopupCrearCita from './PopupCrearCita';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const SuscripcionesVerCliente = ({ cliente, onClose, asesoria }) => {
     const [rutinas, setRutinas] = useState([]);
     const [dietas, setDietas] = useState([]);

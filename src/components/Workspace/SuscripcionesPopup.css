@@ -209,3 +209,55 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/* Estilos de la tabla */
+.servicioslista-tabla-servicios {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+.servicioslista-tabla-servicios th,
+.servicioslista-tabla-servicios td {
+    padding: 10px;
+    text-align: left;
+}
+
+.servicioslista-tabla-servicios th {
+    color: var(--text);
+    background: var(--table-th-bg);
+}
+
+.servicioslista-tabla-servicios tbody tr:hover {
+    background-color: var(--secondary);
+}
+
+/* Estilos específicos para la tabla de planes de pago */
+.servicioslista-tabla-planes {
+    width: 95%; /* Disminuir el ancho para dar la impresión de desplazamiento */
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 20px; /* Desplazar la tabla hacia la derecha */
+    background-color: var(--table-bg);
+}
+
+.servicioslista-tabla-planes th,
+.servicioslista-tabla-planes td {
+    padding: 8px;
+    border: 1px solid var(--table-border);
+    text-align: left;
+}
+
+.servicioslista-tabla-planes th {
+    background-color: var(--);
+    color: var(--header-text-light);
+}
+
+.servicioslista-tabla-planes tr:nth-child(even) {
+    background: var(--table-row-even-bg);
+}
+
+.servicioslista-tabla-planes tbody tr:hover {
+    background-color: var(--table-row-hover-bg);
+}

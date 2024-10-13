@@ -1,0 +1,110 @@
+/* Estilo para el fondo del modal */
+.BonosCr-modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Estilo para el contenido del modal */
+  .BonosCr-modal-content {
+    background-color: var(--widget-bg); /* Usamos el fondo de widget según el tema */
+    color: var(--text); /* Color del texto ajustado según el tema */
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    animation: slide-down 0.3s ease; /* Animación suave de entrada */
+  }
+  
+  /* Animación de deslizamiento del modal */
+  @keyframes slide-down {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Estilo del encabezado del modal */
+  .BonosCr-modal-content h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--text, black); /* Color de texto ajustable según el tema */
+  }
+  
+  /* Estilo para los inputs y selects */
+  .BonosCr-modal-content input,
+  .BonosCr-modal-content select,
+  .BonosCr-modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid var(--secondary, #ddd); /* Bordes ajustables por tema */
+    font-size: 16px;
+    background-color: var(--background, #f7faff); /* Fondo del input según el tema */
+    color: var(--text, black); /* Color del texto según el tema */
+  }
+  
+  /* Enfocar en los inputs y selects */
+  .BonosCr-modal-content input:focus,
+  .BonosCr-modal-content select:focus,
+  .BonosCr-modal-content textarea:focus {
+    outline: none;
+    border-color: var(--border-blue, #265db5); /* Color de borde en foco según tema */
+  }
+  
+  /* Estilo del botón Añadir */
+  .BonosCr-modal-content button[type="submit"] {
+    background-color: var(--search-button-bg); /* Fondo del botón ajustable */
+    color: var(--text); /* Color del texto del botón */
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    display: block;
+    width: 100%;
+  }
+  
+  .BonosCr-modal-content button[type="submit"]:hover {
+    background-color: var(--search-button-bg); /* Hover del botón */
+  }
+  
+  /* Estilo para el botón de cerrar */
+  .BonosCr-modal-content button {
+    background-color: transparent;
+    color: var(--text, black);
+    border: 1px solid var(--button-border, #777777);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .BonosCr-modal-content button:hover {
+    background-color: var(--secondary, #ddd); /* Cambio en hover para el botón de cerrar */
+  }
+  
+  /* Ajuste del textarea */
+  .BonosCr-modal-content textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  

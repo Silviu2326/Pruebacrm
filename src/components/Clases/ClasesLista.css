@@ -1,0 +1,79 @@
+/* src/components/Clases/ClasesLista.css */
+.ClasesListaContainer {
+  margin: 20px;
+  color: var(--text);
+  background-color: var(--background);
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.confirmarBtn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirmarBtn:hover {
+  background-color: #218838;
+}
+
+.cerrarBtn {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cerrarBtn:hover {
+  background-color: #c82333;
+}
+
+.clientesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.clientesTable th,
+.clientesTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.clientesTable th {
+  background-color: #f2f2f2;
+  text-align: left;
+  color: var(--text-blue);
+}
+
+.filtroInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+/* Estilos para temas */
+.light {
+  /* Estilos específicos para el tema claro, si es necesario */
+}
+
+.dark {
+  /* Estilos específicos para el tema oscuro, si es necesario */
+}

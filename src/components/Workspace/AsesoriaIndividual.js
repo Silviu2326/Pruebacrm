@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AsesoriaIndividual.css';
 
-const AsesoriaIndividual = ({ initialData }) => {
+const AsesoriaIndividual = ({ initialData, theme }) => {
     const [nombreAsesoria, setNombreAsesoria] = useState(initialData?.name || '');
     const [descripcion, setDescripcion] = useState(initialData?.description || '');
     const [objetivos, setObjetivos] = useState(initialData?.objectives || '');
@@ -65,10 +65,10 @@ const AsesoriaIndividual = ({ initialData }) => {
     };
 
     return (
-        <div className="AsesoriaIndividual-container">
+        <div className={`AsesoriaIndividual-container ${theme}`}>
             <h1>Crear Asesoría Individual</h1>
             
-            <div className="AsesoriaIndividual-field">
+            <div className={`AsesoriaIndividual-field ${theme}`}>
                 <label>Nombre de la asesoría</label>
                 <input
                     type="text"
@@ -78,7 +78,7 @@ const AsesoriaIndividual = ({ initialData }) => {
                 />
             </div>
 
-            <div className="AsesoriaIndividual-field">
+            <div className={`AsesoriaIndividual-field ${theme}`}>
                 <label>Descripción</label>
                 <textarea
                     value={descripcion}
@@ -88,7 +88,7 @@ const AsesoriaIndividual = ({ initialData }) => {
                 />
             </div>
 
-            <div className="AsesoriaIndividual-field">
+            <div className={`AsesoriaIndividual-field ${theme}`}>
                 <label>Unidad de Duración</label>
                 <select
                     value={durationUnit}
@@ -99,7 +99,7 @@ const AsesoriaIndividual = ({ initialData }) => {
                 </select>
             </div>
 
-            <div className="AsesoriaIndividual-field">
+            <div className={`AsesoriaIndividual-field ${theme}`}>
                 <label>Duración en {durationUnit === 'weeks' ? 'semanas' : 'meses'}</label>
                 <input
                     type="number"
@@ -114,10 +114,10 @@ const AsesoriaIndividual = ({ initialData }) => {
 
             {subtipos.map((subtipo, index) => (
                 <React.Fragment key={subtipo.id}>
-                    {index > 0 && <div className="AsesoriaIndividual-subtipo-separator"></div>}
+                    {index > 0 && <div className={`AsesoriaIndividual-subtipo-separator ${theme}`}></div>}
                     
-                    <div className="AsesoriaIndividual-subtipo-container">
-                        <div className="AsesoriaIndividual-field">
+                    <div className={`AsesoriaIndividual-subtipo-container ${theme}`}>
+                        <div className={`AsesoriaIndividual-field ${theme}`}>
                             <label>Nombre del Subtipo</label>
                             <input
                                 type="text"
@@ -126,7 +126,7 @@ const AsesoriaIndividual = ({ initialData }) => {
                                 placeholder="Nombre del subtipo"
                             />
                         </div>
-                        <div className="AsesoriaIndividual-field">
+                        <div className={`AsesoriaIndividual-field ${theme}`}>
                             <label>Servicio</label>
                             <select
                                 value={subtipo.servicio}
@@ -143,19 +143,19 @@ const AsesoriaIndividual = ({ initialData }) => {
                     </div>
 
                     {index > 0 && (
-                        <button onClick={() => handleRemoveSubtipo(subtipo.id)} className="AsesoriaIndividual-remove-subtipo">
+                        <button onClick={() => handleRemoveSubtipo(subtipo.id)} className={`AsesoriaIndividual-remove-subtipo ${theme}`}>
                             Eliminar
                         </button>
                     )}
                 </React.Fragment>
             ))}
 
-            <button onClick={handleAddSubtipo} className="AsesoriaIndividual-add-subtipo">
+            <button onClick={handleAddSubtipo} className={`AsesoriaIndividual-add-subtipo ${theme}`}>
                 Añadir Subtipo
             </button>
 
-            <div className="AsesoriaIndividual-crear-button-container">
-                <button onClick={handleCreateAsesoria} className="AsesoriaIndividual-crear-button">
+            <div className={`AsesoriaIndividual-crear-button-container ${theme}`}>
+                <button onClick={handleCreateAsesoria} className={`AsesoriaIndividual-crear-button ${theme}`}>
                     Crear Asesoría
                 </button>
             </div>

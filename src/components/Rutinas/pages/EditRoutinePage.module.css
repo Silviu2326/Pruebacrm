@@ -31,7 +31,7 @@
   padding: 15px;
   padding-bottom: 10px;
   border: 1px #343a40 solid;
-  margin-top: 50px;
+  margin-top: 28px;
 }
 
 .headerContainer {
@@ -638,10 +638,11 @@ background-color: transparent;
   background-color: var(--button-bg-light);
   border: 1px solid var(--button-border-light);
   color: var(--button-text-light);
+  margin-bottom: 10px;
 }
 
 .light .calendarContainer {
-  background-color: var(--primary-light);
+  background-color: #d9f2f1;
   border-color: var(--secondary-light);
 }
 
@@ -652,11 +653,16 @@ background-color: transparent;
 }
 
 .dark .headerContainer {
-  background-color: #362d2d;
+  background-color: #152446;
   color: var(--header-text-dark);
 }
+.dark .saveButtonTop{
+  background-color: var(--button-bg-dark);
+  border: 1px solid var(--button-border-dark);
+  color: var(--button-text-dark);
+margin-bottom: 10px;
+}
 
-.dark .saveButtonTop,
 .dark .editButton,
 .dark .loadButton {
   background-color: var(--button-bg-dark);
@@ -665,7 +671,7 @@ background-color: transparent;
 }
 
 .dark .calendarContainer {
-  background-color: var(--primary-dark);
+  background-color: #1c253b;
   border-color: var(--secondary-dark);
 }
 

@@ -8,14 +8,13 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
     justify-content: center;
     align-items: center;
 }
 
 .ajustes-modal-content {
-    background-color: #fefefe;
+    background-color: var(--widget-bg);
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
@@ -50,7 +49,7 @@
 }
 
 .ajustes-alerta-item label {
-    color: #000; /* Cambiar el color de la fuente */
+    color: var(--text); /* Cambiar el color de la fuente */
 }
 
 .ajustes-tipo-section {
@@ -59,7 +58,7 @@
 
 .ajustes-tipo-section h3 {
     margin-top: 0;
-    color: #333;
+    color: var(--text);
     display: flex;
     align-items: center;
 }

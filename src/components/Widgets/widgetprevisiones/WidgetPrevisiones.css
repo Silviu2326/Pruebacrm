@@ -188,10 +188,20 @@
   gap: 15px;
   padding: 15px;
   padding-top: 25px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  background-color: var(--background);
+  color: var(--text);
   border-radius: 4px;
   border: none;
+}
+
+.apply-filters-btn {
+  background: var(--button-bg);
+  color: #ffff;
+}
+
+.clear-filters-btn {
+  background: var(--button-bg-filtro-dark);
+  color: #ffff;
 }
 
 .Prevfilter-field {
@@ -207,7 +217,7 @@
 
 .Prevfilter-field input {
   padding: 5px;
-  background: var(--button-bg);
+  background: var(--search-button-bg);
   border-radius: 4px;
   color: var(--button-text);
   width: 140px;

@@ -1,0 +1,109 @@
+/* Fondo overlay para el modal */
+.PeriodoCard-modificar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Contenedor del modal */
+  .PeriodoCard-modificar-container {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  /* Header del modal */
+  .PeriodoCard-modificar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .PeriodoCard-modificar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #5a4cbf;
+  }
+  
+  .PeriodoCard-modificar-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* Formulario */
+  .PeriodoCard-modificar-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .PeriodoCard-modificar-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Filas con dos columnas */
+  .PeriodoCard-modificar-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .PeriodoCard-modificar-column {
+    flex: 1;
+  }
+  
+  /* Botones */
+  .PeriodoCard-modificar-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .PeriodoCard-modificar-cancel {
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .PeriodoCard-modificar-cancel:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .PeriodoCard-modificar-save {
+    background-color: #5a4cbf;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .PeriodoCard-modificar-save:hover {
+    background-color: #4833a3;
+  }
+  

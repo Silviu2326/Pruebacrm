@@ -7,10 +7,14 @@
 
 .Chater-list-container {
     width: 30%;
-    background-color: #1e1e1e;
+    background-color: var(--widget-bg);
     padding: 15px;
     overflow-y: auto;
-    border-right: 1px solid #39393a;
+    border-right: 1px solid var(--secondary);
+}
+
+.Chater-list-container.dark {
+    background-color: var(--table-tr-child-bg);
 }
 
 .Chater-list {

@@ -6,9 +6,9 @@ import TablaClientesDuplicado from './TablaClientesDuplicado';
 import TablaPlanesDuplicado from './TablaPlanesDuplicado';
 import MetricCardDuplicado from './MetricCardDuplicado';
 import NavegadorDeGraficos from './NavegadorDeGraficos';
+import { TrendingUp, FileText, Users, PlusCircle } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const DetailedPlanes = ({ onTabChange, theme, setTheme }) => {
   const [clientes, setClientes] = useState([]);
   const [planesFijos, setPlanesFijos] = useState([]);
@@ -69,64 +69,52 @@ const DetailedPlanes = ({ onTabChange, theme, setTheme }) => {
   return (
     <div className={`detailed-planes-overlay ${theme}`}>
     <div className={`detailed-planes ${theme}`}>
-      <button className="close-modal-btn" onClick={() => onTabChange('Panel de Control')}>Cerrar</button>
+
       <NavegadorDeGraficos onTabChange={onTabChange} theme={theme} />
       
-      <button 
-        className="redirect-btn" 
-        onClick={handleEconomiaTabClick}
-        style={{ 
-          backgroundColor: 'red', 
-          color: 'white', 
-          float: 'right', 
-          margin: '10px 0'
-        }} 
-      >
-        Ir a la página de Economía
-      </button>
 
       <div className="detailed-planes-content">
         {/* Encapsular las métricas dentro del contenedor azul */}
         <div className={`detailed-metrics-container ${theme}`}>
-          <div className={`detailed-metrics-grid ${theme}`}>
-            <div className="metrics-column">
-              <MetricCardDuplicado
-                title="Clientes Actuales"
-                value={`+${clientes.length}`}
-                icon="📈"
-                valueClass="popup-metric-value-green"
-                theme={theme}
-              />
-            </div>
-            <div className="metrics-column">
-              <MetricCardDuplicado
-                title="Planes Vendidos"
-                value={`+${totalPlanes.length}`}
-                icon="📄"
-                valueClass="popup-metric-value-green"
-                theme={theme}
-              />
-            </div>
-            <div className="metrics-column">
-              <MetricCardDuplicado
-                title="Nuevos Planes"
-                value={`+${totalSuscripciones}`}
-                icon="👥"
-                valueClass="popup-metric-value-green"
-                theme={theme}
-              />
-            </div>
-            <div className="metrics-column">
-              <MetricCardDuplicado
-                title="Nuevos Clientes en ultimos 30 días"
-                value={`+${clientes.length}`}
-                icon="🆕"
-                valueClass="popup-metric-value-green"
-                theme={theme}
-              />
-            </div>
-          </div>
-        </div>
+  <div className={`detailed-metrics-grid ${theme}`}>
+    <div className="metrics-column">
+      <MetricCardDuplicado
+        title="Clientes Actuales"
+        value={`+${clientes.length}`}
+        icon={<TrendingUp size={24} />}  // Icono de Lucide
+        valueClass="popup-metric-value-green"
+        theme={theme}
+      />
+    </div>
+    <div className="metrics-column">
+      <MetricCardDuplicado
+        title="Planes Vendidos"
+        value={`+${totalPlanes.length}`}
+        icon={<FileText size={24} />}  // Icono de Lucide
+        valueClass="popup-metric-value-green"
+        theme={theme}
+      />
+    </div>
+    <div className="metrics-column">
+      <MetricCardDuplicado
+        title="Nuevos Planes"
+        value={`+${totalSuscripciones}`}
+        icon={<Users size={24} />}  // Icono de Lucide
+        valueClass="popup-metric-value-green"
+        theme={theme}
+      />
+    </div>
+    <div className="metrics-column">
+      <MetricCardDuplicado
+        title="Nuevos Clientes en últimos 30 días"
+        value={`+${clientes.length}`}
+        icon={<PlusCircle size={24} />}  // Icono de Lucide
+        valueClass="popup-metric-value-green"
+        theme={theme}
+      />
+    </div>
+  </div>
+</div>
         <BonosDuplicado theme={theme} />
         <TablaPlanesDuplicado theme={theme} />
         <TablaClientesDuplicado theme={theme} />

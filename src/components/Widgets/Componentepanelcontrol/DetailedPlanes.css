@@ -35,17 +35,14 @@ body {
 }
 
 .detailed-planes-overlay {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  padding: 20px;
 }
 .detailed-metrics-container {
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 20px;
-  margin-top: 50px;
   margin-right: auto;
   margin-left: auto;
   border-radius: 12px;
@@ -60,20 +57,6 @@ body {
 .detailed-metrics-container.dark {
   background-color: var(--secondary-dark);
   border-radius: 12px;  /* Bordes redondeados */
-}
-
-
-.detailed-planes {
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  max-height: calc(100% - 80px);
-  overflow-y: auto;
-  margin-left: 10%;
-  position: relative;
-  z-index: 1001;
-  background-color: var(--background-light);
-  color: var(--text-dark);
 }
 
 .detailed-planes.light {
@@ -121,6 +104,7 @@ body {
 
 .detailed-metrics-grid.light {
   background: #5980b9;
+  border-radius: 12px;
 }
 
 .detailed-metrics-grid.dark {

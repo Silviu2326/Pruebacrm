@@ -1,146 +1,383 @@
+/* popupdecomidas.module.css */
+
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Oscurecemos un poco más el fondo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #fff; /* Mejoramos el color del fondo para más contraste */
+  padding: 50px; /* Aumentamos el padding para dar más espacio */
+  border-radius: 10px; /* Bordes más suaves */
+  width: 100%;
+  max-width: 800px; /* Aumentamos el ancho máximo para hacer el modal más grande */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más definida */
+  animation: fadeIn 0.3s ease-out; /* Animación mejorada */
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
   }
-  
-  .modalContent {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    animation: slideIn 0.3s ease-out;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateY(-20%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  .dark {
-    background-color: #333;
-    color: #fff;
-  }
-  
-  .formGroup {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formGroup label {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .formGroup input,
-  .formGroup textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .formGroup textarea {
-    resize: vertical;
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .btnPrimary,
-  .btnSecondary {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btnPrimary {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .btnPrimary:hover {
-    background-color: #218838;
-  }
-  
-  .btnSecondary {
-    background-color: #6c757d;
-    color: #fff;
-    margin-left: 10px;
-  }
-  
-  .btnSecondary:hover {
-    background-color: #5a6268;
-  }
-  
-  .buttonGroup button {
-    margin-top: 15px;
-  }
-  
-  .dark .btnPrimary {
-    background-color: #1d7431;
-  }
-  
-  .dark .btnPrimary:hover {
-    background-color: #155824;
-  }
-  
-  .dark .btnSecondary {
-    background-color: #545b62;
-  }
-  
-  .dark .btnSecondary:hover {
-    background-color: #3c4348;
-  }
-  
-  .generateButton {
-    margin-left: 10px;
-    flex-shrink: 0;
-  }
-  
-  .flexContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .flexContainer .formGroup {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  .flexContainer .generateButton {
-    margin-left: 10px;
-  }
-  
-  .cancelButton {
-    margin-left: auto;
-    background-color: #dc3545;
-  }
-  
-  .cancelButton:hover {
-    background-color: #c82333;
-  }
-  
+}
+
+.dark .modalContent {
+  background-color: #2c2c2c; /* Fondo oscuro para modo oscuro */
+  color: #f0f0f0; /* Texto claro para mejor contraste */
+}
+
+.modalTitle {
+  text-align: center; /* Centrar el título */
+  margin-bottom: 30px; /* Espaciado inferior para separar del formulario */
+  font-size: 24px; /* Aumentar el tamaño de fuente del título */
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px; /* Espaciado entre filas */
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px; /* Espaciado más amplio entre grupos de formularios */
+}
+
+.formGroup label {
+  margin-bottom: 8px;
+  font-weight: 600; /* Mayor peso para las etiquetas */
+  font-size: 14px;
+  color: #333;
+}
+
+.dark .formGroup label {
+  color: #e0e0e0; /* Etiquetas más claras en modo oscuro */
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 12px; /* Un padding mayor para una mejor experiencia */
+  border: 1px solid #ccc;
+  border-radius: 6px; /* Bordes más suaves */
+  font-size: 15px; /* Tamaño de fuente ligeramente mayor */
+  background-color: #f9f9f9; /* Fondo suave para inputs */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #007bff; /* Borde resaltado al enfoque */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); /* Sombra suave al enfoque */
+}
+
+.dark .formGroup input,
+.dark .formGroup textarea {
+  background-color: #444; /* Fondo más oscuro en modo oscuro */
+  border-color: #555;
+  color: #f0f0f0; /* Texto claro para mejor legibilidad */
+}
+
+.ingredientsSection {
+  margin-bottom: 30px; /* Espaciado inferior para separar de la información nutricional total */
+}
+
+.ingredientCard {
+  background-color: #f8f9fa; /* Fondo suave para cada tarjeta de ingrediente */
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Borde para destacar cada ingrediente */
+  margin-bottom: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ingredientCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark .ingredientCard {
+  background-color: #3a3a3a; /* Fondo más oscuro en modo oscuro */
+  border-color: #555; /* Borde más oscuro en modo oscuro */
+}
+
+.ingredientHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ingredientHeader h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ingredientBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredientBody label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.dark .ingredientBody label {
+  color: #ccc;
+}
+
+/* Personalización del Slider Azul */
+.customSlider {
+  -webkit-appearance: none; /* Quitar estilos predeterminados */
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #d1ecf1; /* Color de la pista del slider */
+  outline: none;
+  transition: background 0.3s ease;
+}
+
+.customSlider:hover {
+  background: #b1e0e6; /* Cambio de color al pasar el cursor */
+}
+
+.customSlider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Quitar estilos predeterminados */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff; /* Color azul del pulgar */
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.customSlider::-webkit-slider-thumb:hover {
+  background: #0056b3; /* Color más oscuro al pasar el cursor */
+}
+
+.customSlider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff; /* Color azul del pulgar */
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.customSlider::-moz-range-thumb:hover {
+  background: #0056b3; /* Color más oscuro al pasar el cursor */
+}
+
+.nutritionInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.dark .nutritionInfo {
+  color: #ccc;
+}
+
+.nutritionInfo span {
+  background-color: #e9ecef;
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+.dark .nutritionInfo span {
+  background-color: #555;
+}
+
+.totalNutrition {
+  margin-bottom: 30px;
+}
+
+.totalNutrition h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.nutritionDetails {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.nutritionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.nutritionItem span:first-child {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.dark .nutritionItem span:first-child {
+  color: #f0f0f0;
+}
+
+.nutritionItem span:last-child {
+  color: #555;
+}
+
+.dark .nutritionItem span:last-child {
+  color: #ccc;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; /* Espaciado entre los botones */
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.btnPrimary,
+.btnSecondary {
+  padding: 12px 25px; /* Botones más grandes y espaciados */
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaciado entre texto e ícono */
+}
+
+.btnPrimary {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background-color: #218838;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2); /* Sombra al hacer hover */
+}
+
+.btnSecondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btnSecondary:hover {
+  background-color: #5a6268;
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2); /* Sombra al hacer hover */
+}
+
+.dark .btnPrimary {
+  background-color: #1d7431;
+}
+
+.dark .btnPrimary:hover {
+  background-color: #155824;
+}
+
+.dark .btnSecondary {
+  background-color: #545b62;
+}
+
+.dark .btnSecondary:hover {
+  background-color: #3c4348;
+}
+
+.generateButton {
+  background-color: #007bff; /* Cambiado a azul para mayor coherencia */
+  color: #fff;
+}
+
+.generateButton:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Sombra para el botón de IA */
+}
+
+.cancelButton {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.cancelButton:hover {
+  background-color: #c82333;
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2); /* Sombra para botón de cancelar */
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Ajuste de la barra deslizante en la sección de ingredientes */
+.customSlider {
+  -webkit-appearance: none; /* Quitar estilos predeterminados */
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #d1ecf1; /* Color de la pista del slider */
+  outline: none;
+  transition: background 0.3s ease;
+}
+
+.customSlider:hover {
+  background: #b1e0e6; /* Cambio de color al pasar el cursor */
+}
+
+.customSlider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Quitar estilos predeterminados */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff; /* Color azul del pulgar */
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.customSlider::-webkit-slider-thumb:hover {
+  background: #0056b3; /* Color más oscuro al pasar el cursor */
+}
+
+.customSlider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff; /* Color azul del pulgar */
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.customSlider::-moz-range-thumb:hover {
+  background: #0056b3; /* Color más oscuro al pasar el cursor */
+}

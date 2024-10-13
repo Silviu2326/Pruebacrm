@@ -4,24 +4,40 @@ import axios from 'axios';
 import './OverviewChart.css';
 import WidgetRemoveButton from './ComponentesReutilizables/WidgetRemoveButton';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
+// Función para calcular las semanas del mes
+const getWeeksInMonth = (month, year) => {
+  const weeks = [];
+  const firstDayOfMonth = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0);
+
+  let currentStartDate = new Date(firstDayOfMonth);
+  currentStartDate.setDate(currentStartDate.getDate() - (currentStartDate.getDay() === 0 ? 6 : currentStartDate.getDay() - 1));
+
+  while (currentStartDate <= lastDayOfMonth) {
+    let endDate = new Date(currentStartDate);
+    endDate.setDate(endDate.getDate() + 6);
+
+    if (endDate > lastDayOfMonth) {
+      endDate = lastDayOfMonth;
+    }
+
+    weeks.push({
+      start: currentStartDate.toLocaleDateString(),
+      end: endDate.toLocaleDateString(),
+    });
+
+    currentStartDate.setDate(currentStartDate.getDate() + 7);
+  }
+
+  return weeks;
+};
 
 const getCurrentWeekNumber = () => {
   const currentDate = new Date();
   const startDate = new Date(currentDate.getFullYear(), 0, 1);
   const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
   return Math.ceil(days / 7);
-};
-
-const getWeekRange = (week, year) => {
-  const firstDayOfYear = new Date(year, 0, 1);
-  const days = (week - 1) * 7;
-  const startDate = new Date(firstDayOfYear.setDate(firstDayOfYear.getDate() + days));
-  const endDate = new Date(startDate);
-  endDate.setDate(startDate.getDate() + 6);
-
-  const options = { day: '2-digit', month: 'short' };
-  return `${startDate.toLocaleDateString('es-ES', options)} - ${endDate.toLocaleDateString('es-ES', options)}`;
 };
 
 function useIncomeData() {
@@ -50,42 +66,34 @@ function OverviewChart({ onTitleClick, isEditMode, handleRemoveItem, theme }) {
   const [view, setView] = useState('anual');
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
-  const [week, setWeek] = useState(getCurrentWeekNumber());
-  
+  const [weekIndex, setWeekIndex] = useState(0);
+  const [weeks, setWeeks] = useState([]);
+
   // Llamada al hook personalizado para obtener los datos
   const { data } = useIncomeData();
 
-  const handleNextYear = () => {
-    setYear(year + 1);
-  };
+  useEffect(() => {
+    setWeeks(getWeeksInMonth(month, year));
+    setWeekIndex(0);  // Reset al cambiar el mes o año
+  }, [month, year]);
 
-  const handlePreviousYear = () => {
-    setYear(year - 1);
-  };
+  const handleNextYear = () => setYear(year + 1);
+  const handlePreviousYear = () => setYear(year - 1);
 
-  const handleNextMonth = () => {
-    setMonth((prevMonth) => (prevMonth + 1) % 12);
-  };
-
-  const handlePreviousMonth = () => {
-    setMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
-  };
+  const handleNextMonth = () => setMonth((prevMonth) => (prevMonth + 1) % 12);
+  const handlePreviousMonth = () => setMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
 
   const handleNextWeek = () => {
-    setWeek(week + 1);
+    if (weekIndex < weeks.length - 1) setWeekIndex(weekIndex + 1);
   };
 
   const handlePreviousWeek = () => {
-    setWeek(week - 1);
-  };
-
-  const daysInMonth = (month, year) => {
-    return new Date(year, month + 1, 0).getDate();
+    if (weekIndex > 0) setWeekIndex(weekIndex - 1);
   };
 
   const getDaysArray = (month, year) => {
     const days = [];
-    const numDays = daysInMonth(month, year);
+    const numDays = new Date(year, month + 1, 0).getDate();
     for (let i = 1; i <= numDays; i++) {
       days.push(i);
     }
@@ -199,23 +207,113 @@ function OverviewChart({ onTitleClick, isEditMode, handleRemoveItem, theme }) {
           </select>
           {view === 'anual' && (
             <div className="year-navigation">
-              <button onClick={handlePreviousYear} className={`widget-button ${theme}`}>Anterior</button>
-              <span className={theme}>{year}</span>
-              <button onClick={handleNextYear} className={`widget-button ${theme}`}>Siguiente</button>
+              <button
+                onClick={handlePreviousYear}
+                className={`panelcontrol-nav-button ${theme}`}
+                style={{
+                  background: 'transparent',
+                  color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px 5px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginRight: '8px',
+                  transition: 'background 0.3s ease',
+                }}>
+                &lt;
+              </button>
+              <span>{year}</span>
+              <button
+                onClick={handleNextYear}
+                className={`panelcontrol-nav-button ${theme}`}
+                style={{
+                  background: 'transparent',
+                  color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px 5px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginLeft: '8px',
+                  transition: 'background 0.3s ease',
+                }}>
+                &gt;
+              </button>
             </div>
           )}
           {view === 'mensual' && (
             <div className="month-navigation">
-              <button onClick={handlePreviousMonth} className={`widget-button ${theme}`}>Anterior</button>
-              <span className={theme}>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
-              <button onClick={handleNextMonth} className={`widget-button ${theme}`}>Siguiente</button>
+              <button
+                onClick={handlePreviousMonth}
+                className={`panelcontrol-nav-button ${theme}`}
+                style={{
+                  background: 'transparent',
+                  color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px 5px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginRight: '8px',
+                  transition: 'background 0.3s ease',
+                }}>
+                &lt;
+              </button>
+              <span>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
+              <button
+                onClick={handleNextMonth}
+                className={`panelcontrol-nav-button ${theme}`}
+                style={{
+                  background: 'transparent',
+                  color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px 5px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginLeft: '8px',
+                  transition: 'background 0.3s ease',
+                }}>
+                &gt;
+              </button>
             </div>
           )}
           {view === 'semanal' && (
             <div className="week-navigation">
-              <button onClick={handlePreviousWeek} className={`widget-button ${theme}`}>Anterior</button>
-              <span className={theme}>{getWeekRange(week, year)}</span>
-              <button onClick={handleNextWeek} className={`widget-button ${theme}`}>Siguiente</button>
+              <button
+                onClick={handlePreviousWeek}
+                className={`panelcontrol-nav-button ${theme}`}
+                style={{
+                  background: 'transparent',
+                  color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px 5px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginRight: '8px',
+                  transition: 'background 0.3s ease',
+                }}>
+                &lt;
+              </button>
+              <span>{`${weeks[weekIndex]?.start || ''} - ${weeks[weekIndex]?.end || ''}`}</span>
+              <button
+                onClick={handleNextWeek}
+                className={`panelcontrol-nav-button ${theme}`}
+                style={{
+                  background: 'transparent',
+                  color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px 5px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginLeft: '8px',
+                  transition: 'background 0.3s ease',
+                }}>
+                &gt;
+              </button>
             </div>
           )}
         </div>

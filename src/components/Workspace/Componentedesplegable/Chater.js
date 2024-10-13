@@ -26,7 +26,7 @@ const chaterData = [
     // Agrega más chats si es necesario
 ];
 
-const Chater = () => {
+const Chater = ({ theme }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedChat, setSelectedChat] = useState(null);
@@ -53,27 +53,27 @@ const Chater = () => {
     };
 
     return (
-        <div className="Chater-column">
+        <div className={`Chater-column ${theme}`}>
             <h3>Chater</h3>
             <button
-                className="chater-detalles-button"
+                className={`chater-detalles-button ${theme}`}
                 onClick={handleOpenPopup}
             >
                 <MessageSquare size={20} color="white" style={{ marginRight: '8px' }} />
                 Abrir Lista de Chats
             </button>
-            <div className="Chater-chater-container">
+            <div className={`Chater-chater-container ${theme}`}>
                 {chaterData.map((chat) => (
                     <div 
-                        className="Chater-item" 
+                        className={`Chater-item ${theme}`} 
                         key={chat.id} 
                         onClick={() => handleOpenModal(chat)}
                     >
-                        <div className="Chater-status-text">
+                        <div className={`Chater-status-text ${theme}`}>
                             <User size={32} color="#007bff" />
                             <p><strong>{chat.name}:</strong> {chat.messages[0].text}</p>
                         </div>
-                        <div className="Chater-date">
+                        <div className={`Chater-date ${theme}`}>
                             <p>{chat.messages[0].date}</p>
                         </div>
                     </div>
@@ -85,12 +85,14 @@ const Chater = () => {
                     selectedChat={selectedChat || chaterData[0]} // Usamos el primer chat como fallback
                     onClose={handleClosePopup}
                     onSelectChat={handleSelectChatInPopup}
+                    theme={theme}
                 />
             )}
             {isModalOpen && selectedChat && (
                 <ChaterModalInterfaz
                     chat={selectedChat}
                     onClose={handleCloseModal}
+                    theme={theme}
                 />
             )}
         </div>

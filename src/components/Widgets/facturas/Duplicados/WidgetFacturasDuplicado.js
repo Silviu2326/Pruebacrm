@@ -5,8 +5,9 @@ import InvoiceForm from './InvoiceForm';
 import ScanInvoiceForm from './ScanInvoiceForm';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import './widget-FacturasDuplicado.css';
+import { Eye, Receipt } from 'lucide-react'; // Importar los íconos
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 function WidgetFacturasDuplicado({ isEditMode, theme, onTabChange }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -137,6 +138,16 @@ function WidgetFacturasDuplicado({ isEditMode, theme, onTabChange }) {
     }
   };
 
+  // Función para manejar el cambio de estado de la factura
+  const handleChangeStatus = (index) => {
+    // Lógica para cambiar el estado de la factura
+    // Por ejemplo, alternar entre "Pagada" y "Pendiente"
+    const updatedInvoices = [...invoices];
+    // Asumiendo que el campo de estado se llama 'estado'
+    updatedInvoices[index].estado = updatedInvoices[index].estado === 'Pagada' ? 'Pendiente' : 'Pagada';
+    setInvoices(updatedInvoices);
+  };
+
   if (loading) {
     return <div className={`WidgetFacturasDuplicado-widget ${theme}`}>Cargando...</div>;
   }
@@ -147,82 +158,110 @@ function WidgetFacturasDuplicado({ isEditMode, theme, onTabChange }) {
 
   return (
     <div className={`WidgetFacturasDuplicado-widget ${theme}`}>
-      <button
-        onClick={handleEconomiaTabClick}
-        style={{
-          margin: '10px 0',
-          padding: '8px 16px',
-          backgroundColor: 'red',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          float: 'right',
-        }}
-      >
-        Ir a la página de Economía
-      </button>
       <FacturasActionButtons onScanClick={handleScanClick} onOpenClick={handleOpenClick} />
       <div className="WidgetFacturasDuplicado-filter-container">
-        <h2>Facturaasdasds</h2>
+        <h2>Facturas</h2>
         <input
           type="text"
           placeholder="Filtrar..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className={`WidgetFacturasDuplicado-filter-input ${theme}`}
+          style={{
+            background: 'var(--search-button-bg)',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}
         />
       </div>
 
-      <table className={`WidgetFacturasDuplicado-table ${theme}`}>
-        <thead>
+      <table className={`WidgetFacturasDuplicado-table ${theme}`} 
+        style={{ 
+          borderRadius: '10px', 
+          borderCollapse: 'separate', 
+          borderSpacing: '0', 
+          width: '100%', 
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{ 
+            backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+            borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>
               <input
                 type="checkbox"
                 checked={selectedAll}
                 onChange={handleSelectAll}
               />
             </th>
-            {selectedColumns.cliente && <th>Cliente</th>}
-            {selectedColumns.monto && <th>Importe</th>}
-            {selectedColumns.fecha && <th>Fecha</th>}
-            {selectedColumns.tipo && <th>Tipo</th>}
-            {selectedColumns.numeroFactura && <th>Número de Factura</th>}
-            <th>Opciones</th>
+            {selectedColumns.cliente && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Cliente</th>}
+            {selectedColumns.monto && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Importe</th>}
+            {selectedColumns.fecha && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Fecha</th>}
+            {selectedColumns.tipo && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Tipo</th>}
+            {selectedColumns.numeroFactura && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Número de Factura</th>}
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Opciones</th>
           </tr>
         </thead>
         <tbody>
           {currentItems.map((item, index) => (
-            <tr key={index}>
-              <td>
+            <tr key={index} className={theme} style={{ 
+                backgroundColor: theme === 'dark' 
+                  ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+                  : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+            }}>
+              <td style={{ padding: '12px' }}>
                 <input
                   type="checkbox"
                   checked={selectedItems[index]}
                   onChange={() => handleSelectItem(index)}
                 />
               </td>
-              {selectedColumns.cliente && <td>{item.companyName || item.name}</td>}
-              {selectedColumns.monto && <td>{item.total.toFixed(2)}</td>}
-              {selectedColumns.fecha && <td>{new Date(item.invoiceDate).toLocaleDateString()}</td>}
-              {selectedColumns.tipo && <td>{item.type === 'made' ? 'Emitida' : 'Escaneada'}</td>}
-              {selectedColumns.numeroFactura && <td>{item.invoiceNumber}</td>}
-              <td>
-                <div className="WidgetFacturasDuplicado-action-dropdown">
-                  <button
-                    className="WidgetFacturasDuplicado-action-button"
-                    onClick={() => toggleActionDropdown(index)}
+              {selectedColumns.cliente && <td style={{ padding: '12px' }}>{item.companyName || item.name}</td>}
+              {selectedColumns.monto && <td style={{ padding: '12px' }}>{item.total.toFixed(2)}</td>}
+              {selectedColumns.fecha && <td style={{ padding: '12px' }}>{new Date(item.invoiceDate).toLocaleDateString()}</td>}
+              {selectedColumns.tipo && <td style={{ padding: '12px' }}>{item.type === 'made' ? 'Emitida' : 'Escaneada'}</td>}
+              {selectedColumns.numeroFactura && <td style={{ padding: '12px' }}>{item.invoiceNumber}</td>}
+              <td style={{ padding: '12px' }}>
+                <div className="WidgetFacturasDuplicado-action-btn">
+                  {/* Botón para cambiar el estado utilizando el ícono Receipt */}
+                  <button 
+                    className="WidgetFacturasDuplicado-action-item"
+                    onClick={() => handleChangeStatus(index)}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      color: 'var(--text)', 
+                      padding: '3px',
+                    }}
+                    title="Cambiar Estado"
                   >
-                    ...
+                    <Receipt size={16} />
                   </button>
-                  {actionDropdownOpen[index] && (
-                    <div className="WidgetFacturasDuplicado-action-content">
-                      {item.type !== 'made' && (
-                        <button className="WidgetFacturasDuplicado-action-item">Añadir como Gasto</button>
-                      )}
-                      <button className="WidgetFacturasDuplicado-action-item" onClick={() => openShowInvoiceModal(item)}>Mostrar Factura</button>
-                    </div>
-                  )}
+                  {/* Botón para mostrar la factura utilizando el ícono Eye */}
+                  <button 
+                    className="WidgetFacturasDuplicado-action-item"
+                    onClick={() => openShowInvoiceModal(item)}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      color: 'var(--text)', 
+                      padding: '3px',
+                    }}
+                    title="Mostrar Factura"
+                  >
+                    <Eye size={16} />
+                  </button>
                 </div>
               </td>
             </tr>
@@ -234,6 +273,16 @@ function WidgetFacturasDuplicado({ isEditMode, theme, onTabChange }) {
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
           className={`WidgetFacturasDuplicado-pagination-button ${theme}`}
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
         >
           Anterior
         </button>
@@ -244,6 +293,16 @@ function WidgetFacturasDuplicado({ isEditMode, theme, onTabChange }) {
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
           className={`WidgetFacturasDuplicado-pagination-button ${theme}`}
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
         >
           Siguiente
         </button>

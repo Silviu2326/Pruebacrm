@@ -1,26 +1,25 @@
 .clientes-simplificada-view {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    padding: 16px;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px; /* Limita el ancho máximo para pantallas grandes */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+    box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
 }
 
 .cliente-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: var(--background);
+    border: 1px solid var(--secondary);
     border-radius: 8px;
     padding: 16px;
-    width: 300px;
+    width: 100%; /* Asegura que la tarjeta ocupe el ancho completo */
+    max-width: 320px; /* Limita el ancho máximo de cada tarjeta */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.clientes-simplificada-view.dark .cliente-card {
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #555;
+    box-sizing: border-box;
 }
 
 .cliente-info {
@@ -38,7 +37,7 @@
 .cliente-avatar {
     background-color: #ccc;
     border-radius: 50%;
-    width: 40px;
+    width: 50px;
     height: 40px;
     margin-right: 12px;
 }
@@ -50,6 +49,7 @@
 }
 
 .cliente-header-text h3 {
+    padding-top: 16px;
     margin: 0;
     font-size: 1.2em;
 }
@@ -109,4 +109,43 @@
 .clientes-simplificada-view.dark .cliente-tag {
     background-color: #555;
     color: #eee;
+}
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.popup-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background-color: #0056b3;
 }

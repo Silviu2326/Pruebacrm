@@ -4,7 +4,7 @@ import { Icon } from 'react-icons-kit';
 import { plus } from 'react-icons-kit/fa/plus';
 import { trash } from 'react-icons-kit/fa/trash';
 
-const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, theme }) => {
+const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, theme, routineName }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
@@ -37,6 +37,19 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
       setNotes(routine.notes);
     }
   }, [routine]);
+  useEffect(() => {
+    if (routineName) {
+      console.log("Nombre de rutina recibido en CreacionDeRutina:", routineName);
+      setName(routineName);  // Establece el nombre de la rutina si routineName está disponible
+    }
+  }, [routineName]);
+    
+  // Actualizamos el nombre cuando recibimos la prop routineName
+  useEffect(() => {
+    if (routineName) {
+      setName(routineName);
+    }
+  }, [routineName]);
 
   const predefinedTags = ['Upper body', 'Lower body', 'Push', 'Pull', 'Legs'];
 
@@ -145,13 +158,23 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
   return (
     <div className={`creacion-de-rutina-modal ${theme}`}>
       <div className={`creacion-de-rutina-modal-content ${theme}`}>
-        <span className="creacion-de-rutina-close" onClick={onClose}>&times;</span>
+        <span className="creacion-de-rutina-close" onClick={onClose}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>&times;</span>
         <h2>{routine && routine._id ? "Editar Rutina" : "Crear Nueva Rutina"}</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Nombre de la Rutina:
             <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} className={theme} required />
-          </label>
+            </label>
           <label>
             Descripción:
             <input type="text" name="description" value={description} onChange={e => setDescription(e.target.value)} className={theme} required />
@@ -257,8 +280,31 @@ const CreacionDeRutina = ({ onClose, onAddRoutine, onUpdateRoutine, routine, the
             </table>
           </div>
           <div className="form-actions">
-            <button type="submit" className={`addRoutineButton ${theme}`}>{routine && routine._id ? "Actualizar" : "Guardar"}</button>
-            <button type="button" className={theme} onClick={onClose}>Cerrar</button>
+            <button type="submit" className={`addRoutineButton ${theme}`}
+            style={{
+              background:'var(--create-button-bg)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}
+            >{routine && routine._id ? "Actualizar" : "Guardar"}
+              
+            </button>
+            <button type="button" className={theme} onClick={onClose}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Cerrar</button>
           </div>
         </form>
       </div>

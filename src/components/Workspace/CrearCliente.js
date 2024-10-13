@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './CrearCliente.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
     const [cliente, setCliente] = useState({
         nombre: '',
@@ -55,7 +54,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
     return (
         <div className={`modalcrearcliente ${theme}`}>
             <div className={`modal-contentmodalcrearcliente ${theme}`}>
-                <span className={`close ${theme}`} onClick={onClose}>&times;</span>
+                <span className={`close ${theme}`} onClick={onClose}
+                style={{
+                    background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                    color:  'var(--button-text-dark)' ,
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    transition: 'background 0.3s ease',
+                  }}>&times;</span>
                 <h2>Crear Cliente</h2>
                 <form onSubmit={handleSubmit} className="form-grid">
                     <div>
@@ -67,6 +76,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             onChange={handleChange} 
                             className={theme} 
                             required 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -77,6 +97,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.apellido} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -87,6 +118,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.estado} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -97,6 +139,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.telefono} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -108,6 +161,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             onChange={handleChange} 
                             className={theme} 
                             required 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -118,66 +182,38 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.tag} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
-                        <label className={theme}>Tipo de Plan</label>
+                        <label className={theme}>Fecha de Nacimiento</label> {/* Cambiado de Edad a Fecha de Nacimiento */}
                         <input 
-                            type="text" 
-                            name="tipoDePlan" 
-                            value={cliente.tipoDePlan} 
+                            type="date"  // Cambiado de text a date
+                            name="fechaDeNacimiento" 
+                            value={cliente.fechaDeNacimiento} 
                             onChange={handleChange} 
                             className={theme} 
-                        />
-                    </div>
-                    <div>
-                        <label className={theme}>Último Checkin</label>
-                        <input 
-                            type="text" 
-                            name="ultimoCheckin" 
-                            value={cliente.ultimoCheckin} 
-                            onChange={handleChange} 
-                            className={theme} 
-                        />
-                    </div>
-                    <div>
-                        <label className={theme}>Clase</label>
-                        <input 
-                            type="text" 
-                            name="clase" 
-                            value={cliente.clase} 
-                            onChange={handleChange} 
-                            className={theme} 
-                        />
-                    </div>
-                    <div>
-                        <label className={theme}>Porcentaje de Cumplimiento</label>
-                        <input 
-                            type="text" 
-                            name="porcentajeCumplimiento" 
-                            value={cliente.porcentajeCumplimiento} 
-                            onChange={handleChange} 
-                            className={theme} 
-                        />
-                    </div>
-                    <div>
-                        <label className={theme}>Alertas</label>
-                        <input 
-                            type="text" 
-                            name="alertas" 
-                            value={cliente.alertas} 
-                            onChange={handleChange} 
-                            className={theme} 
-                        />
-                    </div>
-                    <div>
-                        <label className={theme}>Edad</label>
-                        <input 
-                            type="text" 
-                            name="edad" 
-                            value={cliente.edad} 
-                            onChange={handleChange} 
-                            className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                            }}
                         />
                     </div>
                     <div>
@@ -188,6 +224,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.genero} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -198,6 +245,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.altura} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -208,6 +266,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.peso} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
 
@@ -220,6 +289,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.street} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -230,6 +310,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.number} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -240,6 +331,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.city} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -250,6 +352,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.postalCode} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -260,6 +373,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.province} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
                     <div>
@@ -270,6 +394,17 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.country} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
 
@@ -281,10 +416,31 @@ const CrearCliente = ({ onClose, onClienteCreado, theme }) => {
                             value={cliente.paymentMethod} 
                             onChange={handleChange} 
                             className={theme} 
+                            style={{
+                                background: 'transparent',
+                                border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'background 0.3s ease',  
+                                width: '230px',
+                                height: '44px',
+                    }}
                         />
                     </div>
 
-                    <button type="submit" className={theme}>Crear</button>
+                    <button 
+type="submit" className={theme} style={{
+    background:'var(--create-button-bg)', 
+    color:  'var(--button-text-dark)' ,
+    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+    padding: '14px 20px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '12px',
+    transition: 'background 0.3s ease',
+}} >Crear</button>
                 </form>
             </div>
         </div>

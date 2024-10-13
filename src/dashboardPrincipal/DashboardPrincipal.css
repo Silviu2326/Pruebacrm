@@ -100,3 +100,124 @@
   margin-top: 20px;
   border-radius: 12px;
 }
+
+/* Estilos para los modales */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--DBP-card-background);
+  color: var(--DBP-text-color);
+  padding: 20px 30px;
+  border-radius: 8px;
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--DBP-text-color);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--DBP-primary-color);
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content form label {
+  margin-bottom: 10px;
+}
+
+.modal-content form input,
+.modal-content form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid var(--DBP-secondary-color);
+  border-radius: 4px;
+  background-color: var(--DBP-background-color);
+  color: var(--DBP-text-color);
+}
+
+.modal-content form input:focus,
+.modal-content form textarea:focus {
+  border-color: var(--DBP-primary-color);
+  outline: none;
+}
+
+.modal-content form button {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: var(--DBP-primary-color);
+  color: var(--DBP-button-text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content form button:hover {
+  background-color: var(--DBP-button-hover-bg);
+}
+
+.perfil-info p {
+  margin: 10px 0;
+}
+
+.perfil-edit-button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: var(--DBP-primary-color);
+  color: var(--DBP-button-text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.perfil-edit-button:hover {
+  background-color: var(--DBP-button-hover-bg);
+}
+
+/* Media Queries para Responsividad (Opcional) */
+@media (max-width: 768px) {
+  .dashboard-cards-container {
+    flex-direction: column;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-buttons {
+    margin-top: 10px;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}

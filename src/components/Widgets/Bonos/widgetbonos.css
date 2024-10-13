@@ -38,17 +38,24 @@
 
 .Widget-bono-dropdown {
   position: relative;
-  display: inline-block;
 }
 
 .Widget-bono-dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: var(--bg-color);
-  min-width: 200px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  position: absolute !important;
+  width: 230px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  border: 1px solid var(--dropdown-border);
+  border-radius: 5px;
+  height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--text);
+  padding: 15px;
+  padding-top: 25px;
 }
 
 .Widget-bono-dropdown-content form {
@@ -57,10 +64,14 @@
 
 .Widget-bono-dropdown-content input,
 .Widget-bono-dropdown-content textarea {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid var(--border-color);
+  background: var(--search-button-bg);
+  border: 1px solid var(--button-border);
+  color: var(--text);
+  padding: 10px 0;
+  text-align: left;
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
   border-radius: 4px;
 }
 
@@ -71,15 +82,6 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.Widget-bono-dropdown:hover .Widget-bono-dropdown-content {
-  display: block;
-}
-
-.Widget-bono-options-dropdown {
-  position: relative;
-  display: inline-block;
 }
 
 .Widget-bono-options-btn {
@@ -138,7 +140,6 @@
 }
 
 .Widget-bono-widget-bonos th {
-  background-color: var(--hover-bg-color);
   font-weight: bold;
   text-align: center;
   white-space: nowrap;
@@ -224,10 +225,17 @@
 
 .light .Widget-bono-search-input,
 .light .Widget-bono-dropdown-content input,
-.light .Widget-bono-dropdown-content textarea {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+.light .Widget-bono-dropdown-content textarea,
+.light .Widget-bono-dropdown-content select {
+  background: var(--search-button-bg);
+  border: 1px solid var(--button-border);
+  color: var(--text);
+  padding: 10px 0;
+  text-align: left;
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .light .Widget-bono-filter-btn,
@@ -235,6 +243,10 @@
 .light .Widget-bono-dropdown-content button {
   background-color: var(--btn-bg-color);
   color: var(--btn-text-color);
+}
+
+.filter-field {
+  margin-bottom: 20px;
 }
 
 .light .Widget-bono-options-menu {
@@ -329,7 +341,6 @@
   padding: 10px;
   font-size: 16px;
   width: 100%;
-  margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);

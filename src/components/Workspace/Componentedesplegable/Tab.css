@@ -1,6 +1,7 @@
 .tablinks {
-    background-color: #1a1a1a;
-    color: #fff;
+    background-color: var(--background);
+    color: var(--text);
+    border: 1px solid var(--secondary-light);
     padding: 10px;
     border: none;
     cursor: pointer;
@@ -9,7 +10,9 @@
 }
 
 .tablinks.active {
-    background-color: #333;
+    background-color: var(--table-tr-child-bg);
+    color: var(--text);
+    border: 1px solid var(--secondary-light);
     font-weight: bold;
 }
 

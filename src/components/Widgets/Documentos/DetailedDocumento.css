@@ -1,103 +1,124 @@
-/* Modal overlay with adjusted positions to respect the navbar */
-
-/* Estilos para el tema claro */
-.detailed-documento-content.light {
-  background: var(--background-light);
-  color: var(--text-light);
+/* Modal overlay para centrar el modal */
+.alarm-popup-overlay {
+  position: fixed;
+  top: 60px; /* Ajusta según la altura de tu navbar */
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 60px); /* Ajusta según la altura de tu navbar */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
-/* Estilos para el tema oscuro */
-.detailed-documento-content.dark {
-  background: var(--background-dark);
-  color: var(--text-dark);
+/* Estilos del popup de alarma centrado */
+.alarm-popup {
+  background: var(--background);
+  border: 1px solid var(--button-border);
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px; /* Aumenta el ancho para hacerlo más grande */
+  max-width: 90%; /* Responsivo en pantallas pequeñas */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  color: var(--text);
+  animation: fadeIn 0.3s ease; /* Animación de entrada suave */
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos del título del modal */
+.alarm-popup h3 {
+  text-align: center; /* Centra el título */
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: var(--text);
 }
 
 /* Estilos del botón de cierre */
-.close-modal-btn {
+.close-alarm-popup-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   background: var(--button-bg);
   color: var(--button-text);
   border: none;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: 50%;
   cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 10px;
+  font-size: 18px;
+  transition: background 0.3s ease;
 }
 
-.close-modal-btn:hover {
+.close-alarm-popup-btn:hover {
   background: var(--button-hover-bg);
 }
 
-/* Otros estilos de botones */
+/* Estilos de los botones */
 .program-alarm-btn,
 .set-alarm-btn {
   background: var(--button-bg);
   color: var(--button-text);
   border: none;
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 10px;
+  transition: background 0.3s ease;
 }
 
-.close-alarm-popup-btn {
-  background: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  padding: 8px 9px;
-  border-radius: 50px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.close-modal-btn:hover,
 .program-alarm-btn:hover,
-.close-alarm-popup-btn:hover,
-.set-alarm-btn:hover {
+.set-alarm-btn:hover,
+.close-alarm-popup-btn:hover {
   background: var(--button-hover-bg);
 }
 
-/* Estilo específico para el botón de alarma */
-.program-alarm-btn {
-  align-self: center;
-  width: 500px;
-  margin-top: 50px;
+/* Estilos para temas claros y oscuros */
+.detailed-documento-content.light {
+  background: var(--background-light);
+  color: var(--text-light);
 }
 
-/* Estilos del popup de alarma */
-.alarm-popup {
-  position: fixed;
-  top: 110px;
-  right: calc(10% + 250px); /* Ajuste para considerar el navbar */
-  width: 300px;
-  background: var(--background);
+.detailed-documento-content.dark {
+  background: var(--background-dark);
+  color: var(--text-dark);
+}
+
+/* Estilos de los inputs en el modal */
+.alarm-popup input[type="text"],
+.alarm-popup input[type="date"] {
+  background: transparent;
   border: 1px solid var(--button-border);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 1001;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  height: 44px;
+  color: var(--text);
+  margin-bottom: 15px;
+  transition: background 0.3s ease;
+}
+
+.alarm-popup label {
+  display: block;
+  margin-bottom: 5px;
   color: var(--text);
 }
 
-/* Estilos del contenido del popup */
-.alarm-popup h3 {
-  margin-top: 0;
-}
-
-.alarm-popup ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.alarm-popup li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--button-border);
-}
-
-.alarm-popup li:last-child {
-  border-bottom: none;
+/* Estilos generales del contenido detallado */
+.detailed-documento-content {
+  width: 100%;
+  padding: 20px;
 }

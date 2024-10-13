@@ -3,10 +3,10 @@
 .Chater-column {
     width: 30%;
     height: 95%;
-    background-color: #2a2a2a;
+    background-color: var(--widget-bg);
     padding: 20px;
     border-radius: 10px;
-    color: white;
+    color: var(--text);
     margin: 0px auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #007bff;
+    background: var(--button-bg);
     border: none;
     border-radius: 8px;
     padding: 8px 12px;
@@ -53,7 +53,8 @@
     overflow-y: auto;
     padding-right: 10px;
     border-radius: 10px;
-    background-color: #1e1e1e;
+    background-color: var(--table-tr-child-bg);
+    border: 1px solid var(--secondary-light);
     padding: 10px;
     margin-top: 15px; /* Agregado margen superior */
     flex-grow: 1; /* Para expandir el contenedor */

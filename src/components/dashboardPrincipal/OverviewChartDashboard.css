@@ -6,7 +6,7 @@
   color: var(--DBP-text-color);
   transition: background 0.3s ease;
   border: 2px solid var(--DBP-header-border);
-  background-color: var(--DBP-card-background);
+  background: var(--widget-bg);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

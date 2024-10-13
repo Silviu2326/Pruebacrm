@@ -81,7 +81,6 @@ button[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  position: absolute;
   bottom: 20px;
   right: 20px; /* Posiciona el botón en la parte inferior derecha */
 }
@@ -265,7 +264,6 @@ button[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  position: absolute;
   bottom: 20px;
   right: 20px;
 }

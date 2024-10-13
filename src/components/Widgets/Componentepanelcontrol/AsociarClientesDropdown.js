@@ -5,8 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import { FaFilter } from 'react-icons/fa';
 import "./AsociarClientesDropdown.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const AsociarClientesDropdown = ({ plan, onTrade }) => {
   const [clientesAsociadosLocal, setClientesAsociadosLocal] = useState([]);
   const [clientesNoAsociadosLocal, setClientesNoAsociadosLocal] = useState([]);

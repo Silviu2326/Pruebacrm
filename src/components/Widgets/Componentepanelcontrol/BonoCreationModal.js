@@ -11,7 +11,17 @@ const BonoCreationModal = ({
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <button className="close-popup-btn" onClick={handleClosePopup}>
+        <button className="close-popup-btn" onClick={handleClosePopup}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>
           X
         </button>
         <form className="create-bono-form">
@@ -120,7 +130,17 @@ const BonoCreationModal = ({
             </div>
           )}
         </form>
-        <button className={`create-btn ${theme}`} onClick={handleCreateBono}>
+        <button className={`create-btn ${theme}`} onClick={handleCreateBono}
+        style={{
+          background:'var(--create-button-bg)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>
           Crear Bono
         </button>
       </div>

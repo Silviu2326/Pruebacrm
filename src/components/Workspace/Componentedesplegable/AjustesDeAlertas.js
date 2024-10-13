@@ -1,8 +1,7 @@
-// AjustesDeAlertas.js
 import React, { useState } from 'react';
 import './AjustesDeAlertas.css';
 
-const AjustesDeAlertas = ({ alertas, selectedAlertas, setSelectedAlertas, closeModal }) => {
+const AjustesDeAlertas = ({ alertas, selectedAlertas, setSelectedAlertas, closeModal, theme }) => {
     const [selectedTipos, setSelectedTipos] = useState([]);
 
     const handleCheckboxChange = (alertaId) => {
@@ -32,12 +31,12 @@ const AjustesDeAlertas = ({ alertas, selectedAlertas, setSelectedAlertas, closeM
     }, {});
 
     return (
-        <div className="ajustes-modal" style={{ display: 'flex' }}>
-            <div className="ajustes-modal-content">
-                <span className="ajustes-close" onClick={closeModal}>&times;</span>
+        <div className={`ajustes-modal ${theme}`} style={{ display: 'flex' }}>
+            <div className={`ajustes-modal-content ${theme}`}>
+                <span className={`ajustes-close ${theme}`} onClick={closeModal}>&times;</span>
                 <h2>Personalizar Alertas</h2>
                 {Object.keys(alertasPorTipo).map(tipo => (
-                    <div key={tipo} className="ajustes-tipo-section">
+                    <div key={tipo} className={`ajustes-tipo-section ${theme}`}>
                         <h3>
                             <input
                                 type="checkbox"
@@ -46,9 +45,9 @@ const AjustesDeAlertas = ({ alertas, selectedAlertas, setSelectedAlertas, closeM
                             />
                             {tipo}
                         </h3>
-                        <div className="ajustes-alertas-list">
+                        <div className={`ajustes-alertas-list ${theme}`}>
                             {alertasPorTipo[tipo].map((alerta) => (
-                                <div key={alerta._id} className="ajustes-alerta-item">
+                                <div key={alerta._id} className={`ajustes-alerta-item ${theme}`}>
                                     <input
                                         type="checkbox"
                                         checked={selectedAlertas.includes(alerta._id)}
@@ -60,7 +59,7 @@ const AjustesDeAlertas = ({ alertas, selectedAlertas, setSelectedAlertas, closeM
                         </div>
                     </div>
                 ))}
-                <button className="ajustes-save-button" onClick={closeModal}>Guardar</button>
+                <button className={`ajustes-save-button ${theme}`} onClick={closeModal}>Guardar</button>
             </div>
         </div>
     );

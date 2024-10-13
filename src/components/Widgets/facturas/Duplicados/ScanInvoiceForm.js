@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import './ScanInvoiceForm.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-const MAX_FILE_SIZE_MB = 15;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';const MAX_FILE_SIZE_MB = 15;
 
-const ScanInvoiceForm = ({ closeModal }) => {
+const ScanInvoiceForm = ({ closeModal, theme}) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [totalFileSize, setTotalFileSize] = useState(0);
     const [responseData, setResponseData] = useState(null);
@@ -153,8 +152,28 @@ const ScanInvoiceForm = ({ closeModal }) => {
             </div>
             <p>Total Subido: {totalFileSize.toFixed(2)} / 15 MB</p>
             <div className="scan-invoice-form__buttons">
-                <button onClick={handleScanInvoices} className="scan-invoice-form__scan-button">Comenzar Escaneo de Facturas</button>
-                <button onClick={closeModal} className="scan-invoice-form__cancel-button">Cancelar</button>
+                <button onClick={handleScanInvoices} className="scan-invoice-form__scan-button"
+                style={{
+                    background:'var(--create-button-bg)', 
+                    color:  'var(--button-text-dark)' ,
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    padding: '14px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    transition: 'background 0.3s ease',
+      }}>Comenzar Escaneo de Facturas</button>
+                <button onClick={closeModal} className="scan-invoice-form__cancel-button"
+                style={{
+                    background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                    color:  'var(--button-text-dark)' ,
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    transition: 'background 0.3s ease',
+                  }}>Cancelar</button>
             </div>
             {responseData && (
                 <div className="scan-invoice-form__result">

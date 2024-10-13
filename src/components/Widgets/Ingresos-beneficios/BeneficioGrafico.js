@@ -248,23 +248,113 @@ const BeneficioGrafico = ({ onTitleClick, isEditMode, handleRemoveItem, theme, s
           </select>
           {view === 'anual' && (
             <div className="year-navigation">
-              <button className="widget-button" onClick={handlePreviousYear}>Anterior</button>
-              <span>{year}</span>
-              <button className="widget-button" onClick={handleNextYear}>Siguiente</button>
+              <button
+          onClick={handlePreviousYear}
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginRight: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &lt;
+        </button>
+        <span>{year}</span>
+        <button
+          onClick={handleNextYear}
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &gt;
+        </button>
             </div>
           )}
           {view === 'mensual' && (
             <div className="month-navigation">
-              <button className="widget-button" onClick={handlePreviousMonth}>Anterior</button>
-              <span>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
-              <button className="widget-button" onClick={handleNextMonth}>Siguiente</button>
+              <button
+          onClick={handlePreviousMonth}
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginRight: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &lt;
+        </button>
+        <span>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
+        <button
+          onClick={handleNextMonth}
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &gt;
+        </button>
             </div>
           )}
           {view === 'semanal' && (
             <div className="week-navigation">
-              <button className="widget-button" onClick={handlePreviousWeek}>Anterior</button>
-              <span>{`${weeks[weekIndex].start} - ${weeks[weekIndex].end}`}</span>
-              <button className="widget-button" onClick={handleNextWeek}>Siguiente</button>
+              <button
+          onClick={handlePreviousWeek}
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginRight: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &lt;
+        </button>
+        <span>{`${weeks[weekIndex].start} - ${weeks[weekIndex].end}`}</span>
+        <button
+          onClick={handleNextWeek}
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &gt;
+        </button>
             </div>
           )}
         </div>

@@ -32,7 +32,7 @@ interface GroupClassesPopupProps {
   onClose: () => void
 }
 
-export default function GroupClassesPopup({ service, onClose }: GroupClassesPopupProps) {
+        export default function GroupClassesPopup({ service, onClose }: GroupClassesPopupProps) {
   const [classDetails, setClassDetails] = useState({
     name: '',
     maxParticipants: 0,

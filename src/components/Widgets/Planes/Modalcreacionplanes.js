@@ -3,8 +3,7 @@ import axios from 'axios';
 import './Modalcreacionplanes.css';
 import { Checkbox } from '@mui/material';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const Modalcreacionplanes = ({ onClose, theme }) => {
   const [form, setForm] = useState({
     name: '',
@@ -80,7 +79,7 @@ const Modalcreacionplanes = ({ onClose, theme }) => {
   };
 
   return (
-    <div className="Modalcreacionplanes-popup">
+    <div className={`Modalcreacionplanes-popup ${theme}`}>
       <div className={`Modalcreacionplanes-popup-content ${theme}`}>
         <h3>Crear Nuevo Plan</h3>
         <form onSubmit={handleSubmit}>

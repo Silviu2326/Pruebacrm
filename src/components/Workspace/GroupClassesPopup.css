@@ -50,19 +50,32 @@
 
 .GroupClassesPopup-participants-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: var(--table-bg);
 }
 
 .GroupClassesPopup-participants-table th,
 .GroupClassesPopup-participants-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--table-border);
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .GroupClassesPopup-participants-table th {
-    background-color: #f2f2f2;
+    font-weight: bold;
+  text-transform: uppercase;
+  background: var(--table-th-bg);
+}
+
+.GroupClassesPopup-participants-table tr:nth-child(even) {
+    background: var(--table-row-even-bg);
+}
+
+.GroupClassesPopup-participants-table tr:hover {
+    background: var(--table-row-hover-bg);
 }
 
 .GroupClassesPopup-add-participant {

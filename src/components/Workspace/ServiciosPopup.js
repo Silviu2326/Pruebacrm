@@ -6,7 +6,7 @@ import ClasesGrupales from './ClasesGrupales';
 import Citas from './Citas';  // Importar el componente Citas
 import './ServiciosPopup.css';
 
-const ServiciosPopup = ({ onClose }) => {
+const ServiciosPopup = ({ onClose, theme }) => {
     const [selectedService, setSelectedService] = useState('');
 
     const handleServiceChange = (e) => {
@@ -16,21 +16,21 @@ const ServiciosPopup = ({ onClose }) => {
     const renderServiceComponent = () => {
         switch (selectedService) {
             case 'suscripcion':
-                return <Suscripcion />;
+                return <Suscripcion className={`suscripcion ${theme}`} theme={theme}/>;
             case 'asesoria_individual':
-                return <AsesoriaIndividual />;
+                return <AsesoriaIndividual className={`asesoria_individual ${theme}`} />;
             case 'clases_grupales':
-                return <ClasesGrupales />;
+                return <ClasesGrupales className={`clases_grupales ${theme}`} />;
             case 'citas':  // Caso para renderizar el componente Citas
-                return <Citas />;
+                return <Citas className={`citas ${theme}`} />;
             default:
                 return null;
         }
     };
 
     return (
-        <div className="servicios-popup">
-            <Typography variant="h6" className="servicios-popup-title">
+        <div className={`servicios-popup ${theme}`}>
+            <Typography variant="h6" className={`servicios-popup-title ${theme}`}>
                 Elegir Servicio
             </Typography>
             <Select
@@ -38,9 +38,14 @@ const ServiciosPopup = ({ onClose }) => {
                 onChange={handleServiceChange}
                 fullWidth
                 displayEmpty
-                className="servicios-popup-select"
+                className={`servicios-popup-select ${theme}`}
+                style={{
+                    color: 'var(--text)',
+                }}
             >
-                <MenuItem value="" disabled>
+                <MenuItem value="" disabled style={{
+                    color: 'var(--text)',
+                }}>
                     Selecciona un servicio
                 </MenuItem>
                 <MenuItem value="suscripcion">Subscripción</MenuItem>
@@ -51,7 +56,7 @@ const ServiciosPopup = ({ onClose }) => {
 
             {renderServiceComponent()}
 
-            <DialogActions className="servicios-popup-actions">
+            <DialogActions className={`servicios-popup-actions ${theme}`}>
                 <Button onClick={onClose} color="primary">
                     Cancelar
                 </Button>

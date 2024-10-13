@@ -209,23 +209,83 @@ const BeneficioChartPopup = ({ onTitleClick, theme }) => {
           </select>
           {view === 'anual' && (
             <div className="year-navigation">
-              <button onClick={handlePreviousYear}>Anterior</button>
+              <button onClick={handlePreviousYear}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Anterior</button>
               <span>{year}</span>
-              <button onClick={handleNextYear}>Siguiente</button>
+              <button onClick={handleNextYear}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Siguiente</button>
             </div>
           )}
           {view === 'mensual' && (
             <div className="month-navigation">
-              <button onClick={handlePreviousMonth}>Anterior</button>
+              <button onClick={handlePreviousMonth}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Anterior</button>
               <span>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
-              <button onClick={handleNextMonth}>Siguiente</button>
+              <button onClick={handleNextMonth}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Siguiente</button>
             </div>
           )}
           {view === 'semanal' && (
             <div className="week-navigation">
-              <button onClick={handlePreviousWeek}>Anterior</button>
+              <button onClick={handlePreviousWeek}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Anterior</button>
               <span>{`Semana ${week}`}</span>
-              <button onClick={handleNextWeek}>Siguiente</button>
+              <button onClick={handleNextWeek}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Siguiente</button>
             </div>
           )}
         </div>

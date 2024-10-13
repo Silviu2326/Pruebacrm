@@ -2,10 +2,10 @@
 
 .alertas-column {
     width: 30%;
-    background-color: #2a2a2a;
+    background-color: var(--widget-bg);
     padding: 20px;
     border-radius: 10px;
-    color: white;
+    color: var(--text);
     margin: 0px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -27,10 +27,10 @@
     max-height: 400px;
     overflow-y: auto;
     padding-right: 10px;
-    background-color: #1e1e1e;
+    background-color: var(--table-tr-child-bg);
+    border: 1px solid var(--secondary-light);
     border-radius: 10px;
     padding: 10px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Custom scrollbar styles */

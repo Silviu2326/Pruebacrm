@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Collapse } from '@mui/material';
+import { Eye, EyeOff } from 'lucide-react'; 
 import SuscripcionesPopup from './SuscripcionesPopup';
 import PopupClasesMetodo from './popupclasesmetodo';
 import SuscripcionesVerPlan from './SuscripcionesVerPlan';
 import SuscripcionesVerCliente from './SuscripcionesVerCliente';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const SuscripcionesLista = ({ theme }) => {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -17,6 +17,7 @@ const SuscripcionesLista = ({ theme }) => {
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [associatedClients, setAssociatedClients] = useState([]);
     const [expandedRows, setExpandedRows] = useState({});
+    const [expandedPlans, setExpandedPlans] = useState({});
     const [clientesDetails, setClientesDetails] = useState({});
     const [selectedClient, setSelectedClient] = useState(null);
 
@@ -70,6 +71,13 @@ const SuscripcionesLista = ({ theme }) => {
         }
     };
 
+    const togglePlanExpansion = (planId) => {
+        setExpandedPlans(prevState => ({
+            ...prevState,
+            [planId]: !prevState[planId]
+        }));
+    };
+
     const handleOpenPopup = (service, type) => {
         const allClientsInSubscription = service.clients.map(clientRelation => {
             return allClients.find(client => client._id === clientRelation.client);
@@ -115,168 +123,216 @@ const SuscripcionesLista = ({ theme }) => {
 
     return (
         <div className={`servicioslista-servicios-lista ${theme}`}>
-            <Table className="servicioslista-tabla-servicios">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell>Descripción</TableCell>
-                        <TableCell>Duración</TableCell> {/* Columna de duración añadida */}
-                        <TableCell>Acciones</TableCell>
-                        <TableCell>Detalles</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
+            <table 
+              className={`servicioslista-tabla-servicios ${theme}`}
+              style={{
+                borderRadius: '10px', 
+                borderCollapse: 'separate', 
+                borderSpacing: '0', 
+                width: '100%', 
+                overflow: 'hidden',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+              }}
+            >
+                <thead style={{
+                    backgroundColor: 'var(--table-th-bg)',
+                    borderTopLeftRadius: '10px',
+                    borderTopRightRadius: '10px',
+                    color: 'white'
+                }}>
+                    <tr style={{background: 'var(--table-th-bg)' }}>
+                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: 'bold', color: 'white', background: 'var(--table-th-bg)' }}>Nombre</th>
+                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: 'bold', color: 'white', background: 'var(--table-th-bg)' }}>Descripción</th>
+                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: 'bold', color: 'white', background: 'var(--table-th-bg)' }}>Duración</th>
+                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: 'bold', color: 'white', background: 'var(--table-th-bg)' }}>Acciones</th>
+                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: 'bold', color: 'white', background: 'var(--table-th-bg)' }}>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {subscriptions.map(service => (
                         <React.Fragment key={service._id}>
-                            <TableRow>
-                                <TableCell>{service.name}</TableCell>
-                                <TableCell>{service.description}</TableCell>
-                                <TableCell>
-                                    {/* Mostrar Duración basada en durationValue y durationUnit */}
+                            <tr style={{
+                                backgroundColor: theme === 'dark' ? (subscriptions.indexOf(service) % 2 === 0 ? '#333' : '#444') : (subscriptions.indexOf(service) % 2 === 0 ? '#f9f9f9' : '#ffffff')
+                            }}>
+                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{service.name}</td>
+                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{service.description}</td>
+                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>
                                     {service.durationValue && service.durationUnit
                                         ? `${service.durationValue} ${service.durationUnit}`
                                         : 'N/A'}
-                                </TableCell>
-                                <TableCell>
-                                    <Button 
-                                        variant="contained" 
-                                        color="primary" 
+                                </td>
+                                <td style={{ padding: '12px' }}>
+                                    <button
+                                        className={`action-button ${theme}`}
                                         onClick={() => handleOpenPopup(service, 'subscription')}
+                                        style={{
+                                          background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+                                          color: 'var(--button-text-dark)',
+                                          borderRadius: '5px',
+                                          cursor: 'pointer',
+                                          padding: '10px 20px',
+                                          fontSize: '16px',
+                                          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                                          transition: 'background 0.3s ease'
+                                        }}
                                     >
                                         Ver Detalles
-                                    </Button>
-                                    <Button 
-                                        variant="contained" 
-                                        color="secondary" 
+                                    </button>
+                                    <button
+                                        className={`action-button ${theme}`}
                                         onClick={() => handleOpenCreatePlanPopup(service)}
-                                        style={{ marginLeft: '10px' }}
+                                        style={{ 
+                                          marginLeft: '10px', 
+                                          background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+                                          color: 'var(--button-text-dark)', 
+                                          padding: '10px 20px', 
+                                          borderRadius: '5px', 
+                                          cursor: 'pointer', 
+                                          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                                          transition: 'background 0.3s ease'
+                                        }}
                                     >
                                         Crear Plan de Pago
-                                    </Button>
-                                </TableCell>
-                                <TableCell>
+                                    </button>
+                                </td>
+                                <td style={{ padding: '12px' }}>
                                     {(service.paymentPlans && service.paymentPlans.length > 0) || (service.clients && service.clients.length > 0) ? (
-                                        <>
-                                            <Button 
-                                                variant="text" 
-                                                color="secondary" 
-                                                onClick={() => toggleRowExpansion(service._id, service.clients)}
-                                                style={{ marginRight: '10px' }}
-                                            >
-                                                {expandedRows[service._id] ? 'Ocultar' : 'Expandir'}
-                                            </Button>
-                                        </>
+                                        <button
+                                            className={`action-button ${theme}`}
+                                            onClick={() => toggleRowExpansion(service._id, service.clients)}
+                                            style={{ 
+                                              marginRight: '10px', 
+                                              background: 'none', 
+                                              border: 'none', 
+                                              color: theme === 'dark' ? '#bbb' : '#236dc9', 
+                                              cursor: 'pointer',
+                                              padding: '5px',
+                                              fontSize: '14px'
+                                            }}
+                                        >
+                                            {expandedRows[service._id] ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
                                     ) : null}
-                                </TableCell>
-                            </TableRow>
+                                </td>
+                            </tr>
 
-                            {/* Subtabla para Payment Plans y Clientes */}
-                            {service.paymentPlans && service.paymentPlans.length > 0 && (
-                                <TableRow>
-                                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
-                                        <Collapse in={expandedRows[service._id]} timeout="auto" unmountOnExit>
-                                            <Table size="small">
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell>Plan</TableCell>
-                                                        <TableCell>Frecuencia</TableCell>
-                                                        <TableCell>Duración</TableCell>
-                                                        <TableCell>Descuento</TableCell>
-                                                        <TableCell>Acciones</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
+                            {expandedRows[service._id] && (
+                                <tr>
+                                    <td colSpan="5" style={{ padding: '0', background: '#f9f9f9' }}>
+                                        <div className={`expandable-section ${theme}`}>
+                                            <table className="sub-table" style={{ width: '100%', marginLeft: '20px', borderCollapse: 'collapse' }}>
+                                                <thead style={{
+                                                    backgroundColor: theme === 'dark' ? '#2d2d2d' : '#dfe5f1',
+                                                    borderBottom: '1px solid',
+                                                    borderColor: theme === 'dark' ? '#444' : '#ccc',
+                                                    borderTopLeftRadius: '10px',
+                                                    borderTopRightRadius: '10px'
+                                                }}>
+                                                    <tr>
+                                                        <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Plan</th>
+                                                        <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Frecuencia</th>
+                                                        <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Duración</th>
+                                                        <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Precio</th>
+                                                        <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
                                                     {service.paymentPlans.map(plan => (
                                                         <React.Fragment key={plan._id}>
-                                                            <TableRow>
-                                                                <TableCell>{plan.planName}</TableCell>
-                                                                <TableCell>{plan.frequency}</TableCell>
-                                                                <TableCell>{plan.durationValue} {plan.durationUnit}</TableCell>
-                                                                <TableCell>{plan.discount}</TableCell>
-                                                                <TableCell>
-                                                                    <Button 
-                                                                        variant="outlined" 
-                                                                        onClick={() => handleOpenPlanDetailsPopup(plan, service.clients.filter(client => client.paymentPlan === plan._id))}
+                                                            <tr>
+                                                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{plan.planName}</td>
+                                                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{plan.frequency}</td>
+                                                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{plan.durationValue} {plan.durationUnit}</td>
+                                                                <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{plan.price}</td>
+                                                                <td style={{ padding: '12px' }}>
+                                                                    <button
+                                                                        className={`action-button ${theme}`}
+                                                                        onClick={() => togglePlanExpansion(plan._id)}
+                                                                        style={{ 
+                                                                          background: 'none', 
+                                                                          border: 'none', 
+                                                                          color: theme === 'dark' ? '#bbb' : '#236dc9', 
+                                                                          cursor: 'pointer',
+                                                                          padding: '5px',
+                                                                          fontSize: '14px'
+                                                                        }}
                                                                     >
-                                                                        Ver Plan
-                                                                    </Button>
-                                                                </TableCell>
-                                                            </TableRow>
+                                                                        {expandedPlans[plan._id] ? <EyeOff size={20} /> : <Eye size={20} />}
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
 
-                                                            {/* Renderizar los clientes asociados al plan */}
-                                                            {service.clients.filter(client => client.paymentPlan === plan._id).length > 0 && (
-                                                                <TableRow>
-                                                                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
-                                                                        <Collapse in={expandedRows[service._id]} timeout="auto" unmountOnExit>
-                                                                            <Table size="small">
-                                                                                <TableHead>
-                                                                                    <TableRow>
-                                                                                        <TableCell>Nombre</TableCell>
-                                                                                        <TableCell>Email</TableCell>
-                                                                                        <TableCell>Estado</TableCell>
-                                                                                        <TableCell>Acciones</TableCell>
-                                                                                    </TableRow>
-                                                                                </TableHead>
-                                                                                <TableBody>
-                                                                                    {service.clients.filter(client => client.paymentPlan === plan._id).map(client => {
-                                                                                        const clientDetails = clientesDetails[client.client];
-                                                                                        return (
-                                                                                            <TableRow key={client._id}>
-                                                                                                <TableCell>{clientDetails?.nombre || 'Cargando...'}</TableCell>
-                                                                                                <TableCell>{clientDetails?.email || 'Cargando...'}</TableCell>
-                                                                                                <TableCell>{client.status}</TableCell>
-                                                                                                <TableCell>
-                                                                                                <Button 
-                                                                                                    variant="outlined" 
-                                                                                                    onClick={() => handleOpenClientDetailsPopup(client)}
-                                                                                                >
-                                                                                                    Ver Cliente
-                                                                                                </Button>
-                                                                                                </TableCell>
-                                                                                            </TableRow>
-                                                                                        );
-                                                                                    })}
-                                                                                </TableBody>
-                                                                            </Table>
-                                                                        </Collapse>
-                                                                    </TableCell>
-                                                                </TableRow>
+                                                            {expandedPlans[plan._id] && (
+                                                                <tr>
+                                                                    <td colSpan="5">
+                                                                        <table className="sub-table" style={{ width: '100%', marginLeft: '40px', borderCollapse: 'collapse' }}>
+                                                                            <thead style={{
+                                                                                backgroundColor: theme === 'dark' ? '#2d2d2d' : '#dfe5f1',
+                                                                                borderBottom: '1px solid',
+                                                                                borderColor: theme === 'dark' ? '#444' : '#ccc',
+                                                                                borderTopLeftRadius: '10px',
+                                                                                borderTopRightRadius: '10px'
+                                                                            }}>
+                                                                                <tr>
+                                                                                    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Nombre Cliente</th>
+                                                                                    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Email</th>
+                                                                                    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Status</th>
+                                                                                    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Fecha de Inicio</th>
+                                                                                    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'black', fontWeight: 'bold' }}>Fecha de Fin</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {service.clients.filter(client => client.paymentPlan === plan._id).map(client => (
+                                                                                    <tr key={client._id}>
+                                                                                        <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{clientesDetails[client.client]?.nombre || 'Cargando...'}</td>
+                                                                                        <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{clientesDetails[client.client]?.email || 'Cargando...'}</td>
+                                                                                        <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{client.status}</td>
+                                                                                        <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{new Date(client.startDate).toLocaleDateString()}</td>
+                                                                                        <td style={{ padding: '12px', color: theme === 'dark' ? 'white' : 'black' }}>{new Date(client.endDate).toLocaleDateString()}</td>
+                                                                                    </tr>
+                                                                                ))}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
                                                             )}
                                                         </React.Fragment>
                                                     ))}
-                                                </TableBody>
-                                            </Table>
-                                        </Collapse>
-                                    </TableCell>
-                                </TableRow>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
                             )}
                         </React.Fragment>
                     ))}
-                </TableBody>
-            </Table>
+                </tbody>
+            </table>
 
-            {/* Renderizado de los popups */}
             {popupType === 'planDetails' && (
                 <SuscripcionesVerPlan 
                     plan={selectedPlan} 
                     clients={associatedClients} 
                     onClose={handleClosePopup} 
+                    theme={theme}
                 />
             )}
             {popupType === 'clientDetails' && (
                 <SuscripcionesVerCliente 
                     cliente={selectedClient} 
                     onClose={handleClosePopup} 
+                    theme={theme}
                 />
             )}
 
             {popupType === 'subscription' && (
-                <SuscripcionesPopup service={selectedService} onClose={handleClosePopup} />
+                <SuscripcionesPopup service={selectedService} onClose={handleClosePopup} theme={theme}/>
             )}
             {popupType === 'createPlan' && (
                 <PopupClasesMetodo
                     service={selectedService} 
                     onClose={handleClosePopup} 
+                    theme={theme}
                 />
             )}
         </div>

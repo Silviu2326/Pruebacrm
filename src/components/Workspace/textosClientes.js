@@ -2,9 +2,9 @@
 
 export const titulos = [
     '¡Bienvenido a tu Panel de Control!',
-    '¡Gestiona tus Clientes Eficazmente!',
-    '¡Mantén tu Cliente Siempre Actualizado!',
-    '¡Tu Negocio al Alcance de un Clic!',
+    '¡Gestiona a tus Clientes Eficazmente!',
+    '¡Mantén a tus Clientes Siempre Actualizados!',
+    '¡Tu Negocio al Alcance de un Click!',
     '¡Organiza tu Base de Clientes!'
 ];
 

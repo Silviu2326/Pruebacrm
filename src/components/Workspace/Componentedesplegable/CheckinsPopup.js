@@ -1,9 +1,8 @@
-// src/CheckinsPopup.js
 import React, { useState } from 'react';
 import './CheckinsPopup.css';
 import { X, User, Calendar, ChevronRight, ClipboardList } from 'lucide-react';
 
-const CheckinsPopup = ({ clients, onClose }) => {
+const CheckinsPopup = ({ clients, onClose, theme }) => {
     const [selectedClient, setSelectedClient] = useState(clients[0]);
     const [selectedCheckin, setSelectedCheckin] = useState(null);
 
@@ -17,19 +16,19 @@ const CheckinsPopup = ({ clients, onClose }) => {
     };
 
     return (
-        <div className="checkins-popup">
-            <div className="checkins-popup-content">
-                <button className="checkins-close" onClick={onClose}>
+        <div className={`checkins-popup ${theme}`}>
+            <div className={`checkins-popup-content ${theme}`}>
+                <button className={`checkins-close ${theme}`} onClick={onClose}>
                     <X size={24} />
                 </button>
-                <div className="checkins-container">
-                    <div className="clients-list">
+                <div className={`checkins-container ${theme}`}>
+                    <div className={`clients-list ${theme}`}>
                         <h3><User size={20} style={{ marginRight: '8px' }} />Clientes</h3>
                         <ul>
                             {clients.map(client => (
                                 <li 
                                     key={client.id} 
-                                    className={client === selectedClient ? 'selected' : ''}
+                                    className={`${client === selectedClient ? `selected ${theme}` : ''}`}
                                     onClick={() => handleClientClick(client)}
                                 >
                                     {client.name}
@@ -37,27 +36,27 @@ const CheckinsPopup = ({ clients, onClose }) => {
                             ))}
                         </ul>
                     </div>
-                    <div className="checkins-history">
+                    <div className={`checkins-history ${theme}`}>
                         {selectedCheckin ? (
-                            <div className="checkin-details">
+                            <div className={`checkin-details ${theme}`}>
                                 <h3>Detalles del Checkin</h3>
                                 <p><strong>Fecha:</strong> {selectedCheckin.date}</p>
                                 <p><strong>Título:</strong> {selectedCheckin.title}</p>
                                 <p><strong>Descripción:</strong> {selectedCheckin.description}</p>
-                                <p><strong>Estado:</strong> <span className={`status-circle ${selectedCheckin.status}`}></span></p>
+                                <p><strong>Estado:</strong> <span className={`status-circle ${selectedCheckin.status} ${theme}`}></span></p>
                                 <button onClick={() => setSelectedCheckin(null)}>Volver al Historial</button>
                             </div>
                         ) : (
-                            <div className="checkin-history-list">
+                            <div className={`checkin-history-list ${theme}`}>
                                 <h3><ClipboardList size={20} style={{ marginRight: '8px' }} />Historial de Checkins</h3>
                                 <ul>
                                     {selectedClient.checkins.map(checkin => (
                                         <li key={checkin.id} onClick={() => handleCheckinClick(checkin)}>
-                                            <div className="checkin-item">
+                                            <div className={`checkin-item ${theme}`}>
                                                 <Calendar size={16} />
                                                 <span>{checkin.date}</span>
-                                                <span className="checkin-title">{checkin.title}</span>
-                                                <span className={`status-circle ${checkin.status}`}></span>
+                                                <span className={`checkin-title ${theme}`}>{checkin.title}</span>
+                                                <span className={`status-circle ${checkin.status} ${theme}`}></span>
                                                 <ChevronRight size={16} />
                                             </div>
                                         </li>

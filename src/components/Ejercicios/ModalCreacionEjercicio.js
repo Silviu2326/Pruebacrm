@@ -8,7 +8,7 @@ const ModalCreacionEjercicio = ({ isOpen, onClose, addExercise, updateExercise, 
   const [grupoMuscular, setGrupoMuscular] = useState([]);
   const [equipamiento, setEquipamiento] = useState([]);
   const [videoTutorial, setVideoTutorial] = useState('');
-  const [autor, setAutor] = useState('');
+  const [autor, setAutor] = useState('entrenador'); // Valor inicial por defecto es "entrenador"
 
   useEffect(() => {
     if (currentExercise) {
@@ -24,7 +24,7 @@ const ModalCreacionEjercicio = ({ isOpen, onClose, addExercise, updateExercise, 
       setGrupoMuscular([]);
       setEquipamiento([]);
       setVideoTutorial('');
-      setAutor('');
+      setAutor('entrenador'); // Establecer "entrenador" como valor por defecto si no hay ejercicio actual
     }
   }, [currentExercise]);
 
@@ -69,7 +69,7 @@ const ModalCreacionEjercicio = ({ isOpen, onClose, addExercise, updateExercise, 
     const newExercise = { nombre, descripcion, grupoMuscular, equipamiento, videoTutorial, autor };
 
     try {
-      const response = await fetch(currentExercise ? `/api/exercises/${currentExercise._id}` : '/api/exercises', {
+      const response = await fetch(currentExercise ? `http://localhost:5005/api/exercises/${currentExercise._id}` : 'http://localhost:5005/api/exercises', {
         method: currentExercise ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -276,15 +276,6 @@ const ModalCreacionEjercicio = ({ isOpen, onClose, addExercise, updateExercise, 
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
 <div>
   <label className={theme}>Equipamiento Necesario</label>
   <div className={`checkbox-group ${theme}`}>
@@ -407,22 +398,36 @@ const ModalCreacionEjercicio = ({ isOpen, onClose, addExercise, updateExercise, 
     </label>
   </div>
 </div>
-
-
-
-
-
-
-
-
           <div>
   <label className={theme}>Link video tutorial</label>
   <input type="url" value={videoTutorial} onChange={handleVideoTutorialChange} className={theme} />
 </div>
 
 <div className="button-group">
-  <button type="submit" className={`crear-btn ${theme}`}>{currentExercise ? 'Guardar Cambios' : 'Crear'}</button>
-  <button onClick={onClose} className={`cerrar-btn ${theme}`}>Cerrar</button>
+  <button type="submit" className={`crear-btn ${theme}`}
+  style={{
+    background:'var(--create-button-bg)', 
+    color:  'var(--button-text-dark)' ,
+    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    transition: 'background 0.3s ease',
+  }}>{currentExercise ? 'Guardar Cambios' : 'Crear'}
+  </button>
+  <button onClick={onClose} className={`cerrar-btn ${theme}`}
+  style={{
+    background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+    color:  'var(--button-text-dark)' ,
+    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    transition: 'background 0.3s ease',
+  }}
+>Cerrar</button>
 </div>
         </form>
 

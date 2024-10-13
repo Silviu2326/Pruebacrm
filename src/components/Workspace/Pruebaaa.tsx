@@ -1,11 +1,8 @@
+// src/components/Workspace/Pruebaaa.tsx
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ComponentsReutilizables/Button.tsx';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ComponentsReutilizables/tabs.tsx';
-import { Icon } from 'react-icons-kit';
-import { pencil } from 'react-icons-kit/fa/pencil';
-import { trash } from 'react-icons-kit/fa/trash';
-import { users } from 'react-icons-kit/fa/users';
-import { dollar } from 'react-icons-kit/fa/dollar';
+import { FaPencilAlt, FaTrash, FaUsers } from 'react-icons/fa'; // Importar íconos desde react-icons
 import "./Pruebaaa.css";
 
 interface Cliente {
@@ -24,9 +21,10 @@ interface Cliente {
 interface PruebaaaProps {
   service: any;
   onClose: () => void;
+  theme: string; // Añadido el prop 'theme'
 }
 
-const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
+const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose, theme }) => {
   const { name, description, maxParticipants } = service;
 
   const [participants, setParticipants] = useState([
@@ -49,7 +47,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
   const [newSessionTime, setNewSessionTime] = useState<string>('');
   const [newSessionLocation, setNewSessionLocation] = useState<string>('');
 
-  // Estados para el popup de pagos
   const [showPaymentPopup, setShowPaymentPopup] = useState<boolean>(false);
   const [newPaymentDate, setNewPaymentDate] = useState<string>('');
   const [newPaymentAmount, setNewPaymentAmount] = useState<number>(0);
@@ -74,54 +71,30 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
     fetchClientes();
   }, []);
 
-  const handleCreateSession = () => {
-    setShowSessionPopup(true);
-  };
+  const handleCreateSession = () => setShowSessionPopup(true);
+  const handleCloseSessionPopup = () => setShowSessionPopup(false);
+  const handleCreatePayment = () => setShowPaymentPopup(true);
+  const handleClosePaymentPopup = () => setShowPaymentPopup(false);
 
-  const handleCloseSessionPopup = () => {
-    setShowSessionPopup(false);
-  };
-
-  const handleCreatePayment = () => {
-    setShowPaymentPopup(true);
-  };
-
-  const handleClosePaymentPopup = () => {
-    setShowPaymentPopup(false);
-  };
-
-  const handleSelectCliente = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCliente(event.target.value);
-  };
-
-  const handleSelectPaymentCliente = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPaymentCliente(event.target.value);
-  };
-
+  const handleSelectCliente = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedCliente(event.target.value);
+  const handleSelectPaymentCliente = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedPaymentCliente(event.target.value);
   const handleAsociarCliente = () => {
-    setClienteAsociado(selectedCliente);
-    alert(`Cliente asociado: ${selectedCliente}`);
+    if (selectedCliente) {
+      const cliente = clientes.find(c => c._id === selectedCliente);
+      if (cliente) {
+        setParticipants([...participants, { id: participants.length + 1, name: `${cliente.nombre} ${cliente.apellido}` }]);
+        setSelectedCliente('');
+        alert(`Cliente asociado: ${cliente.nombre} ${cliente.apellido}`);
+      }
+    }
   };
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewSessionDate(event.target.value);
-  };
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => setNewSessionDate(event.target.value);
+  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => setNewSessionTime(event.target.value);
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => setNewSessionLocation(event.target.value);
 
-  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewSessionTime(event.target.value);
-  };
-
-  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewSessionLocation(event.target.value);
-  };
-
-  const handlePaymentDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPaymentDate(event.target.value);
-  };
-
-  const handlePaymentAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPaymentAmount(Number(event.target.value));
-  };
+  const handlePaymentDateChange = (event: React.ChangeEvent<HTMLInputElement>) => setNewPaymentDate(event.target.value);
+  const handlePaymentAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => setNewPaymentAmount(Number(event.target.value));
 
   const handleSubmitNewSession = () => {
     if (newSessionDate && newSessionTime) {
@@ -155,11 +128,40 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
   };
 
   return (
-    <div className="Pruebaaa-modal">
-      <div className="Pruebaaa-modal-content">
-        <button className="Pruebaaa-modal-close" onClick={onClose}>
-          ×
+    <div className={`Pruebaaa-modal ${theme}`}>
+      <div className={`Pruebaaa-modal-content ${theme}`} style={{ 
+        backgroundColor: theme === 'dark' ? '#333' : '#f3f3f3',
+        borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf',
+        position: 'relative', // Necesario para posicionar el botón "X"
+        padding: '20px', // Ajusta el padding según sea necesario
+        borderRadius: '8px', // Opcional: agrega bordes redondeados
+        maxWidth: '800px', // Opcional: limita el ancho del modal
+        margin: '0 auto', // Centra el modal horizontalmente
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Opcional: agrega sombra al modal
+      }}>
+        {/* Botón de Cerrar "X" */}
+        <button 
+          onClick={onClose} 
+          className="Pruebaaa-close-button"
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)',
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            cursor: 'pointer',
+            color:  'var(--button-text-dark)' ,
+            fontSize: '16px',
+            fontWeight: 'bold',
+            transition: 'background 0.3s ease',
+            padding: '10px 20px',
+            borderRadius: '5px',
+          }}
+          aria-label="Cerrar Modal"
+        >
+          X
         </button>
+
         <h2 className="Pruebaaa-title">Detalles de la Clase</h2>
 
         <Tabs defaultValue="detalles">
@@ -170,7 +172,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
             <TabsTrigger value="pagos">Pagos</TabsTrigger>
           </TabsList>
 
-          {/* Pestaña de Detalles */}
           <TabsContent value="detalles">
             <div className="Pruebaaa-detalles-form">
               <form>
@@ -206,9 +207,9 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                 </div>
               </form>
             </div>
+            {/* Eliminado el botón "Cerrar" de esta sección */}
           </TabsContent>
 
-          {/* Pestaña de Participantes */}
           <TabsContent value="participantes">
             <div className="Pruebaaa-participantes-list">
               <div className="Pruebaaa-participantes-header">
@@ -218,14 +219,37 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
               {participants.map((participant) => (
                 <div className="Pruebaaa-participantes-item" key={participant.id}>
                   <span>{participant.name}</span>
-                  <button className="Pruebaaa-delete-button" title="Eliminar participante">
-                    <Icon icon={trash} size={16} />
+                  <button 
+                    className="Pruebaaa-delete-button" 
+                    title="Eliminar participante"
+                    style={{
+                      background: theme === 'dark' ? '#555' : '#ddd', 
+                      color: theme === 'dark' ? '#fff' : '#000',
+                      border: 'none',
+                      padding: '5px 10px',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      transition: 'background 0.3s ease',
+                    }}
+                    onClick={() => {
+                      // Implementar la lógica para eliminar al participante
+                      // Por ejemplo:
+                      setParticipants(participants.filter(p => p.id !== participant.id));
+                      alert(`Participante eliminado: ${participant.name}`);
+                    }}
+                  >
+                    Eliminar
                   </button>
                 </div>
               ))}
               <div className="Pruebaaa-add-participante">
                 <label>Agregar Participante</label>
-                <select className="Pruebaaa-form-control" onChange={handleSelectCliente}>
+                <select 
+                  className="Pruebaaa-form-control" 
+                  onChange={handleSelectCliente}
+                  value={selectedCliente}
+                >
                   <option value="">Seleccionar cliente</option>
                   {clientes.map((cliente) => (
                     <option key={cliente._id} value={cliente._id}>
@@ -234,15 +258,30 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   ))}
                 </select>
                 {selectedCliente && (
-                  <Button variant="black" onClick={handleAsociarCliente} className="Pruebaaa-asociar-cliente-button">
+                  <Button 
+                    variant="black" 
+                    onClick={handleAsociarCliente} 
+                    className="Pruebaaa-asociar-cliente-button"
+                    style={{
+                      background: theme === 'dark' ? '#444' : '#ccc', 
+                      color: theme === 'dark' ? '#fff' : '#000',
+                      border: 'none',
+                      padding: '5px 10px',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      transition: 'background 0.3s ease',
+                      marginTop: '10px', // Opcional: agrega margen superior
+                    }}
+                  >
                     Asociar Cliente
                   </Button>
                 )}
               </div>
             </div>
+            {/* Eliminado el botón "Cerrar" de esta sección */}
           </TabsContent>
 
-          {/* Pestaña de Sesiones */}
           <TabsContent value="sesiones">
             <div className="Pruebaaa-sesiones-list">
               <div className="Pruebaaa-sesiones-header">
@@ -255,25 +294,93 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   <span>{session.date}</span>
                   <span>{session.time}</span>
                   <div className="Pruebaaa-sesiones-actions">
-                    <button className="Pruebaaa-edit-button" title="Editar sesión">
-                      <Icon icon={pencil} size={16} />
+                    <button 
+                      className="Pruebaaa-edit-button" 
+                      title="Editar sesión"
+                      style={{
+                        background: theme === 'dark' ? '#555' : '#ddd', 
+                        color: theme === 'dark' ? '#fff' : '#000',
+                        border: 'none',
+                        padding: '5px 8px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        transition: 'background 0.3s ease',
+                        marginRight: '5px',
+                      }}
+                      onClick={() => {
+                        // Implementar lógica para editar sesión
+                        alert(`Editar sesión: ${session.id}`);
+                      }}
+                    >
+                      <FaPencilAlt />
                     </button>
-                    <button className="Pruebaaa-delete-button" title="Eliminar sesión">
-                      <Icon icon={trash} size={16} />
+                    <button 
+                      className="Pruebaaa-delete-button" 
+                      title="Eliminar sesión"
+                      style={{
+                        background: theme === 'dark' ? '#555' : '#ddd', 
+                        color: theme === 'dark' ? '#fff' : '#000',
+                        border: 'none',
+                        padding: '5px 8px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        transition: 'background 0.3s ease',
+                        marginRight: '5px',
+                      }}
+                      onClick={() => {
+                        // Implementar lógica para eliminar sesión
+                        setSessions(sessions.filter(s => s.id !== session.id));
+                        alert(`Sesión eliminada: ${session.id}`);
+                      }}
+                    >
+                      <FaTrash />
                     </button>
-                    <button className="Pruebaaa-manage-participants-button" title="Gestionar participantes">
-                      <Icon icon={users} size={16} />
+                    <button 
+                      className="Pruebaaa-manage-participants-button" 
+                      title="Gestionar participantes"
+                      style={{
+                        background: theme === 'dark' ? '#555' : '#ddd', 
+                        color: theme === 'dark' ? '#fff' : '#000',
+                        border: 'none',
+                        padding: '5px 8px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        transition: 'background 0.3s ease',
+                      }}
+                      onClick={() => {
+                        // Implementar lógica para gestionar participantes
+                        alert(`Gestionar participantes de sesión: ${session.id}`);
+                      }}
+                    >
+                      <FaUsers />
                     </button>
                   </div>
                 </div>
               ))}
-              <Button variant="black" onClick={handleCreateSession} className="Pruebaaa-add-session-button">
+              <Button 
+                variant="black" 
+                onClick={handleCreateSession} 
+                className="Pruebaaa-add-session-button"
+                style={{
+                  background: theme === 'dark' ? '#444' : '#ccc', 
+                  color: theme === 'dark' ? '#fff' : '#000',
+                  border: 'none',
+                  padding: '10px 15px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  transition: 'background 0.3s ease',
+                  marginTop: '10px', // Opcional: agrega margen superior
+                }}
+              >
                 Crear Nueva Sesión
               </Button>
             </div>
+            {/* Eliminado el botón "Cerrar" de esta sección */}
           </TabsContent>
 
-          {/* Pestaña de Pagos */}
           <TabsContent value="pagos">
             <div className="Pruebaaa-pagos-list">
               <div className="Pruebaaa-pagos-header">
@@ -291,14 +398,30 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
               <div className="Pruebaaa-total-previsto">
                 <span>Total Previsto: ${totalPrevisto}</span>
               </div>
-              <Button variant="black" onClick={handleCreatePayment} className="Pruebaaa-registrar-pago-button">
-                <Icon icon={dollar} size={16} /> Registrar Pago
+              <Button 
+                variant="black" 
+                onClick={handleCreatePayment} 
+                className="Pruebaaa-registrar-pago-button"
+                style={{
+                  background: theme === 'dark' ? '#444' : '#ccc', 
+                  color: theme === 'dark' ? '#fff' : '#000',
+                  border: 'none',
+                  padding: '10px 15px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s ease',
+                  marginTop: '10px', // Opcional: agrega margen superior
+                }}
+              >
+                Registrar Pago
               </Button>
             </div>
+            {/* Eliminado el botón "Cerrar" de esta sección */}
           </TabsContent>
         </Tabs>
 
-        {/* Popup de Crear Sesión */}
+        {/* Popups existentes */}
         {showSessionPopup && (
           <div className="Pruebaaa-session-popup-overlay">
             <div className="Pruebaaa-session-popup-content">
@@ -311,7 +434,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   onChange={handleDateChange}
                   className="Pruebaaa-form-control"
                 />
-
                 <label>Hora</label>
                 <input
                   type="time"
@@ -319,7 +441,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   onChange={handleTimeChange}
                   className="Pruebaaa-form-control"
                 />
-
                 <label>Ubicación (opcional)</label>
                 <input
                   type="text"
@@ -327,11 +448,36 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   onChange={handleLocationChange}
                   className="Pruebaaa-form-control"
                 />
-
-                <Button variant="black" onClick={handleSubmitNewSession}>
+                <Button 
+                  variant="black" 
+                  onClick={handleSubmitNewSession}
+                  style={{
+                    background: theme === 'dark' ? '#444' : '#ccc', 
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    border: 'none',
+                    padding: '10px 15px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    transition: 'background 0.3s ease',
+                    marginRight: '10px', // Opcional: agrega margen derecho
+                  }}
+                >
                   Crear Sesión
                 </Button>
-                <Button variant="black" onClick={handleCloseSessionPopup}>
+                <Button 
+                  variant="black" 
+                  onClick={handleCloseSessionPopup}
+                  style={{
+                    background: theme === 'dark' ? '#555' : '#ddd', 
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    border: 'none',
+                    padding: '10px 15px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    transition: 'background 0.3s ease',
+                  }}
+                >
                   Cerrar
                 </Button>
               </div>
@@ -339,7 +485,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
           </div>
         )}
 
-        {/* Popup de Crear Pago */}
         {showPaymentPopup && (
           <div className="Pruebaaa-payment-popup-overlay">
             <div className="Pruebaaa-payment-popup-content">
@@ -352,7 +497,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   onChange={handlePaymentDateChange}
                   className="Pruebaaa-form-control"
                 />
-
                 <label>Monto</label>
                 <input
                   type="number"
@@ -360,7 +504,6 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                   onChange={handlePaymentAmountChange}
                   className="Pruebaaa-form-control"
                 />
-
                 <label>Cliente</label>
                 <select
                   value={selectedPaymentCliente}
@@ -374,21 +517,43 @@ const Pruebaaa: React.FC<PruebaaaProps> = ({ service, onClose }) => {
                     </option>
                   ))}
                 </select>
-
-                <Button variant="black" onClick={handleSubmitNewPayment}>
+                <Button 
+                  variant="black" 
+                  onClick={handleSubmitNewPayment}
+                  style={{
+                    background: theme === 'dark' ? '#444' : '#ccc', 
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    border: 'none',
+                    padding: '10px 15px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    transition: 'background 0.3s ease',
+                    marginRight: '10px', // Opcional: agrega margen derecho
+                  }}
+                >
                   Registrar Pago
                 </Button>
-                <Button variant="black" onClick={handleClosePaymentPopup}>
+                <Button 
+                  variant="black" 
+                  onClick={handleClosePaymentPopup}
+                  style={{
+                    background: theme === 'dark' ? '#555' : '#ddd', 
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    border: 'none',
+                    padding: '10px 15px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    transition: 'background 0.3s ease',
+                  }}
+                >
                   Cerrar
                 </Button>
               </div>
             </div>
           </div>
         )}
-
-        <Button variant="black" onClick={onClose} className="Pruebaaa-close-button">
-          Cerrar
-        </Button>
       </div>
     </div>
   );

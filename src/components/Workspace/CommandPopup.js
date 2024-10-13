@@ -1,139 +1,212 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { CSSTransition } from 'react-transition-group';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ComponentsReutilizables/tabs.tsx";
+import { useNavigate, useLocation } from "react-router-dom";
 import './CommandPopup.css';
 
-const CommandPopup = ({ onClose, theme }) => {
-    const [command, setCommand] = useState('');
-    const [validationResult, setValidationResult] = useState('');
-    const [isAnimating, setIsAnimating] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [confirmingCommand, setConfirmingCommand] = useState(false);
-    const [testQueue, setTestQueue] = useState([]);
+const CommandPopup = ({ setRoutineName }) => {  
+  const [commandMessages, setCommandMessages] = useState([]);
+  const [assistantMessages, setAssistantMessages] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [activeTab, setActiveTab] = useState("comandos");
+  const [isLoading, setIsLoading] = useState(false);
+  const [awaitingRoutineName, setAwaitingRoutineName] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
+  const [theme, setTheme] = useState('light');  // Estado para manejar el tema (default: light)
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-        if (command.trim().toLowerCase() === 'obtenertodoslosclientes') {
-            handleCommandSubmit();
+  // Función para actualizar el tema basado en las clases del contenedor App
+  const updateTheme = () => {
+    const appElement = document.querySelector('.App');
+    if (appElement) {
+      console.log('App classes detected:', appElement.classList);
+      if (appElement.classList.contains('dark-mode')) {
+        console.log('Theme set to dark');
+        setTheme('dark');
+      } else if (appElement.classList.contains('light')) {
+        console.log('Theme set to light');
+        setTheme('light');
+      }
+    }
+  };
+
+  // Detectar el tema inicial y suscribirse a los cambios en las clases del contenedor App
+  useEffect(() => {
+    const appElement = document.querySelector('.App');
+    if (appElement) {
+      updateTheme();  // Configuración inicial del tema
+
+      // Configuración del MutationObserver para detectar cambios en las clases de App
+      const observer = new MutationObserver(() => {
+        updateTheme();
+      });
+
+      // Configuramos el observer para monitorear cambios en los atributos
+      observer.observe(appElement, { attributes: true, attributeFilter: ['class'] });
+
+      // Cleanup cuando se desmonta el componente
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
+
+  const handleSend = () => {
+    if (inputValue.trim()) {
+      const newMessage = { text: inputValue, sender: "user" };
+      setCommandMessages((prevMessages) => [...prevMessages, newMessage]);
+
+      if (activeTab === "comandos") {
+        if (awaitingRoutineName) {
+          const routineName = inputValue.trim();
+          setRoutineName(routineName);
+          setCommandMessages((prevMessages) => [...prevMessages, { text: `Nombre de rutina establecido: ${routineName}`, sender: "system" }]);
+          setAwaitingRoutineName(false);
+          setInputValue("");
+          return;
         }
-    }, [command]);
 
-    useEffect(() => {
-        if (testQueue.length > 0) {
-            const nextCommand = testQueue[0];
-            setTestQueue(testQueue.slice(1));
-            setCommand(nextCommand);
-            handleConfirmCommand();
+        if (inputValue.toLowerCase() === "vamos a rutinas") {
+          setCommandMessages((prevMessages) => [...prevMessages, { text: "Navegando a Crear Rutina", sender: "system" }]);
+          setIsLoading(true);
+
+          setTimeout(() => {
+            setIsLoading(false);
+            navigate("/rutinaaasss", { state: { keepCommandPopup: true } });
+            setTimeout(() => {
+              const createRoutineButton = document.querySelector('.Rutinaaaasss-btn-create');
+              if (createRoutineButton) {
+                createRoutineButton.click();
+                setAwaitingRoutineName(true);
+                setCommandMessages((prevMessages) => [...prevMessages, { text: "¿Cómo quieres llamar a la rutina?", sender: "system" }]);
+              }
+            }, 500);
+          }, 2000);
         }
-    }, [testQueue]);
-
-    const handleCommandChange = (e) => {
-        setCommand(e.target.value);
-    };
-
-    const handleCommandSubmit = async () => {
-        try {
-            console.log('Comando enviado:', command);
-
-            setIsAnimating(true);
-            setLoading(true);
-
-            const response = await axios.post('${API_BASE_URL}/api/commands/execute', { command });
-
-            console.log('Respuesta del servidor:', response.data);
-
-            setLoading(false);
-            setIsAnimating(false);
-
-            if (Array.isArray(response.data)) {
-                const clientNames = response.data.map(cliente => cliente.nombre || cliente.contenido);
-                toast.success(`Clientes obtenidos: ${clientNames.join(', ')}`, {
-                    position: "bottom-left",
-                });
-            } else if (response.data.notas) {
-                const notas = response.data.notas.map(nota => nota.contenido);
-                toast.success(`Notas obtenidas: ${notas.join(', ')}`, {
-                    position: "bottom-left",
-                });
-            } else {
-                toast.info(response.data.message, {
-                    position: "bottom-left",
-                });
-            }
-        } catch (error) {
-            console.error('Error ejecutando el comando:', error);
-            setLoading(false);
-            setIsAnimating(false);
-            toast.error('Error ejecutando el comando', {
-                position: "bottom-left",
-            });
+      } else {
+        setAssistantMessages((prevMessages) => [...prevMessages, newMessage]);
+        if (inputValue.toLowerCase() === "hola") {
+          setAssistantMessages((prevMessages) => [...prevMessages, { text: "Muy bien, esta es la sección de clientes", sender: "assistant" }]);
+        } else {
+          setTimeout(() => {
+            const assistantMessage = { text: "Este es un mensaje automático del asistente.", sender: "assistant" };
+            setAssistantMessages((prevMessages) => [...prevMessages, assistantMessage]);
+          }, 1000);
         }
+      }
+      setInputValue("");
+    }
+  };
+
+  useEffect(() => {
+    const handlePopstate = () => {
+      const commandPopup = document.querySelector('#command-popup');
+      if (commandPopup) {
+        commandPopup.style.display = 'block';
+      }
     };
 
-    const handleConfirmCommand = () => {
-        setConfirmingCommand(true);
-        setValidationResult(`¿Estás seguro de que deseas ejecutar el comando: "${command}"?`);
+    window.addEventListener('popstate', handlePopstate);
+    return () => {
+      window.removeEventListener('popstate', handlePopstate);
     };
+  }, []);
 
-    const handleAcceptCommand = () => {
-        setConfirmingCommand(false);
-        setValidationResult('');
-        handleCommandSubmit();
-    };
-
-    const handleRejectCommand = () => {
-        setConfirmingCommand(false);
-        setValidationResult('');
-    };
-
-    const testCommands = () => {
-        const createCommand = "crearcliente Juan,Perez,30,M,1.75,75,1234567890,juan.perez@example.com,123 Main St, efectivo";
-
-        setTestQueue([createCommand]);
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && command.trim().endsWith('.')) {
-            const sanitizedCommand = command.trim().slice(0, -1);
-            setCommand(sanitizedCommand);
-            handleConfirmCommand();
-        }
-    };
-    
-    return (
-        <div className="CommandPopup-overlay">
-            <div className={`CommandPopup-container ${theme}`}>
-                <button className="CommandPopup-close-button" onClick={onClose}>X</button>
-                <h2 className="CommandPopup-title">Centro de control</h2>
-                <div className="CommandPopup-main">
-                    <div className="CommandPopup-input-container">
-                        <textarea
-                            className="CommandPopup-input"
-                            value={command}
-                            onChange={handleCommandChange}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Introduce comandos"
-                        />
-                        <button className="CommandPopup-submit-button" onClick={handleConfirmCommand}>Enviar Comando</button>
-                        <button className="CommandPopup-submit-button" onClick={testCommands}>Probar Comandos</button>
-                    </div>
-                    <div className="CommandPopup-sections">
-                        <div className={`CommandPopup-section CommandPopup-section-validation ${isAnimating ? 'animating' : ''}`}>
-                            {loading && <div className="loading-bar"></div>}
-                            <p>{validationResult}</p>
-                            {confirmingCommand && (
-                                <div className="CommandPopup-buttons">
-                                    <button className="CommandPopup-accept-button" onClick={handleAcceptCommand}>Aceptar</button>
-                                    <button className="CommandPopup-reject-button" onClick={handleRejectCommand}>Rechazar</button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+  return (
+    <CSSTransition in={showPopup} timeout={500} classNames="CommandPopup-transition" unmountOnExit>
+      <div id="command-popup" className={`CommandPopup-container ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+        {/* Botón de cerrar */}
+        <button 
+          className="CommandPopup-closeButton" 
+          onClick={() => setShowPopup(false)}
+        >
+          &times;
+        </button>
+        <Tabs defaultValue="comandos" onValueChange={(value) => setActiveTab(value)}>
+          <TabsList className="CommandPopup-tabsList">
+            <TabsTrigger value="comandos" className="CommandPopup-tabTrigger">Comandos</TabsTrigger>
+            <TabsTrigger value="asistente" className="CommandPopup-tabTrigger">Asistente</TabsTrigger>
+          </TabsList>
+          <TabsContent value="comandos">
+            <div className="CommandPopup-messagesContainer">
+              {commandMessages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`CommandPopup-message ${message.sender === "user" ? "CommandPopup-userMessage" : "CommandPopup-systemMessage"}`}
+                >
+                  {message.text}
                 </div>
+              ))}
+              {isLoading && <div className="CommandPopup-loadingMessage">Cargando...</div>}
             </div>
-            <ToastContainer />
-        </div>
-    );
+            <div className="CommandPopup-inputContainer">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder={awaitingRoutineName ? "Ingresa el nombre de la rutina..." : "Ingrese un comando..."}
+                className="CommandPopup-inputField"
+              />
+              <button
+                onClick={handleSend}
+                style={{
+                  background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)',
+                  color: 'var(--button-text-dark)',
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginLeft: '10px',
+                  transition: 'background 0.3s ease',
+                }}
+              >
+                Enviar
+              </button>
+            </div>
+          </TabsContent>
+          <TabsContent value="asistente">
+            <div className="CommandPopup-messagesContainer">
+              {assistantMessages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`CommandPopup-message ${message.sender === "user" ? "CommandPopup-userMessage" : "CommandPopup-assistantMessage"}`}
+                >
+                  {message.text}
+                </div>
+              ))}
+            </div>
+            <div className="CommandPopup-inputContainer">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ingrese su consulta..."
+                className="CommandPopup-inputField"
+              />
+              <button
+                onClick={handleSend}
+                style={{
+                  background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)',
+                  color: 'var(--button-text-dark)',
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginLeft: '10px',
+                  transition: 'background 0.3s ease',
+                }}
+              >
+                Enviar
+              </button>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </CSSTransition>
+  );
 };
 
 export default CommandPopup;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import styles from '../pages/EditRoutinePage.module.css';
 
-const MenuEjercicio = ({ mostrar, manejarCierre, alAgregarEjercicio }) => {
+const MenuEjercicio = ({ mostrar, manejarCierre, alAgregarEjercicio,theme }) => {
   const [ejercicios, setEjercicios] = useState([]);
   const [terminoBusqueda, setTerminoBusqueda] = useState('');
   const [grupoSeleccionado, setGrupoSeleccionado] = useState('');
@@ -134,7 +134,18 @@ const MenuEjercicio = ({ mostrar, manejarCierre, alAgregarEjercicio }) => {
                 </Form.Control>
               </Col>
             </Row>
-            <Button variant="primary" onClick={manejarCrearEjercicio} className="mt-2">Crear</Button>
+            <Button variant="primary" onClick={manejarCrearEjercicio} className="mt-2"
+            style={{
+              background:'var(--create-button-bg)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}
+>Crear</Button>
           </Form.Group>
         </Form>
         {ejerciciosFiltrados.map((ejercicio) => (
@@ -148,7 +159,18 @@ const MenuEjercicio = ({ mostrar, manejarCierre, alAgregarEjercicio }) => {
         ))}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={manejarCierre}>Cerrar</Button>
+        <Button variant="secondary" onClick={manejarCierre}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}
+        >Cerrar</Button>
       </Modal.Footer>
     </Modal>
   );

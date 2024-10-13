@@ -1,0 +1,151 @@
+/* Esqueletopopup.css */
+.esqueletopopup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .esqueletopopup-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .period-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .period-table th,
+  .period-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .period-table th {
+    background-color: #f0f0f0;
+  }
+  
+  .day-cell {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .day-cell:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .selected {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .occupied {
+    pointer-events: none; /* Desactiva el clic en días ocupados */
+  }
+  
+  /* Dark theme adjustments */
+  .dark .esqueletopopup-container {
+    background-color: #333;
+    color: white;
+  }
+  
+  .dark .period-table th {
+    background-color: #444;
+    color: white;
+  }
+  
+  .dark .period-table td {
+    background-color: #555;
+  }
+  
+  .dark .day-cell:hover {
+    background-color: #666;
+  }
+  
+  .dark .selected {
+    background-color: #4caf50;
+    color: white;
+  }
+  .button-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .periodo-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px;
+    max-width: 250px;
+    text-align: center;
+  }
+  
+  .periodo-card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  .periodo-card hr {
+    border: 0.5px solid #ddd;
+    margin-bottom: 15px;
+  }
+  
+  .raiz-container {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .variable-card {
+    border: 1px solid #007bff;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .variable-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .add-variable-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mapa-periodos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .mapa-periodos-container .periodo-card {
+    margin: 20px;
+  }
+  

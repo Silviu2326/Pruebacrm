@@ -5,6 +5,7 @@ import Calendariodieta from '../Calendariodieta';
 import Modalcreacioncomida from '../Modalcreacioncomida';
 import axios from 'axios';
 import styles from './Pageediciondieta.module.css';
+import { Edit, Save, PlusCircle, ArrowLeft } from 'lucide-react';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
@@ -14,13 +15,17 @@ const Pageediciondieta = ({ theme }) => {
 
   const [dieta, setDieta] = useState({
     nombre: '',
-    cliente: '',
+    cliente: '',  // ID del cliente
     fechaInicio: '',
     duracionSemanas: 1,
     objetivo: '',
     restricciones: '',
     semanas: [],
   });
+
+  // Nuevo estado para almacenar el nombre del cliente
+  const [clienteNombre, setClienteNombre] = useState('');
+
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [weeks, setWeeks] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -36,17 +41,29 @@ const Pageediciondieta = ({ theme }) => {
       try {
         if (dietaId) {
           const response = await axios.get(`${API_BASE_URL}/api/dietas/${dietaId}`);
-          console.log("Respuesta completa de la API:", response);
           console.log("Datos de la dieta:", response.data);
           setDieta(response.data);
-          setWeeks(response.data.semanas || []); // Asegura que `semanas` sea un array
-          // Comprobando las semanas que llegan de la API
-          console.log("Semanas cargadas:", response.data.semanas);
+          setWeeks(response.data.semanas || []);
+
+          // Hacemos la llamada para obtener el nombre del cliente usando el ID del cliente
+          if (response.data.cliente) {
+            fetchClienteNombre(response.data.cliente);
+          }
         } else {
-          console.error("No Dieta ID provided.");
+          console.error("No se proporcionó un ID de dieta.");
         }
       } catch (error) {
-        console.error('Error fetching dieta:', error);
+        console.error('Error al obtener la dieta:', error);
+      }
+    };
+
+    // Función para obtener el nombre del cliente
+    const fetchClienteNombre = async (clienteId) => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/clientes/${clienteId}`);
+        setClienteNombre(response.data.nombre); // Guardamos el nombre del cliente
+      } catch (error) {
+        console.error('Error al obtener el cliente:', error);
       }
     };
 
@@ -82,85 +99,101 @@ const Pageediciondieta = ({ theme }) => {
     }
   };
 
-// Crear una nueva semana con días predefinidos
-const createWeekWithDays = (weekNumber, startDate, endDate, isFirstWeek = false) => {
-  let numberOfDays = 7;
-  if (isFirstWeek) {
-    const dayOfWeek = startDate.getDay(); // Día de inicio
-    numberOfDays = 7 - dayOfWeek; // Cuántos días faltan hasta el domingo
-  }
+  const createWeekWithDays = (weekNumber, startDate, endDate, isFirstWeek = false) => {
+    let numberOfDays = 7;
+    if (isFirstWeek) {
+      const dayOfWeek = startDate.getDay();
+      numberOfDays = 7 - dayOfWeek;
+    }
 
-  const dias = Array.from({ length: numberOfDays }, (_, index) => {
-    const currentDay = new Date(startDate);
-    currentDay.setDate(startDate.getDate() + index);
+    const dias = Array.from({ length: numberOfDays }, (_, index) => {
+      const currentDay = new Date(startDate);
+      currentDay.setDate(startDate.getDate() + index);
 
-    const weekday = currentDay.toLocaleDateString('es-ES', { weekday: 'long' }); // Obtener el nombre del día
-    const date = currentDay.toISOString(); // Almacenar la fecha
+      const weekday = currentDay.toLocaleDateString('es-ES', { weekday: 'long' });
+      const date = currentDay.toISOString();
+
+      return {
+        nombre: `Día ${index + 1}`,
+        weekday: weekday.charAt(0).toUpperCase() + weekday.slice(1),
+        date: date,
+        comidas: [],
+        macros: { proteinas: 0, carbohidratos: 0, grasas: 0 },
+      };
+    });
 
     return {
-      nombre: `Día ${index + 1}`,
-      weekday: weekday.charAt(0).toUpperCase() + weekday.slice(1), // Capitalizamos el día
-      date: date,
-      comidas: [], // Comidas vacías por defecto
-      macros: { proteinas: 0, carbohidratos: 0, grasas: 0 }, // Macros vacíos
+      nombre: `Semana ${weekNumber}`,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      dias: dias,
     };
-  });
-
-  return {
-    nombre: `Semana ${weekNumber}`,
-    startDate: startDate.toISOString(),
-    endDate: endDate.toISOString(),
-    dias: dias,
   };
-};
 
-const handleAddWeek = async () => {
-  if (!dieta.fechaInicio) {
-    console.error("Fecha de inicio no definida.");
-    return;
-  }
+  
+  const handleDeleteWeek = async (index) => { // Cambia esta línea
+    // Filtramos la semana eliminada del array de weeks
+    const updatedWeeks = weeks.filter((_, i) => i !== index);
+    setWeeks(updatedWeeks);  // Actualizamos el estado
+  
+    // Realizamos la actualización en el servidor
+    try {
+      await axios.put(`${API_BASE_URL}/api/dietas/${dietaId}`, {
+        ...dieta,
+        semanas: updatedWeeks,
+      });
+      console.log("Semana eliminada y dieta actualizada con éxito.");
+    } catch (error) {
+      console.error('Error al eliminar la semana:', error);
+    }
+  };
+  
+  
+  const handleAddWeek = async () => {
+    if (!dieta.fechaInicio) {
+      console.error("Fecha de inicio no definida.");
+      return;
+    }
 
-  let startDate;
-  let isFirstWeek = false;
+    let startDate;
+    let isFirstWeek = false;
 
-  if (weeks.length > 0) {
-    const lastWeek = weeks[weeks.length - 1];
-    startDate = new Date(lastWeek.endDate);
-    startDate.setDate(startDate.getDate() + 1); // Comenzar al día siguiente de la última semana
-  } else {
-    startDate = new Date(dieta.fechaInicio);
-    isFirstWeek = true; // La primera semana puede tener menos de 7 días
-  }
+    if (weeks.length > 0) {
+      const lastWeek = weeks[weeks.length - 1];
+      startDate = new Date(lastWeek.endDate);
+      startDate.setDate(startDate.getDate() + 1);
+    } else {
+      startDate = new Date(dieta.fechaInicio);
+      isFirstWeek = true;
+    }
 
-  // Asegurar que la semana empiece en lunes si no es la primera semana
-  if (!isFirstWeek && startDate.getDay() !== 1) {
-    startDate = getNextMonday(startDate);
-  }
+    if (!isFirstWeek && startDate.getDay() !== 1) {
+      startDate = getNextMonday(startDate);
+    }
 
-  const endDate = getNextSunday(startDate);
+    const endDate = getNextSunday(startDate);
 
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    console.error("Las fechas calculadas son inválidas");
-    return;
-  }
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      console.error("Las fechas calculadas son inválidas");
+      return;
+    }
 
-  const newWeek = createWeekWithDays(weeks.length + 1, startDate, endDate, isFirstWeek); // Crear la semana, considerando si es la primera
+    const newWeek = createWeekWithDays(weeks.length + 1, startDate, endDate, isFirstWeek);
 
-  const updatedWeeks = [...weeks, newWeek];
-  setWeeks(updatedWeeks);
+    const updatedWeeks = [...weeks, newWeek];
+    setWeeks(updatedWeeks);
 
-  try {
-    // Guardar automáticamente la nueva semana en la dieta
-    const response = await axios.put(`${API_BASE_URL}/api/dietas/${dietaId}`, {
-      ...dieta,
-      semanas: updatedWeeks, // Guardamos las semanas actualizadas
-    });
-    console.log("Semana añadida y dieta actualizada con éxito.");
-    setDieta(response.data);
-  } catch (error) {
-    console.error('Error al guardar la nueva semana:', error.response ? error.response.data : error.message);
-  }
-};
+    try {
+      const response = await axios.put(`${API_BASE_URL}/api/dietas/${dietaId}`, {
+        ...dieta,
+        semanas: updatedWeeks,
+      });
+      console.log("Semana añadida y dieta actualizada con éxito.");
+      setDieta(response.data);
+    } catch (error) {
+      console.error('Error al guardar la nueva semana:', error.response ? error.response.data : error.message);
+    }
+  };
 
   const handleSaveDieta = async () => {
     try {
@@ -210,7 +243,6 @@ const handleAddWeek = async () => {
     setSelectedWeek(index);
   };
 
-  // Funciones para manejar la creación y edición de comidas
   const handleAddComida = () => {
     setIsEditMode(false);
     setInitialComidaData({ momento: 'desayuno', comida: '', calorias: 0, macronutrientes: { proteinas: 0, carbohidratos: 0, grasas: 0 } });
@@ -239,7 +271,6 @@ const handleAddWeek = async () => {
     setIsModalComidaOpen(false);
   };
 
-  // Convertir la fecha al formato yyyy-mm-dd para prellenar el campo de entrada de fecha
   const formattedFechaInicio = dieta.fechaInicio
     ? new Date(dieta.fechaInicio).toISOString().split('T')[0]
     : '';
@@ -251,19 +282,30 @@ const handleAddWeek = async () => {
           <h2>Nombre de Dieta: {dieta.nombre}</h2>
           <button 
             className={styles.editButton}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+              color:  'var(--button-text-dark)' ,          
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}
             onClick={() => setIsFormVisible(!isFormVisible)}
           >
             {isFormVisible ? 'Cerrar info' : 'Editar info'}
+            <Edit className={styles.icon} />
           </button>
         </div>
 
         <div className={styles.dietaInfo}>
-          <h3>Cliente: {dieta.cliente}</h3>
+          <h3>Cliente: {clienteNombre}</h3> {/* Mostrar el nombre del cliente */}
           <h3>Objetivo: {dieta.objetivo}</h3>
           <h3>Restricciones: {dieta.restricciones}</h3>
         </div>
       </div>
-      
+
       {isFormVisible && (
         <div className={`${styles.formContainer} ${styles[theme]}`}>
           <div className={styles.formGroup}>
@@ -280,9 +322,10 @@ const handleAddWeek = async () => {
             <label>Cliente:</label>
             <input 
               type="text" 
-              value={dieta.cliente} 
-              onChange={(e) => setDieta({ ...dieta, cliente: e.target.value })} 
+              value={clienteNombre} 
+              onChange={(e) => setClienteNombre(e.target.value)} 
               className={`${styles.input} ${styles[theme]}`}
+              disabled // Deshabilitado si no se desea modificar directamente desde aquí
             />
           </div>
       
@@ -327,10 +370,22 @@ const handleAddWeek = async () => {
           </div>
 
           <button 
+                      style={{
+                        background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+                        color:  'var(--button-text-dark)' ,          
+                        border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+                        padding: '10px 20px',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        transition: 'background 0.3s ease',
+                      }}
+          
             className={`${styles.saveButton} ${styles[theme]}`} 
             onClick={handleSaveDietaInfo}
           >
             Guardar Cambios
+            <Save className={styles.icon} />
           </button>
         </div>
       )}
@@ -338,33 +393,57 @@ const handleAddWeek = async () => {
       <div className={`${styles.weekContainer} ${styles[theme]}`}>
         <h3>Selecciona una Semana</h3>
         <div>
-        <Calendariodieta 
-          weeks={weeks} 
-          onSelectWeek={handleSelectWeek} 
-          onAddWeek={handleAddWeek} 
-          theme={theme}
-          fechaInicio={dieta.fechaInicio}  // Pasamos la fecha de inicio al hijo
-        />
+          <Calendariodieta 
+            weeks={weeks} 
+            onSelectWeek={handleSelectWeek} 
+            onAddWeek={handleAddWeek} 
+            onDeleteWeek={handleDeleteWeek} // Pasamos la función de eliminar semana
+            theme={theme}
+            fechaInicio={dieta.fechaInicio}
+          />
         </div>
         <Semanacomponente 
           weeksData={weeks} 
           setWeeksData={setWeeks} 
           selectedWeek={selectedWeek} 
           theme={theme} 
-          onEditComida={handleEditComida} // Pasamos el manejador de editar comida
-          onAddComida={handleAddComida} // Pasamos el manejador de agregar comida
+          onEditComida={handleEditComida}
+          onAddComida={handleAddComida}
         />
       </div>
   
-      <button className={`${styles.saveButton} ${styles[theme]}`} onClick={handleSaveDieta}>Guardar Dieta</button>
-
-      {/* Renderiza el modal de creación/edición de comida */}
+      <button className={`${styles.saveButton} ${styles[theme]}`} onClick={handleSaveDieta}
+                  style={{
+                    background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+                    color:  'var(--button-text-dark)' ,          
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    transition: 'background 0.3s ease',
+                  }}
+      
+      >
+        Guardar Dieta
+        <Save className={styles.icon} />
+      </button>
+  
+      <button className={`${styles.addWeekButton} ${styles[theme]}`} onClick={handleAddWeek}>
+        Agregar Semana
+        <PlusCircle className={styles.icon} />
+      </button>
+  
       <Modalcreacioncomida
         isOpen={isModalComidaOpen}
         onClose={() => setIsModalComidaOpen(false)}
         onSave={handleSaveComida}
         initialData={initialComidaData}
       />
+  
+      <button className={`${styles.backButton}`} onClick={() => navigate(-1)}>
+        <ArrowLeft className={styles.icon} /> Volver
+      </button>
     </div>
   );
 };

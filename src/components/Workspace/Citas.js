@@ -3,9 +3,9 @@ import { TextField, Button, Typography, Box, Select, MenuItem } from '@mui/mater
 import axios from 'axios';
 import './Citas.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
-const Citas = ({ onSave }) => {
+const Citas = ({ onSave, theme }) => {
     const [actividad, setActividad] = useState('');
     const [nombreCita, setNombreCita] = useState('');
     const [numeroSesiones, setNumeroSesiones] = useState(1);
@@ -55,18 +55,18 @@ const Citas = ({ onSave }) => {
     };
 
     return (
-        <Box className="suscripcionesservicios-container">
-            <Typography variant="h5" className="citas-title">
+        <Box className={`suscripcionesservicios-container ${theme}`}>
+            <Typography variant="h5" className={`citas-title ${theme}`}>
                 Crear Nueva Cita
             </Typography>
 
             {error && (
-                <Typography color="error" variant="body2" className="citas-error">
+                <Typography color="error" variant="body2" className={`citas-error ${theme}`}>
                     {error}
                 </Typography>
             )}
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Elegir Actividad</label>
                 <Select
                     value={actividad}
@@ -74,15 +74,15 @@ const Citas = ({ onSave }) => {
                     fullWidth
                     variant="outlined"
                     disabled={loading}
+                    style={{ background: 'var(--search-button-bg)', }}
                 >
                     <MenuItem value="">Seleccionar actividad</MenuItem>
                     <MenuItem value="entrenamiento_personal">Entrenamiento Personal</MenuItem>
                     <MenuItem value="entrenamiento_uno_a_uno">Entrenamiento Uno a Uno</MenuItem>
-                    {/* Agregar más actividades guardadas aquí */}
                 </Select>
             </div>
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Nombre de la Cita</label>
                 <TextField
                     value={nombreCita}
@@ -91,10 +91,11 @@ const Citas = ({ onSave }) => {
                     margin="normal"
                     variant="outlined"
                     disabled={loading}
+                    style={{ background: 'var(--search-button-bg)', }}
                 />
             </div>
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Número de Sesiones</label>
                 <TextField
                     value={numeroSesiones}
@@ -104,10 +105,11 @@ const Citas = ({ onSave }) => {
                     type="number"
                     variant="outlined"
                     disabled={loading}
+                    style={{ background: 'var(--search-button-bg)', }}
                 />
             </div>
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Frecuencia</label>
                 <Select
                     value={frecuencia}
@@ -115,6 +117,7 @@ const Citas = ({ onSave }) => {
                     fullWidth
                     variant="outlined"
                     disabled={loading}
+                    style={{ background: 'var(--search-button-bg)', }}
                 >
                     <MenuItem value="">Seleccionar frecuencia</MenuItem>
                     <MenuItem value="semanal">Semanal</MenuItem>
@@ -125,14 +128,15 @@ const Citas = ({ onSave }) => {
                 </Select>
             </div>
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Fecha de Caducidad</label>
                 <Select
-                    value={frecuencia} // Usa la frecuencia para calcular la caducidad
-                    onChange={(e) => setFrecuencia(e.target.value)} // Cambia la frecuencia y, por lo tanto, la caducidad
+                    value={frecuencia}
+                    onChange={(e) => setFrecuencia(e.target.value)}
                     fullWidth
                     variant="outlined"
                     disabled={loading}
+                    style={{ background: 'var(--search-button-bg)', }}
                 >
                     <MenuItem value="semanal">Caduca en 1 semana</MenuItem>
                     <MenuItem value="mensual">Caduca en 1 mes</MenuItem>
@@ -142,20 +146,23 @@ const Citas = ({ onSave }) => {
                 </Select>
             </div>
 
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column'}}>
             <Button
                 onClick={handleGuardarCita}
-                className="suscripcionesservicios-button save"
+                className={`suscripcionesservicios-button save ${theme}`}
                 disabled={loading}
+                style={{ width: '100%', marginBottom: '15px'  }}
             >
                 {loading ? 'Guardando...' : 'Guardar'}
             </Button>
             <Button
                 onClick={handleCancelar}
-                className="suscripcionesservicios-button cancel"
+                className={`suscripcionesservicios-button cancel ${theme}`}
                 disabled={loading}
             >
                 Cancelar
             </Button>
+            </div>
         </Box>
     );
 };

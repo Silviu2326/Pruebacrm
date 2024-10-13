@@ -3,8 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import './OverviewChartDashboard.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const getCurrentWeekNumber = () => {
   const currentDate = new Date();
   const startDate = new Date(currentDate.getFullYear(), 0, 1);

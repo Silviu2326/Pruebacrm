@@ -3,10 +3,11 @@ import axios from 'axios';
 import './widgetgasto.css';
 import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/ColumnDropdown';
 import NavbarFiltros from './NavbarFiltros';
+import { Filter, Receipt } from 'lucide-react'; // Importamos el ícono de lucide-react
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
-const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
+const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos, setGastos, onOpenGastoModal, handleCloseGastoModal }) => { // Asegúrate de pasar setGastos como prop si manejas gastos en el componente padre
   const [filterText, setFilterText] = useState('');
   const [visibleColumns, setVisibleColumns] = useState({
     concepto: true,
@@ -23,7 +24,6 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
     maxMonto: '',
     tipo: '',
   });
-  const [isGastoDropdownOpen, setIsGastoDropdownOpen] = useState(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [newGasto, setNewGasto] = useState({
     concepto: '',
@@ -53,13 +53,9 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
     axios.put(`${API_BASE_URL}/api/expenses/update-status/${id}`, { status: newStatus })
       .then(response => {
         const updatedData = gastos.map(item => item._id === id ? response.data : item);
-        setNewGasto(updatedData);
+        setGastos(updatedData); // Asegúrate de tener setGastos como prop
       })
       .catch(error => console.error('Error updating status:', error));
-  };
-
-  const toggleGastoDropdown = () => {
-    setIsGastoDropdownOpen(!isGastoDropdownOpen);
   };
 
   const toggleFilterDropdown = () => {
@@ -92,7 +88,8 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
       duration: newGasto.isRecurrente ? newGasto.duration : null
     })
     .then(response => {
-      setNewGasto([...gastos, response.data]);
+      // Actualizar la lista de gastos
+      setGastos([...gastos, response.data]); // Asegúrate de tener setGastos como prop
       setNewGasto({
         concepto: '',
         description: '',
@@ -105,7 +102,7 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
         frequency: '',
         duration: ''
       });
-      setIsGastoDropdownOpen(false);
+      handleCloseGastoModal();
     })
     .catch(error => console.error('Error adding expense:', error));
   };
@@ -130,7 +127,7 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
       const estadoCondition = filters.estado ? item.status === filters.estado : true;
       const minMontoCondition = filters.minMonto ? item.amount >= parseFloat(filters.minMonto) : true;
       const maxMontoCondition = filters.maxMonto ? item.amount <= parseFloat(filters.maxMonto) : true;
-      const tipoCondition = filters.tipo ? item.tipo === filters.tipo : true;
+      const tipoCondition = filters.tipo ? item.planType === filters.planType : true; // Asegúrate de que 'tipo' corresponde a 'planType'
       return startDateCondition && endDateCondition && estadoCondition && minMontoCondition && maxMontoCondition && tipoCondition;
     });
   };
@@ -160,10 +157,21 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
     }
   };
 
+  // Función para formatear fechas
+  const formatDate = (dateString) => {
+    if (!dateString) return ''; // Maneja valores nulos o indefinidos
+    const date = new Date(dateString);
+    if (isNaN(date)) return dateString; // Si la fecha no es válida, retorna la cadena original
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JS son 0-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const getDurationLabel = () => {
     switch (newGasto.frequency) {
       case 'weekly':
-        return 'Duración (een semanas)';
+        return 'Duración (en semanas)';
       case 'biweekly':
         return 'Duración (cada 15 días)';
       case 'monthly':
@@ -192,14 +200,40 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
       <div className="controls">
         <input 
           type="text" 
-          placeholder="Buscar gasto..." 
+          placeholder="Buscar..." 
           value={filterText} 
           onChange={handleFilterChange} 
-          className={theme}
+          className={`panelcontrol-filter-input ${theme}`}
+          style={{
+            background: 'transparent',
+            color: 'var(--button-text-dark)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',  
+            width: '230px',
+            height: '44px',
+            marginRight: '15px',
+          }}
         />
         <div className="gasto-button-container">
           <div className="dropdownFilters">
-            <button onClick={toggleFilterDropdown} className={`widget-button ${theme}`}>Filtros</button>
+            <button onClick={toggleFilterDropdown} className={`widget-button ${theme}`}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                color: 'var(--button-text-dark)',
+                border: theme === 'dark' ? 'var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}
+            >
+              <Filter size={16} color="white" /> {/* Icono de filtro */}
+            </button>
             {isFilterDropdownOpen && (
               <div className={`ExFilter-dropdown-content ${theme}`}>
                 <div className="filter-field">
@@ -209,7 +243,7 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
                     name="startDate" 
                     value={filters.startDate} 
                     onChange={handleFilterFieldChange} 
-                    className={theme}
+                    className={`filter-input ${theme}`}
                   />
                 </div>
                 <div className="filter-field">
@@ -219,7 +253,7 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
                     name="endDate" 
                     value={filters.endDate} 
                     onChange={handleFilterFieldChange} 
-                    className={theme}
+                    className={`filter-input ${theme}`}
                   />
                 </div>
                 <div className="filter-field">
@@ -240,23 +274,23 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
                   </button>
                 </div>
                 <div className="filter-field">
-                  <label>Importe Mín:</label>
+                  <label>Mínimo:</label>
                   <input 
                     type="number" 
                     name="minMonto" 
                     value={filters.minMonto} 
                     onChange={handleFilterFieldChange} 
-                    className={theme}
+                    className={`filter-input ${theme}`}
                   />
                 </div>
                 <div className="filter-field">
-                  <label>Importe Máx:</label>
+                  <label>Máximo:</label>
                   <input 
                     type="number" 
                     name="maxMonto" 
                     value={filters.maxMonto} 
                     onChange={handleFilterFieldChange} 
-                    className={theme}
+                    className={`filter-input ${theme}`}
                   />
                 </div>
                 <div className="filter-field">
@@ -280,126 +314,18 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
             )}
           </div>
           <div className="dropdown">
-            <button onClick={toggleGastoDropdown} className={theme}>Añadir Gasto</button>
-            {isGastoDropdownOpen && (
-              <div className={`Exdropdown-content ${theme}`}>
-                <h3 className="Widgetgastoanadir-title">Añadir Gasto</h3>
-                <form onSubmit={handleAddGasto} className="Widgetgastoanadir-form">
-                  <label htmlFor="concept" className="Widgetgastoanadir-label">Concepto</label>
-                  <input 
-                    type="text" 
-                    id="concept"
-                    name="concepto" 
-                    placeholder="Concepto" 
-                    value={newGasto.concepto} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-input ${theme}`}
-                    required
-                  />
-                  
-                  <label htmlFor="description" className="Widgetgastoanadir-label">Descripción</label>
-                  <input 
-                    type="text" 
-                    id="description"
-                    name="description" 
-                    placeholder="Descripción" 
-                    value={newGasto.description} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-input ${theme}`}
-                    required
-                  />
-
-                  <label htmlFor="category" className="Widgetgastoanadir-label">Categoría</label>
-                  <input 
-                    type="text" 
-                    id="category"
-                    name="category" 
-                    placeholder="Categoría" 
-                    value={newGasto.category} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-input ${theme}`}
-                    required
-                  />
-
-                  <label htmlFor="amount" className="Widgetgastoanadir-label">Importe</label>
-                  <input 
-                    type="number" 
-                    id="amount"
-                    name="monto" 
-                    placeholder="Importe" 
-                    value={newGasto.monto} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-input ${theme}`}
-                    required
-                  />
-
-                  <label htmlFor="status" className="Widgetgastoanadir-label">Estado</label>
-                  <input 
-                    type="text" 
-                    id="status"
-                    name="estado" 
-                    placeholder="Estado" 
-                    value={newGasto.estado} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-input ${theme}`}
-                    required
-                  />
-
-                  <label htmlFor="date" className="Widgetgastoanadir-label">Fecha</label>
-                  <input 
-                    type="date" 
-                    id="date"
-                    name="fecha" 
-                    placeholder="Fecha" 
-                    value={newGasto.fecha} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-input ${theme}`}
-                    required
-                  />
-
-                  <label htmlFor="isRecurrente" className="Widgetgastoanadir-label">¿Es recurrente?</label>
-                  <input 
-                    type="checkbox" 
-                    id="isRecurrente"
-                    name="isRecurrente" 
-                    checked={newGasto.isRecurrente} 
-                    onChange={handleGastoChange} 
-                    className={`Widgetgastoanadir-checkbox ${theme}`}
-                  />
-
-                  {newGasto.isRecurrente && (
-                    <>
-                      <label htmlFor="frequency" className="Widgetgastoanadir-label">Frecuencia</label>
-                      <select 
-                        id="frequency"
-                        name="frequency" 
-                        value={newGasto.frequency} 
-                        onChange={handleGastoChange} 
-                        className={`Widgetgastoanadir-select ${theme}`}
-                      >
-                        <option value="">Selecciona una opción</option>
-                        <option value="weekly">Semanal</option>
-                        <option value="biweekly">Quincenal</option>
-                        <option value="monthly">Mensual</option>
-                      </select>
-
-                      <label htmlFor="duration" className="Widgetgastoanadir-label">{getDurationLabel()}</label>
-                      <input 
-                        type="number" 
-                        id="duration"
-                        name="duration" 
-                        placeholder={getDurationPlaceholder()} 
-                        value={newGasto.duration} 
-                        onChange={handleGastoChange} 
-                        className={`Widgetgastoanadir-input ${theme}`}
-                      />
-                    </>
-                  )}
-
-                  <button type="submit" className={`Widgetgastoanadir-button ${theme}`}>Añadir</button>
-                </form>
-              </div>
-            )}
+            <button onClick={onOpenGastoModal} className={theme}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Añadir Gasto</button>
+            
           </div>
         </div>
         {isEditMode && (
@@ -411,50 +337,68 @@ const WidgetGasto = ({ isEditMode, onTitleClick, theme, setTheme, gastos }) => {
         )}
       </div>
       <NavbarFiltros filters={filters} clearFilter={clearFilter} theme={theme} />
-      <table className={`widget-gasto-table ${theme}`}>
-        <thead>
+      <table 
+        className={`widget-gasto-table ${theme}`} 
+        style={{ 
+          borderRadius: '10px', 
+          borderCollapse: 'separate', 
+          borderSpacing: '0', 
+          width: '100%', 
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{ 
+            backgroundColor: theme === 'dark' ? '#333' : 'rgb(38 93 181)',
+            borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th>
+            <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>
               <input 
                 type="checkbox" 
                 checked={selectAll} 
                 onChange={handleSelectAll} 
               />
             </th>
-            {visibleColumns.concepto && <th>Concepto</th>}
-            {visibleColumns.fecha && <th>Fecha</th>}
-            {visibleColumns.estado && <th>Estado</th>}
-            {visibleColumns.monto && <th>Importe</th>}
-            {visibleColumns.tipo && <th>Tipo de Gasto</th>}
-            <th></th>
+            {visibleColumns.concepto && <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Concepto</th>}
+            {visibleColumns.fecha && <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Fecha</th>}
+            {visibleColumns.estado && <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Estado</th>}
+            {visibleColumns.monto && <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Importe</th>}
+            {visibleColumns.tipo && <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Tipo de Gasto</th>}
+            <th style={{ padding: '8px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}></th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={item._id} className={theme}>
-              <td>
+            <tr key={item._id} className={theme} style={{ 
+                backgroundColor: theme === 'dark' 
+                  ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+                  : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+            }}>
+              <td style={{ padding: '8px' }}>
                 <input 
                   type="checkbox" 
                   checked={selectedItems.includes(item._id)} 
                   onChange={() => handleCheckboxChange(item._id)} 
                 />
               </td>
-              {visibleColumns.concepto && <td>{item.concept}</td>}
-              {visibleColumns.fecha && <td>{item.date}</td>}
-              {visibleColumns.estado && <td>{item.status}</td>}
-              {visibleColumns.monto && <td>€{item.amount}</td>}
-              {visibleColumns.tipo && <td>{item.category}</td>}
-              <td>
-                <div className="dropdown options-dropdown">
-                  <button className={`dropdown-toggle options-btn ${theme}`}>...</button>
-                  <div className={`dropdown-menu options-menu ${theme}`}>
-                    <button className={`dropdown-item ${theme}`} onClick={() => handleChangeStatus(item._id, item.status)}>
-                      Cambiar Estado
-                    </button>
-                    <button className={`dropdown-item ${theme}`}>Opción 2</button>
-                    <button className={`dropdown-item ${theme}`}>Opción 3</button>
-                  </div>
-                </div>
+              {visibleColumns.concepto && <td style={{ padding: '8px' }}>{item.concept}</td>}
+              {visibleColumns.fecha && <td style={{ padding: '8px' }}>{formatDate(item.date)}</td>}
+              {visibleColumns.estado && <td style={{ padding: '8px' }}>{item.status}</td>}
+              {visibleColumns.monto && <td style={{ padding: '8px' }}>€{item.amount}</td>}
+              {visibleColumns.tipo && <td style={{ padding: '8px' }}>{item.planType}</td>} {/* Asegúrate de que 'tipo' corresponde a 'planType' */}
+              <td style={{ padding: '8px' }}>
+              <div className="WG-options">
+              <button className={`WG-action-btn ${theme}`} onClick={() => handleChangeStatus(item._id, item.status)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}>
+                  <Receipt size={16} color="var(--text)" />
+                  </button>
+              </div>
               </td>
             </tr>
           ))}

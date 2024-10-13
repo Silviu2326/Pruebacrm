@@ -10,7 +10,10 @@ import ModalSemanaExcel from '../Centroderutinas/ModalSemanaExcel';
 import VistaCSVmodalsemanaaa from '../Centroderutinas/VistaCSVmodalsemanaaa';
 import Modaltransferenciarutinas from '../Centroderutinas/Modaltransferenciarutinas';
 import styles from './EditRoutinePage.module.css';
+import { LogOut } from 'lucide-react';
+import { Table, Calendar } from 'lucide-react';
 
+import { Edit, Save, Paperclip, ArrowRight } from 'lucide-react';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const EditRoutinePage = ({ theme }) => {
@@ -325,10 +328,8 @@ const EditRoutinePage = ({ theme }) => {
   return (
     <div className={`${styles.Contenedorrutinasmain} ${styles[theme]}`}>
       <div className={`${styles.topButtons} ${styles[theme]}`}>
-        <button onClick={handleSaveAndReturn} className={`${styles.saveButtonTop} ${styles[theme]}`}>⮐ Save and Return</button>
-        <button onClick={exportToCSV} className={`${styles.saveButtonTop} ${styles[theme]}`}>Save as CSV</button>
-        <button onClick={() => setShowModal(true)} className={`${styles.saveButtonTop} ${styles[theme]}`}>Semana Excel</button>
-        <button onClick={() => setShowCSVModal(true)} className={`${styles.saveButtonTop} ${styles[theme]}`}>Vista de CSV de toda la semana</button>
+        <button onClick={handleSaveAndReturn} className={`${styles.saveButtonTop} ${styles[theme]}`}>          <LogOut style={{ marginRight: '8px' }} size={16} /> Guardar y salir
+        </button>
       </div>
       
       <div className={`${styles.topContainer} ${styles[theme]}`}>
@@ -343,8 +344,15 @@ const EditRoutinePage = ({ theme }) => {
           />
         </div>
         <div className={`${styles.headerContainer} ${styles[theme]}`}>
-          <div className={`${styles.weekEdit} ${styles[theme]}`}>
-            <h2 className={`${styles.weekHeader} ${styles[theme]}`}>{routine.semanas[selectedWeekIndex]?.nombre}</h2>
+          <div className={`${styles.weekEdit} ${styles[theme]}`}
+  style={{ backgroundColor: theme === 'dark' ? '#152446' : '#f7faff' }}
+  >
+          <h2 
+  className={`${styles.weekHeader} ${styles[theme]}`} 
+  style={{ backgroundColor: theme === 'dark' ? '#152446' : '#f7faff' }}
+>
+  {routine.semanas[selectedWeekIndex]?.nombre}
+</h2>
             {isEditing && (
               <div className={`${styles.navbar} ${styles[theme]}`} ref={navbarRef}>
                 <AppNavbar 
@@ -360,29 +368,29 @@ const EditRoutinePage = ({ theme }) => {
             )}
           </div>
           <div className={`${styles.editButtons} ${styles[theme]}`}>
-            <button onClick={toggleEditMode} className={`${styles.editButton} ${styles[theme]}`}>
-              {isEditing ? '📩 Save Changes' : '✏️ Edit Routine'}
-            </button>
-            <label htmlFor="file-upload" className={`${styles.loadButton} ${styles[theme]}`}>
-              <i className="em em-paperclip" aria-label="PAPERCLIP"></i> Upload Routine
-            </label>
-            <input id="file-upload" type="file" accept="application/json" onChange={handleLoadRoutine} className={styles.fileInput} />
-            <button 
-              onClick={() => setShowTransferModal(true)} 
-              className={`${styles.saveButtonTop} ${styles[theme]}`}
-            >
-              Transferir archivos a otra rutina
-            </button>
-          </div>
+  <button onClick={toggleEditMode} className={`${styles.editButton} ${styles[theme]}`}>
+    {isEditing ? <Save size={16} /> : <Edit size={16} />} {isEditing ? 'Guardar cambios' : 'Editar rutina'}
+  </button>
+  <label htmlFor="file-upload" className={`${styles.loadButton} ${styles[theme]}`}>
+    <Paperclip size={16} /> Subir rutina
+  </label>
+  <input id="file-upload" type="file" accept="application/json" onChange={handleLoadRoutine} className={styles.fileInput} />
+  <button 
+    onClick={() => setShowTransferModal(true)} 
+    className={`${styles.saveButtonTop} ${styles[theme]}`}
+  >
+    <ArrowRight size={16} /> Transferir archivos a otra rutina
+  </button>
+</div>
         </div>
       </div>
       
       {/* Botón para alternar entre WeeklyView y Componentedeexcel */}
-      <div className={`${styles.viewToggleContainer} ${styles[theme]}`}>
-        <button onClick={() => setShowWeeklyView(!showWeeklyView)} className={`${styles.saveButtonTop} ${styles[theme]}`}>
-          {showWeeklyView ? 'Ver Excel' : 'Ver Vista Semanal'}
-        </button>
-      </div>
+      <div className={`${styles.viewToggleContainer} ${styles[theme]}`}> 
+  <button onClick={() => setShowWeeklyView(!showWeeklyView)} className={`${styles.saveButtonTop} ${styles[theme]}`}>
+    {showWeeklyView ? <Table size={16} /> : <Calendar size={16} />} {showWeeklyView ? 'Ver Excel' : 'Ver Vista Semanal'}
+  </button>
+</div>
       
       <div className={`${styles.container} ${styles[theme]}`}>
         {showWeeklyView ? (
@@ -402,7 +410,7 @@ const EditRoutinePage = ({ theme }) => {
             theme={theme}
           />
         ) : (
-          <Componentedeexcel />
+          <Componentedeexcel        theme={theme}/>
         )}
       </div>
       

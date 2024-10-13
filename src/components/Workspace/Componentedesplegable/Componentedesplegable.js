@@ -4,10 +4,10 @@ import Checkins from './Checkins';
 import Alertas from './Alertas';
 import Chater from './Chater';
 import Tab from './Tab';
-import { MessageSquare, ClipboardList, Settings } from 'lucide-react'; // Importación de los íconos
+import { MessageSquare, ClipboardList, Settings, Minimize2 } from 'lucide-react'; // Importación de los íconos
 import './Componentedesplegable.css';
 
-const Componentedesplegable = ({ onClose, openChatModal }) => {
+const Componentedesplegable = ({ onClose, openChatModal, theme, setTheme }) => {
     const [visibleColumns, setVisibleColumns] = useState({
         checkins: true,
         alertas: true,
@@ -22,9 +22,9 @@ const Componentedesplegable = ({ onClose, openChatModal }) => {
     };
 
     return (
-        <div className="draggable-container">
+        <div className={`draggable-container ${theme}`}>
             <ResizableBox
-                className="componentedesplegable"
+                className={`componentedesplegable ${theme}`}
                 width={'100%'}
                 height={400} // Altura inicial
                 minConstraints={[500, 100]} // Mínimo: 100px de altura
@@ -32,12 +32,12 @@ const Componentedesplegable = ({ onClose, openChatModal }) => {
                 resizeHandles={['s']} // Solo permite redimensionar verticalmente (sur)
                 axis="y" // Restringe el redimensionamiento al eje Y
             >
-                <div className="draggable-content">
-                    <div className="header">
-                        <Settings className="settings-icon" /> {/* Icono de configuración */}
-                        <button onClick={onClose} className="close-button">X</button>
+                <div className={`draggable-content ${theme}`}>
+                    <div className={`header ${theme}`}>
+                        <Settings className={`settings-icon ${theme}`} /> {/* Icono de configuración */}
+                        <button onClick={onClose} className={`close-button ${theme}`} style={{ color: 'var(--text)', padding: '2px', top: '5px' }}><Minimize2 /></button>
                     </div>
-                    <div className="tabs">
+                    <div className={`tabs ${theme}`}>
                         <Tab
                             label="Check ins"
                             isActive={visibleColumns.checkins}
@@ -54,10 +54,10 @@ const Componentedesplegable = ({ onClose, openChatModal }) => {
                             onClick={() => toggleColumnVisibility('chater')}
                         />
                     </div>
-                    <div className="content">
-                        {visibleColumns.checkins && <Checkins />}
-                        {visibleColumns.alertas && <Alertas />}
-                        {visibleColumns.chater && <Chater openChatModal={openChatModal} />}
+                    <div className={`content ${theme}`}>
+                        {visibleColumns.checkins && <Checkins theme={theme}/>}
+                        {visibleColumns.alertas && <Alertas theme={theme}/>}
+                        {visibleColumns.chater && <Chater openChatModal={openChatModal} theme={theme}/>}
                     </div>
                 </div>
             </ResizableBox>

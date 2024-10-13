@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './TablaplanesclienteDuplicado.css';
 import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/ColumnDropdown';
+import { UserPlus, Eye } from 'lucide-react'; // Importamos los íconos necesarios
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const TablaClientesDuplicado = ({ isEditMode, theme }) => {
   const [data, setData] = useState([]);
   const [filterText, setFilterText] = useState('');
   const [visibleColumns, setVisibleColumns] = useState({
-    id: true,
     nombre: true,
     email: true,
     telefono: true,
-    plan: true
+    plan: true,
   });
 
   const [selectAll, setSelectAll] = useState(false); // Estado para el checkbox del thead
@@ -26,11 +26,11 @@ const TablaClientesDuplicado = ({ isEditMode, theme }) => {
         const clientes = response.data;
 
         const mappedClientes = clientes.map(cliente => ({
-          id: cliente._id,
+          id: cliente._id, // Puedes mantener el ID en los datos si lo necesitas internamente
           nombre: cliente.nombre,
           email: cliente.email,
           telefono: cliente.telefono,
-          plan: cliente.plan || 'Sin plan'
+          plan: cliente.plan || 'Sin plan',
         }));
 
         setData(mappedClientes);
@@ -85,6 +85,17 @@ const TablaClientesDuplicado = ({ isEditMode, theme }) => {
           value={filterText}
           onChange={handleFilterChange}
           className={`input-${theme}`}
+          style={{
+            background: 'var(--search-button-bg)',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}
         />
         {isEditMode && (
           <ColumnDropdown
@@ -93,46 +104,72 @@ const TablaClientesDuplicado = ({ isEditMode, theme }) => {
           />
         )}
       </div>
-      <table>
-        <thead>
+      <table className={`WidgetClientes-table ${theme}`} 
+        style={{ 
+          borderRadius: '10px', 
+          borderCollapse: 'separate', 
+          borderSpacing: '0', 
+          width: '100%', 
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{ 
+          backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+          borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleSelectAllChange}
               />
             </th>
-            {visibleColumns.id && <th>ID</th>}
-            {visibleColumns.nombre && <th>Nombre</th>}
-            {visibleColumns.email && <th>Email</th>}
-            {visibleColumns.telefono && <th>Teléfono</th>}
-            {visibleColumns.plan && <th>Plan</th>}
-            <th></th>
+            {visibleColumns.nombre && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Nombre</th>}
+            {visibleColumns.email && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Email</th>}
+            {visibleColumns.telefono && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Teléfono</th>}
+            {visibleColumns.plan && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Plan</th>}
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={index}>
-              <td>
+            <tr key={item.id} className={theme} style={{ 
+              backgroundColor: theme === 'dark'
+                ? (index % 2 === 0 ? '#333' : '#444')
+                : (index % 2 === 0 ? '#f9f9f9' : '#ffffff')
+            }}>
+              <td style={{ padding: '12px' }}>
                 <input
                   type="checkbox"
                   checked={selectedRows[index]}
                   onChange={() => handleRowCheckboxChange(index)}
                 />
               </td>
-              {visibleColumns.id && <td>{item.id}</td>}
-              {visibleColumns.nombre && <td>{item.nombre}</td>}
-              {visibleColumns.email && <td>{item.email}</td>}
-              {visibleColumns.telefono && <td>{item.telefono}</td>}
-              {visibleColumns.plan && <td>{item.plan}</td>}
-              <td>
-                <div className="Tablaplanescliente-dropdown Tablaplanescliente-options-dropdown">
-                  <button className={`dropdown-toggle ${theme} options-btn`}>...</button>
-                  <div className={`dropdown-menu ${theme} options-menu`}>
-                    <button className={`dropdown-item ${theme}`}>Asociar/Cambiar Plan</button>
-                    <button className={`dropdown-item ${theme}`}>Ver Historial de Planes</button>
-                  </div>
+              {visibleColumns.nombre && <td style={{ padding: '12px' }}>{item.nombre}</td>}
+              {visibleColumns.email && <td style={{ padding: '12px' }}>{item.email}</td>}
+              {visibleColumns.telefono && <td style={{ padding: '12px' }}>{item.telefono}</td>}
+              {visibleColumns.plan && <td style={{ padding: '12px' }}>{item.plan}</td>}
+              <td style={{ padding: '12px' }}>
+                <div className="actions-buttons">
+                  <button onClick={() => console.log('Asociar/Cambiar Plan', item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)' 
+                  }}>
+                    <UserPlus size={16} />
+                  </button>
+
+                  <button onClick={() => console.log('Ver Historial de Planes', item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)' 
+                  }}>
+                    <Eye size={16} />
+                  </button>
                 </div>
               </td>
             </tr>

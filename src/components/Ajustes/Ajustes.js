@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
 import './Ajustes.css';
+import { 
+  FaLanguage, 
+  FaBell, 
+  FaCreditCard, 
+  FaCog, 
+  FaShieldAlt, 
+  FaQuestionCircle, 
+  FaNewspaper, 
+  FaSignOutAlt, 
+  FaKey, 
+  FaMoneyBillAlt, 
+  FaCalendarCheck, 
+  FaLock 
+} from 'react-icons/fa';
 
 const Ajustes = () => {
   const [language, setLanguage] = useState('es');
-  const [profile, setProfile] = useState({ name: '', email: '', phone: '', photo: null });
-  const [notifications, setNotifications] = useState({ email: true, sms: false });
-  const [nextPaymentDate, setNextPaymentDate] = useState(new Date('2024-08-23'));
+  const [notifications, setNotifications] = useState({ email: true, sms: false, push: false });
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
-  };
-
-  const handleProfileChange = (e) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
-  };
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfile((prevProfile) => ({ ...prevProfile, photo: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleNotificationsChange = (e) => {
@@ -32,119 +28,178 @@ const Ajustes = () => {
     setNotifications((prevNotifications) => ({ ...prevNotifications, [name]: checked }));
   };
 
-  const calculateDaysUntilNextPayment = (date) => {
-    const now = new Date();
-    const timeDiff = date - now;
-    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-  };
-
-  const daysUntilNextPayment = calculateDaysUntilNextPayment(nextPaymentDate);
-
   const handleSave = () => {
-    console.log("Datos guardados", { language, profile, notifications, nextPaymentDate });
+    console.log("Datos guardados", { language, notifications });
+    // Aquí puedes agregar la lógica para guardar los datos, como una llamada a una API
   };
 
-  const triggerFileInput = () => {
-    document.getElementById('photo-upload').click();
+  const handleLogout = () => {
+    console.log("Cerrar sesión");
+    // Aquí puedes agregar la lógica para cerrar sesión, como limpiar el estado del usuario o redirigir
+  };
+
+  const handleChangePassword = () => {
+    console.log("Cambiar contraseña");
+    // Aquí puedes agregar la lógica para cambiar la contraseña, como abrir un modal o redirigir a una página de cambio de contraseña
+  };
+
+  const handleManagePayments = () => {
+    console.log("Gestionar métodos de pago");
+    // Aquí puedes agregar la lógica para gestionar métodos de pago
+  };
+
+  const handleConnectIntegration = () => {
+    console.log("Conectar integración");
+    // Aquí puedes agregar la lógica para conectar integraciones
+  };
+
+  const handleContactSupport = () => {
+    console.log("Contactar soporte");
+    // Aquí puedes agregar la lógica para contactar soporte, como abrir un formulario de contacto
   };
 
   return (
     <div className="ajustes-container">
-      <h1>Ajustes</h1>
+      <div className="header">
+        <h1>Ajustes</h1>
+        <button onClick={handleLogout} className="logout-button">
+          <FaSignOutAlt className="logout-icon" /> Cerrar Sesión
+        </button>
+      </div>
 
       {/* Configuración de Idioma */}
       <div className="ajustes-section">
-        <h2>Idioma</h2>
-        <label htmlFor="language-select">Idioma:</label>
-        <select id="language-select" value={language} onChange={handleLanguageChange}>
+        <div className="section-header">
+          <FaLanguage className="section-icon" />
+          <h2>Idioma</h2>
+        </div>
+        <label htmlFor="language-select" className="section-label">Selecciona tu idioma:</label>
+        <select id="language-select" value={language} onChange={handleLanguageChange} className="section-select">
           <option value="es">Español</option>
           <option value="en">Inglés</option>
+          <option value="fr">Francés</option>
+          <option value="de">Alemán</option>
+          {/* Agrega más idiomas según sea necesario */}
         </select>
-      </div>
-
-      {/* Configuración de Perfil */}
-      <div className="ajustes-section">
-        <h2>Cuenta</h2>
-        <div className="profile-photo-section">
-          <div className="profile-photo-wrapper">
-            {profile.photo ? (
-              <img src={profile.photo} alt="Perfil" className="profile-photo" />
-            ) : (
-              <div className="profile-photo-placeholder"></div> /* Fondo negro si no hay foto */
-            )}
-          </div>
-          <input 
-            type="file" 
-            id="photo-upload" 
-            accept="image/*" 
-            onChange={handlePhotoChange} 
-            className="photo-upload-input" 
-          />
-          <button 
-            className="change-photo-button" 
-            onClick={triggerFileInput}
-          >
-            Cambiar foto
-          </button>
-        </div>
-        <div className="profile-details">
-          <label htmlFor="name">Nombre:</label>
-          <input type="text" id="name" name="name" value={profile.name} onChange={handleProfileChange} />
-          
-          <label htmlFor="email">Correo Electrónico:</label>
-          <input type="email" id="email" name="email" value={profile.email} onChange={handleProfileChange} />
-          
-          <label htmlFor="phone">Teléfono:</label>
-          <input type="tel" id="phone" name="phone" value={profile.phone} onChange={handleProfileChange} />
-        </div>
       </div>
 
       {/* Configuración de Notificaciones */}
       <div className="ajustes-section">
-        <h2>Notificaciones</h2>
-        <label>
-          <input type="checkbox" name="email" checked={notifications.email} onChange={handleNotificationsChange} />
-          Notificaciones por Correo Electrónico
-        </label>
-        <label>
-          <input type="checkbox" name="sms" checked={notifications.sms} onChange={handleNotificationsChange} />
-          Notificaciones por SMS
-        </label>
+        <div className="section-header">
+          <FaBell className="section-icon" />
+          <h2>Notificaciones</h2>
+        </div>
+        <div className="switch-container">
+          <label className="switch">
+            <input
+              type="checkbox"
+              name="email"
+              checked={notifications.email}
+              onChange={handleNotificationsChange}
+              aria-label="Notificaciones por Correo Electrónico"
+            />
+            <span className="slider"></span>
+            <span className="switch-label">Correo Electrónico</span>
+          </label>
+          <label className="switch">
+            <input
+              type="checkbox"
+              name="sms"
+              checked={notifications.sms}
+              onChange={handleNotificationsChange}
+              aria-label="Notificaciones por SMS"
+            />
+            <span className="slider"></span>
+            <span className="switch-label">SMS</span>
+          </label>
+          <label className="switch">
+            <input
+              type="checkbox"
+              name="push"
+              checked={notifications.push}
+              onChange={handleNotificationsChange}
+              aria-label="Notificaciones Push"
+            />
+            <span className="slider"></span>
+            <span className="switch-label">Push</span>
+          </label>
+        </div>
       </div>
 
-      {/* Configuración de Dispositivos */}
+      {/* Configuración de Facturación */}
       <div className="ajustes-section">
-        <h2>Dispositivos</h2>
-        <p>Aquí puedes gestionar tus dispositivos vinculados.</p>
+        <div className="section-header">
+          <FaCreditCard className="section-icon" />
+          <h2>Facturación</h2>
+        </div>
+        <p>Gestiona tus métodos de pago, visualiza tus facturas y suscripciones.</p>
+        <button onClick={handleManagePayments} className="action-button">
+          <FaMoneyBillAlt className="action-icon" /> Gestionar Métodos de Pago
+        </button>
       </div>
 
-      {/* Configuración de Privacidad */}
+      {/* Configuración de Integraciones */}
       <div className="ajustes-section">
-        <h2>Privacidad</h2>
-        <p>Aquí puedes gestionar tu configuración de privacidad.</p>
+        <div className="section-header">
+          <FaCog className="section-icon" />
+          <h2>Integraciones</h2>
+        </div>
+        <p>Aquí puedes conectar con tus herramientas favoritas como Google Calendar, plataformas de pago, etc.</p>
+        <button onClick={handleConnectIntegration} className="action-button">
+          <FaCalendarCheck className="action-icon" /> Conectar Google Calendar
+        </button>
+      </div>
+
+      {/* Configuración de Preferencias de Comunicación */}
+      <div className="ajustes-section">
+        <div className="section-header">
+          <FaCog className="section-icon" />
+          <h2>Preferencias de Comunicación</h2>
+        </div>
+        <p>Ajusta cómo y cuándo deseas recibir comunicaciones.</p>
+        {/* Puedes agregar más preferencias según sea necesario */}
       </div>
 
       {/* Configuración de Seguridad */}
       <div className="ajustes-section">
-        <h2>Seguridad</h2>
-        <p>Aquí puedes gestionar tu configuración de seguridad.</p>
+        <div className="section-header">
+          <FaShieldAlt className="section-icon" />
+          <h2>Seguridad</h2>
+        </div>
+        <p>Aquí puedes gestionar tu configuración de seguridad, como cambiar contraseña y activar 2FA.</p>
+        <button onClick={handleChangePassword} className="action-button">
+          <FaKey className="action-icon" /> Cambiar Contraseña
+        </button>
+        <button onClick={() => console.log("Activar 2FA")} className="action-button">
+          <FaLock className="action-icon" /> Activar 2FA
+        </button>
       </div>
 
       {/* Configuración de Soporte */}
       <div className="ajustes-section">
-        <h2>Soporte</h2>
-        <p>Aquí puedes contactar con el soporte.</p>
+        <div className="section-header">
+          <FaQuestionCircle className="section-icon" />
+          <h2>Soporte</h2>
+        </div>
+        <p>Aquí puedes contactar con el soporte o acceder a recursos de ayuda.</p>
+        <button onClick={handleContactSupport} className="action-button">
+          <FaQuestionCircle className="action-icon" /> Contactar Soporte
+        </button>
       </div>
 
       {/* Novedades */}
       <div className="ajustes-section">
-        <h2>Novedades</h2>
+        <div className="section-header">
+          <FaNewspaper className="section-icon" />
+          <h2>Novedades</h2>
+        </div>
         <p>Aquí puedes ver las últimas novedades y actualizaciones.</p>
+        {/* Puedes listar actualizaciones o enlaces a un blog de novedades */}
       </div>
 
       {/* Botón Guardar */}
       <div className="save-button-container">
-        <button onClick={handleSave} className="save-button">Guardar</button>
+        <button onClick={handleSave} className="save-button">Guardar Cambios</button>
       </div>
     </div>
   );

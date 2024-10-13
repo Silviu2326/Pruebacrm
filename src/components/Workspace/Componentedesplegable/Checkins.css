@@ -1,9 +1,9 @@
 .Checkins-column {
     width: 30%;
-    background-color: #2a2a2a;
+    background-color: var(--widget-bg);
     padding: 20px;
     border-radius: 10px;
-    color: white;
+    color: var(--text);
     margin: 0px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     height: 95%;

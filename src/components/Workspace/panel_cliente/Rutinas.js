@@ -4,8 +4,7 @@ import axios from 'axios';
 import './Rutinas.css';
 import PopupDeCreacionDePlanificacion from '../../Rutinas/PopupDeCreacionDePlanificacion'; // Ajusta la ruta según corresponda
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const Rutinas = ({ cliente, actualizarCliente, onPreviewRutina }) => {
     const [showModal, setShowModal] = useState(false);
     const [rutinas, setRutinas] = useState([]);

@@ -104,13 +104,32 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
   }
 
   return (
-    <div className={`popupdecreaciondeplanificacion-popup ${theme}`}>
-      <div className={`popupdecreaciondeplanificacion-popup-inner ${theme}`}>
-        <button className={`popupdecreaciondeplanificacion-close-button ${theme}`} onClick={onClose}>X</button>
+    <div className={`popupdecreaciondeplanificacion-popup ${theme}`} 
+    style={{
+      overflow:'auto'
+    }}
+    >
+      <div className={`popupdecreaciondeplanificacion-popup-inner ${theme}`} style={{
+              marginBottom:'43px',
+      marginTop:'71px'
+
+      }}>
+        <button className={`popupdecreaciondeplanificacion-close-button ${theme}`} onClick={onClose}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>X</button>
         <h2 className="popupdecreaciondeplanificacion-title">{planToEdit ? 'Editar Planificación' : 'Crear Planificación'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="popupdecreaciondeplanificacion-field">
-            <label className="popupdecreaciondeplanificacion-label">Nombre</label>
+            <label className="popupdecreaciondeplanificacion-label"
+            >Nombre</label>
             <input
               type="text"
               name="nombre"
@@ -118,6 +137,18 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
               onChange={handleChange}
               required
               className={`popupdecreaciondeplanificacion-input ${theme}`}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
+            
             />
           </div>
           <div className="popupdecreaciondeplanificacion-field">
@@ -127,6 +158,18 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
               value={plan.descripcion}
               onChange={handleChange}
               className={`popupdecreaciondeplanificacion-input ${theme}`}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
+            
             />
           </div>
           <div className="popupdecreaciondeplanificacion-field">
@@ -137,6 +180,18 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
               value={plan.creador}
               onChange={handleChange}
               className={`popupdecreaciondeplanificacion-input ${theme}`}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
+            
             />
           </div>
           <div className="popupdecreaciondeplanificacion-field">
@@ -147,6 +202,18 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
               value={plan.duracion}
               onChange={handleChange}
               className={`popupdecreaciondeplanificacion-input ${theme}`}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
+            
             />
           </div>
           <div className="popupdecreaciondeplanificacion-field">
@@ -157,6 +224,18 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
               value={plan.fechaInicio}
               onChange={handleChange}
               className={`popupdecreaciondeplanificacion-input ${theme}`}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
+            
             />
           </div>
           <div className="popupdecreaciondeplanificacion-field">
@@ -172,6 +251,18 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
                 }
               }}
               className={`popupdecreaciondeplanificacion-input ${theme}`}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
+            
             >
               {predefinedMetas.map((meta, index) => (
                 <option key={index} value={meta}>{meta}</option>
@@ -186,12 +277,38 @@ const PopupDeCreacionDePlanificacion = ({ show, onClose, predefinedMetas, theme,
                 value={plan.meta}
                 onChange={handleChange}
                 className={`popupdecreaciondeplanificacion-input mt-2 ${theme}`}
+                style={{
+                  background: 'var(--search-button-bg)',
+                  border: '1px solid var(--button-border)',
+                  padding: '5px',
+                  height: '44px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s',
+                  textAlign: 'left',
+                }}
+              
               />
             )}
           </div>
           <button
             type="submit"
             className={`popupdecreaciondeplanificacion-button ${theme}`}
+            style={{
+              background:'var(--create-button-bg)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              position:'static',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
+          
           >
             {planToEdit ? 'Guardar Cambios' : 'Crear Planificación'}
           </button>

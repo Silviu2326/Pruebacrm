@@ -1,47 +1,109 @@
+/* ListaDeRutinasDashboard.css */
+
 .dashboard-rutinas-lista {
-    padding: 20px;
-    background-color: var(--DBP-card-background, #ffff);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    border: 2px solid var(--DBP-header-border, #e0e0e0);
-  }
-  
-  .dashboard-rutinas-lista h2 {
-    margin-bottom: 20px;
-    color: var(--DBP-text-color, #333);
-  }
-  
-  .dashboard-rutinas-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: var(--DBP-table-background);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .dashboard-rutinas-table th, .dashboard-rutinas-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--DBP-table-border, #ddd);
-    color: var(--DBP-text-color);
-  }
-  
-  .dashboard-rutinas-table th {
-    background-color: var(--DBP-table-header-bg, #f7f7f7);
-    color: var(--DBP-text-color-secondary, #555);
-    font-weight: bold;
-  }
-  
-  .dashboard-rutinas-table tr:nth-child(even) {
-    background-color: var(--DBP-table-row-even, #f9f9f9);
-  }
-  
-  .dashboard-rutinas-table tr:hover {
-    background-color: var(--DBP-table-row-hover, #eaeaea);
-  }
-  
-  .dashboard-rutinas-table tr:last-child td {
-    border-bottom: none;
-  }
-  
+  padding: 20px;
+  background-color: var(--widget-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  border: 2px solid var(--DBP-header-border, #e0e0e0);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dashboard-rutinas-lista h2 {
+  margin-bottom: 20px;
+  color: var(--DBP-text-color, #333);
+}
+
+/* Contenedor para el campo de búsqueda */
+.filter-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start; /* Alineado a la izquierda */
+}
+
+/* Campo de Entrada para Filtrar */
+.filter-input {
+  width: 250px;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border-color, #ccc);
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+  background-color: var(--input-bg, #fff);
+  color: var(--text-color, #000);
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: var(--input-focus-border-color, #007BFF);
+}
+
+/* Estilos para la tabla */
+.dashboard-rutinas-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--DBP-table-background, #f9f9f9);
+  border-radius: 8px;
+  overflow: hidden;
+  table-layout: fixed; /* Establece un diseño fijo para la tabla */
+  min-width: 600px; /* Evita que la tabla se reduzca por debajo de este ancho */
+  box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light, rgba(0, 0, 0, 0.1));
+}
+
+.dashboard-rutinas-table th, .dashboard-rutinas-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-blue, #ccc);
+  font-size: 0.95rem;
+  color: var(--DBP-text-color, #333);
+  overflow: hidden; /* Evita que el contenido sobresalga */
+  text-overflow: ellipsis; /* Muestra '...' cuando el texto es demasiado largo */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+.dashboard-rutinas-table th {
+  background-color: var(--table-tr-child-bg, #e0e0e0);
+  color: var(--text-blue, #007BFF);
+  /* Establece anchos fijos para las columnas */
+  width: 25%; /* Clase */
+}
+
+.dashboard-rutinas-table th:nth-child(2),
+.dashboard-rutinas-table td:nth-child(2) {
+  width: 25%; /* Instructor */
+}
+
+.dashboard-rutinas-table th:nth-child(3),
+.dashboard-rutinas-table td:nth-child(3) {
+  width: 25%; /* Fecha */
+}
+
+.dashboard-rutinas-table th:nth-child(4),
+.dashboard-rutinas-table td:nth-child(4) {
+  width: 25%; /* Hora */
+}
+
+.dashboard-rutinas-table.dark th {
+  color: var(--text, #fff);
+}
+
+.dashboard-rutinas-table tr:nth-child(even) {
+  background-color: var(--table-tr-child-bg, #f1f1f1);
+}
+
+.dashboard-rutinas-table tr {
+  background-color: var(--table-tr-bg, #fff);
+}
+
+.dashboard-rutinas-table tr:hover {
+  background-color: var(--DBP-table-row-hover, #eaeaea);
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-rutinas-table tr:last-child td {
+  border-bottom: none;
+}

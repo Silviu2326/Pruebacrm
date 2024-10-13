@@ -11,15 +11,13 @@
   --text-light: #000000;
   --text-dark: #ffffff;
   --primary-light: #d9bfae;
-  --primary-dark: #4a4a4a;
+  --primary-dark: #333333;
   --secondary-light: #ddd;
-  --secondary-dark: #555;
-  --button-bg-light: #90a4ae;
+  --secondary-dark: #3a3a3a;
   --button-bg-lightblue: #3d8bfd;
-  --button-border-light: #000000;
+  --button-border-light: #494949b0;
   --button-text-light: #000000;
-  --button-bg-dark: #444444;
-  --button-border-dark: #ffffff;
+  --button-border-dark: #777777;
   --button-text-dark: #ffffff;
   --header-bg-light: #ddd;
   --header-bg-dark: #444444;
@@ -31,40 +29,98 @@
   --search-button-bg-dark: #444;
   --search-button-border-dark: #fff;
   --search-button-text-dark: #fff;
-  --create-button-bg-light: #09BC8A;
-  --create-button-bg-dark: #006B5A;
-}
-/* styles.css */
-body.light {
-  --background: var(--background-light);
-  --text: var(--text-light);
-  --primary: var(--primary-light);
-  --secondary: var(--secondary-light);
-  --button-bg: var(--button-bg-light);
-  --button-border: var(--button-border-light);
-  --button-text: var(--button-text-light);
-  --header-bg: var(--header-bg-light);
-  --header-text: var(--header-text-light);
-  --search-button-bg: var(--search-button-bg-light);
-  --search-button-border: var(--search-button-border-light);
-  --search-button-text: var(--search-button-text-light);
-  --create-button-bg: var(--create-button-bg-light);
+
+  --button-border: #000000;
+
+  --background-light: #f7faff;
+  --background: #f7faff;
+
+  --text-light: #2a2a2a;
+  --text: #2a2a2a;
+
+  --text-transparente: #a8a8a8;
+
+  --button-bg-light: linear-gradient(103deg, rgba(39, 114, 244, 1) 48%, rgba(39, 100, 193, 1) 97%);
+  --button-bg: linear-gradient(103deg, rgba(39, 114, 244, 1) 48%, rgba(39, 100, 193, 1) 97%);
+
+  --button-bg-dos: #265db5;
+
+  --button-bg-tres: linear-gradient(130deg, rgb(214, 71, 94) 9%, rgb(238, 85, 133) 33%);
+
+  --search-button-bg: #7d7d7d30;
+
+  --search-button-bg-light: #ffffffff;
+
+  --search-button-border: 1px solid #ddd;
+
+  --create-button-bg-light:  linear-gradient(130deg, rgba(115,68,210,1) 16%, rgba(152,91,248,1) 65%);
+  --create-button-bg:  linear-gradient(130deg, rgba(115,68,210,1) 16%, rgba(152,91,248,1) 65%);
+
+  --button-bg-filtro-dark: linear-gradient(130deg, rgb(161 42 60) 9%, rgb(167 45 83) 33%);
+  --button-bg-darkk: linear-gradient(103deg, rgb(38 108 141) 48%, rgb(30 86 113) 97%);
+  --button-bg-dos-dark: #546e7a;
+  --create-button-bg-dark: linear-gradient(130deg, rgb(85 51 153) 16%, rgb(99 57 163) 65%);
+  --text-transparente-dark: #8484847a;
+  --widget-bg: #ffffff;
+
+  --table-th-bg: #ededed;
+  --table-tr-child-bg: #f8f8f8;
+  --table-tr-bg: #f7faff;
+  --border-blue: #d0e0ff;
+  --text-blue: #265db5;
+  --tablacoloresthead: #265db5;
+  --secondary: #ddd;
+  --input-border-dark: #ffff;
+  --input-bg-dark: #2d2d2d;
 }
 
-body.dark {
-  --background: var(--background-dark);
-  --text: var(--text-dark);
-  --primary: var(--primary-dark);
-  --secondary: var(--secondary-dark);
-  --button-bg: var(--button-bg-dark);
-  --button-border: var(--button-border-dark);
-  --button-text: var(--button-text-dark);
-  --header-bg: var(--header-bg-dark);
-  --header-text: var(--header-text-dark);
-  --search-button-bg: var(--search-button-bg-dark);
-  --search-button-border: var(--search-button-border-dark);
-  --search-button-text: var(--search-button-text-dark);
-  --create-button-bg: var(--create-button-bg-dark);
+.dark {
+  --text: #f1f1f1;
+  --widget-bg: #3a3a3a;
+  --background: #333333;
+  --table-th-bg: #555;
+  --table-tr-child-bg: #2a2a2a;
+  --table-tr-bg: #1a1a1a;
+  --create-button-bg: linear-gradient(130deg, rgb(85 51 153) 16%, rgb(99 57 163) 65%);
+  --button-bg: linear-gradient(103deg, rgb(38 108 141) 48%, rgb(30 86 113) 97%);
+  --search-button-bg: #444;
+  --text-transparente: #8484847a;
+  --button-border: #777777;
+  --tablacoloresthead: #555;
+  --secondary: #3a3a3a;
+
+}
+
+/* Estilo scrollbar */
+
+/* Estilo para la barra de desplazamiento */
+::-webkit-scrollbar {
+  background-color: var(--background);
+  width: 12px;
+}
+
+/* Fondo de la scrollbar excepto botón o resizer */
+::-webkit-scrollbar-track {
+  background-color: var(--widget-bg);
+}
+::-webkit-scrollbar-track:hover {
+  background-color: var(--background);
+}
+
+/* La scrollbar en sí */
+::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 5px var(--secondary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a5;
+  border: 4px solid var(--secondary);
+}
+
+/* Ocultar botones (arriba y abajo de la scrollbar) */
+::-webkit-scrollbar-button {
+  display: none;
 }
 
 body {

@@ -31,6 +31,17 @@ const Tablacomidas = ({ theme }) => {
         placeholder="Buscar comidas"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          background: 'var(--search-button-bg)',
+          border: '1px solid var(--button-border)',
+          padding: '5px',
+          height: '44px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s',
+          textAlign: 'left',
+        }}
       />
       <div className="Tablacomida-tableContainer">
         <table className="Tablacomida-styledTable">

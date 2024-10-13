@@ -1,10 +1,9 @@
 /* Contenedor principal de la sección de Bonos */
 .widget-bonosDup {
-  padding: 20px;
   background: var(--background);
   border-radius: 8px;
   color: var(--text);
-  width: 85%;
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
   margin-top: 20px;
@@ -84,8 +83,11 @@
 }
 
 /* Dropdown para columnas y filtros */
-.widget-bonosDup .dropdown {
+.bono-actionsBtns {
   position: relative;
+  display: flex;
+  flex-direction: row;
+  
 }
 
 .dropdown-toggle.light {
@@ -143,9 +145,6 @@
   border-bottom: 1px solid var(--secondary);
 }
 
-.widget-bonosDup th {
-  background: var(--background);
-}
 
 .widget-bonosDup tr:nth-child(even) {
   background: var(--secondary);

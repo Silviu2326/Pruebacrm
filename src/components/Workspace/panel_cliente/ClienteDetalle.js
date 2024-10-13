@@ -13,8 +13,7 @@ import Chequins from './Chequins';
 import './ClienteDetalle.css';
 import PopupDeCreacionDePlanificacion from '../../Rutinas/PopupDeCreacionDePlanificacion'; // Ajusta la ruta según corresponda
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const ClienteDetalle = ({ cliente, theme }) => {
     const [clienteDetalle, setClienteDetalle] = useState(cliente);
     const [mostrarModal, setMostrarModal] = useState(false);
@@ -27,6 +26,7 @@ const ClienteDetalle = ({ cliente, theme }) => {
         const fetchClienteDetalle = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/api/clientes/${cliente._id}`);
+                console.log('Datos del cliente recibidos desde la API:', response.data); // Añadido console.log
                 setClienteDetalle(response.data);
             } catch (error) {
                 console.error('Error fetching cliente details:', error);

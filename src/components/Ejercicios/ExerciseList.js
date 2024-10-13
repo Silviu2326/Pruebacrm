@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ModalCreacionEjercicio from './ModalCreacionEjercicio';
 import ModalPrevisualizacionEjercicio from './ModalPrevisualizacionEjercicio';
 import './ExerciseLista.css';
+import { Eye, Edit } from 'lucide-react'; // Importamos los íconos
 
 const ExerciseList = ({ theme }) => {
   const navigate = useNavigate();
@@ -125,15 +126,52 @@ const ExerciseList = ({ theme }) => {
   return (
     <div className={`ejercicios ${theme}`}>
       <ToastContainer />
-      <div className="cabeza">
+      <div className="cabeza" style={{
+              display: 'flex',
+              flexDirection: 'row', 
+              gap: '10px',
+              width: '60%',
+              alignContent: 'left',
+            }}>
         <h1 className="titulo">Ejercicios</h1>
-        <div className="actions">
-          <button onClick={handleCreateExercise} className={`ejercicioButton ${theme}`}>Crear Ejercicio</button>
+        <div className="actions" style={{
+              display: 'flex',
+              flexDirection: 'row', 
+              gap: '10px',
+              marginTop: '20px',
+              marginLeft: '35px',
+              width: 'fit-content',}}>
+          <button onClick={handleCreateExercise} className={`ejercicioButton ${theme}`} 
+          style={{
+            background:'var(--create-button-bg)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
+          >
+            Crear Ejercicio
+          </button>
           <button 
             onClick={handleSaveRoutine} 
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+              marginRight: '163px'
+            }}
             className={`ejercicioButton ${theme}`}
-            style={{ marginRight: '163px' }}  // Aquí se aplica el margin-right
-          >
+// Aquí se aplica el margin-right
+          >              
+
             Guardar Rutina
           </button>
         </div>
@@ -141,77 +179,198 @@ const ExerciseList = ({ theme }) => {
       <div className="filters">
         <div className="left">
           <div className="toggle-buttons">
-            <div
-              id="todosEj"
-              className={`toggle-button ${selectedFilter === 'all' ? 'selected' : ''} ${theme}`}
-              onClick={() => handleFilterChange('all')}
-            >
-              Todos
-            </div>
-            <div
-              id="propiosEj"
-              className={`toggle-button ${selectedFilter === 'custom' ? 'selected' : ''} ${theme}`}
-              onClick={() => handleFilterChange('custom')}
-            >
-              Propios
-            </div>
+          <div
+  id="todosEj"
+  style={{
+    backgroundColor: selectedFilter === 'all' ? '#003366' : '#99ccff', // Azul oscuro si está seleccionado, azul claro si no
+    color: selectedFilter === 'all' ? 'white' : 'black', // Texto blanco si está seleccionado, negro si no
+    fontWeight: selectedFilter === 'all' ? 'bold' : 'normal', // Negrita si está seleccionado
+    padding: '10px 20px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  }}
+  onClick={() => handleFilterChange('all')}
+>
+  Todos
+</div>
+
+<div
+  id="propiosEj"
+  style={{
+    backgroundColor: selectedFilter === 'custom' ? '#003366' : '#99ccff', // Azul oscuro si está seleccionado, azul claro si no
+    color: selectedFilter === 'custom' ? 'white' : 'black', // Texto blanco si está seleccionado, negro si no
+    fontWeight: selectedFilter === 'custom' ? 'bold' : 'normal', // Negrita si está seleccionado
+    padding: '10px 20px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  }}
+  onClick={() => handleFilterChange('custom')}
+>
+  Propios
+</div>
+
           </div>
-          <select value={muscle} onChange={handleMuscleChange} className={theme}>
+          <select value={muscle} onChange={handleMuscleChange} className={theme}
+          style={{
+            background: '#7d7d7d00',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}>
             <option value="">Músculos</option>
             <option value="Piernas">Piernas</option>
             <option value="Pecho">Pecho</option>
             {/* Agrega más músculos aquí */}
           </select>
-          <select value={equipment} onChange={handleEquipmentChange} className={theme}>
+          <select value={equipment} onChange={handleEquipmentChange} className={theme}
+          style={{
+            background: '#7d7d7d00',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}>
             <option value="">Equipamiento</option>
             <option value="Mancuernas">Mancuernas</option>
             <option value="Barra">Barra</option>
             {/* Agrega más equipamiento aquí */}
           </select>
         </div>
-        <div className="right">
+        <div className="right" style={{
+              width: '60%',
+              paddingRight: '20px',
+            }}>
           <input
             type="text"
             placeholder="Buscar ejercicios"
             value={searchTerm}
             onChange={handleSearchChange}
             className={theme}
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              width: '100%',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
           />
         </div>
       </div>
-      <table className={`exercises-table ${theme}`}>
-        <thead>
-          <tr>
-            <th>Seleccionar</th>
-            <th>Nombre</th>
-            <th>Creador</th>
-            <th>Músculo</th>
-            <th>Equipamiento</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredExercises.map((exercise, index) => (
-            <tr key={index}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedExercises.includes(exercise)}
-                  onChange={() => handleExerciseSelect(exercise)}
+      <table className={`exercises-table ${theme}`} 
+  style={{ 
+    borderRadius: '10px', 
+    borderCollapse: 'separate', 
+    borderSpacing: '0', 
+    width: '100%', 
+    overflow: 'hidden',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    margin: '0',
+  }}
+>
+  <thead style={{ 
+      backgroundColor: theme === 'dark' ? '#333' : '#265db5',
+      borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+  }}>
+    <tr>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Seleccionar</th>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Nombre</th>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Creador</th>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Músculo</th>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Equipamiento</th>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {filteredExercises.map((exercise, index) => (
+      <tr 
+        key={index} 
+        style={{ 
+          backgroundColor: theme === 'dark' 
+            ? (index % 2 === 0 ? '#333' : '#444') // Colores alternos en modo oscuro
+            : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Colores alternos en modo claro
+        }}
+      >
+        <td style={{ padding: '12px' }}>
+          <input
+            type="checkbox"
+            checked={selectedExercises.includes(exercise)}
+            onChange={() => handleExerciseSelect(exercise)}
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
+          />
+        </td>
+        <td style={{ padding: '12px' }}>{exercise.nombre}</td>
+        <td style={{ padding: '12px' }}>{exercise.creador}</td>
+        <td style={{ padding: '12px' }}>{exercise.musculo}</td>
+        <td style={{ padding: '12px' }}>{exercise.equipamiento}</td>
+        <td style={{ padding: '15px',
+          display: 'flex',
+          height: '75.33px',
+         }}>
+          <button 
+            onClick={() => handlePreviewExercise(exercise)} 
+            className={`action-button ${theme}`} 
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: theme === 'dark' ? 'var(--button-text-dark)' : 'var(--button-text-light)',
+              padding: '7px',
+              margin: '0px',
+            }}
+          >
+                <Eye size={18}
+                  onClick={() => handlePreviewExercise(exercise)}
+                  style={{ cursor: 'pointer', marginRight: '10px' }}
                 />
-              </td>
-              <td>{exercise.nombre}</td>
-              <td>{exercise.creador}</td>
-              <td>{exercise.musculo}</td>
-              <td>{exercise.equipamiento}</td>
-              <td>
-                <button onClick={() => handlePreviewExercise(exercise)} className={`action-button ${theme}`}>Previsualizar</button>
-                <button onClick={() => handleEditExercise(exercise)} className={`action-button ${theme}`}>Editar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          </button>
+          <button 
+            onClick={() => handleEditExercise(exercise)} 
+            className={`action-button ${theme}`} 
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: theme === 'dark' ? 'var(--button-text-dark)' : 'var(--button-text-light)',
+              padding: '7px',
+              margin: '0px',
+            }}
+          >
+                <Edit size={18}
+                  onClick={() => handleEditExercise(exercise)}
+                  style={{ cursor: 'pointer' }}
+                />
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
       <ModalPrevisualizacionEjercicio
         isOpen={isPreviewModalOpen}
         onClose={closePreviewModal}

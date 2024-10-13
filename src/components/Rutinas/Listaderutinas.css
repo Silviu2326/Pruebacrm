@@ -14,7 +14,6 @@
   /* Dark mode variables */
   --listaderutinas-background-dark: #1a202c;
   --listaderutinas-foreground-dark: #f7fafc;
-  --listaderutinas-card-dark: #2d3748;
   --listaderutinas-card-foreground-dark: #f7fafc;
   --listaderutinas-primary-dark: #575e67;
   --listaderutinas-primary-foreground-dark: #f7fafc;
@@ -52,7 +51,7 @@ body.dark-mode {
 .listaderutinas-contenedor.light {
   background-color: #f7faff;
   border-radius: 0.5rem;
-  padding: 2rem;
+  padding: 20px;
 }
 
 .listaderutinas-contenedor.dark {
@@ -105,20 +104,58 @@ body.dark-mode .listaderutinas-table td {
 
 .listaderutinas-table.dark th {
   background-color: var(--listaderutinas-secondary);
-  color: var (var(--listaderutinas-secondary-dark));
+  color: var(--listaderutinas-secondary-dark);
   font-weight: bold;
   text-align: left;
 }
 
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--button-text-light);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ajusta el color según el tema */
+.listaderutinas-contenedor.light .action-button {
+  color: var(--button-text-light);
+}
+
+.listaderutinas-contenedor.dark .action-button {
+  color: var(--button-text-dark);
+}
+
+.associate-client-dropdown {
+  position: absolute;
+  background: var(--dropdown-bg);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  margin-top: 10px;
+  z-index: 1000;
+}
+
+/* Puedes ajustar los estilos adicionales según tus necesidades */
+
+
 .listaderutinas-table.light th {
-  background-color: var(--listaderutinas-light);
+  background-color: #236dc9;
   color: #fbf7f2;
   font-weight: bold;
   text-align: left;
 }
-
+.odd-row{
+background-color: var(--table-tr-child-bg);
+}
+.even-row{
+  background-color: var(--table-tr-bg);
+}
 .listaderutinas-table.dark th {
-  background-color: var(--listaderutinas-secondary-dark);
+  background-color: var(--table-th-bg);
   color: var(--listaderutinas-secondary-foreground-dark);
 }
 
@@ -132,6 +169,23 @@ body.dark-mode .listaderutinas-table td {
   color: var(--listaderutinas-card-foreground-dark);
 }
 
+/* Alternating row colors for dark mode */
+body.dark-mode .listaderutinas-table tr:nth-child(even) td {
+  background-color: rgb(51, 51, 51); /* Darker row */
+}
+
+body.dark-mode .listaderutinas-table tr:nth-child(odd) td {
+  background-color: rgb(68, 68, 68); /* Lighter row */
+}
+
+/* Alternating row colors for light mode */
+.listaderutinas-table.light tr:nth-child(even) td {
+  background-color: #f9f9f9; /* Lighter row */
+}
+
+.listaderutinas-table.light tr:nth-child(odd) td {
+  background-color: #ffffff; /* Darker row */
+}
 .listaderutinas-table tr:last-child td {
   border-bottom: none;
 }
@@ -140,7 +194,6 @@ body.dark-mode .listaderutinas-table td {
   text-align: right;
   width: 200px;
 }
-
 
 .listaderutinas-table th.listaderutinas-actions,
 .listaderutinas-table td.listaderutinas-actions {
@@ -238,4 +291,21 @@ body.dark-mode .input {
   background-color: var(--background-dark); 
   color: var(--text-dark);
   border: 1px solid var(--button-text-dark);
+}
+/* Alternating row colors for light mode */
+.even-row td {
+  background-color: #f9f9f9; /* Lighter row */
+}
+
+.odd-row td {
+  background-color: #ffffff; /* Darker row */
+}
+
+/* Alternating row colors for dark mode */
+body.dark-mode .even-row td {
+  background-color: rgb(51, 51, 51); /* Darker row */
+}
+
+body.dark-mode .odd-row td {
+  background-color: rgb(68, 68, 68); /* Lighter row */
 }

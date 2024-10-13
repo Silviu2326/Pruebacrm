@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DetailedDocumento.css';
 import WidgetLicenciasDuplicado from './Duplicados/WidgetLicenciasDuplicado';
@@ -22,6 +22,17 @@ const DetailedDocumento = ({ onTabChange, theme, setTheme }) => {
     start: '',
     end: '',
   });
+
+  // Cerrar el modal al presionar la tecla Esc
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === 'Escape') {
+        handleCloseAlarmPopup();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
 
   const handleOpenAlarmPopup = () => {
     setIsAlarmPopupOpen(true);
@@ -88,24 +99,24 @@ const DetailedDocumento = ({ onTabChange, theme, setTheme }) => {
   return (
     <div className={`detailed-documento-modal ${theme}`}>
       <div className={`detailed-documento-content ${theme}`}>
-        <NavegadorDeGraficos onTabChange={onTabChange} theme={theme} setTheme={setTheme} />
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0' }}>
-          <button className={`program-alarm-btn ${theme}`} onClick={handleOpenAlarmPopup}>
-            Programar Alarma
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <NavegadorDeGraficos onTabChange={onTabChange} theme={theme} setTheme={setTheme} />
           <button
-            onClick={() => handleTabChange('Panel de Control')}
+            className={`program-alarm-btn ${theme}`}
+            onClick={handleOpenAlarmPopup}
             style={{
-              backgroundColor: '#FF0000',
-              color: '#FFFFFF',
-              padding: '8px 16px',
-              border: 'none',
-              borderRadius: '4px',
+              background:'var(--create-button-bg)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '14px 20px',
+              borderRadius: '5px',
               cursor: 'pointer',
-            }}
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+}}
           >
-            Ir a la página de Economía
+            Programar Alarma
           </button>
         </div>
 
@@ -119,58 +130,92 @@ const DetailedDocumento = ({ onTabChange, theme, setTheme }) => {
           <WidgetDocumentosOtros isEditMode={true} theme={theme} />
         </div>
         <div className="alertas-section"> {/* Sección para alertas */}
-          <WidgetAlertas /> {/* Incluir el componente WidgetAlertas */}
+          <WidgetAlertas theme={theme} /> {/* Incluir el componente WidgetAlertas */}
         </div>
 
+        {/* Modal Overlay */}
         {isAlarmPopupOpen && (
-          <div className={`alarm-popup ${theme}`}>
-            <button className={`close-alarm-popup-btn ${theme}`} onClick={handleCloseAlarmPopup}>x</button>
-            <h3>Programar Nueva Alerta</h3>
-            <div className="form-group">
-              <label htmlFor="title">Título</label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Título"
-                value={newAlert.title}
-                onChange={handleAlertChange}
-              />
+          <div className="alarm-popup-overlay" onClick={handleCloseAlarmPopup}>
+            <div
+              className={`alarm-popup ${theme}`}
+              onClick={(e) => e.stopPropagation()} // Evita que el clic dentro del modal cierre el mismo
+            >
+              <h3>Programar Alarma</h3>
+              <button
+                className="close-alarm-popup-btn"
+                onClick={handleCloseAlarmPopup}
+                style={{
+                  background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                  color:  'var(--button-text-dark)' ,
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s ease',
+                }}
+              >
+                &times;
+              </button>
+              <div className="form-group">
+                <label htmlFor="title">Título</label>
+                <input
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="Título"
+                  value={newAlert.title}
+                  onChange={handleAlertChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="message">Mensaje</label>
+                <input
+                  type="text"
+                  name="message"
+                  id="message"
+                  placeholder="Mensaje"
+                  value={newAlert.message}
+                  onChange={handleAlertChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="alertDate">Fecha de la Alerta</label>
+                <input
+                  type="date"
+                  name="alertDate"
+                  id="alertDate"
+                  value={newAlert.alertDate}
+                  onChange={handleAlertChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="displayDate">Fecha de Visualización</label>
+                <input
+                  type="date"
+                  name="displayDate"
+                  id="displayDate"
+                  value={newAlert.displayDate}
+                  onChange={handleAlertChange}
+                />
+              </div>
+              <button
+                className={`set-alarm-btn ${theme}`}
+                onClick={handleCreateAlert}
+                style={{
+                  background:'var(--create-button-bg)', 
+                  color:  'var(--button-text-dark)' ,
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '14px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s ease',
+                }}
+              >
+                Crear Alerta
+              </button>
             </div>
-            <div className="form-group">
-              <label htmlFor="message">Mensaje</label>
-              <input
-                type="text"
-                name="message"
-                id="message"
-                placeholder="Mensaje"
-                value={newAlert.message}
-                onChange={handleAlertChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="alertDate">Fecha de la Alerta</label>
-              <input
-                type="date"
-                name="alertDate"
-                id="alertDate"
-                value={newAlert.alertDate}
-                onChange={handleAlertChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="displayDate">Fecha de Visualización</label>
-              <input
-                type="date"
-                name="displayDate"
-                id="displayDate"
-                value={newAlert.displayDate}
-                onChange={handleAlertChange}
-              />
-            </div>
-            <button className={`set-alarm-btn ${theme}`} onClick={handleCreateAlert}>
-              Crear Alerta
-            </button>
           </div>
         )}
       </div>

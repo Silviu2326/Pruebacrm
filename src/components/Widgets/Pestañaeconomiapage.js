@@ -6,6 +6,13 @@ import DetailedDocumento from './Documentos/DetailedDocumento';
 import DetailedFactura from './facturas/DetailedFactura';
 import DetailedPlanes from './Componentepanelcontrol/DetailedPlanes';
 import DetailedReportes from './DetailedReportes';
+import { LineChart, DollarSign, TrendingUp, Users, FileText, Trash2 } from 'lucide-react';
+import CreacionDeFacturas from './facturas/CreacionDeFacturas';
+import FormDocumentos from './Documentos/FormDocumentos';
+import Modalcreaciongasto from './Widgetgasto/Modalcreaciongasto';
+import Modalcreacionplanes from './Planes/Modalcreacionplanes';
+import Modalcreacionbonos from './Bonos/Modalcreacionbonos';
+
 
 import ModalDeEscaneoDeFacturas from './facturas/ModalDeEscaneoDeFacturas';
 import NavegadorDeGraficos from './Componentepanelcontrol/NavegadorDeGraficos';
@@ -30,8 +37,7 @@ import 'react-resizable/css/styles.css';
 import './Pestañaeconomiapage.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 function createLayout(id, x, y, w, h) {
   return [{ i: id, x: x, y: y, w: w, h: h }];
 }
@@ -39,9 +45,26 @@ function createLayout(id, x, y, w, h) {
 function Pestañaeconomiapage({ theme, setTheme }) {
   const [isDetailedModalOpen, setIsDetailedModalOpen] = useState(false);
   const [isDetailedDocumentoOpen, setIsDetailedDocumentoOpen] = useState(false);
+  const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false);
   const [isDetailedFacturaOpen, setIsDetailedFacturaOpen] = useState(false);
   const [isDetailedPlanesOpen, setIsDetailedPlanesOpen] = useState(false);
+  const [isCreatePlanModalOpen, setIsCreatePlanModalOpen] = useState(false);
+  const [isCreateBonoModalOpen, setIsCreateBonoModalOpen] = useState(false);
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
+  const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+  const [isGastoModalOpen, setIsGastoModalOpen] = useState(false);
+  const [newGasto, setNewGasto] = useState({
+    concepto: '',
+    description: '',
+    category: '',
+    fecha: '',
+    estado: '',
+    monto: '',
+    tipo: '',
+    isRecurrente: false,
+    frequency: '',
+    duration: ''
+  });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isBarraWidgetsOpen, setIsBarraWidgetsOpen] = useState(false);
@@ -277,6 +300,53 @@ function Pestañaeconomiapage({ theme, setTheme }) {
     }
   };
 
+  const handleOpenAddDocumentModal = () => {
+    setIsAddDocumentModalOpen(true);
+  };
+
+  // Función para cerrar el modal
+  const handleCloseAddDocumentModal = () => {
+    setIsAddDocumentModalOpen(false);
+  };
+
+  const handleOpenCreatePlanModal = () => {
+    setIsCreatePlanModalOpen(true);
+  };
+
+  const handleCloseCreatePlanModal = () => {
+    setIsCreatePlanModalOpen(false);
+  };
+
+  const handleOpenCreateBonoModal = () => {
+    console.log("Abriendo modal de creación de bonos"); // Añadido log para apertura
+    setIsCreateBonoModalOpen(true);
+  };
+
+  // Función para cerrar el modal de bonos
+  const handleCloseCreateBonoModal = () => {
+    console.log("Cerrando modal de creación de bonos"); // Añadido log para cierre
+    setIsCreateBonoModalOpen(false);
+  };
+
+  console.log("Estado de isCreateBonoModalOpen:", isCreateBonoModalOpen); // Verificar el estado del modal
+
+  const handleOpenCreationModal = () => setIsCreationModalOpen(true);
+  const handleCloseCreationModal = () => setIsCreationModalOpen(false);
+
+  const handleOpenGastoModal = () => setIsGastoModalOpen(true);
+  const handleCloseGastoModal = () => setIsGastoModalOpen(false);
+
+  const handleGastoChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setNewGasto({ ...newGasto, [name]: type === 'checkbox' ? checked : value });
+  };
+
+  const handleAddGasto = (e) => {
+    e.preventDefault();
+    // Aquí va la lógica para enviar el gasto al backend
+    handleCloseGastoModal();
+  };
+
   return (
     <div className={`pestaña-economia ${theme}`}>
       {isDetailedModalOpen && <DetailedIngresoBeneficio 
@@ -290,6 +360,7 @@ function Pestañaeconomiapage({ theme, setTheme }) {
         clientesActuales={clientesActuales}
         gastos={gastos}
         ingresosEsperados={ingresosEsperados}
+        setIngresosEsperados={setIngresosEsperados}
       />}
       {isDetailedDocumentoOpen && <DetailedDocumento onTabChange={handleTabChange} activeTab={activeTab} theme={theme} setTheme={setTheme} />}
       {isDetailedFacturaOpen && <DetailedFactura onTabChange={handleTabChange} activeTab={activeTab} theme={theme} setTheme={setTheme} />}
@@ -351,94 +422,94 @@ function Pestañaeconomiapage({ theme, setTheme }) {
                               <button className="widget-remove-btn" onClick={() => handleRemoveItem(item.i)}>×</button>
                             </>
                           )}
-                          {item.i === 'proyeccionMes' && (
-                            <MetricCard
-                              title="Proyección del Mes"
-                              value={`$${(proyeccionMes || 0).toFixed(2)}`}
-                              description="Proyección del mes"
-                              icon="📈"
-                              valueClass={getValueClass(proyeccionMes)}
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'gastoMensual' && (
-                            <MetricCard
-                              title="Gasto Mensual"
-                              value={`$${(totalGastos || 0).toFixed(2)}`}
-                              description="Gasto mensual"
-                              icon="💸"
-                              valueClass="panelcontrol-metric-value-red"
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'ingresoMensual' && (
-                            <MetricCard
-                              title="Ingreso Mensual"
-                              value={`$${(ingresoMensual || 0).toFixed(2)}`}
-                              description="Ingreso mensual actual"
-                              icon="💰"
-                              valueClass={getValueClass(ingresoMensual)}
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'ingresos' && (
-                            <MetricCard
-                              title="Ingresos"
-                              value={`$${(totalIngresos || 0).toFixed(2)}`}
-                              description="Ingresos totales"
-                              icon="💰"
-                              valueClass={getValueClass(totalIngresos)}
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'margenGanancia' && (
-                            <MetricCard
-                              title="Margen de Ganancia"
-                              value={`${(margenGanancia || 0).toFixed(2)}%`}
-                              description="Margen de ganancia"
-                              icon="📊"
-                              valueClass={getValueClass(margenGanancia)}
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'clientesNuevos' && (
-                            <MetricCard
-                              title="Clientes Nuevos"
-                              value={clientesActuales || 0}
-                              description="Clientes nuevos"
-                              icon="👥"
-                              valueClass={getValueClass(clientesActuales)}
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'planesVendidos' && (
-                            <MetricCard
-                              title="Planes Vendidos"
-                              value={planesVendidos || 0}
-                              description="Total planes vendidos"
-                              icon="📄"
-                              valueClass="panelcontrol-metric-value-green"
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
-                          {item.i === 'clientesActuales' && (
-                            <MetricCard
-                              title="Clientes Actuales"
-                              value={clientesActuales || 0}
-                              description="Total clientes actuales"
-                              icon="📈"
-                              valueClass="panelcontrol-metric-value-green"
-                              theme={theme}
-                              setTheme={setTheme}
-                            />
-                          )}
+{item.i === 'proyeccionMes' && (
+  <MetricCard
+    title="Proyección del Mes"
+    value={`$${(proyeccionMes || 0).toFixed(2)}`}
+    description="Proyección del mes"
+    icon={<TrendingUp size={24} />}  // Icono de Lucide
+    valueClass={getValueClass(proyeccionMes)}
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'gastoMensual' && (
+  <MetricCard
+    title="Gasto Mensual"
+    value={`$${(totalGastos || 0).toFixed(2)}`}
+    description="Gasto mensual"
+    icon={<DollarSign size={24} />}  // Icono de Lucide
+    valueClass="panelcontrol-metric-value-red"
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'ingresoMensual' && (
+  <MetricCard
+    title="Ingreso Mensual"
+    value={`$${(ingresoMensual || 0).toFixed(2)}`}
+    description="Ingreso mensual actual"
+    icon={<DollarSign size={24} />}  // Icono de Lucide
+    valueClass={getValueClass(ingresoMensual)}
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'ingresos' && (
+  <MetricCard
+    title="Ingresos"
+    value={`$${(totalIngresos || 0).toFixed(2)}`}
+    description="Ingresos totales"
+    icon={<DollarSign size={24} />}  // Icono de Lucide
+    valueClass={getValueClass(totalIngresos)}
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'margenGanancia' && (
+  <MetricCard
+    title="Margen de Ganancia"
+    value={`${(margenGanancia || 0).toFixed(2)}%`}
+    description="Margen de ganancia"
+    icon={<LineChart size={24} />}  // Icono de Lucide
+    valueClass={getValueClass(margenGanancia)}
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'clientesNuevos' && (
+  <MetricCard
+    title="Clientes Nuevos"
+    value={clientesActuales || 0}
+    description="Clientes nuevos"
+    icon={<Users size={24} />}  // Icono de Lucide
+    valueClass={getValueClass(clientesActuales)}
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'planesVendidos' && (
+  <MetricCard
+    title="Planes Vendidos"
+    value={planesVendidos || 0}
+    description="Total planes vendidos"
+    icon={<FileText size={24} />}  // Icono de Lucide
+    valueClass="panelcontrol-metric-value-green"
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
+{item.i === 'clientesActuales' && (
+  <MetricCard
+    title="Clientes Actuales"
+    value={clientesActuales || 0}
+    description="Total clientes actuales"
+    icon={<TrendingUp size={24} />}  // Icono de Lucide
+    valueClass="panelcontrol-metric-value-green"
+    theme={theme}
+    setTheme={setTheme}
+  />
+)}
                           {item.i === 'overviewChart' && (
                             <div>
                               <OverviewChart onTitleClick={handleOpenDetailedModal} theme={theme} setTheme={setTheme} />
@@ -468,10 +539,10 @@ function Pestañaeconomiapage({ theme, setTheme }) {
                             />
                           )}
                           {item.i === 'documentos' && (
-                            <WidgetDocumentos isEditMode={isEditMode} onTitleClick={handleOpenDetailedDocumento} theme={theme} setTheme={setTheme} />
+                            <WidgetDocumentos isEditMode={isEditMode} onTitleClick={handleOpenDetailedDocumento} onOpenAddDocumentModal={handleOpenAddDocumentModal} theme={theme} setTheme={setTheme} />
                           )}
                           {item.i === 'facturas' && (
-                            <WidgetFacturas isEditMode={isEditMode} handleRemoveItem={handleRemoveItem} onTitleClick={handleOpenDetailedFactura} theme={theme} setTheme={setTheme} />
+                            <WidgetFacturas isEditMode={isEditMode} handleRemoveItem={handleRemoveItem} onTitleClick={handleOpenDetailedFactura} theme={theme} setTheme={setTheme} onOpenCreationModal={handleOpenCreationModal} onOpenScanModal={handleOpenScanModal}/>
                           )}
                           {item.i === 'cuentaBancaria' && (
                             <WidgetCuentaBancaria 
@@ -483,16 +554,16 @@ function Pestañaeconomiapage({ theme, setTheme }) {
                             />
                           )}
                           {item.i === 'gasto' && (
-                            <WidgetGasto isEditMode={isEditMode} onTitleClick={handleOpenDetailedModal} theme={theme} setTheme={setTheme} gastos={gastos} />
+                            <WidgetGasto isEditMode={isEditMode} onTitleClick={handleOpenDetailedModal} theme={theme} setTheme={setTheme} gastos={gastos}  onOpenGastoModal={handleOpenGastoModal} onCloseGastoModal={handleCloseGastoModal}/>
                           )}
                           {item.i === 'beneficioGrafico' && (
                             <BeneficioGrafico isEditMode={isEditMode} onTitleClick={handleOpenDetailedModal} handleRemoveItem={handleRemoveItem} theme={theme} setTheme={setTheme} />
                           )}
                           {item.i === 'tablaPlanes' && (
-                            <Tablaplanescliente onTitleClick={handleOpenDetailedPlanes} theme={theme} setTheme={setTheme} />
+                            <Tablaplanescliente onTitleClick={handleOpenDetailedPlanes} theme={theme} setTheme={setTheme} onOpenCreatePlanModal={handleOpenCreatePlanModal}/>
                           )}
                           {item.i === 'bonos' && (
-                            <Bonos onTitleClick={handleOpenDetailedPlanes} theme={theme} isEditMode={isEditMode} setTheme={setTheme} />
+                            <Bonos onTitleClick={handleOpenDetailedPlanes} theme={theme} isEditMode={isEditMode} setTheme={setTheme} onOpenCreateBonoModal={handleOpenCreateBonoModal}/>
                           )}
                           {item.i === 'alertas' && (
                             <Alertas onTabChange={handleTabChange} theme={theme} setTheme={setTheme} />
@@ -519,6 +590,53 @@ function Pestañaeconomiapage({ theme, setTheme }) {
         </div>
       )}
       
+      {isAddDocumentModalOpen && (
+        <FormDocumentos
+          isOpen={isAddDocumentModalOpen}
+          onClose={handleCloseAddDocumentModal}
+          theme={theme} setTheme={setTheme}
+        />
+      )}
+
+      {isCreatePlanModalOpen && (
+        <Modalcreacionplanes onClose={handleCloseCreatePlanModal} theme={theme} setTheme={setTheme}/>
+      )}
+
+      {isCreateBonoModalOpen && (
+        <>
+          {console.log("Renderizando Modalcreacionbonos")} {/* Añadido log correctamente */}
+          <Modalcreacionbonos onClose={handleCloseCreateBonoModal} theme={theme} setTheme={setTheme}/>
+        </>
+      )}
+
+      {isScanModalOpen && (
+        <ModalDeEscaneoDeFacturas 
+          isOpen={isScanModalOpen} 
+          onClose={handleCloseScanModal} 
+          theme={theme} 
+        />
+      )}
+
+      {/* Modal para la creación de facturas */}
+      {isCreationModalOpen && (
+        <CreacionDeFacturas 
+          isOpen={isCreationModalOpen} 
+          onClose={handleCloseCreationModal} 
+          theme={theme} 
+        />
+      )}
+
+      {isGastoModalOpen && (
+      <Modalcreaciongasto 
+        isOpen={isGastoModalOpen} 
+        onClose={handleCloseGastoModal} 
+        newGasto={newGasto} 
+        handleGastoChange={handleGastoChange} 
+        handleAddGasto={handleAddGasto} 
+        theme={theme} 
+      />
+      )}
+
       {isDropdownOpen && dropdownContent && (
         <div className={`Prevdropdown-content ${theme}`} style={{ 
           position: 'absolute', 

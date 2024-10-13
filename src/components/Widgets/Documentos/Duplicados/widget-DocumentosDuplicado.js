@@ -4,7 +4,6 @@ import './widget-ContratosDuplicado.css';
 function WidgetContratosDuplicado({ isEditMode }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedColumns, setSelectedColumns] = useState({
-    id: true,
     titulo: true,
     fecha: true,
   });
@@ -54,7 +53,6 @@ function WidgetContratosDuplicado({ isEditMode }) {
             <th>
               <input type="checkbox" />
             </th>
-            {selectedColumns.id && <th>ID</th>}
             {selectedColumns.titulo && <th>Título</th>}
             {selectedColumns.fecha && <th>Fecha</th>}
             <th>Acciones</th>
@@ -66,7 +64,6 @@ function WidgetContratosDuplicado({ isEditMode }) {
               <td>
                 <input type="checkbox" />
               </td>
-              {selectedColumns.id && <td>{contrato.id}</td>}
               {selectedColumns.titulo && <td>{contrato.titulo}</td>}
               {selectedColumns.fecha && <td>{contrato.fecha}</td>}
               <td>

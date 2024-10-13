@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './WidgetPrevisionesPopup.css';
 import axios from 'axios';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+import { Edit3, CheckCircle, CreditCard, Banknote, DollarSign } from 'lucide-react'; // Importar íconos de lucide-react
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const WidgetPrevisionesPopup = ({ theme, setTheme, setIngresosEsperados }) => {
-  const [data, setData] = useState([]); 
+  const [data, setData] = useState([]);
   const [filterText, setFilterText] = useState('');
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [statusPopupRow, setStatusPopupRow] = useState(null);
-  const [isIngresoDropdownOpen, setIsIngresoDropdownOpen] = useState(false);
+  const [activeModalRow, setActiveModalRow] = useState(null); // Control del dropdown de Confirmar
   const [newIngreso, setNewIngreso] = useState({
     numero: '',
     fecha: '',
@@ -29,8 +29,6 @@ const WidgetPrevisionesPopup = ({ theme, setTheme, setIngresosEsperados }) => {
         console.error('Error al cargar los ingresos:', error);
       }
     };
-
-
     fetchData();
   }, [setIngresosEsperados]);
 
@@ -38,194 +36,169 @@ const WidgetPrevisionesPopup = ({ theme, setTheme, setIngresosEsperados }) => {
     setFilterText(e.target.value);
   };
 
-  const handleConfirm = (index) => {
-    setSelectedRow(index);
-  };
-
-  const handleMethodSelect = (method) => {
+  const handleStatusChange = (index, metodoPago = '') => {
     const newData = [...data];
-    newData[selectedRow].estatus = 'Completado';
-    newData[selectedRow].metodo = method;
-    setData(newData);
-    setIngresosEsperados(newData); // Actualiza ingresosEsperados en el estado padre
-    setSelectedRow(null);
-  };
 
-  const handleStatusChange = (index, status) => {
-    const newData = [...data];
-    newData[index].estatus = status;
-    if (status === 'Pendiente') {
-      newData[index].metodo = '';
+    if (metodoPago) {
+      // Si se selecciona un método de pago, se marca como completado
+      newData[index].estadoPago = 'completado';
+      newData[index].metodoPago = metodoPago;
+    } else {
+      // Si no se selecciona método de pago, alterna el estado
+      newData[index].estadoPago = 'pendiente';
+      newData[index].metodoPago = ''; // Limpiar método si se cambia a Pendiente
     }
+
     setData(newData);
-    setIngresosEsperados(newData); // Actualiza ingresosEsperados en el estado padre
-    setStatusPopupRow(null);
+    setIngresosEsperados(newData);
+    setActiveModalRow(null); // Cierra el dropdown
   };
 
-  const filteredData = data.filter(item => 
-    Object.values(item).some(val => 
+  const filteredData = data.filter(item =>
+    Object.values(item).some(val =>
       val && val.toString().toLowerCase().includes(filterText.toLowerCase())
     )
   );
 
   const toggleIngresoDropdown = () => {
-    setIsIngresoDropdownOpen(!isIngresoDropdownOpen);
-  };
-
-  const handleIngresoChange = (e) => {
-    const { name, value } = e.target;
-    setNewIngreso({ ...newIngreso, [name]: value });
-  };
-
-  const handleAddIngreso = (e) => {
-    e.preventDefault();
-    const newData = [...data, newIngreso];
-    setData(newData);
-    setIngresosEsperados(newData); // Actualiza ingresosEsperados en el estado padre
-    setNewIngreso({
-      numero: '',
-      fecha: '',
-      monto: '',
-      pagadoPor: '',
-      metodo: '',
-      estatus: ''
-    });
-    setIsIngresoDropdownOpen(false);
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    // Tu lógica existente para el dropdown de agregar ingresos
   };
 
   return (
     <div className={`popup-widget-previsiones ${theme}`}>
       <h3 className="popup-previsiones-title">Ingresos</h3>
       <div className="controls">
-        <input 
-          type="text" 
-          placeholder="Buscar previsión..." 
-          value={filterText} 
-          onChange={handleFilterChange} 
+        <input
+          type="text"
+          placeholder="Buscar previsión..."
+          value={filterText}
+          onChange={e => setFilterText(e.target.value)}
           className={`${theme}`}
         />
         <div className="ingreso-button-container">
           <div className="dropdown">
-            <button className={`dropdown-toggle ${theme}`} onClick={toggleIngresoDropdown}>Añadir Ingreso Especial</button>
-            {isIngresoDropdownOpen && (
-              <div className={`dropdown-content ${theme}`}>
-                <h3>Añadir Ingreso</h3>
-                <form onSubmit={handleAddIngreso}>
-                  <input 
-                    type="text" 
-                    name="numero" 
-                    placeholder="Número" 
-                    value={newIngreso.numero} 
-                    onChange={handleIngresoChange} 
-                    className={`${theme}`}
-                  />
-                  <input 
-                    type="date" 
-                    name="fecha" 
-                    placeholder="Fecha" 
-                    value={newIngreso.fecha} 
-                    onChange={handleIngresoChange} 
-                    className={`${theme}`}
-                  />
-                  <input 
-                    type="number" 
-                    name="monto" 
-                    placeholder="Importe" 
-                    value={newIngreso.monto} 
-                    onChange={handleIngresoChange} 
-                    className={`${theme}`}
-                  />
-                  <input 
-                    type="text" 
-                    name="pagadoPor" 
-                    placeholder="Pagado por" 
-                    value={newIngreso.pagadoPor} 
-                    onChange={handleIngresoChange} 
-                    className={`${theme}`}
-                  />
-                  <input 
-                    type="text" 
-                    name="metodo" 
-                    placeholder="Método" 
-                    value={newIngreso.metodo} 
-                    onChange={handleIngresoChange} 
-                    className={`${theme}`}
-                  />
-                  <input 
-                    type="text" 
-                    name="estatus" 
-                    placeholder="Estatus" 
-                    value={newIngreso.estatus} 
-                    onChange={handleIngresoChange} 
-                    className={`${theme}`}
-                  />
-                  <button type="submit">Añadir</button>
-                </form>
-              </div>
-            )}
+            <button
+              className={`dropdown-toggle ${theme}`}
+              onClick={toggleIngresoDropdown}
+              style={{
+                background: 'var(--create-button-bg)',
+                color: 'var(--button-text-dark)',
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}
+            >
+              Añadir Ingreso Especial
+            </button>
           </div>
         </div>
       </div>
-      <table>
-        <thead>
+      <table className={`WidgetPagos-table ${theme}`} style={{
+          borderRadius: '10px',
+          borderCollapse: 'separate',
+          borderSpacing: '0',
+          width: '100%',
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{
+          backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+          borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th></th>
-            <th>Número</th>
-            <th>Fecha</th>
-            <th>Importe</th>
-            <th>Pagado por</th>
-            <th>Método</th>
-            <th>Estatus</th>
-            <th></th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}></th>
+            {/* Eliminada la columna "Número" */}
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Fecha</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Importe</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Pagado por</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Método</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Estatus</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}></th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={index}>
-              <td><input type="checkbox" /></td>
-              <td>{item._id}</td>
-              <td>{new Date(item.fecha).toLocaleDateString()}</td>
-              <td>{item.cantidad}</td>
-              <td>{item.cliente?.nombre}</td>
-              <td className={item.estatus === 'Pendiente' ? 'translucent' : ''}>
-                {item.metodoPago}
+            <tr key={item._id} className={theme} style={{
+              backgroundColor: theme === 'dark'
+                ? (index % 2 === 0 ? '#333' : '#444')
+                : (index % 2 === 0 ? '#f9f9f9' : '#ffffff')
+            }}>
+              <td style={{ padding: '12px' }}>
+                <input type="checkbox" />
               </td>
-              <td>{item.estatus || 'Pendiente'}</td>
-              <td>
-                {item.estatus === 'Pendiente' ? (
-                  <button className="confirm-btn" onClick={() => handleConfirm(index)}>Confirmar</button>
+              {/* Eliminada la celda "Número" */}
+              <td style={{ padding: '12px' }}>{new Date(item.fecha).toLocaleDateString()}</td>
+              <td style={{ padding: '12px' }}>{item.cantidad}</td>
+              <td style={{ padding: '12px' }}>{item.cliente?.nombre}</td>
+              <td style={{ padding: '12px' }}>{item.metodoPago || '---'}</td>
+              <td style={{ padding: '12px' }}>{item.estadoPago}</td>
+              <td style={{ padding: '12px', position: 'relative' }}>
+                {item.estadoPago === 'completado' ? (
+                  <button
+                    onClick={() => handleStatusChange(index)}
+                    className="edit-btn"
+                    style={{
+                      background: 'var(--button-bg)',
+                      color: 'white',
+                      padding: '8px',
+                      borderRadius: '5px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Edit3 size={16} /> Editar
+                  </button>
                 ) : (
-                  <button className="options-btn" onClick={() => setStatusPopupRow(index)}>...</button>
+                  <>
+                    <button
+                      onClick={() => setActiveModalRow(index)}
+                      className="confirm-btn"
+                      style={{
+                        backgroundColor: 'var(--button-bg)',
+                        color: 'white',
+                        padding: '8px',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <CheckCircle size={16} /> Confirmar
+                    </button>
+
+                    {activeModalRow === index && (
+                      <div className="modal-overlay" onClick={() => setActiveModalRow(null)}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                          <h3>Seleccione el Método de Pago</h3>
+                          <button
+                            onClick={() => handleStatusChange(index, 'stripe')}
+                            className="modal-option"
+                          >
+                            <CreditCard size={16} /> Stripe
+                          </button>
+                          <button
+                            onClick={() => handleStatusChange(index, 'banco')}
+                            className="modal-option"
+                          >
+                            <Banknote size={16} /> Banco
+                          </button>
+                          <button
+                            onClick={() => handleStatusChange(index, 'efectivo')}
+                            className="modal-option"
+                          >
+                            <DollarSign size={16} /> Efectivo
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {selectedRow !== null && (
-        <div className="method-popup">
-          <div className="method-popup-content">
-            <h4>Seleccionar Método</h4>
-            <button className="method-btn" onClick={() => handleMethodSelect('Efectivo')}>Efectivo</button>
-            <button className="method-btn" onClick={() => handleMethodSelect('Otro Método')}>Otro Método</button>
-            <button className="close-btn" onClick={() => setSelectedRow(null)}>Cerrar</button>
-          </div>
-        </div>
-      )}
-      {statusPopupRow !== null && (
-        <div className="status-popup">
-          <div className="status-popup-content">
-            <button className="close-btn" onClick={() => setStatusPopupRow(null)}>×</button>
-            <button className="status-btn" onClick={() => handleStatusChange(statusPopupRow, 'Completado')}>Completado</button>
-            <button className="status-btn" onClick={() => handleStatusChange(statusPopupRow, 'Pendiente')}>Pendiente</button>
-          </div>
-        </div>
-      )}
-      <button onClick={toggleTheme} className={`theme-toggle-btn ${theme}`}>Cambiar Tema</button>
     </div>
   );
 };

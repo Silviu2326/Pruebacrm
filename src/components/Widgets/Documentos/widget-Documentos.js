@@ -4,14 +4,14 @@ import './widget-Documentos.css';
 import FormDocumentos from './FormDocumentos';
 import DetailedDocumento from './DetailedDocumento';
 import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/ColumnDropdown';
+import { Download, Trash2, Eye } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
-function WidgetDocumentos({ isEditMode, onTitleClick, theme }) {
+function WidgetDocumentos({ isEditMode, onTitleClick, theme, onOpenAddDocumentModal  }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('todos');
   const [selectedColumns, setSelectedColumns] = useState({
-    id: true,
     titulo: true,
     fecha: true,
     tipo: true,
@@ -135,6 +135,16 @@ function WidgetDocumentos({ isEditMode, onTitleClick, theme }) {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className={`uniquePrefix-Documentos-filter-input ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',  
+          }}
         />
         <select 
           onChange={e => setFilterType(e.target.value)} 
@@ -145,84 +155,143 @@ function WidgetDocumentos({ isEditMode, onTitleClick, theme }) {
           <option value="contrato">Contratos</option>
         </select>
       </div>
-      <button onClick={handleOpenAddDocumentModal} className={`uniquePrefix-Documentos-add-button ${theme}`}>
+      <button onClick={onOpenAddDocumentModal} className={`uniquePrefix-Documentos-add-button ${theme}`}
+      style={{
+        background:'var(--create-button-bg)', 
+        color:  'var(--button-text-dark)' ,
+        border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        transition: 'background 0.3s ease',
+      }}
+>
         Añadir Documento
       </button>
-      <table className="uniquePrefix-Documentos-table">
-        <thead>
-          <tr>
-            <th>
-              <input 
-                type="checkbox" 
-                checked={isSelectAll} 
-                onChange={handleSelectAll} 
-              />
-            </th>
-            {selectedColumns.id && <th>ID</th>}
-            {selectedColumns.titulo && <th>Título</th>}
-            {selectedColumns.fecha && <th>Fecha</th>}
-            {selectedColumns.tipo && <th>Tipo</th>}
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((documento) => (
-            <tr key={documento.id}>
-              <td>
-                <input 
-                  type="checkbox" 
-                  checked={!!selectedDocumentos[documento.id]} 
-                  onChange={() => handleCheckboxChange(documento.id)} 
-                />
-              </td>
-              {selectedColumns.id && <td>{documento.id}</td>}
-              {selectedColumns.titulo && <td>{documento.titulo}</td>}
-              {selectedColumns.fecha && <td>{documento.fecha}</td>}
-              {selectedColumns.tipo && <td>{documento.tipo}</td>}
-              <td>
-                <div className="uniquePrefix-Documentos-action-dropdown">
-                  <button 
-                    className={`uniquePrefix-Documentos-action-button ${theme}`} 
-                    onClick={() => toggleActionDropdown(documento.id)}
-                  >
-                    ...
-                  </button>
-                  {actionDropdownOpen[documento.id] && (
-                    <div className="uniquePrefix-Documentos-action-content">
-                      <button className="uniquePrefix-Documentos-action-item" onClick={() => handleOpenDetailedDocumento(documento)}>Ver Detalles</button>
-                      <button className="uniquePrefix-Documentos-action-item">Descargar</button>
-                      <button className="uniquePrefix-Documentos-action-item">Borrar</button>
-                    </div>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <table className={`uniquePrefix-Documentos-table ${theme}`} 
+  style={{ 
+    borderRadius: '10px', 
+    borderCollapse: 'separate', 
+    borderSpacing: '0', 
+    width: '100%', 
+    overflow: 'hidden',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  }}
+>
+<thead style={{ 
+    backgroundColor: theme === 'dark' ? '#444444' : 'rgb(38 93 181)',
+    borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+}}>
+  <tr>
+    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>
+      <input 
+        type="checkbox" 
+        checked={isSelectAll} 
+        onChange={handleSelectAll} 
+      />
+    </th>
+    {/* Eliminar la columna ID */}
+    {/* {selectedColumns.id && <th>ID</th>} */}
+    {selectedColumns.titulo && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Título</th>}
+    {selectedColumns.fecha && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Fecha</th>}
+    {selectedColumns.tipo && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Tipo</th>}
+    <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Acciones</th>
+  </tr>
+</thead>
+<tbody>
+  {currentItems.map((documento, index) => (
+    <tr key={documento.id} style={{ 
+        backgroundColor: theme === 'dark' 
+          ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+          : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+    }}>
+      <td style={{ padding: '12px' }}>
+        <input 
+          type="checkbox" 
+          checked={!!selectedDocumentos[documento.id]} 
+          onChange={() => handleCheckboxChange(documento.id)} 
+        />
+      </td>
+      {/* Eliminar la columna ID */}
+      {/* {selectedColumns.id && <td style={{ padding: '12px' }}>{documento.id}</td>} */}
+      {selectedColumns.titulo && <td style={{ padding: '12px' }}>{documento.titulo}</td>}
+      {selectedColumns.fecha && <td style={{ padding: '12px' }}>{documento.fecha}</td>}
+      {selectedColumns.tipo && <td style={{ padding: '12px' }}>{documento.tipo}</td>}
+      <td style={{ padding: '12px' }}>
+          
+              <div className="action-btn">
+                <button className="uniquePrefix-Documentos-action-item" onClick={() => handleOpenDetailedDocumento(documento)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><Eye size={16}/></button>
+                <button className="uniquePrefix-Documentos-action-item" style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><Download size={16}/></button>
+                <button className="uniquePrefix-Documentos-action-item" style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><Trash2 size={16}/></button>
+              </div> 
+        </td>
+    </tr>
+  ))}
+</tbody>
+</table>
       <div className="uniquePrefix-Documentos-pagination">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`uniquePrefix-Documentos-pagination-button ${theme}`}
-        >
-          Anterior
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginRight: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &lt;
         </button>
-        <span className="uniquePrefix-Documentos-pagination-info">
+    
           Página {currentPage} de {totalPages}
-        </span>
+
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`uniquePrefix-Documentos-pagination-button ${theme}`}
-        >
-          Siguiente
+          className={`panelcontrol-nav-button ${theme}`}
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &gt;
         </button>
       </div>
       
       <FormDocumentos
         isOpen={isAddDocumentModalOpen}
         onClose={handleCloseAddDocumentModal}
+        theme={theme}
       />
 
       {isDetailedDocumentoOpen && detailedDocumento && (

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './WidgetGastoPopup.css';
+import { Receipt } from 'lucide-react'; // Importar el ícono
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const WidgetGastoPopup = ({ theme, setTheme }) => {
   const [data, setData] = useState([]); 
@@ -98,11 +99,23 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
           placeholder="Buscar gasto..." 
           value={filterText} 
           onChange={handleFilterChange} 
-          className={`${theme}`}
+          className={`${theme} popup-filter-input`}
         />
         <div className="gasto-button-container">
           <div className="dropdown">
-            <button onClick={toggleGastoDropdown} className={`${theme}`}>Añadir Gasto</button>
+            <button onClick={toggleGastoDropdown} className={`add-gasto-button ${theme}`}
+              style={{
+                background:'var(--create-button-bg)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>
+              Añadir Gasto
+            </button>
             {isGastoDropdownOpen && (
               <div className={`dropdown-content ${theme}`}>
                 <h3>Añadir Gasto</h3>
@@ -113,7 +126,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Concepto" 
                     value={newGasto.concept} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                     required
                   />
                   <input 
@@ -122,7 +135,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Descripción" 
                     value={newGasto.description} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                     required
                   />
                   <input 
@@ -131,7 +144,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Categoría" 
                     value={newGasto.category} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                     required
                   />
                   <input 
@@ -140,7 +153,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Importe" 
                     value={newGasto.amount} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                     required
                   />
                   <input 
@@ -149,7 +162,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Estado" 
                     value={newGasto.status} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                     required
                   />
                   <input 
@@ -158,14 +171,14 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Fecha" 
                     value={newGasto.date} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                     required
                   />
                   <select 
                     name="frequency" 
                     value={newGasto.frequency} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                   >
                     <option value="">Frecuencia</option>
                     <option value="weekly">Semanal</option>
@@ -178,7 +191,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="Duración (meses)" 
                     value={newGasto.duration} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                   />
                   <input 
                     type="text" 
@@ -186,7 +199,7 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="ID Cliente" 
                     value={newGasto.client} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                   />
                   <input 
                     type="text" 
@@ -194,68 +207,92 @@ const WidgetGastoPopup = ({ theme, setTheme }) => {
                     placeholder="ID Plan" 
                     value={newGasto.plan} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                   />
                   <select 
                     name="planType" 
                     value={newGasto.planType} 
                     onChange={handleGastoChange} 
-                    className={`${theme}`}
+                    className={`input-field ${theme}`}
                   >
                     <option value="">Tipo de Plan</option>
                     <option value="FixedPlan">Plan Fijo</option>
                     <option value="VariablePlan">Plan Variable</option>
                   </select>
-                  <button type="submit">Añadir</button>
+                  <button type="submit" className={`submit-button ${theme}`}>Añadir</button>
                 </form>
               </div>
             )}
           </div>
         </div>
       </div>
-      <table>
-        <thead>
+      <table className={`WidgetConceptos-table ${theme}`} 
+        style={{ 
+          borderRadius: '10px', 
+          borderCollapse: 'separate', 
+          borderSpacing: '0', 
+          width: '100%', 
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{ 
+            backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+            borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th></th>
-            <th>Concepto</th>
-            <th>Descripción</th>
-            <th>Categoría</th>
-            <th>Importe</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th>Frecuencia</th>
-            <th>Duración</th>
-            <th>ID Cliente</th>
-            <th>ID Plan</th>
-            <th>Tipo de Plan</th>
-            <th></th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}></th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Concepto</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Descripción</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Categoría</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Importe</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Estado</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Fecha</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Frecuencia</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Duración</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>ID Cliente</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>ID Plan</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Tipo de Plan</th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={index}>
-              <td><input type="checkbox" /></td>
-              <td>{item.concept}</td>
-              <td>{item.description}</td>
-              <td>{item.category}</td>
-              <td>{item.amount}</td>
-              <td>{item.status}</td>
-              <td>{new Date(item.date).toLocaleDateString()}</td>
-              <td>{item.frequency}</td>
-              <td>{item.duration}</td>
-              <td>{item.client}</td>
-              <td>{item.plan}</td>
-              <td>{item.planType}</td>
-              <td>
-                <div className="dropdown options-dropdown">
-                  <button className={`dropdown-toggle options-btn ${theme}`}>...</button>
-                  <div className={`dropdown-menu options-menu ${theme}`}>
-                    <button className={`dropdown-item ${theme}`} onClick={() => handleChangeStatus(index)}>
-                      Cambiar Estado
-                    </button>
-                    <button className={`dropdown-item ${theme}`}>Opción 2</button>
-                    <button className={`dropdown-item ${theme}`}>Opción 3</button>
-                  </div>
+            <tr key={index} className={theme} style={{ 
+                backgroundColor: theme === 'dark' 
+                  ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+                  : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+            }}>
+              <td style={{ padding: '12px' }}>
+                <input type="checkbox" />
+              </td>
+              <td style={{ padding: '12px' }}>{item.concept}</td>
+              <td style={{ padding: '12px' }}>{item.description}</td>
+              <td style={{ padding: '12px' }}>{item.category}</td>
+              <td style={{ padding: '12px' }}>{item.amount}</td>
+              <td style={{ padding: '12px' }}>{item.status}</td>
+              <td style={{ padding: '12px' }}>{new Date(item.date).toLocaleDateString()}</td>
+              <td style={{ padding: '12px' }}>{item.frequency}</td>
+              <td style={{ padding: '12px' }}>{item.duration}</td>
+              <td style={{ padding: '12px' }}>{item.client}</td>
+              <td style={{ padding: '12px' }}>{item.plan}</td>
+              <td style={{ padding: '12px' }}>{item.planType}</td>
+              <td style={{ padding: '12px' }}>
+                <div className="WGP-action-btn">
+                  <button 
+                    className={`action-button ${theme}`} 
+                    onClick={() => handleChangeStatus(index)}
+                    title="Cambiar Estado"
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      color: 'var(--text)', 
+                      padding: '3px',
+                    }}
+                  >
+                    <Receipt size={16} />
+                  </button>
                 </div>
               </td>
             </tr>

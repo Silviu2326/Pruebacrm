@@ -1,38 +1,107 @@
+/* ClientesListaDashboard.css */
+
 .dashboard-clientes-lista {
-    padding: 20px;
-    border: 2px solid var(--DBP-header-border);
-    background-color: var(--DBP-card-background);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
-  }
-  
-  .dashboard-clientes-lista h2 {
-    margin-bottom: 20px;
-    color: var(--DBP-text-color);
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-  
-  .dashboard-clientes-table th, .dashboard-clientes-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--DBP-table-border);
-    font-size: 0.95rem;
-    color: var(--DBP-text-color);
-  }
-  
-  .dashboard-clientes-table th {
-    background-color: var(--DBP-table-header-bg);
-    color: var(--DBP-text-color);
-  }
-  
-  .dashboard-clientes-table tr:nth-child(even) {
-    background-color: var(--DBP-table-row-even);
-  }
-  
-  .dashboard-clientes-table tr:hover {
-    background-color: var(--DBP-table-row-hover);
-    transition: background-color 0.3s ease;
-  }
-  
+  padding: 20px;
+  border: 2px solid var(--DBP-header-border);
+  background-color: var(--widget-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dashboard-clientes-lista h2 {
+  margin-bottom: 20px;
+  color: var(--DBP-text-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Contenedor para el campo de búsqueda */
+.filter-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start; /* Cambiado de flex-end a flex-start para alinear a la izquierda */
+}
+
+/* Campo de Entrada para Filtrar */
+.filter-input {
+  width: 250px;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: var(--input-focus-border-color);
+}
+
+/* Estilos para la tabla */
+.dashboard-clientes-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--ClientesWorkspace-background-light);
+  border-radius: var(--ClientesWorkspace-border-radius);
+  overflow: hidden;
+  box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
+  table-layout: fixed; /* Establece un diseño fijo para la tabla */
+  width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+  min-width: 600px; /* Evita que la tabla se reduzca por debajo de este ancho */
+}
+
+.dashboard-clientes-table th, .dashboard-clientes-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-blue);
+  font-size: 0.95rem;
+  color: var(--DBP-text-color);
+  overflow: hidden; /* Evita que el contenido sobresalga */
+  text-overflow: ellipsis; /* Muestra '...' cuando el texto es demasiado largo */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+.dashboard-clientes-table th {
+  background-color: var(--table-tr-child-bg);
+  color: var(--text-blue);
+  /* Establece anchos fijos para las columnas */
+  width: 30%; /* Nombre */
+}
+
+.dashboard-clientes-table th:nth-child(2),
+.dashboard-clientes-table td:nth-child(2) {
+  width: 50%; /* Email */
+}
+
+.dashboard-clientes-table th:nth-child(3),
+.dashboard-clientes-table td:nth-child(3) {
+  width: 20%; /* Última Clase */
+}
+
+.dashboard-clientes-table.dark th {
+  color: var(--text);
+}
+
+.dashboard-clientes-table tr:nth-child(even) {
+  background-color: var(--table-tr-child-bg);
+}
+
+.dashboard-clientes-table tr {
+  background-color: var(--table-tr-bg);
+}
+
+.dashboard-clientes-table tr:hover {
+  background-color: var(--DBP-table-row-hover);
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-clientes-table tr:last-child td {
+  border-bottom: none;
+}
+

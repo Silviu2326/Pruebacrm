@@ -1,5 +1,5 @@
 .dashboard-metric-card {
-  background-color: var(--DBP-card-background);
+  background-color: var(--widget-bg);
   color: var(--DBP-text-color);
   padding: 20px;
   border-radius: 12px;

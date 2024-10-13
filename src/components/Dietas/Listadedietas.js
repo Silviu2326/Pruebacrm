@@ -1,6 +1,7 @@
+// Listadedietas.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Listadedietas.css'; // Asegúrate de que el CSS modificado esté vinculado correctamente
+import './Listadedietas.css';
 import axios from 'axios';
 import Tablacomidas from './Tablacomidas';
 import PopupDeComidas from './PopupDeComidas';
@@ -41,8 +42,11 @@ const Listadedietas = ({ theme, setTheme }) => {
     fetchClientes();
   }, []);
 
+  // **Función modificada para añadir la dieta y navegar**
   const addDieta = (newDieta) => {
-    setDietas([...dietas, newDieta]);
+    setDietas(prevDietas => [...prevDietas, newDieta]); // Usa la versión anterior del estado
+    setIsPopupOpen(false); // Cierra el modal
+    navigate(`/edit-dieta/${newDieta._id}`); // Navega a la página de edición de la nueva dieta
   };
 
   const openPopup = (comida = null) => {
@@ -62,7 +66,7 @@ const Listadedietas = ({ theme, setTheme }) => {
   const handleDeleteDieta = async (dietaId) => {
     try {
       await axios.delete(`${API_BASE_URL}/api/dietas/${dietaId}`);
-      setDietas(dietas.filter((dieta) => dieta._id !== dietaId));
+      setDietas(prevDietas => prevDietas.filter((dieta) => dieta._id !== dietaId));
     } catch (error) {
       console.error('Error deleting dieta:', error);
     }
@@ -78,7 +82,7 @@ const Listadedietas = ({ theme, setTheme }) => {
 
   const getClienteNombre = (clienteId) => {
     const cliente = clientes.find((c) => c._id === clienteId);
-    return cliente ? cliente.nombre : 'Cliente no encontrado';
+    return cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Cliente no encontrado';
   };
 
   // Función para formatear las fechas
@@ -96,10 +100,36 @@ const Listadedietas = ({ theme, setTheme }) => {
       <div className="Listadedietas-header">
         <h2>{showDietas ? 'Dietas' : 'Comidas'}</h2>
         <div className="Listadedietas-headerButtons">
-          <button className="Listadedietas-btnPrimary" onClick={() => setIsPopupOpen(!isPopupOpen)}>
+          <button
+            className="Listadedietas-btnPrimary"
+            onClick={() => setIsPopupOpen(!isPopupOpen)}
+            style={{
+              background: 'var(--create-button-bg)',
+              color: 'var(--button-text-dark)',
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}
+          >
             {isPopupOpen ? 'Cerrar Formulario' : `Crear ${showDietas ? 'Dieta' : 'Comida'}`}
           </button>
-          <button className="Listadedietas-btnPrimary" onClick={() => setShowDietas(!showDietas)}>
+          <button
+            className="Listadedietas-btnPrimary"
+            onClick={() => setShowDietas(!showDietas)}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)',
+              color: 'var(--button-text-dark)',
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}
+          >
             {showDietas ? 'Mostrar Comidas' : 'Mostrar Dietas'}
           </button>
         </div>
@@ -113,8 +143,19 @@ const Listadedietas = ({ theme, setTheme }) => {
             placeholder="Buscar dietas"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
           />
-          
+
           <table className={`Listadedietas-styledTable ${theme}`}>
             <thead>
               <tr>
@@ -152,26 +193,35 @@ const Listadedietas = ({ theme, setTheme }) => {
               ))}
             </tbody>
           </table>
+
+          {/* Renderizar PopupFormDieta solo si showDietas es true */}
+          {isPopupOpen && (
+            <PopupFormDieta
+              isOpen={isPopupOpen}
+              onClose={closePopup}
+              clientes={clientes}
+              addDieta={addDieta} // Pasar la función actualizada addDieta
+              theme={theme}
+            />
+          )}
         </div>
       ) : (
-        <>
+        <div className={`${theme === 'dark' ? 'dark' : ''}`}>
           <Tablacomidas theme={theme} />
-          <PopupDeComidas
-            theme={theme}
-            isOpen={isPopupOpen}
-            closeModal={closePopup}
-            comidaToEdit={comidaToEdit}
-            refreshComidas={() => {}}
-          />
-        </>
+
+          {/* Renderizar PopupDeComidas solo si showDietas es false */}
+          {isPopupOpen && (
+            <PopupDeComidas
+              theme={theme}
+              isOpen={isPopupOpen}
+              closeModal={closePopup}
+              comidaToEdit={comidaToEdit}
+              refreshComidas={() => {}}
+              isOption={false} // Asegúrate de pasar correctamente este prop según tu lógica
+            />
+          )}
+        </div>
       )}
-      <PopupFormDieta
-        isOpen={isPopupOpen}
-        onClose={closePopup}
-        clientes={clientes}
-        addDieta={addDieta}
-        theme={theme}
-      />
     </div>
   );
 };

@@ -8,6 +8,9 @@ import axios from 'axios';
 import 'chart.js/auto';
 import styles from './Componentedia.module.css';
 
+// Importar los íconos de Lucide
+import { Edit, PlusCircle, Trash } from 'lucide-react';
+
 Chart.register(ArcElement, Tooltip, Legend);
 
 const Componentedia = ({
@@ -16,13 +19,14 @@ const Componentedia = ({
   date,
   macros = { carb: 0, protein: 0, fat: 0, kcal: 0 },
   onEditComida,
+  theme = 'light' // Establece 'light' como valor por defecto
 }) => {
-  const [comidas, setComidas] = useState([]); // Estado de las comidas
+  const [comidas, setComidas] = useState([]); 
   const [isModalViewOpen, setIsModalViewOpen] = useState(false);
   const [viewComidaData, setViewComidaData] = useState(null);
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // Estado para controlar el Popup de comidas
-  const [isEditMacrosVisible, setIsEditMacrosVisible] = useState(false); // Controlar visibilidad del formulario
-  const [editedMacros, setEditedMacros] = useState(macros); // Estado para los macros editados
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isEditMacrosVisible, setIsEditMacrosVisible] = useState(false);
+  const [editedMacros, setEditedMacros] = useState(macros);
   const [chartData, setChartData] = useState({
     labels: ['Carbohidratos', 'Proteína', 'Grasa'],
     datasets: [
@@ -34,18 +38,17 @@ const Componentedia = ({
     ],
   });
 
-  // Función para refrescar las comidas
   const refreshComidas = async () => {
     try {
-      const response = await axios.get(`/api/comidas?dia=${dia}`); // Filtra comidas por día
-      setComidas(response.data); // Actualiza el estado con la lista de comidas del día seleccionado
+      const response = await axios.get(`/api/comidas?dia=${dia}`);
+      setComidas(response.data);
     } catch (error) {
       console.error('Error fetching comidas:', error);
     }
   };
 
   useEffect(() => {
-    refreshComidas(); // Refresca las comidas cuando el componente se monta
+    refreshComidas();
   }, [dia]);
 
   useEffect(() => {
@@ -59,11 +62,9 @@ const Componentedia = ({
         },
       ],
     };
-
     setChartData(newChartData);
   }, [editedMacros]);
 
-  // Actualizar el gráfico de calorías en el Doughnut
   const getDoughnutData = () => ({
     labels: ['Carbohidratos', 'Proteína', 'Grasa'],
     datasets: [
@@ -75,7 +76,6 @@ const Componentedia = ({
     ],
   });
 
-  // Plugin para mostrar las calorías en el centro del gráfico Doughnut
   const centerTextPlugin = {
     id: 'centerText',
     beforeDraw: (chart) => {
@@ -92,7 +92,6 @@ const Componentedia = ({
     },
   };
 
-  // Registrar el plugin en Chart.js
   Chart.register(centerTextPlugin);
 
   const handleViewComida = (index) => {
@@ -103,9 +102,9 @@ const Componentedia = ({
   const handleDeleteComida = async (index) => {
     const comidaToDelete = comidas[index];
     try {
-      await axios.delete(`/api/comidas/${comidaToDelete._id}`); // Elimina la comida de la base de datos
-      const updatedComidas = comidas.filter((_, i) => i !== index); // Actualiza el estado local
-      setComidas(updatedComidas); // Actualiza la lista de comidas localmente
+      await axios.delete(`/api/comidas/${comidaToDelete._id}`);
+      const updatedComidas = comidas.filter((_, i) => i !== index);
+      setComidas(updatedComidas);
     } catch (error) {
       console.error('Error deleting comida:', error);
     }
@@ -115,27 +114,23 @@ const Componentedia = ({
 
   const getBarWidth = (value) => (value / totalMacros) * 100;
 
-  // Función para manejar los cambios en el formulario de edición de macros
   const handleMacroChange = (e) => {
     const { name, value } = e.target;
     setEditedMacros({ ...editedMacros, [name]: Number(value) });
   };
 
-  const formattedDate = date ? new Date(date).toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric' }) : '';
-  const formattedTitle = weekday && formattedDate ? ` ${dia} (${weekday} ${formattedDate})` : `Día ${dia}`;
+  const formattedDate = date
+    ? new Date(date).toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric' })
+    : '';
+  const formattedTitle = weekday && formattedDate
+    ? ` ${dia} (${weekday} ${formattedDate})`
+    : `Día ${dia}`;
 
-  // Definir las opciones para el gráfico de Doughnut
   const doughnutOptions = {
     plugins: {
-      legend: {
-        display: false, // Oculta la leyenda del gráfico
-      },
-      tooltip: {
-        enabled: true, // Activa los tooltips al pasar sobre el gráfico
-      },
-      centerText: {
-        display: true,
-      },
+      legend: { display: false },
+      tooltip: { enabled: true },
+      centerText: { display: true },
     },
     maintainAspectRatio: false,
   };
@@ -144,15 +139,23 @@ const Componentedia = ({
     <div className={styles.card}>
       <h3 className={styles.title}>{formattedTitle}</h3>
 
-      {/* Mostrar el botón para editar macros */}
-      <button
-        className={styles.editButton}
-        onClick={() => setIsEditMacrosVisible(!isEditMacrosVisible)}
+      {/* Botón para editar macros */}
+      <button className={styles.editButton} onClick={() => setIsEditMacrosVisible(!isEditMacrosVisible)}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-filtro-dark)' : 'var(--button-bg-tres)', 
+          color: 'var(--button-text-dark)',          
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}
       >
         {isEditMacrosVisible ? 'Ocultar' : 'Editar Macros'}
+        <Edit className={styles.icon} />
       </button>
 
-      {/* Mostrar el formulario solo si se presionó el botón */}
       {isEditMacrosVisible && (
         <div className={styles.editMacrosForm}>
           <h4>Editar Macros</h4>
@@ -257,15 +260,30 @@ const Componentedia = ({
           <Comidacomponente
             key={index}
             comida={comida}
-            totalMacros={editedMacros} // Pasamos los macros totales del día al componente Comidacomponente
+            totalMacros={editedMacros}
             onView={() => handleViewComida(index)}
             onEdit={() => onEditComida(index)}
             onDelete={() => handleDeleteComida(index)}
-          />
+          >
+            <Trash className={styles.icon} />
+          </Comidacomponente>
         ))}
       </div>
-      <button className={styles.addButton} onClick={() => setIsPopupOpen(true)}>
-        +
+
+      {/* Botón para agregar comida */}
+      <button className={styles.addButton} onClick={() => setIsPopupOpen(true)}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-filtro-dark)' : 'var(--button-bg-tres)', 
+          color: 'var(--button-text-dark)',          
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}
+      >
+        <PlusCircle className={styles.icon} />
       </button>
 
       {isPopupOpen && (
@@ -274,6 +292,7 @@ const Componentedia = ({
           closeModal={() => setIsPopupOpen(false)}
           refreshComidas={refreshComidas}
           dia={dia}
+          theme={theme} 
         />
       )}
 

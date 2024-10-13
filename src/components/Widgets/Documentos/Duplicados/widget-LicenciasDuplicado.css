@@ -1,9 +1,8 @@
 .Licencias-widget {
-    padding: 20px;
     background: var(--background);
     color: var(--text);
     border-radius: 10px;
-    width: 85%;
+    width: 100%;
     margin: 20px 0;
     border: 1px solid var(--secondary);
     margin-right: auto;

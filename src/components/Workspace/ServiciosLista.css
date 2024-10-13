@@ -1,44 +1,10 @@
 /* Variables de estilo para modo claro y oscuro */
-:root {
-    --background-light: #f8f1ec; /* Fondo claro */
-    --background-dark: #333333; /* Fondo oscuro */
-    --text-light: #000000; /* Texto en modo claro */
-    --text-dark: #ffffff; /* Texto en modo oscuro */
-    --primary-light: #d9bfae; /* Cabecera y botones claros */
-    --primary-dark: #4a4a4a; /* Cabecera y botones oscuros */
-    --secondary-light: #ddd; /* Bordes y detalles claros */
-    --secondary-dark: #555; /* Bordes y detalles oscuros */
-  
-    --button-bg-light: #ffffff; /* Fondo del botón en modo claro */
-    --button-border-light: #000000; /* Borde del botón en modo claro */
-    --button-text-light: #000000; /* Texto del botón en modo claro */
-    
-    --button-bg-dark: #444444; /* Fondo del botón en modo oscuro */
-    --button-border-dark: #ffffff; /* Borde del botón en modo oscuro */
-    --button-text-dark: #ffffff; /* Texto del botón en modo oscuro */
-  
-    --header-bg-light: #ddd; /* Fondo del encabezado en modo claro */
-    --header-bg-dark: #444444; /* Fondo del encabezado en modo oscuro */
-    --header-text-light: #000; /* Texto del encabezado en modo claro */
-    --header-text-dark: #fff; /* Texto del encabezado en modo oscuro */
-  
-    --search-button-bg-light: #fff; /* Fondo del botón de búsqueda en modo claro */
-    --search-button-border-light: #000; /* Borde del botón de búsqueda en modo claro */
-    --search-button-text-light: #000; /* Texto del botón de búsqueda en modo claro */
-    
-    --search-button-bg-dark: #444; /* Fondo del botón de búsqueda en modo oscuro */
-    --search-button-border-dark: #fff; /* Borde del botón de búsqueda en modo oscuro */
-    --search-button-text-dark: #fff; /* Texto del botón de búsqueda en modo oscuro */
-  
-    --create-button-bg-light: #09BC8A; /* Fondo del botón Crear Dieta en modo claro */
-    --create-button-bg-dark: #006B5A; /* Fondo del botón Crear Dieta en modo oscuro */
-  }
+
   
 /* Estilo general para la lista de servicios */
 .servicioslista-servicios-lista {
     padding: 20px;
-    background-color: var(--background-light);
-    color: var(--text-light);
+    color: var(--text);
 }
 
 /* Botones de acciones */
@@ -50,8 +16,8 @@
 
 .servicioslista-botones-acciones button {
     background-color: var(--button-bg-light);
-    border: 1px solid var(--button-border-light);
-    color: var(--button-text-light);
+    border: 1px solid var(--button-border);
+    color: var(--text);
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -83,22 +49,22 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    color: var(--text);
 }
 
 .servicioslista-tabla-servicios th,
 .servicioslista-tabla-servicios td {
     padding: 10px;
-    border: 1px solid var(--secondary-light);
     text-align: left;
 }
 
 .servicioslista-tabla-servicios th {
-    background-color: var(--header-bg-light);
-    color: var(--header-text-light);
+    color: var(--text);
+    background: var(--table-th-bg);
 }
 
 .servicioslista-tabla-servicios tbody tr:hover {
-    background-color: var(--secondary-light);
+    background-color: var(--secondary);
 }
 
 /* Estilos específicos para la tabla de planes de pago */
@@ -107,23 +73,27 @@
     border-collapse: collapse;
     margin-top: 10px;
     margin-left: 20px; /* Desplazar la tabla hacia la derecha */
-    background-color: var(--background-light);
+    background-color: var(--table-bg);
 }
 
 .servicioslista-tabla-planes th,
 .servicioslista-tabla-planes td {
     padding: 8px;
-    border: 1px solid var(--secondary-light);
+    border: 1px solid var(--table-border);
     text-align: left;
 }
 
 .servicioslista-tabla-planes th {
-    background-color: var(--header-bg-light);
+    background-color: var(--);
     color: var(--header-text-light);
 }
 
+.servicioslista-tabla-planes tr:nth-child(even) {
+    background: var(--table-row-even-bg);
+}
+
 .servicioslista-tabla-planes tbody tr:hover {
-    background-color: var(--secondary-light);
+    background-color: var(--table-row-hover-bg);
 }
 
 .servicioslista-plan-row td {
@@ -132,8 +102,8 @@
 
 /* Estilos para el modo oscuro */
 body.dark-mode .servicioslista-servicios-lista {
-    background-color: var(--background-dark);
-    color: var(--text-dark);
+    background-color: var(--background);
+    color: var(--text);
 }
 
 body.dark-mode .servicioslista-botones-acciones button {
@@ -142,20 +112,3 @@ body.dark-mode .servicioslista-botones-acciones button {
     color: var(--button-text-dark);
 }
 
-body.dark-mode .servicioslista-tabla-servicios th,
-body.dark-mode .servicioslista-tabla-servicios td,
-body.dark-mode .servicioslista-tabla-planes th,
-body.dark-mode .servicioslista-tabla-planes td {
-    border-color: var(--secondary-dark);
-}
-
-body.dark-mode .servicioslista-tabla-servicios th,
-body.dark-mode .servicioslista-tabla-planes th {
-    background-color: var(--header-bg-dark);
-    color: var(--header-text-dark);
-}
-
-body.dark-mode .servicioslista-tabla-servicios tbody tr:hover,
-body.dark-mode .servicioslista-tabla-planes tbody tr:hover {
-    background-color: var(--secondary-dark);
-}

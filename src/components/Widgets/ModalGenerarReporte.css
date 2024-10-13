@@ -1,111 +1,265 @@
-.modal-reporte-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
+/* ModalGenerarReporteActual.css */
+
+/* Overlay del Modal Generar Reporte Actual */
+.modal-recurrente-overlay {
+  position: fixed; /* Fijo para cubrir toda la pantalla */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-.modal-reporte-content {
-  background-color: var(--background-light);
-  color: var(--text-light);
-  padding: 20px;
-  border-radius: 5px;
-  width: 400px;
-  max-width: 80%;
-  transition: all 0.3s ease;
-}
-
-.modal-reporte-content.dark {
-  background-color: var(--background-dark);
-  color: var(--text-dark);
-}
-
-.modal-reporte-close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.modal-reporte-close:hover,
-.modal-reporte-close:focus {
-  color: var(--text-light);
-}
-
-.modal-reporte-close.dark:hover,
-.modal-reporte-close.dark:focus {
-  color: var(--text-dark);
-}
-
-.modal-reporte-form-group {
-  margin-bottom: 15px;
-}
-
-.modal-reporte-form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.modal-reporte-form-group input[type="text"],
-.modal-reporte-form-group select {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  background-color: var(--background-light);
-  color: var(--text-light);
-  border: 1px solid var(--secondary-light);
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-.modal-reporte-form-group input[type="text"].dark,
-.modal-reporte-form-group select.dark {
-  background-color: var(--background-dark);
-  color: var(--text-dark);
-  border: 1px solid var(--secondary-dark);
-}
-
-.modal-reporte-checkbox-group {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.modal-reporte-checkbox-group label {
-  margin-bottom: 5px;
+/* Contenido del Modal Generar Reporte Actual */
+.modal-recurrente-content {
+  background-color: #fff;
+  padding: 60px 80px; /* Aumentar el padding para más espacio interno */
+  border-radius: 12px; /* Mantener bordes redondeados */
+  width: 1200px; /* Aumentar el ancho del modal */
+  max-width: 98%; /* Aprovechar más el espacio en pantallas grandes */
+  max-height: 95%;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  animation: slideIn 0.3s ease-in-out;
 }
 
-.modal-reporte-btn-generar {
-  background-color: var(--button-bg-light);
-  color: var(--button-text-light);
-  border: 1px solid var(--button-border-light);
-  padding: 10px 20px;
+/* Tema oscuro (si aplica) */
+.modal-recurrente-content.dark {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+}
+
+/* Botón de cerrar */
+.modal-recurrente-close {
+  position: absolute;
+  top: 25px; /* Ajustar posición para el nuevo tamaño */
+  right: 35px; /* Ajustar posición para el nuevo tamaño */
+  font-size: 40px; /* Aumentar tamaño del icono de cerrar */
+  font-weight: bold;
   cursor: pointer;
+  background: transparent; /* Remover fondo si se usa icono */
+  border: none;
+  color: inherit; /* Hereda el color del tema */
+}
+
+.modal-recurrente-close:hover {
+  color: #ff0000;
+}
+
+/* Título del modal */
+.modal-recurrente-content h2 {
+  margin-bottom: 50px; /* Más espacio debajo del título */
+  text-align: center;
+  font-size: 32px; /* Aumentar tamaño de fuente */
+}
+
+/* Grupo de formulario */
+.modal-recurrente-form-group {
+  margin-bottom: 50px; /* Más espacio entre grupos de formulario */
+}
+
+/* Labels */
+.modal-recurrente-form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 20px; /* Aumentar tamaño de fuente de los labels */
+}
+
+/* Inputs y selects */
+.input-light,
+.select-light {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.input-dark,
+.select-dark {
+  background-color: #444;
+  color: #fff;
+  border: 1px solid #666;
+}
+
+.modal-recurrente-form-group input[type="text"],
+.modal-recurrente-form-group select {
   width: 100%;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 18px 24px; /* Aumentar padding para más espacio interno */
+  border: 1px solid #ccc;
+  border-radius: 10px; /* Bordes más redondeados */
+  font-size: 20px; /* Aumentar tamaño de fuente */
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
 }
 
-.modal-reporte-btn-generar.dark {
-  background-color: var(--button-bg-dark);
+/* Checkbox group */
+.modal-recurrente-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px; /* Más espacio entre checkboxes */
+  margin-top: 20px;
+}
+
+.modal-recurrente-checkbox-group label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 20px; /* Aumentar tamaño de fuente */
+}
+
+.modal-recurrente-checkbox-group input[type="checkbox"] {
+  margin-right: 15px; /* Más espacio entre checkbox y texto */
+  width: 24px; /* Aumentar tamaño del checkbox */
+  height: 24px;
+}
+
+/* Footer del formulario para posicionar el botón */
+.modal-recurrente-footer {
+  display: flex;
+  justify-content: center; /* Centrar el botón */
+  margin-top: 50px; /* Más espacio encima del botón */
+}
+
+/* Botón Generar Reporte */
+.modal-recurrente-btn-generar {
+  padding: 20px 50px; /* Tamaño más grande y cómodo */
+  background-color: var(--create-button-bg); /* Usar variable CSS para colores */
   color: var(--button-text-dark);
-  border: 1px solid var(--button-border-dark);
+  border: none;
+  border-radius: 12px; /* Bordes más redondeados */
+  font-size: 24px; /* Aumentar tamaño de fuente */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 300px; /* Ancho mínimo para evitar que sea muy pequeño */
 }
 
-.modal-reporte-btn-generar:hover {
-  background-color: var(--primary-light);
-  color: var(--text-light);
+.modal-recurrente-btn-generar:hover {
+  background-color: #0056b3;
 }
 
-.modal-reporte-btn-generar.dark:hover {
-  background-color: var(--primary-dark);
-  color: var(--text-dark);
+/* Temas para el botón */
+.modal-recurrente-btn-generar.light {
+  background-color: #28a745;
+}
+
+.modal-recurrente-btn-generar.light:hover {
+  background-color: #218838;
+}
+
+.modal-recurrente-btn-generar.dark {
+  background-color: #17a2b8;
+}
+
+.modal-recurrente-btn-generar.dark:hover {
+  background-color: #138496;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); }
+  to { transform: translateY(0); }
+}
+
+/* Responsividad mejorada */
+@media (max-width: 1400px) {
+  .modal-recurrente-content {
+    width: 95%;
+    padding: 55px 70px;
+  }
+
+  .modal-recurrente-btn-generar {
+    min-width: 280px;
+    padding: 18px 45px;
+    font-size: 22px;
+  }
+
+  .modal-recurrente-content h2 {
+    font-size: 30px;
+  }
+
+  .modal-recurrente-close {
+    top: 20px;
+    right: 30px;
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .modal-recurrente-content {
+    width: 90%;
+    padding: 50px 60px;
+  }
+
+  .modal-recurrente-btn-generar {
+    min-width: 250px;
+    padding: 16px 40px;
+    font-size: 20px;
+  }
+
+  .modal-recurrente-content h2 {
+    font-size: 28px;
+  }
+
+  .modal-recurrente-close {
+    top: 18px;
+    right: 25px;
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 850px) {
+  .modal-recurrente-content {
+    width: 95%;
+    padding: 45px 50px;
+  }
+
+  .modal-recurrente-btn-generar {
+    min-width: 220px;
+    padding: 14px 35px;
+    font-size: 20px;
+  }
+
+  .modal-recurrente-content h2 {
+    font-size: 26px;
+  }
+
+  .modal-recurrente-close {
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-recurrente-content {
+    width: 100%;
+    padding: 40px 40px;
+  }
+
+  .modal-recurrente-btn-generar {
+    min-width: 200px;
+    padding: 12px 30px;
+    font-size: 18px;
+  }
+
+  .modal-recurrente-content h2 {
+    font-size: 24px;
+  }
+
+  .modal-recurrente-close {
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+  }
 }

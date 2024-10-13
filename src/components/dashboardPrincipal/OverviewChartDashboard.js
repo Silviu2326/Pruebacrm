@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import './OverviewChartDashboard.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 const getCurrentWeekNumber = () => {
   const currentDate = new Date();
@@ -43,7 +43,7 @@ function useIncomeData() {
   return { data, loading, error };
 }
 
-function OverviewChartDashboard({ theme }) {
+function OverviewChartDashboard({ theme, setTheme }) {
   const [view, setView] = useState('anual');
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
@@ -88,18 +88,15 @@ function OverviewChartDashboard({ theme }) {
     return days;
   };
 
-  const textColor = getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color');
-  const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color');
-
   const getChartData = () => {
-    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color');
     const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--DBP-primary-color');
+    const textColor = theme === 'dark' ? '#FFFFFF' : getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color'); // Ajuste para el modo oscuro
   
     switch (view) {
       case 'semanal':
         const weeklyData = Array(7).fill(0);
         data.forEach(item => {
-          const dayOfWeek = new Date(item.fecha).getDay(); 
+          const dayOfWeek = new Date(item.fecha).getDay();
           weeklyData[dayOfWeek] += item.cantidad;
         });
         return {
@@ -153,66 +150,127 @@ function OverviewChartDashboard({ theme }) {
           ],
         };
     }
-  };  
-  
+  };
+
+  // Actualizamos los colores de las etiquetas y las leyendas en función del tema
   const options = {
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          color: textColor,  // Uso de textColor definido previamente
+          color: theme === 'dark' ? '#FFFFFF' : getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color'),
         },
       },
       x: {
         ticks: {
-          color: textColor,  // Uso de textColor definido previamente
+          color: theme === 'dark' ? '#FFFFFF' : getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color'),
         },
       },
     },
     plugins: {
       legend: {
         labels: {
-          color: textColor,  // Uso de textColor definido previamente
+          color: theme === 'dark' ? '#FFFFFF' : getComputedStyle(document.documentElement).getPropertyValue('--DBP-text-color'),
         },
       },
     },
-    maintainAspectRatio: false,  // Desactivar para permitir la altura fija
+    maintainAspectRatio: false,
   };
 
   return (
     <div className={`dashboard-overview ${theme}`}>
-      <div className="dashboard-overview-header">
+      <div className={`dashboard-overview-header ${theme}`}>
         <h3>Ingresos</h3>
-        <div className="dashboard-beneficio-controls">
+        <div className={`dashboard-beneficio-controls ${theme}`}>
         <select onChange={(e) => setView(e.target.value)} value={view} className={`dashboard-dropdown ${theme}`}>
           <option value="semanal">Semanal</option>
           <option value="mensual">Mensual</option>
           <option value="anual">Anual</option>
         </select>
         {view === 'anual' && (
-          <div className="year-navigation">
-            <button onClick={handlePreviousYear} className={`widget-button ${theme}`}>Anterior</button>
+          <div className={`year-navigation ${theme}`}>
+            <button onClick={handlePreviousYear} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Anterior</button>
             <span className={theme}>{year}</span>
-            <button onClick={handleNextYear} className={`widget-button ${theme}`}>Siguiente</button>
+            <button onClick={handleNextYear} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Siguiente</button>
           </div>
         )}
         {view === 'mensual' && (
-          <div className="month-navigation">
-            <button onClick={handlePreviousMonth} className={`widget-button ${theme}`}>Anterior</button>
+          <div className={`month-navigation ${theme}`}>
+            <button onClick={handlePreviousMonth} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Anterior</button>
             <span className={theme}>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
-            <button onClick={handleNextMonth} className={`widget-button ${theme}`}>Siguiente</button>
+            <button onClick={handleNextMonth} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Siguiente</button>
           </div>
         )}
         {view === 'semanal' && (
-          <div className="week-navigation">
-            <button onClick={handlePreviousWeek} className={`widget-button ${theme}`}>Anterior</button>
+          <div className={`week-navigation ${theme}`}>
+            <button onClick={handlePreviousWeek} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Anterior</button>
             <span className={theme}>{getWeekRange(week, year)}</span>
-            <button onClick={handleNextWeek} className={`widget-button ${theme}`}>Siguiente</button>
+            <button onClick={handleNextWeek} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>Siguiente</button>
           </div>
         )}
       </div>
       </div>
-      <div className="dashboard-overview-chart-wrapper">
+      <div className={`dashboard-overview-chart-wrapper ${theme}`}>
         <Bar data={getChartData()} options={options} className="dashboard-overview-chart" />
       </div>
     </div>

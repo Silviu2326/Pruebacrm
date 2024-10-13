@@ -5,7 +5,7 @@ import { IoFitnessOutline, IoRestaurantOutline, IoDocumentTextOutline } from 're
 import { ClipboardList } from 'lucide-react';
 import CheckinsPopup from './CheckinsPopup';
 
-const Checkins = () => {
+const Checkins = ({ theme, setTheme }) => {
     const [checkins, setCheckins] = useState([]);
     const [selectedCheckin, setSelectedCheckin] = useState(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -80,25 +80,25 @@ const Checkins = () => {
     };
 
     return (
-        <div className="Checkins-column">
+        <div className={`Checkins-column ${theme}`}>
             <h3>Check ins</h3>
             <button 
-                className="checkins-detalles-button" 
+                className={`checkins-detalles-button ${theme}`} 
                 onClick={() => setIsPopupOpen(true)}
             >
                 <ClipboardList size={20} color="white" style={{ marginRight: '8px' }} />
                 Ver Lista de Checkins
             </button>
-            <div className="Checkins-checkins-container">
+            <div className={`Checkins-checkins-container ${theme}`}>
                 {checkins.map((checkin) => (
-                    <div className="Checkins-item" key={checkin._id} onClick={() => handleItemClick(checkin)}>
-                        <div className="Checkins-status-text">
-                            <div className={`Checkins-status ${checkin.status}`}></div>
+                    <div className={`Checkins-item ${theme}`} key={checkin._id} onClick={() => handleItemClick(checkin)}>
+                        <div className={`Checkins-status-text ${theme}`}>
+                            <div className={`Checkins-status ${checkin.status} ${theme}`}></div>
                             <p><strong>{checkin.title}</strong>: {checkin.message}</p>
                             {getIcons(checkin.type, checkin.hasNote)}
                         </div>
                         {checkin.date && (
-                            <div className="Checkins-date">
+                            <div className={`Checkins-date ${theme}`}>
                                 <p>{checkin.date}</p>
                             </div>
                         )}
@@ -107,9 +107,9 @@ const Checkins = () => {
             </div>
 
             {selectedCheckin && (
-                <div className="Checkins-modal" style={{ display: 'flex' }}>
-                    <div className="Checkins-modal-content">
-                        <span className="Checkins-close" onClick={closeModal}>&times;</span>
+                <div className={`Checkins-modal ${theme}`} style={{ display: 'flex' }}>
+                    <div className={`Checkins-modal-content ${theme}`}>
+                        <span className={`Checkins-close ${theme}`} onClick={closeModal}>&times;</span>
                         <h2>{selectedCheckin.title}</h2>
                         <p>{selectedCheckin.message}</p>
                         {selectedCheckin.date && <p><strong>Fecha:</strong> {selectedCheckin.date}</p>}
@@ -121,6 +121,7 @@ const Checkins = () => {
                 <CheckinsPopup 
                     clients={clients}
                     onClose={() => setIsPopupOpen(false)} 
+                    theme={theme}
                 />
             )}
         </div>

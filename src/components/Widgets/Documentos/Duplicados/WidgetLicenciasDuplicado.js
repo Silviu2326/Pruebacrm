@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './widget-LicenciasDuplicado.css';
+import { Download, Trash2 } from 'lucide-react'; // Importamos los iconos necesarios
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 function WidgetLicenciasDuplicado({ isEditMode, theme }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedColumns, setSelectedColumns] = useState({
-    id: true,
     titulo: true,
     fecha: true,
   });
-  const [actionDropdownOpen, setActionDropdownOpen] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [licencias, setLicencias] = useState([]); 
   const [selectedLicenses, setSelectedLicenses] = useState([]); // Estado para las licencias seleccionadas
@@ -61,15 +60,8 @@ function WidgetLicenciasDuplicado({ isEditMode, theme }) {
   const currentItems = filteredLicencias.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
-    setSelectAll(selectedLicenses.length === currentItems.length);
+    setSelectAll(selectedLicenses.length === currentItems.length && currentItems.length > 0);
   }, [selectedLicenses, currentItems]);
-
-  const toggleActionDropdown = (id) => {
-    setActionDropdownOpen({
-      ...actionDropdownOpen,
-      [id]: !actionDropdownOpen[id]
-    });
-  };
 
   const totalPages = Math.ceil(filteredLicencias.length / itemsPerPage);
 
@@ -135,6 +127,16 @@ function WidgetLicenciasDuplicado({ isEditMode, theme }) {
     }
   };
 
+  const handleDownloadLicense = (licenciaId) => {
+    console.log(`Descargar licencia con ID: ${licenciaId}`);
+    // Lógica para manejar la descarga de la licencia
+  };
+  
+  const handleDeleteLicense = (licenciaId) => {
+    console.log(`Borrar licencia con ID: ${licenciaId}`);
+    // Lógica para manejar el borrado de la licencia
+  };
+
   return (
     <div className={`Licencias-widget ${theme}`}>
       <h2>Licencias</h2>
@@ -145,54 +147,118 @@ function WidgetLicenciasDuplicado({ isEditMode, theme }) {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className={`Licencias-filter-input ${theme}`}
+          style={{
+            background: 'var(--search-button-bg)',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}
         />
-        <button className={`Licencias-add-button ${theme}`} onClick={handleAddLicense}>
+        {/* 
+          Si tienes un componente similar a ColumnDropdown para WidgetLicenciasDuplicado,
+          puedes incluirlo aquí de manera correcta.
+          
+          Por ejemplo:
+          {isEditMode && (
+            <ColumnDropdown
+              selectedColumns={selectedColumns}
+              handleColumnToggle={handleColumnToggle}
+            />
+          )}
+        */}
+        <button 
+          className={`Licencias-add-button ${theme}`} 
+          onClick={handleAddLicense}
+          style={{
+            background:'var(--create-button-bg)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
+        >
           Añadir Licencia
         </button>
       </div>
-      <table className={`Licencias-table ${theme}`}>
-        <thead>
+      <table className={`Licencias-table ${theme}`} 
+        style={{ 
+          borderRadius: '10px', 
+          borderCollapse: 'separate', 
+          borderSpacing: '0', 
+          width: '100%', 
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead style={{ 
+            backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+            borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+        }}>
           <tr>
-            <th>
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>
               <input 
                 type="checkbox" 
                 checked={selectAll} 
                 onChange={handleSelectAllChange} 
               />
             </th>
-            {selectedColumns.id && <th>ID</th>}
-            {selectedColumns.titulo && <th>Título</th>}
-            {selectedColumns.fecha && <th>Fecha</th>}
-            <th>Acciones</th>
+            {/* Eliminado: Columna de ID */}
+            {selectedColumns.titulo && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Título</th>}
+            {selectedColumns.fecha && <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Fecha</th>}
+            <th style={{ padding: '12px', textAlign: 'left', color: 'white', fontWeight: 'bold' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {currentItems.map((licencia) => (
-            <tr key={licencia.id}>
-              <td>
+          {currentItems.map((licencia, index) => (
+            <tr key={licencia.id} className={theme} style={{ 
+                backgroundColor: theme === 'dark' 
+                  ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+                  : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+            }}>
+              <td style={{ padding: '12px' }}>
                 <input 
                   type="checkbox" 
                   checked={selectedLicenses.includes(licencia.id)} 
                   onChange={() => handleCheckboxChange(licencia.id)} 
                 />
               </td>
-              {selectedColumns.id && <td>{licencia.id}</td>}
-              {selectedColumns.titulo && <td>{licencia.titulo}</td>}
-              {selectedColumns.fecha && <td>{licencia.fecha}</td>}
-              <td>
-                <div className="Licencias-action-dropdown">
-                  <button
-                    className="Licencias-action-button"
-                    onClick={() => toggleActionDropdown(licencia.id)}
+              {/* Eliminado: Columna de ID */}
+              {selectedColumns.titulo && <td style={{ padding: '12px' }}>{licencia.titulo}</td>}
+              {selectedColumns.fecha && <td style={{ padding: '12px' }}>{licencia.fecha}</td>}
+              <td style={{ padding: '12px' }}>
+                <div className="actions-buttons">
+                  <button 
+                    onClick={() => handleDownloadLicense(licencia.id)} 
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      padding: '10px', 
+                      color: theme === 'dark' ? '#fff' : '#000' 
+                    }}
                   >
-                    ...
+                    <Download size={16} />
                   </button>
-                  {actionDropdownOpen[licencia.id] && (
-                    <div className="Licencias-action-content">
-                      <button className="Licencias-action-item">Descargar</button>
-                      <button className="Licencias-action-item">Borrar</button>
-                    </div>
-                  )}
+                  <button 
+                    onClick={() => handleDeleteLicense(licencia.id)} 
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      padding: '10px', 
+                      color: theme === 'dark' ? '#ff4d4f' : '#f5222d' 
+                    }}
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </div>
               </td>
             </tr>
@@ -204,6 +270,16 @@ function WidgetLicenciasDuplicado({ isEditMode, theme }) {
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
           className="Licencias-pagination-button"
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
         >
           Anterior
         </button>
@@ -214,6 +290,16 @@ function WidgetLicenciasDuplicado({ isEditMode, theme }) {
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
           className="Licencias-pagination-button"
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
         >
           Siguiente
         </button>
@@ -329,8 +415,33 @@ function WidgetLicenciasDuplicado({ isEditMode, theme }) {
                   onChange={handleInputChange}
                 />
               </div>
-              <button type="submit">Añadir Licencia</button>
-              <button type="button" onClick={handleCloseModal}>
+              <button type="submit"
+                style={{
+                  background:'var(--create-button-bg)', 
+                  color:  'var(--button-text-dark)' ,
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '14px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  transition: 'background 0.3s ease',
+                  position: 'static',
+                }}
+              >
+                Añadir Licencia
+              </button>
+              <button type="button" onClick={handleCloseModal}
+                style={{
+                  background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                  color:  'var(--button-text-dark)' ,
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s ease',
+                }}
+              >
                 Cancelar
               </button>
             </form>

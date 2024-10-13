@@ -5,8 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ComponentsReutiliza
 import { Button } from '../ComponentsReutilizables/Button.tsx';
 import { FaInfoCircle, FaUserMinus } from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const SuscripcionesPopup = ({ service, onClose }) => {
     const [allClients, setAllClients] = useState([]);
     const [clients, setClients] = useState(service?.clients || []);

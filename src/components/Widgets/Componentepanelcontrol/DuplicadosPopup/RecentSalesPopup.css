@@ -9,7 +9,7 @@
 }
 
 .popup-recent-sales.detailed {
-  width: 90%;
+  width: 100%;
   height: auto;
   margin-right: auto;
   margin-left: auto;
@@ -39,6 +39,17 @@
 
 .popup-sales-table tr {
   border-bottom: 1px solid #444;
+}
+
+.popup-sales-table th {
+  background-color: #265db5; /* Mantener el color de fondo anterior */
+  color: black; /* Cambiar color de texto a negro */
+  text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.popup-sales-table th:nth-child(4), /* Cantidad */
+.popup-sales-table td:nth-child(4) {
+  text-align: center; /* Alinear al centro */
 }
 
 .popup-filter-input {
@@ -213,4 +224,9 @@
 .popup-theme-toggle-btn.dark {
   background: var(--button-bg-dark);
   color: var(--button-text-dark);
+}
+
+/* Nueva clase para centrar texto */
+.text-center {
+  text-align: center;
 }

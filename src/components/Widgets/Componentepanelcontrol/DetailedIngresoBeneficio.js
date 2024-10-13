@@ -8,9 +8,9 @@ import WidgetGastoPopup from './DuplicadosPopup/WidgetGastoPopup';
 import BeneficioChartPopup from './DuplicadosPopup/BeneficioChartPopup';
 import NavegadorDeGraficos from './NavegadorDeGraficos';
 import './DetailedIngresoBeneficio.css';
+import { TrendingUp, DollarSign, LineChart, BarChart2, Users } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const DetailedIngresoBeneficio = ({ 
   onTabChange, 
   theme, 
@@ -19,6 +19,7 @@ const DetailedIngresoBeneficio = ({
   clientesActuales 
 }) => {
   const [gastos, setGastos] = useState([]); 
+  const [ingresosEsperados, setIngresosEsperados] = useState([]);
 
   useEffect(() => {
     const fetchGastos = async () => {
@@ -63,79 +64,69 @@ const DetailedIngresoBeneficio = ({
       <div className={`detailed-ingreso-beneficio-content ${theme}`}>
         <NavegadorDeGraficos onTabChange={onTabChange} theme={theme} setTheme={setTheme} />
         
-        
-
-        <button 
-          className={`redirect-btn ${theme}`} 
-          onClick={handleEconomiaTabClick}
-          style={{ margin: '10px 0' }} 
-        >
-          Ir a la páginda de Economía
-        </button>
-        
         <div className={`detailed-metrics-grid ${theme}`}>
-          <div className="metrics-column">
-            <MetricCardPopup
-              value={`$${proyeccionMes.toFixed(2)}`}
-              description="Proyección del mes"
-              icon="📈"
-              valueClass={getValueClass(proyeccionMes)}
-              difference={{ value: 15 }}
-              theme={theme}
-              setTheme={setTheme}
-            />
-            <MetricCardPopup
-              value={`$${totalIngresos.toFixed(2)}`}
-              description="Ingresos"
-              icon="💰"
-              valueClass={getValueClass(totalIngresos)}
-              difference={{ value: 20 }}
-              theme={theme}
-              setTheme={setTheme}
-            />
-          </div>
-          <div className="metrics-column">
-            <MetricCardPopup
-              value={`$${totalGastos.toFixed(2)}`}
-              description="Gasto Mensual"
-              icon="💸"
-              valueClass="panelcontrol-metric-value-red" // Always red for expenses
-              difference={{ value: 10 }}
-              isExpense={true}
-              theme={theme}
-              setTheme={setTheme}
-            />
-            <MetricCardPopup
-              value={`${margenGanancia.toFixed(2)}%`}
-              description="Margen de ganancia"
-              icon="📊"
-              valueClass={getValueClass(margenGanancia)}
-              difference={{ value: 0 }}
-              theme={theme}
-              setTheme={setTheme}
-            />
-          </div>
-          <div className="metrics-column">
-            <MetricCardPopup
-              value={`$${beneficioNeto.toFixed(2)}`}
-              description="Beneficio neto"
-              icon="💹"
-              valueClass={getValueClass(beneficioNeto)}
-              difference={{ value: 8 }}
-              theme={theme}
-              setTheme={setTheme}
-            />
-            <MetricCardPopup
-              value={clientesActuales} 
-              description="Clientes Nuevos"
-              icon="👥"
-              valueClass={getValueClass(clientesActuales)}
-              difference={{ value: 5 }}
-              theme={theme}
-              setTheme={setTheme}
-            />
-          </div>
-        </div>
+  <div className="metrics-column">
+    <MetricCardPopup
+      value={`$${proyeccionMes.toFixed(2)}`}
+      description="Proyección del mes"
+      icon={<TrendingUp size={24} />}  // Icono de Lucide
+      valueClass={getValueClass(proyeccionMes)}
+      difference={{ value: 15 }}
+      theme={theme}
+      setTheme={setTheme}
+    />
+    <MetricCardPopup
+      value={`$${totalIngresos.toFixed(2)}`}
+      description="Ingresos"
+      icon={<DollarSign size={24} />}  // Icono de Lucide
+      valueClass={getValueClass(totalIngresos)}
+      difference={{ value: 20 }}
+      theme={theme}
+      setTheme={setTheme}
+    />
+  </div>
+  <div className="metrics-column">
+    <MetricCardPopup
+      value={`$${totalGastos.toFixed(2)}`}
+      description="Gasto Mensual"
+      icon={<DollarSign size={24} />}  // Icono de Lucide, puedes usar el mismo para gastos o cambiarlo
+      valueClass="panelcontrol-metric-value-red" // Siempre rojo para gastos
+      difference={{ value: 10 }}
+      isExpense={true}
+      theme={theme}
+      setTheme={setTheme}
+    />
+    <MetricCardPopup
+      value={`${margenGanancia.toFixed(2)}%`}
+      description="Margen de ganancia"
+      icon={<BarChart2 size={24} />}  // Icono de Lucide
+      valueClass={getValueClass(margenGanancia)}
+      difference={{ value: 0 }}
+      theme={theme}
+      setTheme={setTheme}
+    />
+  </div>
+  <div className="metrics-column">
+    <MetricCardPopup
+      value={`$${beneficioNeto.toFixed(2)}`}
+      description="Beneficio neto"
+      icon={<LineChart size={24} />}  // Icono de Lucide
+      valueClass={getValueClass(beneficioNeto)}
+      difference={{ value: 8 }}
+      theme={theme}
+      setTheme={setTheme}
+    />
+    <MetricCardPopup
+      value={clientesActuales}
+      description="Clientes Nuevos"
+      icon={<Users size={24} />}  // Icono de Lucide
+      valueClass={getValueClass(clientesActuales)}
+      difference={{ value: 5 }}
+      theme={theme}
+      setTheme={setTheme}
+    />
+  </div>
+</div>
         <div className="detailed-recent-sales">
           <RecentSalesPopup detailed={true} theme={theme} setTheme={setTheme} />
         </div>
@@ -143,7 +134,7 @@ const DetailedIngresoBeneficio = ({
           <OverviewChartPopup detailed={true} theme={theme} setTheme={setTheme} />
         </div>
         <div className="detailed-previsiones-table">
-          <WidgetPrevisionesPopup theme={theme} setTheme={setTheme} />
+          <WidgetPrevisionesPopup theme={theme} setTheme={setTheme} setIngresosEsperados={setIngresosEsperados} ingresosEsperados={ingresosEsperados}/>
         </div>
         <div className="detailed-beneficio-chart">
           <BeneficioChartPopup theme={theme} setTheme={setTheme} />

@@ -52,38 +52,115 @@ const GroupClassesLista: React.FC<GroupClassesListaProps> = ({ theme }) => {
 
   return (
     <div className={`GroupClassesLista-servicios-lista ${theme}`}>
-      <table className="GroupClassesLista-tabla-servicios">
-        <thead>
+      <table
+        className={`GroupClassesLista-tabla-servicios ${theme}`}
+        style={{
+          borderRadius: '10px',
+          borderCollapse: 'separate',
+          borderSpacing: '0',
+          width: '100%',
+          overflow: 'hidden',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <thead
+          style={{
+            backgroundColor: theme === 'dark' ? '#555555' : '#265db5',
+            borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf',
+            color: 'white',
+          }}
+        >
           <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Tipo</th>
-            <th>Acciones</th>
+            <th
+              style={{
+                padding: '12px',
+                textAlign: 'left',
+                fontWeight: 'bold',
+              }}
+            >
+              Nombre
+            </th>
+            <th
+              style={{
+                padding: '12px',
+                textAlign: 'left',
+                fontWeight: 'bold',
+              }}
+            >
+              Descripción
+            </th>
+            <th
+              style={{
+                padding: '12px',
+                textAlign: 'left',
+                fontWeight: 'bold',
+              }}
+            >
+              Precio
+            </th>
+            <th
+              style={{
+                padding: '12px',
+                textAlign: 'left',
+                fontWeight: 'bold',
+              }}
+            >
+              Acciones
+            </th>
           </tr>
         </thead>
         <tbody>
-          {groupClasses.map((service) => (
-            <tr key={service._id}>
-              <td>{service.name}</td>
-              <td>{service.description}</td>
-              <td>
+          {groupClasses.map((service, index) => (
+            <tr
+              key={service._id}
+              style={{
+                background: index % 2 === 0 
+                  ? 'var(--table-tr-child-bg)' 
+                  : 'var(--table-tr-bg)',
+              }}
+            >
+              <td style={{ padding: '12px', color:'var(--text)' }}>
+                {service.name}
+              </td>
+              <td style={{ padding: '12px', color:'var(--text)' }}>
+                {service.description}
+              </td>
+              <td style={{ padding: '12px', color: 'var(--text)' }}>
                 {service.subtipo && service.subtipo.length > 0
                   ? service.subtipo[0].price
                   : 'N/A'}
               </td>
-              <td>{service.type}</td>
-              <td>
+              <td style={{ padding: '12px' }}>
                 <Button
                   variant="secondary"
                   onClick={() => handleOpenPopup(service)}
-                  className="GroupClassesLista-ver-detalles-btn"
+                  className={`GroupClassesLista-ver-detalles-btn ${theme}`}
+                  style={{
+                    background: theme === 'dark' ? 'var(--create-button-bg)' : 'var(--create-button-bg)',
+                    color: 'var(--button-text-dark)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    transition: 'background 0.3s ease',
+                  }}
                 >
                   Ver Detalles
                 </Button>
                 <Button
                   variant="black"
                   onClick={() => handleOpenPruebaaa(service)}
-                  className="GroupClassesLista-pruebaaa-btn"
+                  className={`GroupClassesLista-pruebaaa-btn ${theme}`}
+                  style={{
+                    background: theme === 'dark' ? 'var(--create-button-bg)' : 'var(--create-button-bg)',
+                    color: 'var(--button-text-dark)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    transition: 'background 0.3s ease',
+                    marginLeft: '10px',
+                  }}
                 >
                   Abrir Pruebaaa
                 </Button>
@@ -94,11 +171,18 @@ const GroupClassesLista: React.FC<GroupClassesListaProps> = ({ theme }) => {
       </table>
 
       {isPopupOpen && selectedService && (
-        <GroupClassesPopup service={selectedService} onClose={handleClosePopup} />
+        <GroupClassesPopup
+          service={selectedService}
+          onClose={handleClosePopup}
+        />
       )}
 
       {isPruebaaaOpen && selectedService && (
-        <Pruebaaa service={selectedService} onClose={handleClosePruebaaa} />
+        <Pruebaaa
+          service={selectedService}
+          theme={theme}
+          onClose={handleClosePruebaaa}
+        />
       )}
     </div>
   );

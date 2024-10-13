@@ -45,7 +45,18 @@ const ServiciosLista = ({ theme }) => {
         <div className={`servicioslista-servicios-lista ${theme}`}>
             <h2>Gestión de Servicios</h2>
             <div className="servicioslista-botones-acciones">
-                <Button variant="contained" color="secondary" onClick={handleOpenPopup}>
+                <Button variant="contained" color="secondary" onClick={handleOpenPopup}
+                style={{
+                    background:'var(--create-button-bg)', 
+                    color:  'var(--button-text-dark)' ,
+                    border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    transition: 'background 0.3s ease',
+                  }}
+                >
                     Crear Servicio
                 </Button>
             </div>
@@ -77,7 +88,7 @@ const ServiciosLista = ({ theme }) => {
 
             {/* Popup para crear servicio */}
             <Dialog open={isPopupOpen} onClose={handleClosePopup} fullWidth maxWidth="sm">
-                <ServiciosPopup onClose={handleClosePopup} />
+                <ServiciosPopup onClose={handleClosePopup} theme={theme} />
             </Dialog>
         </div>
     );

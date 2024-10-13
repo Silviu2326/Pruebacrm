@@ -77,7 +77,18 @@ const ModalGenerarFormula = ({ show, onClose, theme }) => {
     return (
       <div className={`modalgenerarformula-overlay ${theme}`}>
         <div className={`modalgenerarformula-content ${theme}`}>
-          <button className="modalgenerarformula-close" onClick={onClose}>X</button>
+          <button className="modalgenerarformula-close" onClick={onClose}
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
+>X</button>
           <h2 className="modalgenerarformula-title">Creador de Fórmulas Deportivas</h2>
   
           <Tabs defaultValue="variables">

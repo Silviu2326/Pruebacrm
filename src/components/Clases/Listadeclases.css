@@ -1,0 +1,351 @@
+/* src/components/Clases/Listadeclases.css */
+
+
+/* Contenedor principal */
+.listadeclasesContainer {
+  margin: 20px;
+}
+
+
+/* Input de búsqueda */
+.buscarClaseInput.light,
+.buscarClaseInput.dark {
+  width: 100%;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid var(--button-border);
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 0;
+}
+
+
+/* Tabla de clases */
+.clasesTable {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--ClientesWorkspace-background-light);
+  border-radius: var(--ClientesWorkspace-border-radius);
+  overflow: hidden;
+  box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
+}
+
+
+.clasesTable th,
+.clasesTable td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-blue);
+  color: var(--DBP-text-color);
+}
+
+
+.clasesTable th {
+  background-color: var(--header-bg); /* Asegúrate de tener esta variable definida */
+  color: var(--header-text); /* Asegúrate de tener esta variable definida */
+}
+
+
+.clasesTable tr:nth-child(even) {
+  background-color: var(--table-tr-child-bg);
+}
+
+
+.clasesTable tr {
+  background-color: var(--tablacoloresthead);
+}
+
+
+.clasesTable tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* Botones y listas */
+.borrarBtn {
+  background-color: transparent;
+  color: #dc3545;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+
+.clientesList,
+.sesionesList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.clientesList li,
+.sesionesList li {
+  background-color: rgba(0, 0, 0, 0.05); /* Ajuste suave para el fondo */
+  margin-bottom: 5px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.deleteIcon {
+  color: #dc3545;
+  cursor: pointer;
+}
+
+
+.asociarClientesBtn,
+.crearClaseBtn,
+.crearSesionBtn,
+.editarBtn,
+.verPruebaaaBtn {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: 1px solid var(--button-border);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+
+
+.crearClaseBtn {
+  background-color: var(--create-button-bg);
+  color: var(--text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--ClientesWorkspace-border-radius);
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+
+.verPruebaaaBtn {
+  background-color: var(--button-bg-dos);
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+
+/* Efectos al pasar el ratón (opcional) */
+.asociarClientesBtn:hover,
+.crearClaseBtn:hover,
+.crearSesionBtn:hover,
+.editarBtn:hover,
+.verPruebaaaBtn:hover {
+  opacity: 0.8;
+}
+
+
+/* Estilos para el modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+}
+
+
+.modalContent {
+  background-color: var(--background); /* Fondo del formulario adaptado al tema */
+  padding: 30px; /* Padding consistente */
+  border-radius: 0; /* Bordes sin redondear */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra consistente */
+ 
+  /* Establecer dimensiones fijas */
+  width: 600px; /* Ancho fijo */
+  height: 500px; /* Altura fija */
+ 
+  /* Opcional: Ajustes para responsividad */
+  max-width: 90vw; /* Máximo ancho relativo a la ventana */
+  max-height: 90vh; /* Máxima altura relativa a la ventana */
+ 
+  overflow-y: auto; /* Scroll vertical si el contenido excede la altura */
+  position: relative; /* Posicionamiento relativo */
+  z-index: 1001; /* Asegura que el modal esté por encima de otros elementos */
+}
+
+
+/* Asegura que el contenido interno no cause que el modal cambie de tamaño */
+.modalContent > * {
+  max-height: 100%;
+  overflow: hidden;
+}
+
+
+.modalContent h2 {
+  margin-top: 0;
+  color: var(--header-text);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-blue); /* Línea separadora */
+}
+
+
+.modalContent label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+
+.modalContent input,
+.modalContent select,
+.modalContent textarea {
+  width: 100%;
+  padding: 10px; /* Aumenta el padding para una mejor usabilidad */
+  margin-bottom: 15px;
+  border-radius: 4px; /* Suaviza ligeramente las esquinas */
+  box-sizing: border-box;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  border: none; /* Elimina los bordes */
+  border-bottom: 2px solid var(--button-border); /* Añade una línea inferior para indicar el input */
+}
+
+
+.modalContent input:focus,
+.modalContent select:focus,
+.modalContent textarea:focus {
+  outline: none;
+  border-bottom: 2px solid var(--create-button-bg); /* Cambio de color al enfocar */
+}
+
+
+.modalContent button {
+  background-color: var(--create-button-bg);
+  color: white;
+  padding: 12px 25px; /* Aumenta el padding */
+  border: none; /* Elimina los bordes */
+  border-radius: 4px; /* Suaviza ligeramente las esquinas */
+  cursor: pointer;
+  margin-right: 15px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+
+.modalContent button:last-child {
+  background-color: #dc3545; /* Botón de cancelar en rojo */
+}
+
+
+.modalContent .cerrarModalBtn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+  color: var(--header-text);
+}
+
+
+/* Ajustes específicos para ClasesLista */
+.clasesListaContainer {
+  padding: 20px 0;
+}
+
+
+.clasesListaContainer h2 {
+  margin-bottom: 20px;
+}
+
+
+.clasesListaContainer .cerrarModalBtn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--header-text);
+}
+
+
+.clasesListaContainer input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  box-sizing: border-box;
+}
+
+
+.clasesListaContainer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+
+.clasesListaContainer li {
+  margin-bottom: 10px;
+}
+
+
+.clasesListaContainer button {
+  background-color: var(--create-button-bg);
+  color: var(--button-text-dark);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+/* Asegura que el modal mantenga un tamaño consistente */
+.modalContent {
+  min-height: 900px; /* Altura mínima */
+  min-width: 800px;
+}
+
+
+/* Responsividad ajustada */
+@media (max-width: 768px) {
+  .modalContent {
+    width: 90vw; /* Ancho relativo en pantallas pequeñas */
+    height: 70vh; /* Altura relativa en pantallas pequeñas */
+    padding: 20px; /* Padding ajustado */
+  }
+
+
+  .clasesListaContainer {
+    padding: 10px 0;
+  }
+
+
+  .modalContent button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+
+  .modalContent button:last-child {
+    margin-right: 0;
+  }
+}

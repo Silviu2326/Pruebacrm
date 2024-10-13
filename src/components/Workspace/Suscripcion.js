@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Suscripcion.css';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
-const Suscripcion = () => {
+const Suscripcion = ({ theme }) => {
     const [nombreSubscripcion, setNombreSubscripcion] = useState('');
-    const [descripcionSubscripcion, setDescripcionSubscripcion] = useState(''); // Nuevo campo para la descripción
+    const [descripcionSubscripcion, setDescripcionSubscripcion] = useState('');
     const [servicios, setServicios] = useState([
         { 
             id: Date.now(), 
             serviceType: '', 
             serviceName: '', 
-            durationUnit: '',   // Nuevo campo para la unidad de duración
-            durationValue: '',  // Nuevo campo para el valor de la duración
+            durationUnit: '',  
+            durationValue: '',  
             isNewPack: false, 
             selectedPack: '', 
             actividad: '', 
@@ -85,7 +85,7 @@ const Suscripcion = () => {
     const handleCreateSubscription = async () => {
         const newSubscription = {
             name: nombreSubscripcion,
-            description: descripcionSubscripcion, // Incluir la descripción
+            description: descripcionSubscripcion,
             services: servicios,
         };
 
@@ -98,11 +98,10 @@ const Suscripcion = () => {
     };
 
     return (
-
-        <div className="suscripcionesservicios-container">
+        <div className={`S-suscripcionesservicios-container ${theme}`}>
             <h5>Crear Nueva Suscripción</h5>
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Nombre de la suscripción</label>
                 <input
                     type="text"
@@ -111,7 +110,7 @@ const Suscripcion = () => {
                 />
             </div>
 
-            <div className="suscripcionesservicios-field">
+            <div className={`suscripcionesservicios-field ${theme}`}>
                 <label>Descripción de la suscripción</label>
                 <textarea
                     value={descripcionSubscripcion}
@@ -119,10 +118,10 @@ const Suscripcion = () => {
                 />
             </div>
 
-            <div className="suscripcionesservicios-services">
+            <div className={`suscripcionesservicios-services ${theme}`}>
                 {servicios.map((servicio, index) => (
-                    <div className="suscripcionesservicios-service" key={servicio.id}>
-                        <div className="suscripcionesservicios-field">
+                    <div className={`suscripcionesservicios-service ${theme}`} key={servicio.id}>
+                        <div className={`suscripcionesservicios-field ${theme}`}>
                             <label>Tipo de Servicio</label>
                             <select
                                 value={servicio.serviceType}
@@ -136,7 +135,7 @@ const Suscripcion = () => {
                             </select>
                         </div>
 
-                        <div className="suscripcionesservicios-field">
+                        <div className={`suscripcionesservicios-field ${theme}`}>
                             <label>Nombre del Servicio</label>
                             <input
                                 type="text"
@@ -145,7 +144,7 @@ const Suscripcion = () => {
                             />
                         </div>
 
-                        <div className="suscripcionesservicios-field">
+                        <div className={`suscripcionesservicios-field ${theme}`}>
                             <label>Duración (Valor)</label>
                             <input
                                 type="number"
@@ -154,7 +153,7 @@ const Suscripcion = () => {
                             />
                         </div>
 
-                        <div className="suscripcionesservicios-field">
+                        <div className={`suscripcionesservicios-field ${theme}`}>
                             <label>Duración (Unidad)</label>
                             <select
                                 value={servicio.durationUnit}
@@ -167,7 +166,7 @@ const Suscripcion = () => {
                         </div>
 
                         {servicio.serviceType === 'pack-citas' && (
-                            <div className="suscripcionesservicios-field">
+                            <div className={`suscripcionesservicios-field ${theme}`}>
                                 <label>¿Crear nuevo o elegir existente?</label>
                                 <select
                                     value={servicio.isNewPack ? 'nuevo' : 'existente'}
@@ -181,7 +180,7 @@ const Suscripcion = () => {
 
                         {servicio.serviceType === 'pack-citas' && servicio.isNewPack && (
                             <>
-                                <div className="suscripcionesservicios-field">
+                                <div className={`suscripcionesservicios-field ${theme}`}>
                                     <label>Actividad</label>
                                     <input
                                         type="text"
@@ -189,7 +188,7 @@ const Suscripcion = () => {
                                         onChange={(e) => handleServicioChange(servicio.id, 'actividad', e.target.value)}
                                     />
                                 </div>
-                                <div className="suscripcionesservicios-field">
+                                <div className={`suscripcionesservicios-field ${theme}`}>
                                     <label>Sesiones</label>
                                     <input
                                         type="number"
@@ -201,7 +200,7 @@ const Suscripcion = () => {
                         )}
 
                         {servicio.serviceType === 'pack-citas' && !servicio.isNewPack && (
-                            <div className="suscripcionesservicios-field">
+                            <div className={`suscripcionesservicios-field ${theme}`}>
                                 <label>Selecciona un Pack de Citas</label>
                                 <select
                                     value={servicio.selectedCita}
@@ -219,7 +218,7 @@ const Suscripcion = () => {
 
                         {index > 0 && (
                             <button
-                                className="suscripcionesservicios-button remove-service"
+                                className={`suscripcionesservicios-button remove-service ${theme}`}
                                 onClick={() => handleRemoveServicio(servicio.id)}
                             >
                                 Eliminar servicio
@@ -229,14 +228,14 @@ const Suscripcion = () => {
                 ))}
             </div>
 
-            <button onClick={handleAddServicio} className="suscripcionesservicios-button add-service">
+            <button onClick={handleAddServicio} className={`suscripcionesservicios-button add-service ${theme}`}>
                 Agregar Servicio
             </button>
 
-            <div className="suscripcionesservicios-summary">
+            <div className={`suscripcionesservicios-summary ${theme}`}>
                 <h6>Resumen de servicios</h6>
                 {servicios.map((servicio, index) => (
-                    <div className="suscripcionesservicios-resumen-item" key={index}>
+                    <div className={`suscripcionesservicios-resumen-item ${theme}`} key={index}>
                         <p><strong>Tipo de Servicio:</strong> {servicio.serviceType}</p>
                         <p><strong>Nombre del servicio:</strong> {servicio.serviceName || servicio.selectedPack}</p>
                         <p><strong>Duración:</strong> {servicio.durationValue} {servicio.durationUnit}</p>
@@ -248,8 +247,8 @@ const Suscripcion = () => {
                 <p><strong>Ingreso Total:</strong> {calcularIngresoTotal()}</p>
             </div>
 
-            <div className="suscripcionesservicios-actions">
-                <button onClick={handleCreateSubscription} className="suscripcionesservicios-button create">
+            <div className={`suscripcionesservicios-actions ${theme}`}>
+                <button onClick={handleCreateSubscription} className={`suscripcionesservicios-button create ${theme}`}>
                     Crear Suscripción
                 </button>
             </div>

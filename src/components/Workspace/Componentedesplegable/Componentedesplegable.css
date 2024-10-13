@@ -9,10 +9,10 @@
 }
 
 .componentedesplegable {
-    background-color: #1a1a1a;
-    border: 1px solid #333;
+    background-color: var(--background);
+    box-shadow: 0px 4px 10px var(--ClientesWorkspace-shadow-light);
+    border: 1px solid var(--secondary-light);
     border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -44,22 +44,26 @@
 .header {
     display: flex;
     justify-content: flex-end;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--secondary-light);
     padding: 10px;
+}
+
+.settings-icon {
+    color: var(--text);
 }
 
 .tabs {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--secondary-light);
 }
 
 .close-button {
     background-color: #ff0000;
-    color: white;
+    color: var(--text);
     border: none;
-    padding: 5px 10px;
+    padding: 5px 5px;
     cursor: pointer;
     border-radius: 3px;
 }
@@ -79,7 +83,7 @@
 }
 
 .tablinks.active {
-    background-color: #333;
+    background-color: var(--table-tr-child-bg);
     font-weight: bold;
 }
 
@@ -95,7 +99,7 @@
 .react-resizable-handle {
     position: absolute;
     cursor: ns-resize;
-    background-color: #444;
+    background-color: var(--secondary);
 }
 
 /* Asegurando que las columnas manejen adecuadamente su contenido */

@@ -1,97 +1,149 @@
-/* ModalcreacionplanesDuplicado.css */
+/* src/components/Widgets/Componentepanelcontrol/ModalcreacionplanesDuplicado.css */
 
-.Modalcreacionplanes-popup {
+/* Modal Overlay */
+.ModalcreacionplanesDuplicado-popup {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-/* Estilos predeterminados (modo oscuro) */
-.Modalcreacionplanes-popup-content {
-  background: var(--background-dark);
-  padding: 20px;
-  border-radius: 8px;
-  color: var(--text-dark);
-  text-align: center;
+/* Modal Content */
+.ModalcreacionplanesDuplicado-content {
+  background: #ffffff; /* White background */
+  padding: 30px;
+  border-radius: 10px;
+  color: #000000; /* Black text */
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
-.Modalcreacionplanes-popup-content h3 {
+/* Dark Theme */
+.ModalcreacionplanesDuplicado-content.dark {
+  background: #2c2c2c; /* Dark background */
+  color: #ffffff; /* White text */
+}
+
+/* Modal Title */
+.ModalcreacionplanesDuplicado-title {
   margin-bottom: 20px;
-  color: var(--text-dark);
+  text-align: center;
+  color: inherit;
 }
 
-.Modalcreacionplanes-popup-content form {
+/* Form Styles */
+.ModalcreacionplanesDuplicado-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
-.Modalcreacionplanes-popup-content label {
+/* Label Styles */
+.ModalcreacionplanesDuplicado-label {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text-dark);
+  flex-direction: column;
+  font-size: 1rem;
+  color: inherit;
 }
 
-.Modalcreacionplanes-popup-content input {
-  padding: 5px;
-  border: 1px solid var(--button-border-dark);
+/* Input and Select Styles */
+.ModalcreacionplanesDuplicado-input,
+.ModalcreacionplanesDuplicado-select {
+  padding: 10px 15px;
+  border: 1px solid #cccccc;
   border-radius: 4px;
-  background: var(--button-bg-dark);
-  color: var(--button-text-dark);
+  background: #f9f9f9;
+  color: #000000;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.Modalcreacionplanes-buttons {
+/* Dark Theme Input and Select */
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-input,
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-select {
+  background: #3a3a3a;
+  color: #ffffff;
+  border-color: #444444;
+}
+
+/* Focus States */
+.ModalcreacionplanesDuplicado-input:focus,
+.ModalcreacionplanesDuplicado-select:focus {
+  outline: none;
+  border-color: #6200ea;
+  box-shadow: 0 0 5px #6200ea;
+}
+
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-input:focus,
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-select:focus {
+  border-color: #6200ea;
+  box-shadow: 0 0 5px #6200ea;
+}
+
+/* Buttons Container */
+.ModalcreacionplanesDuplicado-buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.Modalcreacionplanes-buttons button {
+/* Submit Button */
+.ModalcreacionplanesDuplicado-button-submit {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  background: var(--button-bg-dark);
-  color: var(--button-text-dark);
+  border-radius: 5px;
+  background: #6200ea;
+  color: #ffffff;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.Modalcreacionplanes-buttons button:hover {
-  background: var(--primary-dark);
+.ModalcreacionplanesDuplicado-button-submit:hover {
+  background: #4500b5;
 }
 
-/* Estilos para el modo claro */
-.Modalcreacionplanes-popup-content.light {
-  background: var(--background-light);
-  color: var(--text-light);
+/* Cancel Button */
+.ModalcreacionplanesDuplicado-button-cancel {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #777777;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.Modalcreacionplanes-popup-content.light h3 {
-  color: var(--text-light);
+.ModalcreacionplanesDuplicado-button-cancel:hover {
+  background: #555555;
 }
 
-.Modalcreacionplanes-popup-content.light label {
-  color: var(--text-light);
+/* Dark Theme Buttons */
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-button-submit {
+  background: #6200ea;
+  color: #ffffff;
 }
 
-.Modalcreacionplanes-popup-content.light input {
-  border: 1px solid var(--button-border-light);
-  background: var(--button-bg-light);
-  color: var(--button-text-light);
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-button-submit:hover {
+  background: #4500b5;
 }
 
-.Modalcreacionplanes-buttons.light button {
-  background: var(--button-bg-light);
-  color: var(--button-text-light);
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-button-cancel {
+  background: #777777;
+  color: #ffffff;
 }
 
-.Modalcreacionplanes-buttons.light button:hover {
-  background: var(--primary-light);
+.ModalcreacionplanesDuplicado-content.dark .ModalcreacionplanesDuplicado-button-cancel:hover {
+  background: #555555;
 }

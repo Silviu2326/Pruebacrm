@@ -1,5 +1,5 @@
 .Chater-modal-content {
-    background-color: #E6F2F1;
+    background-color: var(--widget-bg);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -17,9 +17,8 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #39393A;
-    color: white;
-    border-top-left-radius: 10px;
+    background-color: var(--table-tr-child-bg);
+    color: var(--text);
     border-top-right-radius: 10px;
     cursor: move;
 }
@@ -38,7 +37,7 @@
 }
 
 .Chater-close {
-    color: white;
+    color: var(--text-trasparente);
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
@@ -47,7 +46,7 @@
 .Chater-modal-body {
     flex-grow: 1;
     padding: 15px;
-    background-color: #EBF7EE;
+    background-color: var(--secondary);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -107,7 +106,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 0;
     border-bottom-right-radius: 10px;
     background-color: #B2BBBA;
 }

@@ -28,7 +28,6 @@
 }
 
 .WidgetFacturas-facturas-table th {
-  background: var(--table-header-bg);
   color: var(--widget-text);
   border-bottom: 2px solid var(--table-border);
 }
@@ -44,13 +43,13 @@
 
 .WidgetFacturas-filter-container {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
 }
 
 .WidgetFacturas-filter-container button {
   padding: 8px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  background: var(--button-bg);
+  color: white;
   border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
@@ -251,7 +250,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
-  height: 36px;
+  margin-left: 3px;
 }
 
 .WidgetFacturas-scan-btn:hover {
@@ -267,7 +266,6 @@
   cursor: pointer;
   font-size: 12px;
   border: 1px solid var(--button-border);
-  height: 36px;
 }
 
 .WidgetFacturas-add-btn:hover {

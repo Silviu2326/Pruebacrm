@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { CirclePlus } from 'lucide-react';
+import { CirclePlus, Trash2 } from 'lucide-react'; // Asegúrate de importar el icono de eliminación
 import styles from './Calendariodieta.module.css';
 
-const Calendariodieta = ({ weeks, onSelectWeek, onAddWeek, theme, fechaInicio }) => {
+const Calendariodieta = ({ weeks, onSelectWeek, onAddWeek, onDeleteWeek, theme, fechaInicio }) => {
   const [selectedWeek, setSelectedWeek] = useState(0);
 
   // Función para formatear fechas
@@ -59,23 +59,63 @@ const Calendariodieta = ({ weeks, onSelectWeek, onAddWeek, theme, fechaInicio })
     onSelectWeek(index);
   };
 
+  const handleDeleteWeek = (index) => {
+    onDeleteWeek(index); // Llamamos a la función que se encarga de eliminar en el componente padre
+  };
+
   return (
     <div className={`${styles.calendarContainer} ${styles[theme]}`}>
       <div className={styles.header}>
         <h2>Selecciona una Semana</h2>
-        <button className={styles.addButton} onClick={onAddWeek}>
+        <button 
+          className={styles.addButton} 
+          onClick={onAddWeek}
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+            color:  'var(--button-text-dark)' ,          
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
+        >
           <CirclePlus size={24} />
         </button>
       </div>
       <div className={styles.weeksContainer}>
         {weeks.map((week, index) => (
-          <button
-            key={index}
-            className={`${styles.weekButton} ${selectedWeek === index ? styles.selected : ''}`}
-            onClick={() => handleWeekSelect(index)}
-          >
-            {`${week.nombre} (${formatDate(week.startDate)} - ${formatDate(week.endDate)})`}
-          </button>
+          <div key={index} className={styles.weekItem}>
+            <button
+              className={`${styles.weekButton} ${selectedWeek === index ? styles.selected : ''}`}
+              onClick={() => handleWeekSelect(index)}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-dark)' : 'var(--create-button-bg-light)', 
+                color:  'var(--button-text-dark)' ,          
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',     
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}
+            >
+              {`${week.nombre} (${formatDate(week.startDate)} - ${formatDate(week.endDate)})`}
+            </button>
+            <button 
+              className={styles.deleteButton}
+              onClick={() => handleDeleteWeek(index)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                marginLeft: '10px',
+              }}
+            >
+              <Trash2 size={20} color="red" />
+            </button>
+          </div>
         ))}
       </div>
     </div>

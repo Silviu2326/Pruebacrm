@@ -1,11 +1,15 @@
 /* Contenedor de Ventas Recientes */
+.detailed-ingreso-beneficio-content {
+  width: 100%;
+  padding: 20px;
+}
+
 .popup-recent-sales {
-  margin: 20px auto;
+  margin: 20px;
   padding: 20px;
   background-color: #ffffff; /* Fondo blanco para claridad */
   border-radius: 10px; /* Bordes redondeados para un look moderno */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidad */
-  max-width: 1200px; /* Ancho máximo para tablas más grandes */
   border: 1px solid #e0e0e0; /* Borde sutil */
 }
 
@@ -157,7 +161,7 @@
 }
 
 .popup-pagination button[disabled] {
-  background-color: #e0e0e0;
+  background-color:#e0e0e000;
   color: #999;
   cursor: not-allowed;
 }

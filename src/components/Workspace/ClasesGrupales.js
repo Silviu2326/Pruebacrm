@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './ClasesGrupales.css';
 
-const ClasesGrupales = () => {
+const ClasesGrupales = ({ theme }) => {
     const [tipoCreacion, setTipoCreacion] = useState('nueva'); 
     const [claseSeleccionada, setClaseSeleccionada] = useState(''); 
     const [nombreClase, setNombreClase] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [maxParticipantes, setMaxParticipantes] = useState('');
     const [estatus, setEstatus] = useState('activa');
-    const [mensaje, setMensaje] = useState('');  // Para mostrar mensajes de éxito o error
+    const [mensaje, setMensaje] = useState('');  
 
     const clasesDisponibles = [
         { id: 'clase1', nombre: 'Yoga Avanzado', descripcion: 'Clases intensivas de yoga avanzado', maxParticipantes: 20 },
@@ -28,10 +28,10 @@ const ClasesGrupales = () => {
 
     const handleSubmit = async () => {
         const data = {
-            name: nombreClase, // Cambiado de "nombreClase" a "name"
-            description: descripcion, // Cambiado de "descripcion" a "description"
+            name: nombreClase, 
+            description: descripcion, 
             maxParticipants: parseInt(maxParticipantes),
-            status: estatus, // Cambiado de "estatus" a "status"
+            status: estatus, 
         };
     
         try {
@@ -59,10 +59,10 @@ const ClasesGrupales = () => {
     };
     
     return (
-        <div className="Clasegrupal-container">
+        <div className={`Clasegrupal-container ${theme}`}>
             <h1>{tipoCreacion === 'nueva' ? 'Crear Clase Grupal' : 'Importar Clase Grupal'}</h1>
             
-            <div className="Clasegrupal-field">
+            <div className={`Clasegrupal-field ${theme}`}>
                 <label>Tipo de Creación</label>
                 <select value={tipoCreacion} onChange={(e) => setTipoCreacion(e.target.value)}>
                     <option value="nueva">Nueva Clase Grupal</option>
@@ -72,7 +72,7 @@ const ClasesGrupales = () => {
 
             {tipoCreacion === 'nueva' ? (
                 <>
-                    <div className="Clasegrupal-field">
+                    <div className={`Clasegrupal-field ${theme}`}>
                         <label>Nombre de la Clase</label>
                         <input
                             type="text"
@@ -82,7 +82,7 @@ const ClasesGrupales = () => {
                         />
                     </div>
 
-                    <div className="Clasegrupal-field">
+                    <div className={`Clasegrupal-field ${theme}`}>
                         <label>Descripción</label>
                         <textarea
                             value={descripcion}
@@ -92,7 +92,7 @@ const ClasesGrupales = () => {
                         />
                     </div>
 
-                    <div className="Clasegrupal-field">
+                    <div className={`Clasegrupal-field ${theme}`}>
                         <label>Número Máximo de Participantes</label>
                         <input
                             type="number"
@@ -102,7 +102,7 @@ const ClasesGrupales = () => {
                         />
                     </div>
 
-                    <div className="Clasegrupal-field">
+                    <div className={`Clasegrupal-field ${theme}`}>
                         <label>Estatus</label>
                         <select value={estatus} onChange={(e) => setEstatus(e.target.value)}>
                             <option value="activa">Activa</option>
@@ -112,7 +112,7 @@ const ClasesGrupales = () => {
                     </div>
                 </>
             ) : (
-                <div className="Clasegrupal-field">
+                <div className={`Clasegrupal-field ${theme}`}>
                     <label>Seleccionar Clase para Importar</label>
                     <select value={claseSeleccionada} onChange={handleClaseSeleccionada}>
                         <option value="" disabled>Selecciona una clase</option>
@@ -125,13 +125,13 @@ const ClasesGrupales = () => {
                 </div>
             )}
 
-            <div className="Clasegrupal-crear-button-container">
-                <button className="Clasegrupal-crear-button" onClick={handleSubmit}>
+            <div className={`Clasegrupal-crear-button-container ${theme}`}>
+                <button className={`Clasegrupal-crear-button ${theme}`} onClick={handleSubmit}>
                     {tipoCreacion === 'nueva' ? 'Crear Clase Grupal' : 'Importar Clase'}
                 </button>
             </div>
 
-            {mensaje && <p className="Clasegrupal-mensaje">{mensaje}</p>}
+            {mensaje && <p className={`Clasegrupal-mensaje ${theme}`}>{mensaje}</p>}
         </div>
     );
 };

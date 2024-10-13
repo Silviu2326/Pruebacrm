@@ -1,0 +1,154 @@
+/* Contenedor principal */
+.PeriodoCard-container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 450px; /* Mantenemos el ancho del contenedor */
+    margin: 20px auto;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .PeriodoCard-container:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Título */
+  .PeriodoCard-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #6a5acd, #a35ee2);
+    padding: 15px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Contenedor del campo de búsqueda */
+  .PeriodoCard-search-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .PeriodoCard-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #6a5acd;
+  }
+  
+  .PeriodoCard-search-input {
+    width: 100%;
+    padding: 10px 40px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .PeriodoCard-search-input:focus {
+    border-color: #6a5acd;
+    box-shadow: 0 0 5px rgba(106, 90, 205, 0.3);
+    outline: none;
+  }
+  
+  /* Lista de ejercicios con scroll */
+  .PeriodoCard-exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 350px; /* Limita la altura máxima del contenedor */
+    overflow-y: auto; /* Añade scroll vertical */
+    padding-right: 5px; /* Añade espacio para la barra de scroll */
+  }
+  
+  .PeriodoCard-exercise-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .PeriodoCard-exercise-list::-webkit-scrollbar-thumb {
+    background-color: #6a5acd;
+    border-radius: 10px;
+  }
+  
+  .PeriodoCard-exercise-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  .PeriodoCard-exercise-item:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+  
+  /* Nombre del ejercicio */
+  .PeriodoCard-exercise-name {
+    color: #6a5acd;
+    font-size: 16px;
+    font-weight: 600;
+    flex: 1;
+    min-width: 120px;
+    text-transform: capitalize;
+  }
+  
+  /* Botones */
+  .PeriodoCard-btn-modify,
+  .PeriodoCard-btn-conditional {
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .PeriodoCard-btn-modify {
+    background-color: #e0e0e0;
+    color: #343a40;
+  }
+  
+  .PeriodoCard-btn-modify:hover {
+    background-color: #d3d3d3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón para hacer o quitar condicional */
+  .PeriodoCard-btn-conditional {
+    flex-shrink: 0;
+    min-width: fit-content;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .PeriodoCard-btn-remove {
+    background-color: #ffc107;
+    color: #fff;
+  }
+  
+  .PeriodoCard-btn-remove:hover {
+    background-color: #e0a800;
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
+  }
+  
+  .PeriodoCard-btn-add {
+    background-color: #6a5acd;
+    color: #fff;
+  }
+  
+  .PeriodoCard-btn-add:hover {
+    background-color: #5a4cbf;
+    box-shadow: 0 4px 8px rgba(106, 90, 205, 0.4);
+  }
+  

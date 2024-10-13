@@ -26,7 +26,17 @@ const UnionDeRutinas = ({ routines, currentRoutine, onClose, onCreateCombinedRou
   return (
     <div className="union-de-rutinas-modal">
       <div className={`union-de-rutinas-modal-content ${theme}`}>
-        <span className={`union-de-rutinas-close ${theme}`} onClick={onClose}>&times;</span>
+        <span className={`union-de-rutinas-close ${theme}`} onClick={onClose}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>&times;</span>
         <h2>Unir Rutinas</h2>
         <div className="routine-select">
           <label>
@@ -47,8 +57,17 @@ const UnionDeRutinas = ({ routines, currentRoutine, onClose, onCreateCombinedRou
           </label>
         </div>
         <div className="form-actions">
-          <button onClick={handleSubmit} disabled={!routineToMerge} className={theme}>Unir y Crear Nueva Rutina</button>
-          <button onClick={onClose} className={theme}>Cerrar</button>
+          <button onClick={handleSubmit} disabled={!routineToMerge} className={theme}
+          style={{
+            background:'var(--create-button-bg)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '14px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+           }}>Unir y Crear Nueva Rutina</button>
         </div>
       </div>
     </div>

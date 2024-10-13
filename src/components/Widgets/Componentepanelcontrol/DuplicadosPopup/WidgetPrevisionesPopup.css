@@ -66,6 +66,7 @@
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  position: relative;
 }
 
 .popup-widget-previsiones table {
@@ -196,9 +197,6 @@
   background-color: var(--create-button-bg-light);
 }
 
-.popup-widget-previsiones.light th {
-  background: var(--header-bg-light);
-}
 
 .popup-widget-previsiones.light tr:hover {
   background: var(--table-row-hover-bg-light);
@@ -262,9 +260,7 @@
   background-color: var(--create-button-bg-dark);
 }
 
-.popup-widget-previsiones.dark th {
-  background: var(--header-bg-dark);
-}
+
 
 .popup-widget-previsiones.dark tr:hover {
   background: var(--table-row-hover-bg-dark);
@@ -302,4 +298,59 @@
 .theme-toggle-btn.dark {
   background: var(--button-bg-dark);
   color: var(--button-text-dark);
+}
+
+.dropdown-options-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 125px;
+  padding: 15px;
+  z-index: 5000;
+  border-radius: 5px;
+  height: 150px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background: var(--background);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+
+.modal-option {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.modal-option:hover {
+  background-color: #ddd;
+}
+
+.modal-option svg {
+  margin-right: 10px;
 }

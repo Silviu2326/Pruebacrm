@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Alertas.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const Alertas = ({ theme, setTheme, onTabChange }) => {
   const [alerts, setAlerts] = useState([]);
 
@@ -60,7 +59,11 @@ const Alertas = ({ theme, setTheme, onTabChange }) => {
   }
 
   return (
-    <div className={`Alertas-eco-widget ${theme}`}>
+    <div className={`Alertas-eco-widget ${theme}`} style={{ 
+      maxHeight: '400px', 
+      height: '400px', 
+      overflowY: 'scroll', 
+    }}>
       <h2 className={`Alertas-eco-title ${theme}`}>Alertas</h2>
       <ul className={`Alertas-eco-list ${theme}`}>
         {alerts.map((alerta) => (

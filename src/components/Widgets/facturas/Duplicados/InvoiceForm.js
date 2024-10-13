@@ -4,8 +4,7 @@ import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import styles from './InvoiceForm.module.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const InvoiceForm = ({ closeModal, client, invoice }) => {
     const [formType, setFormType] = useState('simple');
     const [services, setServices] = useState(invoice ? invoice.services : [{ serviceCode: '', serviceName: '', vat: '', quantity: '', unitPrice: '', discount: '' }]);

@@ -1,0 +1,225 @@
+/* Overlay del modal */
+.popup-cliente__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Contenedor del modal con tamaño fijo */
+.popup-cliente__container {
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    width: 1000px;
+    max-width: 90%;
+    height: 700px;
+    max-height: 90%;
+    padding: 20px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Botón de cerrar */
+.popup-cliente__close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.popup-cliente__close-button:hover {
+    color: #000;
+}
+
+/* Encabezado con avatar y pestañas */
+.popup-cliente__header {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    padding-right: 50px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Avatar */
+.popup-cliente__avatar {
+    flex: 0 0 100px;
+    margin-right: 20px;
+}
+
+.popup-cliente__avatar-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #007bff;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Pestañas */
+.popup-cliente__tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1;
+    max-width: calc(100% - 50px);
+}
+
+/* Botones de pestañas */
+.popup-cliente__tab-button {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #ffffff; /* Fondo blanco para botones inactivos */
+    color: #333333; /* Texto oscuro para buena legibilidad */
+    border: 1px solid #ddd; /* Borde ligero */
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    flex: 1 1 auto;
+    text-align: center;
+    margin-right: 5px; /* Espacio entre botones */
+}
+
+.popup-cliente__tab-button:last-child {
+    margin-right: 0; /* Elimina el margen del último botón */
+}
+
+/* Eliminado el efecto de hover
+.popup-cliente__tab-button:hover {
+    background-color: #f8f8f8; 
+    border-color: #ccc; 
+}
+*/
+
+.popup-cliente__tab-button--active {
+    background-color: #007bff; /* Fondo azul para botón activo */
+    color: #ffffff; /* Texto blanco para contraste */
+    border-color: #007bff; /* Bordes del mismo color que el fondo activo */
+}
+
+/* Contenido del modal */
+.popup-cliente__content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Títulos de secciones */
+.popup-cliente__section-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #000;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+}
+
+/* Filas de información */
+.popup-cliente__info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+.popup-cliente__info-row div {
+    flex: 1;
+}
+
+/* Listas dentro del contenido */
+.popup-cliente__list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.popup-cliente__list-item {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Clase para mensajes de no datos */
+.popup-cliente__no-data {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Scrollbar personalizada (opcional) */
+.popup-cliente__content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.popup-cliente__content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.popup-cliente__content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.popup-cliente__content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .popup-cliente__container {
+        width: 90%;
+        height: 90%;
+        padding: 15px;
+    }
+
+    .popup-cliente__avatar {
+        flex: 0 0 80px;
+        margin-right: 15px;
+    }
+
+    .popup-cliente__avatar-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .popup-cliente__tabs {
+        max-width: calc(100% - 40px);
+    }
+
+    .popup-cliente__close-button {
+        top: 5px;
+        right: 5px;
+        font-size: 20px;
+    }
+
+    .popup-cliente__tab-button {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .popup-cliente__section-title {
+        font-size: 16px;
+    }
+
+    .popup-cliente__info-row {
+        font-size: 14px;
+    }
+}

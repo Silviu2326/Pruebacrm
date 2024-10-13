@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import './modal-de-escaneo-de-facturas.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-const MAX_FILE_SIZE_MB = 15;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';const MAX_FILE_SIZE_MB = 15;
 
 function ModalDeEscaneoDeFacturas({ isOpen, onClose, theme }) {
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -153,8 +152,29 @@ function ModalDeEscaneoDeFacturas({ isOpen, onClose, theme }) {
                         <div className="progress" style={{ width: `${progressBarWidth}%` }}></div>
                     </div>
                     <p>Total Subido: {totalFileSize.toFixed(2)} / 15 MB</p>
-                    <button onClick={handleScanInvoices}>Comenzar Escaneo de Facturas</button>
-                    <button onClick={onClose}>Cancelar</button>
+                    <button onClick={handleScanInvoices}
+                    style={{
+                        background:'var(--create-button-bg)', 
+                        color:  'var(--button-text-dark)' ,
+                        border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                        padding: '14px 20px',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        transition: 'background 0.3s ease',
+          }}
+          >Comenzar Escaneo de Facturas</button>
+                    <button onClick={onClose}
+                    style={{
+                        background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                        color:  'var(--button-text-dark)' ,
+                        border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                        padding: '10px 20px',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        transition: 'background 0.3s ease',
+                      }}>Cancelar</button>
                     {responseData && (
                         <div>
                             <h2>Datos extraídos:</h2>

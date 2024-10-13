@@ -36,7 +36,17 @@ const ModalPrevisualizacionEjercicio = ({ isOpen, onClose, exercise, theme }) =>
             ></iframe>
           </div>
         )}
-        <button onClick={onClose} className={`red ${theme}`}>Cerrar</button>
+        <button onClick={onClose} className={`red ${theme}`}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>Cerrar</button>
       </div>
     </div>
   );

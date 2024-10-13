@@ -35,14 +35,8 @@
   width: 200px;
   margin: 0;
   border: 1px solid var(--button-border-light);
-  background: var(--button-bg-light);
-  color: var(--text-light);
-}
-
-.widget-gasto.dark input[type="text"] {
-  border: 1px solid var(--button-border-dark);
-  background: var(--button-bg-dark);
-  color: var(--text-dark);
+  background-color: var(--search-button-bg);
+  border: 1px solid var(--button-border);
 }
 
 .gasto-button-container {
@@ -197,7 +191,6 @@
 }
 
 .widget-gasto th {
-  background: #ede7d6;
   color: var(--header-text-light);
 }
 
@@ -213,6 +206,10 @@
 
 .widget-gasto.dark tr:nth-child(even) {
   background: var(--secondary-dark);
+}
+
+.widget-gasto tr:last-child td{
+  border-bottom: none;
 }
 
 .widget-gasto tr:hover {
@@ -278,20 +275,14 @@
 }
 
 .filter-field input {
-  background: var(--button-bg-light);
-  border: 1px solid var(--button-border-light);
+  background: var(--search-button-bg);
+  border: 1px solid var(--button-border);
   border-radius: 4px;
   width: 100px;
   font-size: 12px;
   padding: 5px;
   height: 30px;
-  color: var(--text-light);
-}
-
-.filter-field input.dark {
-  background: var(--button-bg-dark);
-  border: 1px solid var(--button-border-dark);
-  color: var(--text-dark);
+  color: var(--text);
 }
 
 .filter-field label {
@@ -300,40 +291,43 @@
 }
 
 .filter-field button {
-  background: var(--button-bg-light);
-  border: 1px solid var(--button-border-light);
+  background: var(--button-bg);
+  border: 1px solid var(--button-border);
   width: 60px;
   padding: 3px;
-  color: var(--button-text-light);
-}
-
-.filter-field button.dark {
-  background: var(--button-bg-dark);
-  border: 1px solid var(--button-border-dark);
-  color: var(--button-text-dark);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
 }
 
 .filter-field {
   width: 200px;
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 }
 
 .dropdownFilters .ExFilter-dropdown-content {
-  width: 270px;
-  overflow: scroll;
-  padding-top: 25px;
-  padding-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: var(--dropdown-bg);
+  color: var(--dropdown-text);
+
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border: 1px solid var(--dropdown-border);
+  border-radius: 5px;
+  height: 304px;
+  overflow-y: auto;
   overflow-x: hidden;
-  background-color: var(--button-bg-light);
-  color: var(--button-text-light);
-  border-radius: 4px;
+  background-color: var(--background);
+  color: var(--text);
 }
 
 .dropdownFilters .ExFilter-dropdown-content.dark {
-  background-color: var(--button-bg-dark);
-  color: var(--button-text-dark);
+  background-color: var(--background);
+  color: var(--text);
 }
 
 .ExFilter-dropdown-content {
@@ -342,19 +336,11 @@
   gap: 15px;
   padding: 15px;
   padding-top: 25px;
-  background-color: var(--button-bg-light);
-  color: var(--button-text-light);
+  background-color: var(--dropdown-bg);
+  color: var(--dropdown-text);
   border-radius: 4px;
-  border: none;
-  height: 300px;
-  position: absolute;
-  z-index: 1000;
 }
 
-.ExFilter-dropdown-content.dark {
-  background-color: var(--button-bg-dark);
-  color: var(--button-text-dark);
-}
 /* Estilos generales */
 .Widgetgastoanadir-Exdropdown-content {
   padding: 20px;
@@ -373,9 +359,9 @@
 .Widgetgastoanadir-light .Widgetgastoanadir-input,
 .Widgetgastoanadir-light .Widgetgastoanadir-select,
 .Widgetgastoanadir-light .Widgetgastoanadir-button {
-  background-color: #f9f9f9;
-  border: 1px solid #cccccc;
-  color: #333333;
+  background: var(--search-button-bg);
+  border: 1px solid var(--secondary);
+  color: var(--text);
 }
 
 .Widgetgastoanadir-light .Widgetgastoanadir-input:focus,
@@ -405,9 +391,9 @@
 .Widgetgastoanadir-dark .Widgetgastoanadir-input,
 .Widgetgastoanadir-dark .Widgetgastoanadir-select,
 .Widgetgastoanadir-dark .Widgetgastoanadir-button {
-  background-color: #3a3a3a;
-  border: 1px solid #555555;
-  color: #f1f1f1;
+  background: var(--search-button-bg);
+  border: 1px solid var(--secondary);
+  color: var(--text);
 }
 
 .Widgetgastoanadir-dark .Widgetgastoanadir-input:focus,

@@ -1,167 +1,370 @@
 /* Ajustes.css */
 
-/* Estilos generales para ambos modos */
+/* Reset de márgenes y paddings */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fuente base */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Contenedor principal */
 .ajustes-container {
   padding: 20px;
-  max-width: 800px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.ajustes-container h1 {
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 2em;
-  padding-bottom: 10px;
+/* Header con título y botón de cerrar sesión */
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
+.header h1 {
+  font-size: 2.5em;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.logout-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 50px;
+  background-color: #ff4d4f;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #d9363e;
+  transform: translateY(-2px);
+}
+
+.logout-button:active {
+  transform: scale(0.98);
+}
+
+.logout-icon {
+  margin-right: 8px;
+  font-size: 1.2em;
+}
+
+/* Sección de ajustes */
 .ajustes-section {
   margin-bottom: 30px;
-  padding: 20px;
+  padding: 20px 25px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--section-bg);
+  box-shadow: var(--box-shadow);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-icon {
+  margin-right: 10px;
+  font-size: 1.5em;
+  color: var(--primary-color);
 }
 
 .ajustes-section h2 {
-  margin-bottom: 10px;
-  font-size: 1.5em;
-  padding-bottom: 5px;
+  font-size: 1.8em;
+  color: var(--text-color);
 }
 
-.ajustes-section label {
+.section-label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.ajustes-section input,
-.ajustes-section select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  font-size: 1em;
-}
-
-.ajustes-section input[type="checkbox"] {
-  width: auto;
-  margin-right: 10px;
-}
-
-.profile-photo-section {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  flex-direction: column;
-}
-
-.profile-photo-wrapper {
-  position: relative;
-  width: 100px;
-  height: 100px;
   margin-bottom: 10px;
+  font-weight: 500;
+  color: var(--text-color);
 }
 
-.profile-photo {
+.section-select {
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1em;
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
 }
 
-.profile-photo-placeholder {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+.section-select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Contenedor de switches */
+.switch-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilos de switches */
+.switch {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-.change-photo-button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  position: relative;
+  font-size: 1em;
+  color: var(--text-color);
 }
 
-.profile-details input {
-  margin-top: 10px;
-  font-size: 16px;
+.switch-label {
+  margin-left: 15px;
+  white-space: nowrap;
+}
+
+/* Ocultar el checkbox */
+.switch input {
+  display: none;
+}
+
+/* Slider */
+.slider {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.4s;
+}
+
+/* Handle del slider */
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s;
+}
+
+/* Estado checked */
+.switch input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+/* Botones de acción */
+.action-button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.action-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.action-button:active {
+  transform: scale(0.98);
+}
+
+.action-icon {
+  margin-right: 8px;
+  font-size: 1.2em;
 }
 
 /* Botón Guardar */
-.save-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 20px;
-}
-
 .save-button-container {
   text-align: center;
+  margin-top: 40px;
 }
 
-/* Estilos específicos para el modo claro */
-body.light .ajustes-container {
-  background-color: #ffffff;
+.save-button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.save-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.save-button:active {
+  transform: scale(0.98);
+}
+
+/* Botón Log Out */
+.logout-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 50px;
+  background-color: #ff4d4f;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #d9363e;
+  transform: translateY(-2px);
+}
+
+.logout-button:active {
+  transform: scale(0.98);
+}
+
+.logout-icon {
+  margin-right: 8px;
+  font-size: 1.2em;
+}
+
+/* Temas */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --section-bg: #ffffff;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --text-color: #333333;
+  --border-color: #ddd;
+  --input-bg: #ffffff;
+  background-color: #f0f2f5;
   color: #333333;
 }
 
-body.light .ajustes-section {
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-}
-
-body.light .ajustes-section h2 {
-  color: #007bff;
-}
-
-body.light .change-photo-button {
-  background-color: #007bff;
-  color: white;
-}
-
-body.light .save-button {
-  background-color: #007bff;
-  color: white;
-}
-
-/* Estilos específicos para el modo oscuro */
-body.dark .ajustes-container {
+body.dark {
+  --primary-color: #00aaff;
+  --primary-hover: #0088cc;
+  --section-bg: #2e2e2e;
+  --box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  --text-color: #ffffff;
+  --border-color: #555;
+  --input-bg: #3e3e3e;
   background-color: #1e1e1e;
   color: #ffffff;
 }
 
+body.light {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --section-bg: #ffffff;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --text-color: #333333;
+  --border-color: #ddd;
+  --input-bg: #ffffff;
+  background-color: #f0f2f5;
+  color: #333333;
+}
+
+body.light .ajustes-section {
+  background-color: var(--section-bg);
+}
+
 body.dark .ajustes-section {
-  background-color: #1e1e1e;
-  border: 1px solid #555;
+  background-color: var(--section-bg);
 }
 
-body.dark .ajustes-section h2 {
-  color: #00aaff;
+/* Mejoras en Responsividad */
+@media (max-width: 768px) {
+  .ajustes-container {
+    padding: 15px;
+  }
+
+  .header h1 {
+    font-size: 2em;
+  }
+
+  .section-header h2 {
+    font-size: 1.5em;
+  }
+
+  .section-icon {
+    font-size: 1.2em;
+  }
+
+  .save-button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1em;
+  }
+
+  .logout-button {
+    padding: 8px 14px;
+    font-size: 0.9em;
+  }
+
+  .action-button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-body.dark .ajustes-section input,
-body.dark .ajustes-section select {
-  background-color: #2e2e2e; /* Fondo de los inputs y selects */
-  color: #ffffff; /* Color del texto en los inputs y selects */
-  border: 1px solid #555; /* Borde de los inputs y selects */
-}
+@media (max-width: 480px) {
+  .switch {
+    flex-direction: row;
+    align-items: center;
+  }
 
-.photo-upload-input {
-  display: none; /* Oculta el input de tipo file */
-}
+  .switch-label {
+    margin-left: 10px;
+    font-size: 0.9em;
+  }
 
-body.dark .change-photo-button {
-  background-color: #00aaff;
-  color: white;
-}
+  .slider {
+    width: 40px;
+    height: 20px;
+  }
 
-body.dark .save-button {
-  background-color: #00aaff;
-  color: white;
+  .slider::before {
+    width: 16px;
+    height: 16px;
+    left: 2px;
+    bottom: 2px;
+  }
+
+  .switch input:checked + .slider::before {
+    transform: translateX(20px);
+  }
 }

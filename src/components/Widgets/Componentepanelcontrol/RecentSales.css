@@ -20,18 +20,16 @@
   color: rgb(12, 211, 151);
 }
 
-.panelcontrol-filter-input {
+.RS-panelcontrol-filter-input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
   border: 1px solid var(--button-border);
   border-radius: 4px;
   background: var(--button-bg);
   color: var(--button-text);
 }
 
-.panelcontrol-filter-input:hover {
-  background: var(--button-hover-bg);
+.RS-panelcontrol-filter-input:hover {
   color: var(--button-hover-text);
 }
 
@@ -52,7 +50,6 @@
 
 .panelcontrol-dropdown {
   position: relative;
-  display: inline-block;
 }
 
 .panelcontrol-dropdown-btn {
@@ -63,57 +60,81 @@
   color: var(--text);
 }
 
-.panelcontrol-dropdown-content {
+.RS-panelcontrol-dropdown-content {
   display: none;
   position: absolute;
-  right: 0;
   background: var(--background);
   color: var(--text);
-  min-width: 250px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 4px;
   padding: 10px;
 }
 
-.panelcontrol-dropdown:hover .panelcontrol-dropdown-content {
-  display: block;
+.RS-panelcontrol-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 220px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 1px solid var(--dropdown-border);
+  border-radius: 5px;
+  height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--text);
+  padding: 15px;
+  padding-top: 25px;
 }
 
-.panelcontrol-dropdown-content label {
+.RS-filter-field {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.RS-panelcontrol-dropdown-content label {
   display: block;
   margin-bottom: 5px;
-  color: #999;
+  color: var(--text);
+  width: auto;
+  max-width: 70%;
+  margin-right: 10px;
 }
 
-.panelcontrol-dropdown-content button,
-.panelcontrol-dropdown-content select,
-.panelcontrol-dropdown-content input {
-  background: var(--button-bg);
+.RS-panelcontrol-dropdown-content button,
+.RS-panelcontrol-dropdown-content select,
+.RS-panelcontrol-dropdown-content input {
+  background: var(--search-button-bg) ;
   border: 1px solid var(--button-border);
-  color: var(--button-text);
+  color: var(--text);
   padding: 10px 0;
   text-align: left;
-  width: 100%;
+  width: 100px;
+  height: 30px;
   cursor: pointer;
   border-radius: 4px;
 }
 
-.panelcontrol-dropdown-content button:hover,
-.panelcontrol-dropdown-content select:hover,
-.panelcontrol-dropdown-content input:hover {
-  background: var(--button-hover-bg);
+.RS-panelcontrol-dropdown-content button:hover,
+.RS-panelcontrol-dropdown-content select:hover,
+.RS-panelcontrol-dropdown-content input:hover {
   color: var(--button-hover-text);
 }
 
-.panelcontrol-filter-btn {
+.RS-panelcontrol-filter-btn {
   background: var(--button-bg);
-  color: var(--button-text);
   border: none;
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
+  width: 100%;
+  color: white;
 }
 
 .panelcontrol-filter-btn:hover {
@@ -146,33 +167,34 @@
 .panelcontrol-sales-table td {
   padding: 8px;
   text-align: left;
-  text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid var(--ClientesWorkspace-input-border-light);
-  transition: background-color var(--ClientesWorkspace-transition-speed), color var(--ClientesWorkspace-transition-speed);
+  border-right: none;
+  border-left: none;
+  border-bottom: 0.2px solid var(--border-blue);
+  color: var(--DBP-text-color);
 }
 
 .panelcontrol-sales-table th{
-  background-color: #335484;
-  color: #f7faff;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+  background-color: var(--text-blue);
+  color: var(--text-dark);
+  font-weight: bold;
+}
+
+.panelcontrol-sales-table.dark th{
+  background-color: var(--table-th-bg);
+  color: var(--text);
 }
 
 .panelcontrol-sales-table tr:nth-child(even) {
-  background-color: #f8f8f8; /* Fila par de color claro */
-}
-
-body.dark .panelcontrol-sales-table tr:nth-child(even) {
-  background-color: #2a2a2a; /* Fila par en modo oscuro */
+  background-color: var(--table-tr-child-bg);
 }
 
 .panelcontrol-sales-table tr {
-  border-bottom: 1px solid var(--button-border);
+  background-color: var(--table-tr-bg);
+}
+
+.panelcontrol-sales-table tr:last-child td {
+  border-bottom: none;
 }
 
 /* Alinea la barra de búsqueda a la izquierda y la paginación a la derecha */
@@ -192,8 +214,6 @@ body.dark .panelcontrol-sales-table tr:nth-child(even) {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  height: 25px;
-  margin-top: 10px;
 }
 
 .panelcontrol-pagination-info {

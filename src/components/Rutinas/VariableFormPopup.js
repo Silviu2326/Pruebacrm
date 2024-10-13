@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './VariableFormPopup.css';
 import { Button } from '../ComponentsReutilizables/Button.tsx';
 
-const VariableFormPopup = ({ show, onClose, onAddVariable, onUpdateVariable, editVariable }) => {
+const VariableFormPopup = ({ show, onClose, onAddVariable, onUpdateVariable, editVariable, theme}) => {
   const [variableName, setVariableName] = useState('');
   const [variableValue, setVariableValue] = useState('');
   const [variableType, setVariableType] = useState('numérica'); // Default type: numérica
@@ -50,7 +50,17 @@ const VariableFormPopup = ({ show, onClose, onAddVariable, onUpdateVariable, edi
   return (
     <div className="variableformpopup-overlay">
       <div className="variableformpopup-content">
-        <button className="variableformpopup-close" onClick={onClose}>X</button>
+        <button className="variableformpopup-close" onClick={onClose}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>X</button>
         <h3 className="variableformpopup-title">{editVariable ? 'Editar Variable' : 'Agregar Nueva Variable'}</h3>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -84,7 +94,18 @@ const VariableFormPopup = ({ show, onClose, onAddVariable, onUpdateVariable, edi
               />
             </div>
           )}
-          <Button type="submit" variant="black" size="lg">
+          <Button type="submit" variant="black" size="lg"
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
+>
             {editVariable ? 'Actualizar Variable' : 'Guardar Variable'}
           </Button>
         </form>

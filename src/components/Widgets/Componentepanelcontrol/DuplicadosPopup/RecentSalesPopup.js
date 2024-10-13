@@ -9,8 +9,9 @@ import {
   useRowState,
 } from 'react-table';
 import './RecentSalesPopup.css';
+import { User, Eye, Copy } from 'lucide-react'; // Importar los íconos
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
 function RecentSalesPopup({ detailed, theme, setTheme }) {
   const [filterInput, setFilterInput] = useState('');
@@ -18,6 +19,16 @@ function RecentSalesPopup({ detailed, theme, setTheme }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Función para formatear moneda en euros
+  const formatCurrency = (value) => {
+    if (isNaN(value)) return 'Cantidad Inválida';
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+    }).format(value);
+  };
 
   const columns = React.useMemo(() => [
     {
@@ -35,9 +46,9 @@ function RecentSalesPopup({ detailed, theme, setTheme }) {
       accessor: 'estadoPago',
       Cell: ({ value }) => {
         const status = {
-          pendiente: 'pendiente',
-          completado: 'completado',
-          fallido: 'fallido'
+          pendiente: 'Pendiente',
+          completado: 'Completado',
+          fallido: 'Fallido'
         };
         return status[value] || 'Desconocido';
       }
@@ -49,24 +60,53 @@ function RecentSalesPopup({ detailed, theme, setTheme }) {
     {
       Header: 'Cantidad',
       accessor: 'cantidad',
-      Cell: ({ value }) => {
-        const formatted = !isNaN(value) ? new Intl.NumberFormat('es-ES', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(value) : 'Cantidad Inválida';
-        return <div className="text-right font-medium">{formatted}</div>;
-      },
+      Cell: ({ value }) => (
+        <div className="text-center font-medium">{formatCurrency(value)}</div>
+      ),
     },
     {
       Header: 'Acciones',
       Cell: ({ row }) => (
-        <div className="popup-dropdown">
-          <button className="popup-dropdown-btn">...</button>
-          <div className="popup-dropdown-content">
-            <button>Copiar ID de Pago</button>
-            <button>Ver Cliente</button>
-            <button>Ver Detalles del Pago</button>
-          </div>
+        <div className="RSD-action-btns">
+          <button 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              cursor: 'pointer', 
+              color: 'var(--text)', 
+              padding: '3px',
+            }}
+            onClick={() => handleCopyId(row.original.id)}
+            title="Copiar ID de Pago"
+          >
+            <Copy size={16} />
+          </button>
+          <button 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              cursor: 'pointer', 
+              color: 'var(--text)', 
+              padding: '3px',
+            }}
+            onClick={() => handleViewClient(row.original.cliente)}
+            title="Ver Cliente"
+          >
+            <User size={16} />
+          </button>
+          <button 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              cursor: 'pointer', 
+              color: 'var(--text)', 
+              padding: '3px',
+            }}
+            onClick={() => handleViewPaymentDetails(row.original)}
+            title="Ver Detalles del Pago"
+          >
+            <Eye size={16} />
+          </button>
         </div>
       ),
     },
@@ -152,6 +192,29 @@ function RecentSalesPopup({ detailed, theme, setTheme }) {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
+  // Funciones para manejar las acciones
+  const handleCopyId = (id) => {
+    navigator.clipboard.writeText(id)
+      .then(() => {
+        alert('ID de Pago copiado al portapapeles');
+      })
+      .catch(err => {
+        console.error('Error al copiar el ID: ', err);
+      });
+  };
+
+  const handleViewClient = (cliente) => {
+    // Implementa la lógica para ver el cliente
+    console.log('Ver cliente:', cliente);
+    // Por ejemplo, podrías redirigir a una página de detalles del cliente
+  };
+
+  const handleViewPaymentDetails = (pago) => {
+    // Implementa la lógica para ver los detalles del pago
+    console.log('Ver detalles del pago:', pago);
+    // Por ejemplo, podrías abrir un modal con más información
+  };
+
   if (isLoading) {
     return <div>Cargando datos...</div>;
   }
@@ -171,67 +234,74 @@ function RecentSalesPopup({ detailed, theme, setTheme }) {
           className="popup-filter-input"
         />
       </div>
+      <table {...getTableProps()} className="popup-sales-table">
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className="table-header"
+                >
+                  {column.render('Header')}
+                  <span>
+                    {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {!isExpanded && page.slice(0, 2).map(row => { // Limitar a 2 filas si está encogida
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => (
+                  <td
+                    {...cell.getCellProps()}
+                    className={cell.column.id === 'cantidad' ? 'text-center' : ''}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+          {isExpanded && page.map(row => { // Renderizar todas las filas si está expandida
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => (
+                  <td
+                    {...cell.getCellProps()}
+                    className={cell.column.id === 'cantidad' ? 'text-center' : ''}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
       {!isExpanded && (
-        <>
-          <table {...getTableProps()} className="popup-sales-table">
-            <tbody {...getTableBodyProps()}>
-              {page.slice(0, 2).map(row => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div className="expand-pagination-container">
-            <button className="expand-btn" onClick={handleToggleExpand}>⬇</button>
-            <div className="popup-pagination">
-              <button onClick={() => previousPage()} disabled={!canPreviousPage}>&lt;--</button>
-              <div className="popup-pagination-info">
-                Página{' '}
-                <strong>
-                  {pageIndex + 1} de {pageOptions.length}
-                </strong>
-              </div>
-              <button onClick={() => nextPage()} disabled={!canNextPage}>--&gt;</button>
+        <div className="expand-pagination-container">
+          <button className="expand-btn" onClick={handleToggleExpand}>⬇</button>
+          <div className="popup-pagination">
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>&lt;--</button>
+            <div className="popup-pagination-info">
+              Página{' '}
+              <strong>
+                {pageIndex + 1} de {pageOptions.length}
+              </strong>
             </div>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>--&gt;</button>
           </div>
-        </>
+        </div>
       )}
       {isExpanded && (
         <>
-          <table {...getTableProps()} className="popup-sales-table">
-            <thead>
-              {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                      {column.render('Header')}
-                      <span>
-                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {page.map(row => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
           <div className='popup-filasseleccionadas'>
             Filas seleccionadas: {Object.keys(selectedRowIds).length}
           </div>

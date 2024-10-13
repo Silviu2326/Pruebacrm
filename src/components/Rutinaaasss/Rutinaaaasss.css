@@ -64,6 +64,7 @@
 .Rutinaaaasss-search-input.light {
   background-color: var(--background-light);
   color: var(--text-light);
+  margin-top: 10px;
   border: 1px solid #747474;
 }
 
@@ -95,7 +96,7 @@
 }
 
 .Rutinaaaasss-routines-table.light th {
-  background-color: #5c71b6;
+  background-color: #265db5;
   color: #fbf7f2;
 }
 
@@ -336,9 +337,7 @@
 /* Estilos para la contenedor de acciones */
 .Rutinaaaasss-actions-icons {
   display: flex; /* Usamos flex para alinear los iconos */
-  justify-content: space-around; /* Distribuye los iconos uniformemente */
-  align-items: center; /* Centra los iconos verticalmente */
-  padding: 5px 0;
+
 }
 
 /* Estilos para los íconos */

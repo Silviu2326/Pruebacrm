@@ -1,41 +1,46 @@
-import React from 'react';
+// ClientesSimplificadaView.js
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CheckCircle, Mail, Calendar, Tag, Box, Dumbbell } from 'lucide-react';
+import { CheckCircle, Mail, Calendar, Box, Dumbbell } from 'lucide-react';
 import './ClientesSimplificadaView.css';
+import PopupCliente from './ClientessimplificadaPopup'; // Importamos el nuevo componente de Popup
 
-// Función para generar clases aleatorias si el cliente no tiene ninguna
 const generarClasesAleatorias = () => {
     const clasesDisponibles = ['Yoga', 'Pilates', 'Levantamiento de pesas', 'CrossFit', 'Natación', 'Ciclismo', 'Zumba', 'Kickboxing'];
     const clasesAleatorias = [];
-    const numeroDeClases = Math.floor(Math.random() * 2) + 1; // Genera 1 o 2 clases
+    const numeroDeClases = Math.floor(Math.random() * 2) + 1;
 
     for (let i = 0; i < numeroDeClases; i++) {
         const indiceAleatorio = Math.floor(Math.random() * clasesDisponibles.length);
         clasesAleatorias.push(clasesDisponibles[indiceAleatorio]);
-        clasesDisponibles.splice(indiceAleatorio, 1); // Evitar clases repetidas
+        clasesDisponibles.splice(indiceAleatorio, 1);
     }
 
     return clasesAleatorias;
 };
 
 const ClientesSimplificadaView = ({ clientes, theme }) => {
-    // Función para generar una fecha de "último check-in" aleatoria
+    const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
+
     const generarFechaAleatoria = () => {
         const hoy = new Date();
-        const diasAtras = Math.floor(Math.random() * 30); // Genera un número aleatorio entre 0 y 29
+        const diasAtras = Math.floor(Math.random() * 30);
         const fechaAleatoria = new Date(hoy);
         fechaAleatoria.setDate(hoy.getDate() - diasAtras);
-        return fechaAleatoria.toISOString().split('T')[0]; // Devuelve la fecha en formato YYYY-MM-DD
+        return fechaAleatoria.toISOString().split('T')[0];
     };
 
     return (
         <div className={`clientes-simplificada-view ${theme}`}>
             {clientes.map(cliente => {
-                // Asignar clases aleatorias si el cliente no tiene ninguna
                 const clases = cliente.clases && cliente.clases.length > 0 ? cliente.clases : generarClasesAleatorias();
 
                 return (
-                    <div key={cliente._id} className="cliente-card">
+                    <div 
+                        key={cliente._id} 
+                        className="cliente-card" 
+                        onClick={() => setClienteSeleccionado(cliente)} // Abrir popup al hacer clic
+                    >
                         <div className="cliente-info">
                             <div className="cliente-header">
                                 <div className="cliente-avatar"></div>
@@ -69,6 +74,13 @@ const ClientesSimplificadaView = ({ clientes, theme }) => {
                     </div>
                 );
             })}
+
+            {clienteSeleccionado && (
+                <PopupCliente 
+                    cliente={clienteSeleccionado} 
+                    onClose={() => setClienteSeleccionado(null)} // Cerrar el popup
+                />
+            )}
         </div>
     );
 };

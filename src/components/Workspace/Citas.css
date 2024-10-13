@@ -1,10 +1,8 @@
 /* Contenedor Principal */
 .suscripcionesservicios-container {
     padding: 30px;
-    background-color: #f8f9fa;
+    background-color: var(--background);
     border-radius: 8px;
-    max-width: 600px;
-    margin: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
     display: flex;
@@ -22,18 +20,19 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: var(--text);
 }
 
 .suscripcionesservicios-field input,
 .suscripcionesservicios-field select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--button-border);
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
-    color: #333;
+    color: var(--text);
+    background-color: var(--search-button-bg);
 }
 
 .suscripcionesservicios-field input:focus,
@@ -64,9 +63,9 @@
 /* Resumen de servicios */
 .suscripcionesservicios-summary {
     padding: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--button-border);
     border-radius: 4px;
-    background-color: #fff;
+    background-color: var(--background);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     margin-top: 15px;
@@ -96,12 +95,11 @@
     cursor: pointer;
     font-size: 16px;
     flex: 1;
-    max-width: 120px;
     text-align: center;
 }
 
 .suscripcionesservicios-button.cancel {
-    background-color: #ffc107;
+    background-color: red;
     color: white;
     border: none;
     border-radius: 4px;
@@ -109,6 +107,5 @@
     cursor: pointer;
     font-size: 16px;
     flex: 1;
-    max-width: 120px;
     text-align: center;
 }

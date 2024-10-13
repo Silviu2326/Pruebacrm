@@ -27,15 +27,17 @@
   --create-button-bg-dark: #006B5A;
 }
 
+.detailed-factura-content {
+  padding: 20px;
+  width: 100%; 
+}
+
 /* Contenedor principal: Permite mayor ancho */
 .WidgetFacturasDuplicado-widget {
-  padding: 20px;
   background: var(--background-light);
   color: var(--text-light);
   border-radius: 10px;
-  width: 95%; /* Aumenta el ancho al 95% */
-  max-width: 1400px; /* Aumenta el ancho máximo */
-  margin: 20px auto;
+  width: 100%; 
 }
 
 .WidgetFacturasDuplicado-widget.dark {
@@ -83,7 +85,6 @@
 /* Tabla: Permite mayor ancho */
 .WidgetFacturasDuplicado-table {
   width: 100%;
-  max-width: 1400px; /* Asegura que la tabla también sea más ancha */
   border-collapse: collapse;
   margin-top: 10px;
 }
@@ -92,7 +93,6 @@
 .WidgetFacturasDuplicado-table td {
   padding: 12px;
   text-align: left;
-  background: var(--background-light);
   color: var(--text-light);
 }
 
@@ -103,7 +103,6 @@
 }
 
 .WidgetFacturasDuplicado-table th {
-  background: #d9bfae;
   color: var(--header-text-light);
   border-bottom: 2px solid var(--secondary-light);
   font-weight: bold;

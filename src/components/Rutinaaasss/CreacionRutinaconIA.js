@@ -65,12 +65,33 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
   return (
     <div className={`ia-modal ${theme}`}>
       <div className={`ia-modal-content ${theme}`}>
-        <button className="close" onClick={onClose}>&times;</button>
+        <button className="close" onClick={onClose}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>&times;</button>
         <h2>Crear Rutina con IA</h2>
 
         <div className="form-group">
           <label>Seleccionar Cliente:</label>
-          <select onChange={handleClienteSeleccionado}>
+          <select onChange={handleClienteSeleccionado}
+          style={{
+            background: 'var(--search-button-bg)',
+            border: '1px solid var(--button-border)',
+            padding: '5px',
+            height: '44px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s',
+            textAlign: 'left',
+          }}>
             <option value="">Selecciona un cliente</option>
             {clientes.map(cliente => (
               <option key={cliente._id} value={cliente._id}>
@@ -84,7 +105,18 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
         
         <div className="form-group">
           <label>Nivel de Experiencia:</label>
-          <select value={nivel} onChange={(e) => setNivel(e.target.value)}>
+          <select value={nivel} onChange={(e) => setNivel(e.target.value)}
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}>
             <option value="principiante">Principiante</option>
             <option value="intermedio">Intermedio</option>
             <option value="avanzado">Avanzado</option>
@@ -92,11 +124,23 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
         </div>
 
         <div className="form-group">
-          <label>Historial de Lesiones o Problemas de Salud:</label>
+          <label
+          >Historial de Lesiones o Problemas de Salud:</label>
           <textarea 
             value={lesiones} 
             onChange={(e) => setLesiones(e.target.value)}
             placeholder="Ej. Problemas de rodilla, hipertensión..."
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
           ></textarea>
         </div>
 
@@ -106,12 +150,34 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
             value={preferencias} 
             onChange={(e) => setPreferencias(e.target.value)}
             placeholder="Ej. No hacer ejercicios de pierna..."
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
           ></textarea>
         </div>
 
         <div className="form-group">
           <label>Acceso a Espacios de Entrenamiento:</label>
-          <select value={espacio} onChange={(e) => setEspacio(e.target.value)}>
+          <select value={espacio} onChange={(e) => setEspacio(e.target.value)}
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}>
             <option value="gimnasio">Gimnasio</option>
             <option value="casa">Casa</option>
             <option value="parque">Parque</option>
@@ -125,6 +191,17 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
             value={equipo} 
             onChange={(e) => setEquipo(e.target.value)}
             placeholder="Ej. Mancuernas, bandas elásticas..."
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
           ></textarea>
         </div>
 
@@ -138,12 +215,34 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
             onChange={(e) => setDuracion(e.target.value)} 
             min="10" 
             max="120" 
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}
           />
         </div>
 
         <div className="form-group">
           <label>Nivel de Intensidad:</label>
-          <select value={intensidad} onChange={(e) => setIntensidad(e.target.value)}>
+          <select value={intensidad} onChange={(e) => setIntensidad(e.target.value)}
+            style={{
+              background: 'var(--search-button-bg)',
+              border: '1px solid var(--button-border)',
+              padding: '5px',
+              height: '44px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s',
+              textAlign: 'left',
+            }}>
             <option value="baja">Baja</option>
             <option value="moderada">Moderada</option>
             <option value="alta">Alta</option>
@@ -152,7 +251,18 @@ const CreacionRutinaconIA = ({ onClose, theme }) => {
 
        
 
-        <button className="generate-btn" onClick={handleGenerateRoutine}>
+        <button className="generate-btn" onClick={handleGenerateRoutine}
+        style={{
+          background:'var(--create-button-bg)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}
+>
           Generar Rutina
         </button>
       </div>

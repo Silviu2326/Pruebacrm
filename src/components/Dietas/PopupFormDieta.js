@@ -1,3 +1,4 @@
+// PopupFormDieta.js
 import React, { useState } from 'react';
 import './PopupFormDieta.css';
 import axios from 'axios';
@@ -53,7 +54,8 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
     try {
       const objetivoFinal = dieta.objetivo === 'Otro' ? customObjetivo : dieta.objetivo;
       const response = await axios.post(`${API_BASE_URL}/api/dietas`, { ...dieta, objetivo: objetivoFinal });
-      addDieta(response.data);
+      console.log('Respuesta de creación de dieta:', response.data);
+      addDieta(response.data); // Llamada a addDieta en el padre
       onClose(); // Cierra el popup después de crear la dieta
     } catch (error) {
       console.error('Error creating dieta:', error);
@@ -76,6 +78,17 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
               onChange={handleChange}
               className={theme === 'dark' ? 'dark' : ''}
               required
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
             />
           </div>
           <div className={`PopupFormDieta-formGroup`}>
@@ -86,6 +99,17 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
               onChange={handleChange}
               className={theme === 'dark' ? 'dark' : ''}
               required
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
             >
               <option value="">Selecciona un cliente</option>
               {clientes.map((cliente) => (
@@ -104,6 +128,17 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
               onChange={handleChange}
               className={theme === 'dark' ? 'dark' : ''}
               required
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
             />
           </div>
           <div className={`PopupFormDieta-formGroup`}>
@@ -116,6 +151,17 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
               className={theme === 'dark' ? 'dark' : ''}
               min="1"
               required
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
             />
           </div>
           <div className={`PopupFormDieta-formGroup`}>
@@ -126,6 +172,17 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
               onChange={handleChange}
               className={theme === 'dark' ? 'dark' : ''}
               required
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
             >
               {objetivosPredefinidos.map((obj, index) => (
                 <option key={index} value={obj}>
@@ -154,13 +211,46 @@ const PopupFormDieta = ({ isOpen, onClose, clientes, addDieta, theme }) => {
               value={dieta.restricciones}
               onChange={handleChange}
               className={theme === 'dark' ? 'dark' : ''}
+              style={{
+                background: 'var(--search-button-bg)',
+                border: '1px solid var(--button-border)',
+                padding: '5px',
+                height: '44px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s',
+                textAlign: 'left',
+              }}
             />
           </div>
           <div className={`PopupFormDieta-formActions`}>
-            <button type="submit" className="PopupFormDieta-btnPrimary">
+            <button type="submit" className="PopupFormDieta-btnPrimary"
+              style={{
+                background:'var(--create-button-bg)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+                position: 'static',
+                marginRight: 'auto',
+              }}>
               Crear Dieta
             </button>
-            <button type="button" className="PopupFormDieta-btnSecondary" onClick={onClose}>
+            <button type="button" className="PopupFormDieta-btnSecondary" onClick={onClose}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>
               Cancelar
             </button>
           </div>

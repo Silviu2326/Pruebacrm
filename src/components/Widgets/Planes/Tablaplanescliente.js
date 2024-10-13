@@ -3,10 +3,10 @@ import axios from 'axios';
 import './Tablaplanescliente.css';
 import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/ColumnDropdown';
 import Modalcreacionplanes from './Modalcreacionplanes';
+import { UserPlus, Trash2 } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
-const Tablaplanescliente = ({ theme, isEditMode, onTitleClick }) => {
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
+const Tablaplanescliente = ({ theme, setTheme, isEditMode, onTitleClick, onOpenCreatePlanModal }) => {
   const [fixedPlans, setFixedPlans] = useState([]);
   const [variablePlans, setVariablePlans] = useState([]);
   const [clientes, setClientes] = useState([]);
@@ -227,13 +227,75 @@ const Tablaplanescliente = ({ theme, isEditMode, onTitleClick }) => {
       <div className="Widgetplanes-controls">
         <input
           type="text"
-          placeholder={`Buscar ${currentTable === 'planes' ? 'plan' : 'cliente'}...`}
+          placeholder={`Buscar...`}
           value={filterText}
           onChange={handleFilterChange}
+          style={{
+            background: 'transparent',
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',  
+            width: '230px',
+          }}
+
         />
+        <div className="Widgetplanes-button-group Widgetplanes-right-aligned">
+        <button onClick={onOpenCreatePlanModal}
+        style={{
+          background:'var(--create-button-bg)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '14px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '10px',
+          transition: 'background 0.3s ease',
+        }}>Crear Plan</button>
+        <button onClick={handleDeleteSelectedPlans} disabled={selectedPlans.length === 0}
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '14px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '10px',
+          transition: 'background 0.3s ease',
+        }}>
+          Borrar Seleccionados
+        </button>
+      </div>
         <div className="Widgetplanes-button-group">
-          <button onClick={() => handleChangeTable('planes')}>Tabla de Planes</button>
-          <button onClick={() => handleChangeTable('clientes')}>Tabla de Clientes</button>
+        {currentTable === 'clientes' && (
+          <button onClick={() => handleChangeTable('planes')}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '14px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '10px',
+              transition: 'background 0.3s ease',
+            }}>Tabla de Planes</button>
+          )}
+          {currentTable === 'planes' && (
+          <button onClick={() => handleChangeTable('clientes')}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '14px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '10px',
+              transition: 'background 0.3s ease',
+            }}>Tabla de Clientes</button>
+          )}
         </div>
         {isEditMode && (
           <ColumnDropdown
@@ -242,87 +304,118 @@ const Tablaplanescliente = ({ theme, isEditMode, onTitleClick }) => {
           />
         )}
       </div>
-      <div className="Widgetplanes-button-group Widgetplanes-right-aligned">
-        <button onClick={handleOpenCreatePlanModal}>Crear Plan</button>
-        <button onClick={handleDeleteSelectedPlans} disabled={selectedPlans.length === 0}>
-          Borrar Planes Seleccionados
-        </button>
-      </div>
       <div className="Widgetplanes-table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              {currentTable === 'planes' ? (
-                <>
-                  <th>
-                    <input 
-                      type="checkbox" 
-                      checked={selectAll} 
-                      onChange={handleSelectAllChange} 
-                    />
-                  </th>
-                  {visibleColumns.nombre && <th onClick={() => handleSort('name')}>Nombre del Plan</th>}
-                  {visibleColumns.clientes && <th>Clientes</th>}
-                  {visibleColumns.precio && <th>Precio</th>}
-                  {visibleColumns.tipoPlan && <th>Tipo de Plan</th>} {/* Modificado a Tipo de Plan */}
-                  <th>Opciones</th>
-                </>
-              ) : (
-                <>
-                  {visibleColumns.nombre && <th onClick={() => handleSort('nombre')}>Nombre del Cliente</th>}
-                  {visibleColumns.email && <th onClick={() => handleSort('email')}>Correo Electrónico</th>}
-                  {visibleColumns.telefono && <th onClick={() => handleSort('telefono')}>Teléfono</th>}
-                  {visibleColumns.plan && <th onClick={() => handleSort('associatedPlans')}>Plan Asociado</th>}
-                  <th>Opciones</th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((item, index) => (
-              <tr key={index}>
-                {currentTable === 'planes' ? (
-                  <>
-                    <td>
-                      <input 
-                        type="checkbox" 
-                        checked={selectedPlans.includes(item)} 
-                        onChange={() => handleCheckboxChange(item)} 
-                      />
-                    </td>
-                    {visibleColumns.nombre && <td>{item.name}</td>}
-                    {visibleColumns.clientes && <td>{renderClientColumn(item._id)}</td>}
-                    {visibleColumns.precio && <td>{item.rate || item.hourlyRate}</td>}
-                    {visibleColumns.tipoPlan && <td>{item.contractDuration ? 'Fijo' : 'Variable'}</td>} {/* Mostrar el tipo de plan */}
-                    <td>
-                      <div className="Widgetplanes-dropdown">
-                        <button className="Widgetplanes-dropbtn" onClick={() => toggleDropdown(item._id)}>...</button>
-                        {dropdownOpen === item._id && (
-                          <div className="Widgetplanes-dropdown-menu">
-                            <button onClick={() => handleDeletePlan(item)}>Eliminar Plan</button>
-                            <button onClick={() => handleAssociatePlanToClient(item)}>Asociar a Cliente</button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    {visibleColumns.nombre && <td>{item.nombre}</td>}
-                    {visibleColumns.email && <td>{item.email}</td>}
-                    {visibleColumns.telefono && <td>{item.telefono}</td>}
-                    {visibleColumns.plan && <td>{renderPlanColumn(item)}</td>}
-                    <td>
-                      <button onClick={() => handleUnassociatePlan(item._id, item.associatedPlans[0])}>
-                        Desasociar Cliente
-                      </button>
-                    </td>
-                  </>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <table className={`WidgetPlanes-clientes-table ${theme}`} 
+  style={{ 
+    borderRadius: '10px', 
+    borderCollapse: 'separate', 
+    borderSpacing: '0', 
+    width: '100%', 
+    overflow: 'hidden',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  }}
+>
+  <thead style={{ 
+      backgroundColor: theme === 'dark' ? '#555555' : 'rgb(38 93 181)',
+      borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+  }}>
+    <tr>
+      {currentTable === 'planes' ? (
+        <>
+          <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>
+            <input 
+              type="checkbox" 
+              checked={selectAll} 
+              onChange={handleSelectAllChange} 
+            />
+          </th>
+          {visibleColumns.nombre && (
+            <th 
+              style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => handleSort('name')}
+            >
+              Nombre
+            </th>
+          )}
+          {visibleColumns.clientes && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Clientes</th>}
+          {visibleColumns.precio && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Precio</th>}
+          {visibleColumns.tipoPlan && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Tipo de Plan</th>}
+          <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Opciones</th>
+        </>
+      ) : (
+        <>
+          {visibleColumns.nombre && (
+            <th 
+              style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => handleSort('nombre')}
+            >
+              Nombre 
+            </th>
+          )}
+          {visibleColumns.email && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Correo Electrónico</th>}
+          {visibleColumns.telefono && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Teléfono</th>}
+          {visibleColumns.plan && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Plan Asociado</th>}
+          <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Opciones</th>
+        </>
+      )}
+    </tr>
+  </thead>
+  <tbody>
+    {filteredData.map((item, index) => (
+      <tr key={index} style={{ 
+          backgroundColor: theme === 'dark' 
+            ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+            : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+      }}>
+        {currentTable === 'planes' ? (
+          <>
+            <td style={{ padding: '12px' }}>
+              <input 
+                type="checkbox" 
+                checked={selectedPlans.includes(item)} 
+                onChange={() => handleCheckboxChange(item)} 
+              />
+            </td>
+            {visibleColumns.nombre && <td style={{ padding: '12px' }}>{item.name}</td>}
+            {visibleColumns.clientes && <td style={{ padding: '12px' }}>{renderClientColumn(item._id)}</td>}
+            {visibleColumns.precio && <td style={{ padding: '12px' }}>{item.rate || item.hourlyRate}</td>}
+            {visibleColumns.tipoPlan && <td style={{ padding: '12px' }}>{item.contractDuration ? 'Fijo' : 'Variable'}</td>}
+            <td style={{ padding: '12px' }}>
+            <div className={`TabPla-action-btns ${theme}`}>
+                    <button onClick={() => handleDeletePlan(item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><Trash2 size={16}/></button>
+                    <button onClick={() => handleAssociatePlanToClient(item)} style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><UserPlus size={16}/></button>
+                  </div>
+            </td>
+          </>
+        ) : (
+          <>
+            {visibleColumns.nombre && <td style={{ padding: '12px' }}>{item.nombre}</td>}
+            {visibleColumns.email && <td style={{ padding: '12px' }}>{item.email}</td>}
+            {visibleColumns.telefono && <td style={{ padding: '12px' }}>{item.telefono}</td>}
+            {visibleColumns.plan && <td style={{ padding: '12px' }}>{renderPlanColumn(item)}</td>}
+            <td style={{ padding: '12px' }}>
+              <button onClick={() => handleUnassociatePlan(item._id, item.associatedPlans[0])}>
+                Desasociar Cliente
+              </button>
+            </td>
+          </>
+        )}
+      </tr>
+    ))}
+  </tbody>
+</table>
       </div>
       {showDeletePopup && (
         <div className="Widgetplanes-popup">
@@ -349,7 +442,7 @@ const Tablaplanescliente = ({ theme, isEditMode, onTitleClick }) => {
         </div>
       )}
       {showCreatePlanModal && (
-        <Modalcreacionplanes onClose={handleCloseCreatePlanModal} />
+        <Modalcreacionplanes onClose={handleCloseCreatePlanModal} theme={theme} setTheme={setTheme}/>
       )}
     </div>
   );

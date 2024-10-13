@@ -21,17 +21,20 @@ import ContentCreation from './components/ContentCreation/ContentCreation';
 import Campaigns from './components/Campaigns/Campaigns';
 import Ads from './components/Ads/Ads';
 import FunnelsList from './components/FunnelsList/FunnelsList';
-import Rutinaaasss from './components/Rutinaaasss/Rutinaaaasss';
+import Rutinaaasss from './components/Rutinaaasss/Rutinaaaasss'; // Rutinaaasss contiene CreacionDeRutina
 import Login from './components/Login/login';
-import Ajustes from './components/Ajustes/Ajustes'; // Importar el componente Ajustes
+import Ajustes from './components/Ajustes/Ajustes';
 import './styles.css';
 import ListadePublicaciones from './components/Publicaciondecontenido/listadepublicaciones';
-import DashboardPrincipal from './components/dashboardPrincipal/DashboardPrincipal'; // Importa el nuevo componente DashboardPrincipal
+import DashboardPrincipal from './components/dashboardPrincipal/DashboardPrincipal';
+import CommandPopup from './components/Workspace/CommandPopup';  // Importa CommandPopup
+import ColecRutina from './components/ColecRutina/ColecRutina';
 
 const App = () => {
   const [theme, setTheme] = useState('light');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [trainerId, setTrainerId] = useState(null);
+  const [routineName, setRoutineName] = useState(''); // Estado del nombre de la rutina
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -67,7 +70,7 @@ const App = () => {
             <Route path="/edit-dieta/:id" element={<Pageediciondieta theme={theme} setTheme={setTheme}/>} />
             <Route path="/lista-clases" element={<Listadeclases theme={theme} setTheme={setTheme}/>} />
             <Route path="/plans" element={<Plans theme={theme} setTheme={setTheme}/>} />
-            <Route path="/dashboard-principal" element={<DashboardPrincipal theme={theme} setTheme={setTheme}/>} /> {/* Añade la nueva ruta para DashboardPrincipal */}
+            <Route path="/dashboard-principal" element={<DashboardPrincipal theme={theme} setTheme={setTheme}/>} />
             <Route path="/forecasts" element={<Forecasts theme={theme} setTheme={setTheme}/>} />
             <Route path="/expenses" element={<Expenses theme={theme} setTheme={setTheme}/>} />
             <Route path="/income-expenses" element={<IncomeExpenses theme={theme} setTheme={setTheme}/>} />
@@ -79,12 +82,16 @@ const App = () => {
             <Route path="/campaigns" element={<Campaigns theme={theme} setTheme={setTheme}/>} />
             <Route path="/ads" element={<Ads theme={theme} setTheme={setTheme}/>} />
             <Route path="/funnels" element={<FunnelsList theme={theme} setTheme={setTheme}/>} />
-            <Route path="/rutinaaasss" element={<Rutinaaasss theme={theme} setTheme={setTheme}/>} />
+            <Route path="/rutinaaasss" element={<Rutinaaasss theme={theme} setTheme={setTheme} routineName={routineName} setRoutineName={setRoutineName} />} /> {/* Pasamos routineName como prop */}
             <Route path="/login" element={<Login />} />
             <Route path="/publicaciones" element={<ListadePublicaciones theme={theme} setTheme={setTheme}/>} />
-            <Route path="/ajustes" element={<Ajustes theme={theme} setTheme={setTheme}/>} /> {/* Agregar la ruta Ajustes */}
+            <Route path="/ajustes" element={<Ajustes theme={theme} setTheme={setTheme}/>} />
+            <Route path="/ColecRutina" element={<ColecRutina theme={theme} setTheme={setTheme}/>} />
           </Routes>
         </div>
+        
+        {/* Pasamos setRoutineName como prop al CommandPopup */}
+        <CommandPopup setRoutineName={setRoutineName} />
       </div>
     </Router>
   );

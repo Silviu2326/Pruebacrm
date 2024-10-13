@@ -1,259 +1,159 @@
-/* src/components/CommandPopup.css */
-:root {
-    --popup-bg-light: #ffffff; /* Fondo claro */
-    --popup-bg-dark: #1e1e1e; /* Fondo gris oscuro */
-    --popup-text-light: #000000; /* Texto en modo claro */
-    --popup-text-dark: #ffffff; /* Texto en modo oscuro */
-    --close-button-light: #871313; /* Botón de cierre en modo claro */
-    --close-button-dark: #871313; /* Botón de cierre en modo oscuro */
-    --title-color-light: #000000; /* Título en modo claro (azul oscuro) */
-    --title-color-dark: #ffffff; /* Título en modo oscuro (blanco) */
-    --input-bg-light: #f0f0f0; /* Fondo del input en modo claro */
-    --input-bg-dark: #2d2d2d; /* Fondo del input en modo oscuro */
-    --input-text-light: #000000; /* Texto del input en modo claro */
-    --input-text-dark: #9b66ad; /* Texto del input en modo oscuro */
-    --input-border-light: #cccccc; /* Borde del input en modo claro */
-    --input-border-dark: #ffffff; /* Borde del input en modo oscuro */
-    --submit-button-bg-light: #add8e6; /* Fondo del botón de enviar en modo claro (azul claro) */
-    --submit-button-bg-dark: #add8e6; /* Fondo del botón de enviar en modo oscuro (azul claro) */
-    --submit-button-text-light: #00008B; /* Texto del botón de enviar en modo claro (azul oscuro) */
-    --submit-button-text-dark: #00008B; /* Texto del botón de enviar en modo oscuro (azul oscuro) */
-    --section-bg-dark: #2d2d2d; /* Fondo de las secciones en modo oscuro */
-    --section-border-light: #cccccc; /* Borde de las secciones en modo claro */
-    --section-border-dark: #ffffff; /* Borde de las secciones en modo oscuro */
-    --section-text-light: #625cdb; /* Texto de las secciones en modo claro */
-    --section-text-dark: #ffffff; /* Texto de las secciones en modo oscuro */
-  }
-  
-  .CommandPopup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .CommandPopup-container {
-    padding: 20px;
-    border-radius: 10px;
-    position: relative;
-    width: 800px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  body.light .CommandPopup-container {
-    background: var(--popup-bg-light);
-    color: var(--popup-text-light);
-  }
-  
-  body.dark .CommandPopup-container {
-    background: var(--popup-bg-dark);
-    color: var(--popup-text-dark);
-  }
-  
-  .CommandPopup-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  body.light .CommandPopup-close-button {
-    color: var(--close-button-light);
-  }
-  
-  body.dark .CommandPopup-close-button {
-    color: var(--close-button-dark);
-  }
-  
-  .CommandPopup-title {
-    margin-bottom: 10px;
-  }
-  
-  body.light .CommandPopup-title {
-    color: var(--title-color-light);
-  }
-  
-  body.dark .CommandPopup-title {
-    color: var(--title-color-dark);
-  }
-  
-  .CommandPopup-main {
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 1;
-  }
-  
-  .CommandPopup-input-container {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-    margin-bottom: 20px;
-  }
-  
-  .CommandPopup-input {
-    width: 100%;
-    height: 150px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  body.light .CommandPopup-input {
-    background: var(--input-bg-light);
-    color: var(--input-text-light);
-    border: 1px solid var(--input-border-light);
-  }
-  
-  body.dark .CommandPopup-input {
-    background: var(--input-bg-dark);
-    color: var(--input-text-dark);
-    border: 1px solid var(--input-border-dark);
-  }
-  
-  .CommandPopup-submit-button {
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px;
-  }
-  
-  body.light .CommandPopup-submit-button,
-  body.dark .CommandPopup-submit-button {
-    background: var(--submit-button-bg-light);
-    color: var(--submit-button-text-light);
-  }
-  
-  .CommandPopup-sections {
-    display: flex;
-    flex-direction: column;
-    width: 35%;
-    justify-content: space-between;
-  }
-  
-  .CommandPopup-section {
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    height: 200px;
-    overflow-x: scroll;
-  }
-  
-  body.light .CommandPopup-section {
-    border: 1px solid var(--section-border-light);
-  }
-  
-  body.dark .CommandPopup-section {
-    background: var(--section-bg-dark);
-    border: 1px solid var(--section-border-dark);
-  }
-  
-  .CommandPopup-section-results {
-    flex-grow: 1;
-    overflow-y: auto;
-    height: 100px;
-  }
-  
-  body.light .CommandPopup-section h3,
-  body.light .CommandPopup-section-results p,
-  body.light .CommandPopup-results-list,
-  body.light .CommandPopup-section-validation p {
-    color: var(--section-text-light);
-  }
-  
-  body.dark .CommandPopup-section h3,
-  body.dark .CommandPopup-section-results p,
-  body.dark .CommandPopup-results-list,
-  body.dark .CommandPopup-section-validation p {
-    color: var(--section-text-dark);
-  }
-  
-  .CommandPopup-results-list {
-    list-style: none;
-    padding: 0;
-    max-height: 200px;
-    overflow-y: scroll;
-  }
-  
-  .CommandPopup-result-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-  }
-  
-  body.light .CommandPopup-result-item {
-    border: 1px solid var(--section-border-light);
-  }
-  
-  body.dark .CommandPopup-result-item {
-    border: 1px solid var(--section-border-dark);
-  }
-  
-  .CommandPopup-validate-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  body.light .CommandPopup-validate-button {
-    color: var(--section-text-light);
-  }
-  
-  body.dark .CommandPopup-validate-button {
-    color: var(--section-text-dark);
-  }
-  
-  @keyframes flash {
-    0% { background-color: #0b0033; }
-    50% { background-color: #ffff00; }
-    100% { background-color: #0b0033; }
-  }
-  
-  .animating {
-    animation: flash 1s ease-in-out;
-  }
-  
-  .loading-bar {
-    width: 100%;
-    height: 5px;
-    background-color: #00ff00;
-    animation: loading 2s linear;
-  }
-  
-  @keyframes loading {
-    from { width: 0%; }
-    to { width: 100%; }
-  }
-  
-  .CommandPopup-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-  }
-  
-  .CommandPopup-accept-button,
-  .CommandPopup-reject-button {
-    background: #add8e6; /* Fondo azul claro */
-    color: #00008B; /* Texto azul oscuro */
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 0 5px;
-    width: 100px;
-    text-align: center;
-  }
-  
+/* Estilos para el Popup */
+.CommandPopup-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 360px;
+  padding: 20px;
+  border: 1px solid #dcdcdc;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modo claro */
+.light-mode {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Modo oscuro */
+.dark-mode {
+  background-color: #2e2e2e;
+  color: #ffffff;
+}
+
+/* Botón de cerrar */
+.CommandPopup-closeButton {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  background-color: #ff5c5c;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.CommandPopup-closeButton:hover {
+  background-color: #e04040;
+  transform: scale(1.1);
+}
+
+/* Estilización de la barra de desplazamiento en los mensajes */
+.CommandPopup-messagesContainer {
+  height: 280px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilización de la barra de desplazamiento */
+.CommandPopup-messagesContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.CommandPopup-messagesContainer::-webkit-scrollbar-thumb {
+  background-color: #4a90e2;
+  border-radius: 10px;
+}
+
+.CommandPopup-messagesContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #357abd;
+}
+
+.CommandPopup-messagesContainer::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+/* Otros estilos del contenido y estructura */
+.CommandPopup-message {
+  padding: 12px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  max-width: 80%;
+  font-size: 14px;
+}
+
+.CommandPopup-userMessage {
+  align-self: flex-end;
+  background-color: #4a90e2;
+  color: #ffffff;
+}
+
+.CommandPopup-systemMessage, 
+.CommandPopup-assistantMessage {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+  color: #333333;
+}
+
+.CommandPopup-loadingMessage {
+  align-self: center;
+  background-color: #f0f0f0;
+  color: #333333;
+  padding: 12px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  max-width: 80%;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Input y botón de envío */
+.CommandPopup-inputContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.CommandPopup-inputField {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #d0d0d0;
+  margin-right: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.CommandPopup-inputField:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.CommandPopup-sendButton {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  background-color: #4a90e2;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.CommandPopup-sendButton:hover {
+  background-color: #357abd;
+  transform: scale(1.05);
+}
+
+.CommandPopup-sendButton:active {
+  transform: scale(0.95);
+}

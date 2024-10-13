@@ -88,13 +88,34 @@ const FileTable = ({ theme }) => {
           id="file-input"
           onChange={handleFileChange}
         />
-        <label htmlFor="file-input" className={`filetable-upload-label ${theme}`}>
+        <label htmlFor="file-input" className={`filetable-upload-label ${theme}`}
+        style={{
+          background: 'var(--search-button-bg)',
+          border: '1px solid var(--button-border)',
+          padding: '5px',
+          height: '44px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s',
+          textAlign: 'left',
+        }}>
           Seleccionar archivo
         </label>
         <button
           className={`filetable-upload-button ${theme}`}
           onClick={handleFileUpload}
           disabled={!selectedFile}
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background 0.3s ease',
+          }}
         >
           Upload File
         </button>
@@ -119,8 +140,28 @@ const FileTable = ({ theme }) => {
             title="..." 
             className={`filetable-dropdown-button ${theme}`}
           >
-            <Dropdown.Item onClick={() => handleFileDownload(file._id, file.filename)}>Descargar</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleFileDelete(file._id)}>Eliminar</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleFileDownload(file._id, file.filename)}
+              style={{
+                background:'var(--create-button-bg)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Descargar</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleFileDelete(file._id)}
+              style={{
+                background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                color:  'var(--button-text-dark)' ,
+                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                transition: 'background 0.3s ease',
+              }}>Eliminar</Dropdown.Item>
           </DropdownButton>
         </td>
       </tr>

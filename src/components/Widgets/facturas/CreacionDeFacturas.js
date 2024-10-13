@@ -4,9 +4,8 @@ import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import './CreacionDeFacturas.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
-const CreacionDeFacturas = ({ isOpen, closeModal, client, invoice, onAddFactura }) => {
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
+const CreacionDeFacturas = ({ isOpen, onClose, client, invoice, onAddFactura, theme}) => {
     const [formType, setFormType] = useState('simple');
     const [services, setServices] = useState(invoice ? invoice.services : [{ serviceCode: '', vat: '', quantity: '', unitPrice: '', discount: '' }]);
     const [formData, setFormData] = useState({
@@ -147,7 +146,7 @@ const CreacionDeFacturas = ({ isOpen, closeModal, client, invoice, onAddFactura 
                 : await axios.post(`${API_BASE_URL}/api/invoices`, invoiceData);
             setPdfPath(`${API_BASE_URL}${response.data.pdfPath}`);
             onAddFactura(invoiceData);
-            closeModal();
+            onClose();
         } catch (error) {
             console.error('Error al crear la factura:', error.response?.data || error.message);
         }
@@ -158,7 +157,7 @@ const CreacionDeFacturas = ({ isOpen, closeModal, client, invoice, onAddFactura 
     return (
         <div className="CreacionDeFacturasModal-modal">
             <div className="CreacionDeFacturasModal-modal-content">
-                <span className="CreacionDeFacturasModal-close" onClick={closeModal}>&times;</span>
+                <span className="CreacionDeFacturasModal-close" onClick={onClose}>&times;</span>
                 <form onSubmit={handleSubmit} className="CreacionDeFacturasModal-form">
                     <h1>{invoice ? 'Editar Factura' : 'Crear Factura'}</h1>
                     <div className="CreacionDeFacturasModal-gridContainer">
@@ -182,7 +181,19 @@ const CreacionDeFacturas = ({ isOpen, closeModal, client, invoice, onAddFactura 
                                     <input type="number" name="discount" placeholder="Descuento por Unidad" value={service.discount} onChange={(e) => handleServiceChange(index, e)} required className="CreacionDeFacturasModal-discount" />
                                 </div>
                             ))}
-                            <button type="button" onClick={addService} className="CreacionDeFacturasModal-addService">Añadir Servicio</button>
+                            <button type="button" onClick={addService} className="CreacionDeFacturasModal-addService"
+                            style={{
+                                background: 'var(--create-button-bg)',
+                                color: 'var(--button-text-dark)',
+                                border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                                padding: '14px 20px',
+                                width: '100%',
+                                marginTop: '0',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                transition: 'background 0.3s ease',
+                            }}>Añadir Servicio</button>
                         </div>
                     </div>
                     <h2>Tipo de Factura</h2>
@@ -226,7 +237,9 @@ const CreacionDeFacturas = ({ isOpen, closeModal, client, invoice, onAddFactura 
                         ))}
                     </select>
                     <button type="submit" className="CreacionDeFacturasModal-submitButton">{invoice ? 'Guardar Cambios' : 'Crear Factura'}</button>
-                    <button type="button" onClick={closeModal} className="CreacionDeFacturasModal-cancelButton">Cancelar</button>
+                    <button type="button" onClick={onClose} className="CreacionDeFacturasModal-cancelButton" style={{
+                                    background: '#F44336',
+                                }}>Cancelar</button>
     
                     {pdfPath && (
                         <div className="CreacionDeFacturasModal-pdfPreview">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown } from 'lucide-react'; // Importamos el ícono de lucide-react
+import { ChevronDown, Filter } from 'lucide-react'; // Importamos el ícono de lucide-react
 import './ClientFilterDropdown.css';
 
 const ClientFilterDropdown = ({ onFilterChange, theme, clientes }) => {
@@ -70,15 +70,16 @@ const ClientFilterDropdown = ({ onFilterChange, theme, clientes }) => {
                     backgroundColor: '#335484', // Cambiado a color de fondo #3d8bfd
                     border: 'none',
                     cursor: 'pointer',
-                    padding: '12px',
+                    padding: '16px',
                     color: '#fff', // Color del texto cambiado a blanco
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
+                    background: 'linear-gradient(130deg, rgba(214,71,94,1) 9%, rgba(238,85,133,1) 33%)'
                 }}
             >
-                Filtros
-                <ChevronDown size={16} color="white" style={{ marginLeft: '8px' }} /> {/* Cambiamos el color a blanco */}
+                <Filter size={16} color="white" /> {/* Icono de filtro */}
+                
             </button>
             {isOpen && (
                 <div className={`cc-cliente-dropdown-content ${theme}`}>

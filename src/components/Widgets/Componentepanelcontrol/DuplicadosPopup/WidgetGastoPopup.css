@@ -149,9 +149,7 @@
   border: 1px solid var(--button-border-light);
 }
 
-.popup-widget-gasto.light th {
-  background: var(--header-bg-light);
-}
+
 
 .popup-widget-gasto.light tr:hover {
   background: var(--table-row-hover-bg-light);
@@ -214,9 +212,7 @@
   border: 1px solid var(--button-border-dark);
 }
 
-.popup-widget-gasto.dark th {
-  background: var(--header-bg-dark);
-}
+
 
 .popup-widget-gasto.dark tr:hover {
   background: var(--table-row-hover-bg-dark);

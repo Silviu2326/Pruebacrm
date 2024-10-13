@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../ComponentsReutilizables/Button.tsx';
 
-const FormulaEditor = ({ variables, functions, operators }) => {
+const FormulaEditor = ({ variables, functions, operators, theme }) => {
   const [formula, setFormula] = useState('');
   const [error, setError] = useState(null);
 
@@ -76,12 +76,32 @@ const FormulaEditor = ({ variables, functions, operators }) => {
 
       {error && <div className="error-message">{error}</div>}
 
-      <button className="add-condition-button">
+      <button className="add-condition-button"
+      style={{
+        background:'var(--create-button-bg)', 
+        color:  'var(--button-text-dark)' ,
+        border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        transition: 'background 0.3s ease',
+      }}>
         Añadir Condición
       </button>
 
       <div className="preview">
-        <h3>Previsualización de Fórmula:</h3>
+        <h3
+        style={{
+          background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+          color:  'var(--button-text-dark)' ,
+          border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          transition: 'background 0.3s ease',
+        }}>Previsualización de Fórmula:</h3>
         <p>{formula}</p>
       </div>
     </div>

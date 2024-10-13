@@ -48,7 +48,6 @@
 
 .uniquePrefix-Documentos-filter-input {
   padding: 8px;
-  background: var(--button-bg);
   color: var(--button-text);
   border: 1px solid var(--button-border);
   border-radius: 5px;
@@ -57,7 +56,7 @@
 }
 
 .uniquePrefix-Documentos-filter-select {
-  background: var(--button-bg);
+  background: var(--background-darkblue);
   color: var(--button-text);
   border: 1px solid var(--button-border);
   border-radius: 5px;
@@ -126,6 +125,10 @@
   border-radius: 5px;
   cursor: pointer;
   position: relative;
+}
+
+.action-btn {
+  display: flex;
 }
 
 .uniquePrefix-Documentos-action-button:hover {

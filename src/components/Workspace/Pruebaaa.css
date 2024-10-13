@@ -1,5 +1,16 @@
 /* Archivo: Pruebaaa.css */
 
+/* Variables de color para temas (opcional) */
+:root {
+  /* Puedes ajustar estos colores según tus necesidades */
+  --button-bg-filtro-dark: #903ddf;
+  --button-text-dark: #ffffff;
+  --button-border-light: #ddd;
+  --button-bg-hover: #5a2aab;
+  --button-text-hover: #ffffff;
+  --ClientesWorkspace-input-border-dark: #555;
+}
+
 /* Estilos del modal */
 .Pruebaaa-modal {
   position: fixed;
@@ -7,7 +18,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,36 +29,66 @@
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 80%;
-  max-width: 500px;
+  width: 600px; /* Ancho fijo */
+  max-width: 90%; /* Máximo ancho en pantallas pequeñas */
+  height: 600px; /* Altura fija */
+  max-height: 90%; /* Máxima altura en pantallas pequeñas */
   position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.Pruebaaa-modal-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
-
+/* Título del modal */
 .Pruebaaa-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
-.Pruebaaa-text {
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
+/* Área de pestañas */
+.TabsList {
+  display: flex;
+  border-bottom: 1px solid #ddd;
 }
 
-.Pruebaaa-close-button {
-  display: inline-block;
+.TabsTrigger {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-/* Estilos del formulario en la pestaña "Detalles" */
+.TabsTrigger:hover {
+  background-color: #f0f0f0;
+}
+
+.TabsTrigger[data-state="active"] {
+  border-bottom: 2px solid #333;
+  font-weight: bold;
+}
+
+/* Contenido de las pestañas */
+.TabsContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 10px 0;
+  overflow-y: auto;
+}
+
+/* Asegura que el contenido principal tome todo el espacio disponible */
+.Pruebaaa-detalles-form,
+.Pruebaaa-participantes-list,
+.Pruebaaa-sesiones-list,
+.Pruebaaa-pagos-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Estilos generales del formulario */
 .Pruebaaa-form-group {
   margin-bottom: 15px;
 }
@@ -64,6 +105,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 .Pruebaaa-guardar-cambios-button {
@@ -106,7 +148,6 @@
   margin-bottom: 5px;
   font-weight: bold;
 }
-/* Archivo: Pruebaaa.css */
 
 /* Estilos de la pestaña "Sesiones" */
 .Pruebaaa-sesiones-list {
@@ -147,8 +188,6 @@
   display: inline-block;
 }
 
-/* Archivo: Pruebaaa.css */
-
 /* Estilos de la pestaña "Pagos" */
 .Pruebaaa-pagos-list {
   margin-top: 15px;
@@ -177,7 +216,8 @@
   margin-top: 20px;
   display: inline-block;
 }
-/* Estilos para el overlay del popup */
+
+/* Estilos para el overlay del popup de Sesión */
 .Pruebaaa-session-popup-overlay {
   position: fixed;
   top: 0;
@@ -188,10 +228,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* Asegura que el popup esté por encima de otros elementos */
+  z-index: 1000;
 }
 
-/* Estilos para el contenido del popup */
+/* Estilos para el contenido del popup de Sesión */
 .Pruebaaa-session-popup-content {
   background-color: white;
   padding: 20px;
@@ -202,24 +242,30 @@
   text-align: center;
 }
 
-/* Estilo para el botón de cerrar */
-.Pruebaaa-session-popup-content button {
+/* Estilos para el formulario de Sesión */
+.Pruebaaa-session-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacio entre los elementos del formulario */
   margin-top: 10px;
 }
 
-/* Estilo del botón de cerrar del modal principal */
-.Pruebaaa-modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
+.Pruebaaa-session-popup-content button {
+  padding: 10px;
+  margin: 5px;
+  font-size: 14px;
   border: none;
-  font-size: 18px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.Pruebaaa-session-popup-content button:hover {
+  background-color: #333;
+  color: white;
+}
 
-/* Estilo para el overlay del popup */
+/* Estilos para el overlay del popup de Pago */
 .Pruebaaa-payment-popup-overlay {
   position: fixed;
   top: 0;
@@ -233,7 +279,7 @@
   z-index: 1000; /* Asegura que el popup esté por encima de otros elementos */
 }
 
-/* Estilo para el contenido del popup */
+/* Estilos para el contenido del popup de Pago */
 .Pruebaaa-payment-popup-content {
   background-color: #fff;
   padding: 20px;
@@ -245,7 +291,7 @@
   text-align: center;
 }
 
-/* Estilo para el formulario dentro del popup */
+/* Estilos para el formulario de Pago */
 .Pruebaaa-payment-form {
   display: flex;
   flex-direction: column;
@@ -253,24 +299,7 @@
   margin-top: 10px;
 }
 
-/* Estilo para los inputs y select */
-.Pruebaaa-form-control {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100%;
-  margin-bottom: 10px;
-  box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
-}
-
-/* Estilo para el botón dentro del popup */
 .Pruebaaa-payment-form button {
-  margin-top: 15px;
-}
-
-/* Estilo específico para el botón de acción */
-.Pruebaaa-payment-popup-content button {
   padding: 10px;
   margin: 5px;
   font-size: 14px;
@@ -280,7 +309,66 @@
   transition: background-color 0.3s ease;
 }
 
-.Pruebaaa-payment-popup-content button:hover {
+.Pruebaaa-payment-form button:hover {
   background-color: #333;
   color: white;
+}
+
+/* Estilos para el botón de cerrar el modal principal */
+/* Este botón se ha eliminado en el componente, pero si decides mantenerlo, puedes estilizarlo aquí */
+.Pruebaaa-close-button {
+  /* Estilos previos si decides mantenerlo */
+  /* Puedes eliminarlos si ya no usas este botón */
+}
+
+/* Estilos para el pie de cada sección */
+.Pruebaaa-section-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+
+/* Estilos específicos para el botón de cerrar en las secciones */
+.Pruebaaa-close-button-section {
+  background: var(--button-bg-filtro-dark); /* Ajusta según tu tema */
+  color: var(--button-text-dark);
+  border: 1px solid var(--button-border-light);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.Pruebaaa-close-button-section:hover {
+  background: var(--button-bg-hover); /* Define este color en tus variables */
+  color: var(--button-text-hover);
+}
+
+/* Estilos para los popups de cerrar */
+.Pruebaaa-session-popup-content,
+.Pruebaaa-payment-popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Ajustes adicionales para mantener la consistencia */
+.Pruebaaa-close-button-section:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(144, 61, 223, 0.5); /* Sombra para accesibilidad */
+}
+
+/* Media Queries para mejorar la responsividad (opcional) */
+@media (max-width: 600px) {
+  .Pruebaaa-modal-content {
+    width: 90%;
+    height: 90%;
+  }
+
+  .Pruebaaa-session-popup-content,
+  .Pruebaaa-payment-popup-content {
+    width: 90%;
+  }
 }

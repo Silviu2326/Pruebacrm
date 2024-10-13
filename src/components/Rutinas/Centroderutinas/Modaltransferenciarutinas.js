@@ -6,8 +6,7 @@ import { angleUp } from 'react-icons-kit/fa/angleUp';
 import { angleDown } from 'react-icons-kit/fa/angleDown';
 import styles from './Modaltransferenciarutinas.module.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://crmbackendsilviuuu-4faab73ac14b.herokuapp.com';
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 const Modaltransferenciarutinas = ({ show, onClose, days }) => {
   const [targetRoutineId, setTargetRoutineId] = useState('');
   const [routines, setRoutines] = useState([]);

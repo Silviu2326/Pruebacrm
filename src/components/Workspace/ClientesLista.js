@@ -45,7 +45,6 @@ import {
     handleOpenDialogServicio,
     handleCloseDialogServicio,
     fetchServicesData,
-    attachServiceInfoToClients,
     handleAddToService
 } from './clienteHandlers';
 import { titulos, subtitulos } from './textosClientes';
@@ -72,6 +71,7 @@ const camposDisponibles = [
 
 const ClientesLista = ({ theme, setTheme }) => {
     const [clientes, setClientes] = useState([]);
+    const [openDialogServicio, setOpenDialogServicio] = useState(false);
     const [selectedCliente, setSelectedCliente] = useState(null);
     const [filtro, setFiltro] = useState('');
     const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
@@ -98,7 +98,6 @@ const ClientesLista = ({ theme, setTheme }) => {
     const [mostrarActualizarMetodoPagoModal, setMostrarActualizarMetodoPagoModal] = useState(false);
     const [mostrarModalBonos, setMostrarModalBonos] = useState(false);
     const [openDialogPlantilla, setOpenDialogPlantilla] = useState(false);
-    const [openDialogServicio, setOpenDialogServicio] = useState(false);
     const [tituloAleatorio, setTituloAleatorio] = useState('');
     const [subtituloAleatorio, setSubtituloAleatorio] = useState('');
     const [serviceModalVisible, setServiceModalVisible] = useState(false);
@@ -113,39 +112,73 @@ const ClientesLista = ({ theme, setTheme }) => {
         cargarClientes();
     }, [API_BASE_URL]);
 
-    const cargarClientes = async () => {
+    const attachServiceInfoToClients = (clients, servicesData) => {
+        return clients.map(client => {
+            // Verificar si el cliente está en alguna clase grupal
+            const hasGroupClass = servicesData.groupClasses.some(groupClass => 
+                groupClass.clients?.some(c => c._id === client._id) // Ajuste aquí
+            );
+    
+            // Verificar si el cliente está en alguna suscripción
+            const hasSubscription = servicesData.subscriptions.some(subscription =>
+                subscription.clients?.some(c => c._id === client._id) // Ajuste aquí
+            );
+    
+            // Verificar si el cliente está en alguna consulta individual
+            const hasConsultation = servicesData.individualConsultations.some(consultation =>
+                consultation.clients?.some(c => c._id === client._id) // Ajuste aquí
+            );
+    
+            // Determinar el tipo de servicio
+            let service = '';
+            if (hasGroupClass) service = 'Clase grupal';
+            if (hasSubscription) service = 'Suscripción';
+            if (hasConsultation) service = 'Consulta individual';
+    
+            return { ...client, service };
+        });
+    };
+        const cargarClientes = async () => {
         try {
             const [clientesResponse, servicesData] = await Promise.all([
                 axios.get(`${API_BASE_URL}/api/clientes`),
                 fetchServicesData()
             ]);
-
+    
+            console.log('Clientes Response:', clientesResponse.data);
+            console.log('Services Data:', servicesData);
+    
             let clientesWithService = attachServiceInfoToClients(clientesResponse.data, servicesData);
             setClientes(clientesWithService);
             toast.success('Clientes y servicios cargados correctamente');
         } catch (error) {
+            console.error('Error cargando clientes o servicios:', error);
             toast.error('Error al cargar los clientes o los servicios');
         }
     };
-
+    
     const handleClienteClick = (cliente) => {
         setSelectedCliente(prev => prev && prev._id === cliente._id ? null : cliente);
     };
-    const handleOpenDialogServicio = (setOpenDialogServicio) => {
-        setOpenDialogServicio(true);
-    };
-    const handleCloseDialogServicio = (setOpenDialogServicio) => {
-        setOpenDialogServicio(false);
-    };
-    const handleToggleServicios = () => { 
-        setVistaServicios(prev => !prev);
-        setVistaCalendario(false);
-        if (!vistaServicios) {
-            handleOpenDialogServicio();
-        } else {
-            handleCloseDialogServicio();
-        }
-    };
+// Actualiza las funciones para abrir y cerrar el diálogo correctamente
+const handleOpenDialogServicio = () => {
+    setOpenDialogServicio(true); // Usar el estado directamente
+};
+
+const handleCloseDialogServicio = () => {
+    setOpenDialogServicio(false); // Usar el estado directamente
+};
+
+// Corrige la función handleToggleServicios para que use correctamente el estado sin argumentos
+const handleToggleServicios = () => { 
+    setVistaServicios(prev => !prev);
+    setVistaCalendario(false);
+    if (!vistaServicios) {
+        handleOpenDialogServicio();  // Abre el diálogo correctamente
+    } else {
+        handleCloseDialogServicio();  // Cierra el diálogo correctamente
+    }
+};
     const handleToggleVistaSimplificada = () => {
         setVistaSimplificada(prev => !prev);
     };
@@ -345,7 +378,7 @@ const ClientesLista = ({ theme, setTheme }) => {
                     </button>
                 </div>
                 <p className="subtituloClientes">{subtituloAleatorio}</p>
-                <div className="actions">
+                <div className={`actions ${theme}`}>
                     <input
                         type="text"
                         placeholder="Buscar clientes"
@@ -465,7 +498,7 @@ const ClientesLista = ({ theme, setTheme }) => {
     ) : vistaCalendario ? (
         <CalendarView clientes={clientesFiltrados} vista={vistaCalendarioTipo} theme={theme} />
     ) : (
-        <table className="clientes-table">
+        <table className={`clientes-table ${theme}`}>
             <thead 
                 className={theme === 'dark' ? 'dark' : ''} 
                 style={{ position: 'relative', zIndex: 1 }}
@@ -576,27 +609,104 @@ const ClientesLista = ({ theme, setTheme }) => {
 
             {/* Modal para Añadir a un Servicio */}
             {serviceModalVisible && (
-                <div className="modal-servicio">
-                    <div className="modal-content">
-                        <h2>Seleccionar Servicio para {clientToAdd?.nombre}</h2>
-                        <div className="service-options">
-                            {/* Ejemplo de opciones para seleccionar servicio */}
-                            <button onClick={() => handleServiceSelection('Clase grupal', 'serviceGroupClassId')}>
-                                Clase grupal
-                            </button>
-                            <button onClick={() => handleServiceSelection('Suscripción', 'serviceSubscriptionId')}>
-                                Suscripción
-                            </button>
-                            <button onClick={() => handleServiceSelection('Consulta individual', 'serviceConsultationId')}>
-                                Consulta individual
-                            </button>
-                        </div>
-                        <button className="close-modal" onClick={handleCloseServiceModal}>
-                            Cerrar
-                        </button>
-                    </div>
-                </div>
-            )}
+    <div
+        style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+        }}
+    >
+        <div
+            style={{
+                backgroundColor: 'white',
+                padding: '20px',
+                borderRadius: '8px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                maxWidth: '500px',
+                width: '90%',
+                textAlign: 'center',
+            }}
+        >
+            <h2 style={{ marginBottom: '20px' }}>
+                Seleccionar Servicio para {clientToAdd?.nombre}
+            </h2>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    marginBottom: '20px',
+                }}
+            >
+                <button
+                    style={{
+                        padding: '10px 20px',
+                        backgroundColor: '#007bff',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() =>
+                        handleServiceSelection('Clase grupal', 'serviceGroupClassId')
+                    }
+                >
+                    Clase grupal
+                </button>
+                <button
+                    style={{
+                        padding: '10px 20px',
+                        backgroundColor: '#28a745',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() =>
+                        handleServiceSelection('Suscripción', 'serviceSubscriptionId')
+                    }
+                >
+                    Suscripción
+                </button>
+                <button
+                    style={{
+                        padding: '10px 20px',
+                        backgroundColor: '#ffc107',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() =>
+                        handleServiceSelection('Consulta individual', 'serviceConsultationId')
+                    }
+                >
+                    Consulta individual
+                </button>
+            </div>
+            <button
+                style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                }}
+                onClick={handleCloseServiceModal}
+            >
+                Cerrar
+            </button>
+        </div>
+    </div>
+)}
         </div>
     );
 };

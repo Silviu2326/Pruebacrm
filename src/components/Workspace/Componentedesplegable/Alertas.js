@@ -4,7 +4,7 @@ import './Alertas.css';
 import AjustesDeAlertas from './AjustesDeAlertas';
 import { Settings } from 'lucide-react';
 
-const Alertas = () => {
+const Alertas = ({ theme }) => {
     const [alertas, setAlertas] = useState([]);
     const [selectedAlerta, setSelectedAlerta] = useState(null);
     const [showAjustesModal, setShowAjustesModal] = useState(false);
@@ -43,10 +43,10 @@ const Alertas = () => {
     const filteredAlertas = alertas.filter(alerta => selectedAlertas.includes(alerta._id));
 
     return (
-        <div className="alertas-column">
+        <div className={`alertas-column ${theme}`}>
             <h3>Alertas</h3>
             <button 
-                className="alertas-personalizar-button" 
+                className={`alertas-personalizar-button ${theme}`} 
                 onClick={openAjustesModal}
                 style={{
                     display: 'flex',
@@ -64,15 +64,15 @@ const Alertas = () => {
                 <Settings size={20} color="white" style={{ marginRight: '8px' }} />
                 Filtrar Alertas Disponibles
             </button>
-            <div className="alertas-alerts-container">
+            <div className={`alertas-alerts-container ${theme}`}>
                 {filteredAlertas.map((alerta) => (
-                    <div className="alertas-item" key={alerta._id} onClick={() => handleItemClick(alerta)}>
-                        <div className="alertas-status-text">
-                            <div className={`alertas-status ${alerta.status}`}></div>
+                    <div className={`alertas-item ${theme}`} key={alerta._id} onClick={() => handleItemClick(alerta)}>
+                        <div className={`alertas-status-text ${theme}`}>
+                            <div className={`alertas-status ${alerta.status} ${theme}`}></div>
                             <p><strong>{alerta.title}</strong>: {alerta.message}</p>
                         </div>
                         {alerta.date && (
-                            <div className="alertas-date">
+                            <div className={`alertas-date ${theme}`}>
                                 <p>{alerta.date}</p>
                             </div>
                         )}
@@ -81,9 +81,9 @@ const Alertas = () => {
             </div>
 
             {selectedAlerta && (
-                <div className="alertas-modal" style={{ display: 'flex' }}>
-                    <div className="alertas-modal-content">
-                        <span className="alertas-close" onClick={closeModal}>&times;</span>
+                <div className={`alertas-modal ${theme}`} style={{ display: 'flex' }}>
+                    <div className={`alertas-modal-content ${theme}`}>
+                        <span className={`alertas-close ${theme}`} onClick={closeModal}>&times;</span>
                         <h2>{selectedAlerta.title}</h2>
                         <p>{selectedAlerta.message}</p>
                         {selectedAlerta.date && <p><strong>Fecha:</strong> {selectedAlerta.date}</p>}
@@ -97,6 +97,7 @@ const Alertas = () => {
                     selectedAlertas={selectedAlertas}
                     setSelectedAlertas={setSelectedAlertas}
                     closeModal={closeAjustesModal}
+                    theme={theme}
                 />
             )}
         </div>

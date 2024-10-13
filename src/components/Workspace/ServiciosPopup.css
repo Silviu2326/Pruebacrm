@@ -3,6 +3,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    background: var(--background);
+    color: var(--text);
 }
 
 .servicios-popup-title {
@@ -60,4 +62,13 @@
     justify-content: flex-end;
     padding-right: 24px;
     padding-bottom: 16px;
+}
+
+.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    background: var(--background);
+    color: var(--text);
+}
+.css-6hp17o-MuiList-root-MuiMenu-list {
+    background: var(--widget-bg);
+    color: var(--text);
 }

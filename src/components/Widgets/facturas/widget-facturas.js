@@ -6,8 +6,9 @@ import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/C
 import ScanInvoiceForm from './Duplicados/ScanInvoiceForm';
 import Modal from './Modal';
 import CreacionDeFacturas from './CreacionDeFacturas';
+import {  Filter } from 'lucide-react'; // Importamos el ícono de lucide-react
 
-const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, setTheme, onOpenCreationModal }) => {
+const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, setTheme, onOpenCreationModal, onOpenScanModal }) => {
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]); 
   const [searchTerm, setSearchTerm] = useState('');
@@ -214,27 +215,53 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
         <div className="WidgetFacturas-filter-container">
           <input
             type="text"
-            placeholder="Filtrar..."
+            placeholder="Buscar..."
             value={searchTerm}
             onChange={handleFilterChange}
             className={`widget-filter-input ${theme}`}
+            style={{
+              background: 'transparent',
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',  
+              height: '44px',
+            }}
           />
           <select
             className={`uniquePrefix-Documentos-filter-select ${theme}`}
             value={selectedInvoiceType}
             onChange={(e) => setSelectedInvoiceType(e.target.value)}
+            style={{
+              height: '44px',
+              paddingBottom: '6px',
+            }}
           >
             <option value="todos">Todos</option>
             <option value="escaneada">Facturas Escaneadas</option>
             <option value="made">Facturas Emitidas</option>
           </select>
           <div className="dropdownFilters">
-            <button onClick={toggleFilterDropdown} className={`widget-button ${theme}`}>Filtros</button>
+            <button onClick={toggleFilterDropdown} className={`widget-button ${theme}`}
+            style={{
+              background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background 0.3s ease',
+            }}>    <Filter size={16} color="white" /> {/* Icono de filtro */}
+</button>
             {isFilterDropdownOpen && (
               <div className={`Prevdropdown-content ${theme}`}>
                 <div className="Prevprevisiones-filtros">
                   <div className="Prevfilter-field">
-                    <label>Fecha de Factura:</label>
+                    <label>Fecha:</label>
                     <input
                       type="date"
                       name="invoiceDate"
@@ -244,7 +271,7 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
                     />
                   </div>
                   <div className="Prevfilter-field">
-                    <label>Método de Pago:</label>
+                    <label>Método:</label>
                     <input
                       type="text"
                       name="paymentMethod"
@@ -264,7 +291,7 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
                     />
                   </div>
                   <div className="Prevfilter-field">
-                    <label>Tipo de Factura:</label>
+                    <label>Tipo:</label>
                     <select
                       name="type"
                       value={filters.type}
@@ -275,16 +302,6 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
                       <option value="received">Recibida</option>
                       <option value="made">Emitida</option>
                     </select>
-                  </div>
-                  <div className="Prevfilter-field">
-                    <label>Tipo de Persona:</label>
-                    <input
-                      type="text"
-                      name="personType"
-                      value={filters.personType}
-                      onChange={handleFilterFieldChange}
-                      className={`widget-filter-input ${theme}`}
-                    />
                   </div>
                   <div className="Prevfilter-field">
                     <label>Nombre:</label>
@@ -317,8 +334,14 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
                     />
                   </div>
                 </div>
-                <button onClick={handleApplyFilters} className={`apply-filters-btn ${theme}`}>Aplicar Filtros</button>
-                <button onClick={handleClearAllFilters} className={`clear-filters-btn ${theme}`}>Borrar Filtros</button>
+                <button onClick={handleApplyFilters} className={`apply-filters-btn ${theme}`} style={{ 
+                  color: 'white', 
+                }}>Aplicar Filtros</button>
+                <button onClick={handleClearAllFilters} className={`clear-filters-btn ${theme}`} style={{ 
+                  color: 'white', 
+                  background: '#f44336',
+                  marginBottom: '25px',
+                }}>Borrar Filtros</button>
               </div>
             )}
           </div>
@@ -343,11 +366,32 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
               )}
             </div>
           )}
-          <button className={`WidgetFacturas-scan-btn ${theme}`} onClick={handleOpenScanModal}>Escanear Factura</button>
+          <button className={`WidgetFacturas-scan-btn ${theme}`} onClick={onOpenScanModal}
+          style={{
+            background: theme === 'dark' ? 'var(--button-bg-darkk)' : 'var(--button-bg-light)', 
+            color:  'var(--button-text-dark)' ,
+            border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+            padding: '14px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '12px',
+            transition: 'background 0.3s ease',
+          }}>Escanear Factura</button>
           <button 
             className={`WidgetFacturas-add-btn ${theme}`} 
-            onClick={handleOpenCreationModal} 
+            onClick={onOpenCreationModal} 
             ref={addButtonRef} // Referencia al botón
+            style={{
+              background:'var(--create-button-bg)', 
+              color:  'var(--button-text-dark)' ,
+              border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+              padding: '14px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '12px',
+              transition: 'background 0.3s ease',
+              marginLeft: '0',
+            }}
           >
             Añadir Factura
           </button>
@@ -361,55 +405,71 @@ const WidgetFacturas = ({ isEditMode, handleRemoveItem, onTitleClick, theme, set
         />
       )}
       <NavbarFiltrosFacturas filters={filters} clearFilter={clearFilter} theme={theme} />
-      <table className={`WidgetFacturas-facturas-table ${theme}`}>
-        <thead>
-          <tr>
-            <th>
-              <input
-                type="checkbox"
-                checked={selectedAll}
-                onChange={handleSelectAll}
-              />
-            </th>
-            {selectedColumns.cliente && <th>Cliente</th>}
-            {selectedColumns.monto && <th>Importe</th>}
-            {selectedColumns.fecha && <th>Fecha</th>}
-            {selectedColumns.tipo && <th>Tipo</th>}
-            {selectedColumns.plan && <th>Plan</th>}
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((item, index) => (
-            <tr key={index} className={theme}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedItems[index]}
-                  onChange={() => handleSelectItem(index)}
-                />
-              </td>
-              {selectedColumns.cliente && <td>{item.name || item.companyName}</td>}
-              {selectedColumns.monto && <td>{item.total}</td>}
-              {selectedColumns.fecha && <td>{new Date(item.invoiceDate).toLocaleDateString()}</td>}
-              {selectedColumns.tipo && <td>{item.type === 'made' ? 'Emitida' : 'Escaneada'}</td>}
-              {selectedColumns.plan && <td>{item.plan || 'N/A'}</td>}
-              <td>
-                <div className="WidgetFacturas-dropdown-options">
-                  <button onClick={() => toggleOptions(index)}>...</button>
-                  {optionsOpenIndex === index && (
-                    <div className={`WidgetFacturas-dropdown-content WidgetFacturas-options-dropdown ${theme}`}>
-                      {item.type === 'escaneada' && <button>Añadir como Gasto</button>}
-                      <button>Opción 1</button>
-                      <button>Opción 2</button>
-                    </div>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <table className={`WidgetFacturas-facturas-table ${theme}`} 
+  style={{ 
+    borderRadius: '10px', 
+    borderCollapse: 'separate', 
+    borderSpacing: '0', 
+    width: '100%', 
+    overflow: 'hidden',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  }}
+>
+  <thead style={{ 
+      backgroundColor: theme === 'dark' ? 'rgb(68, 68, 68)' : 'rgb(38 93 181)',
+      borderBottom: theme === 'dark' ? '1px solid var(--ClientesWorkspace-input-border-dark)' : '1px solid #903ddf'
+  }}>
+    <tr>
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>
+        <input
+          type="checkbox"
+          checked={selectedAll}
+          onChange={handleSelectAll}
+        />
+      </th>
+      {selectedColumns.cliente && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Cliente</th>}
+      {selectedColumns.monto && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Importe</th>}
+      {selectedColumns.fecha && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Fecha</th>}
+      {selectedColumns.tipo && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Tipo</th>}
+      {selectedColumns.plan && <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Plan</th>}
+      <th style={{ padding: '12px', textAlign: 'left', color: theme === 'dark' ? 'white' : 'white', fontWeight: 'bold' }}>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {filteredData.map((item, index) => (
+      <tr key={index} className={theme} style={{ 
+          backgroundColor: theme === 'dark' 
+            ? (index % 2 === 0 ? '#333' : '#444') // Alternar colores en modo oscuro
+            : (index % 2 === 0 ? '#f9f9f9' : '#ffffff') // Alternar colores en modo claro
+      }}>
+        <td style={{ padding: '12px' }}>
+          <input
+            type="checkbox"
+            checked={selectedItems[index]}
+            onChange={() => handleSelectItem(index)}
+          />
+        </td>
+        {selectedColumns.cliente && <td style={{ padding: '12px' }}>{item.name || item.companyName}</td>}
+        {selectedColumns.monto && <td style={{ padding: '12px' }}>{item.total}</td>}
+        {selectedColumns.fecha && <td style={{ padding: '12px' }}>{new Date(item.invoiceDate).toLocaleDateString()}</td>}
+        {selectedColumns.tipo && <td style={{ padding: '12px' }}>{item.type === 'made' ? 'Emitida' : 'Escaneada'}</td>}
+        {selectedColumns.plan && <td style={{ padding: '12px' }}>{item.plan || 'N/A'}</td>}
+        <td style={{ padding: '12px' }}>
+          <div className="WidgetFacturas-dropdown-options">
+            <button onClick={() => toggleOptions(index)} className={`WidgetFacturas-options-btn ${theme}`}>...</button>
+            {optionsOpenIndex === index && (
+              <div className={`WidgetFacturas-dropdown-content WidgetFacturas-options-dropdown ${theme}`} style={{ padding: '10px', background: '#fff', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                {item.type === 'escaneada' && <button>Añadir como Gasto</button>}
+                <button>Opción 1</button>
+                <button>Opción 2</button>
+              </div>
+            )}
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       {isScanModalOpen && (
         <Modal closeModal={handleCloseScanModal}>
           <ScanInvoiceForm closeModal={handleCloseScanModal} />

@@ -62,7 +62,7 @@
 /* Ajustes específicos de la interfaz de usuario */
 .pageEdicionDieta.light .weekContainer,
 .pageEdicionDieta.light .saveButton {
-  background-color: var(--primary-light);
+  background-color: #fffbf9;
   color: var(--text-light);
   border: 1px solid var(--secondary-light);
 }

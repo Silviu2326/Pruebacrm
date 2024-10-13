@@ -11,6 +11,8 @@ import {
 import './RecentSales.css';
 import DetailedIngresoBeneficio from './DetailedIngresoBeneficio';
 import ColumnDropdown from '../Componentepanelcontrol/ComponentesReutilizables/ColumnDropdown';
+import {  Filter, User, Eye, Copy } from 'lucide-react'; // Importamos el ícono de lucide-react
+import NavbarFiltrosRecentSales from './NavbarFiltrosRecentsales';
 
 const columns = [
   {
@@ -58,11 +60,32 @@ const columns = [
     accessor: 'actions',
     Cell: ({ row }) => (
       <div className="panelcontrol-dropdown">
-        <button className="panelcontrol-dropdown-btn">...</button>
-        <div className="panelcontrol-dropdown-content">
-          <button>Copiar ID de Pago</button>
-          <button>Ver Cliente</button>
-          <button>Ver Detalles del Pago</button>
+        <div className="panelcontrol-action-btns" style={{ 
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'space-around',                 
+                  }}>
+          <button style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><Copy size={16}/></button>
+          <button style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><User size={16}/></button>
+          <button style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--text)', 
+                    padding: '3px',
+                  }}><Eye size={16}/></button>
         </div>
       </div>
     ),
@@ -76,6 +99,7 @@ function RecentSales({ detailed, onTitleClick, isEditMode, theme }) {
   const [emailFilter, setEmailFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [dineroFilter, setDineroFilter] = useState('');
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false); // Control del estado del dropdown
   const [isFilterApplied, setIsFilterApplied] = useState(false);
 
   useEffect(() => {
@@ -168,11 +192,8 @@ function RecentSales({ detailed, onTitleClick, isEditMode, theme }) {
     setDineroFilter(e.target.value);
   };
 
-  const applyFilters = () => {
-    setFilter('cliente.email', emailFilter || undefined);
-    setFilter('estadoPago', statusFilter || undefined);
-    setFilter('cantidad', dineroFilter || undefined);
-    setIsFilterApplied(true);
+  const toggleFilterDropdown = () => {
+    setIsFilterDropdownOpen(!isFilterDropdownOpen);
   };
 
   const getActiveFiltersCount = () => {
@@ -201,86 +222,191 @@ function RecentSales({ detailed, onTitleClick, isEditMode, theme }) {
 
   const emptyRows = pageSize - page.length;
 
+  const [filters, setFilters] = useState({
+    email: '',
+    estado: '',
+    minMonto: '',
+    maxMonto: '',
+  });
+
+  const handleFilterFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
+
+  const clearFilter = (filterKey) => {
+    setFilters({ ...filters, [filterKey]: '' });
+  };
+
+  const applyFilters = (items) => {
+    return items.filter((item) => {
+      const emailCondition = filters.email ? item.cliente.email.includes(filters.email) : true;
+      const estadoCondition = filters.estado ? item.estadoPago === filters.estado : true;
+      const minMontoCondition = filters.minMonto ? item.cantidad >= parseFloat(filters.minMonto) : true;
+      const maxMontoCondition = filters.maxMonto ? item.cantidad <= parseFloat(filters.maxMonto) : true;
+      return emailCondition && estadoCondition && minMontoCondition && maxMontoCondition;
+    });
+  };
+
+  // Aplicación de filtros al conjunto de datos
+  const filteredData = applyFilters(data);
+
   return (
     <div className={`panelcontrol-recent-sales ${detailed ? 'detailed' : ''} ${theme}`}>
       <h3 className="panelcontrol-letras" onClick={onTitleClick}>
         Ventas Recientes
       </h3>
       <div className="panelcontrol-pagination">
-        <div className="panelcontrol-dropdown">
-          <input
-            value={globalFilter}
-            onChange={handleGlobalFilterChange}
-            placeholder="Buscar por cualquier campo..."
-            className={`panelcontrol-filter-input ${theme}`}
-          />
-        </div>
-        <div className="panelcontrol-dropdown">
-          <button className="panelcontrol-dropdown-btn">Filtrar</button>
-          <div className="panelcontrol-dropdown-content filter-dropdown-content">
-            <div>
-              <label>Correo Electrónico</label>
+      <div style={{display: 'flex', gap:'20px'}}>
+      <div className="panelcontrol-dropdown">
               <input
-                value={emailFilter}
-                onChange={handleEmailFilterChange}
-                placeholder="Filtrar por correo electrónico..."
-                className={`panelcontrol-filter-input ${theme}`}
+                style={{
+                  background: 'var(--search-button-bg)',
+                  border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+                  padding: '5px',
+                  height: '44px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s ease',
+                  textAlign: 'left',
+                }}
+                value={globalFilter}
+                onChange={handleGlobalFilterChange}
+                placeholder="Buscar..."
+                className={`RS-panelcontrol-filter-input ${theme}`}
               />
             </div>
-            <div>
-              <label>Estado</label>
-              <select
-                value={statusFilter}
-                onChange={handleStatusFilterChange}
-                className={`panelcontrol-filter-input ${theme}`}
+            <div className="panelcontrol-dropdown">
+              <button 
+                className="panelcontrol-dropdown-btn" 
+                onClick={toggleFilterDropdown}
+                style={{
+                  background: theme === 'dark' ? 'var(--button-bg-tres)' : 'var(--button-bg-filtro-dark)', 
+                  color: 'var(--button-text-dark)',
+                  border: theme === 'dark' ? 'var(--button-border-dark)' : 'var(--button-border-light)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  transition: 'background 0.3s ease',
+                }}
               >
-                <option value="">Todos</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="completado">Completado</option>
-                <option value="fallido">Fallido</option>
-              </select>
+                <Filter size={16} color="white" /> {/* Icono de filtro */}
+              </button>
+              {isFilterDropdownOpen && (
+                <div className={`RS-panelcontrol-dropdown-content RS-filter-dropdown-content ${theme}`}>
+                  {/* Filtro por correo electrónico */}
+                  <div className={`RS-filter-field ${theme}`}>
+                    <label>Correo:</label>
+                    <input
+                      name="email"
+                      value={filters.email}
+                      onChange={handleFilterFieldChange}
+                      className={`RS-panelcontrol-filter-input ${theme}`}
+                    />
+                  </div>
+  
+                  {/* Filtro por estado */}
+                  <div className={`RS-filter-field ${theme}`}>
+                    <label>Estado:</label>
+                    <select
+                      name="estado"
+                      value={filters.estado}
+                      onChange={handleFilterFieldChange}
+                      className={`RS-panelcontrol-filter-input ${theme}`}
+                    >
+                      <option value="">Todos</option>
+                      <option value="pendiente">Pendiente</option>
+                      <option value="completado">Completado</option>
+                      <option value="fallido">Fallido</option>
+                    </select>
+                  </div>
+  
+                  {/* Filtro por dinero */}
+                  <div className={`RS-filter-field ${theme}`}>
+                    <label>Mínimo:</label>
+                    <input
+                      type="number"
+                      name="minMonto"
+                      value={filters.minMonto}
+                      onChange={handleFilterFieldChange}
+                      className={`RS-panelcontrol-filter-input ${theme}`}
+                    />
+                  </div>
+                  <div className={`RS-filter-field ${theme}`}>
+                    <label>Máximo:</label>
+                    <input
+                      type="number"
+                      name="maxMonto"
+                      value={filters.maxMonto}
+                      onChange={handleFilterFieldChange}
+                      className={`RS-panelcontrol-filter-input ${theme}`}
+                    />
+                  </div>
+  
+                  <button onClick={() => applyFilters(filteredData)} className="RS-panelcontrol-filter-btn" style={{
+                    background: 'var(--button-bg)',
+                    border: '1px solid var(--button-border)',
+                    padding: '8px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    marginTop: '0px',
+                    width: '100%',
+                    height: '36px',
+                    color: 'white',
+                    fontSize: '12px'
+                  }}>
+                    Aplicar filtros
+                  </button>
+                </div>
+              )}
             </div>
-            <div>
-              <label>Dinero</label>
-              <input
-                type="number"
-                value={dineroFilter}
-                onChange={handleDineroFilterChange}
-                placeholder="Filtrar por dinero..."
-                className={`panelcontrol-filter-input ${theme}`}
-              />
-            </div>
-            <button onClick={applyFilters} className="panelcontrol-filter-btn">
-              Guardar filtro
-            </button>
           </div>
-        </div>
-        {isFilterApplied && (
-          <div className="panelcontrol-active-filters">
-            Filtros activos: {getActiveFiltersCount()}
-          </div>
-        )}
+        <div className="panelcontrol-pagination-info">
         <button
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
           className={`panelcontrol-nav-button ${theme}`}
-        >
-          &lt;--
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginRight: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &lt;
         </button>
-        <div className="panelcontrol-pagination-info">
+    
           Página{' '}
           <strong>
             {pageIndex + 1} de {pageOptions.length}
           </strong>
-        </div>
+
         <button
           onClick={() => nextPage()}
           disabled={!canNextPage}
           className={`panelcontrol-nav-button ${theme}`}
-        >
-          --&gt;
+          style={{
+            background: 'transparent',
+            color:  theme === 'dark' ? ' var(--button-border-dark)' : ' var(--button-border-light)',
+            border: theme === 'dark' ? '1px solid var(--button-border-dark)' : '1px solid var(--button-border-light)',
+            padding: '5px 5px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft: '8px',
+            transition: 'background 0.3s ease',
+          }}>
+          &gt;
         </button>
+        </div>
       </div>
+      <NavbarFiltrosRecentSales filters={filters} clearFilter={clearFilter} />
       {isEditMode && (
         <ColumnDropdown
           selectedColumns={allColumns.reduce((acc, col) => {
@@ -295,7 +421,7 @@ function RecentSales({ detailed, onTitleClick, isEditMode, theme }) {
           }}
         />
       )}
-      <table {...getTableProps()} className="panelcontrol-sales-table">
+      <table {...getTableProps()} className={`panelcontrol-sales-table ${theme}`}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
