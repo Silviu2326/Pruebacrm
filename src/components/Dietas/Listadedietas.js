@@ -44,7 +44,17 @@ const Listadedietas = ({ theme, setTheme }) => {
 
   // **Función modificada para añadir la dieta y navegar**
   const addDieta = (newDieta) => {
-    setDietas(prevDietas => [...prevDietas, newDieta]); // Usa la versión anterior del estado
+    // Añadimos temporalmente una propiedad 'isNew' para identificar la nueva dieta
+    const newDietaWithAnimation = { ...newDieta, isNew: true };
+    setDietas(prevDietas => [...prevDietas, newDietaWithAnimation]); 
+  
+    // Después de 2 segundos, eliminamos la propiedad 'isNew' para remover la clase de animación
+    setTimeout(() => {
+      setDietas(prevDietas =>
+        prevDietas.map(d => d._id === newDieta._id ? { ...d, isNew: false } : d)
+      );
+    }, 2000);
+  
     setIsPopupOpen(false); // Cierra el modal
     navigate(`/edit-dieta/${newDieta._id}`); // Navega a la página de edición de la nueva dieta
   };
@@ -168,30 +178,33 @@ const Listadedietas = ({ theme, setTheme }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredDietas.map((dieta) => (
-                <tr key={dieta._id}>
-                  <td>{dieta.nombre}</td>
-                  <td>{getClienteNombre(dieta.cliente)}</td>
-                  <td>{formatDate(dieta.fechaInicio)}</td> {/* Formatear fecha */}
-                  <td>{dieta.objetivo}</td>
-                  <td>{dieta.restricciones}</td>
-                  <td>
-                    <button
-                      className="Listadedietas-btnActionEdit"
-                      onClick={() => handleEditDieta(dieta._id)}
-                    >
-                      <Edit size={16} />
-                    </button>
-                    <button
-                      className="Listadedietas-btnActionDelete"
-                      onClick={() => handleDeleteDieta(dieta._id)}
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {filteredDietas.map((dieta) => (
+    <tr 
+      key={dieta._id} 
+      className={dieta.isNew ? 'Listadedietas-newItem' : ''}
+    >
+      <td>{dieta.nombre}</td>
+      <td>{getClienteNombre(dieta.cliente)}</td>
+      <td>{formatDate(dieta.fechaInicio)}</td> {/* Formatear fecha */}
+      <td>{dieta.objetivo}</td>
+      <td>{dieta.restricciones}</td>
+      <td>
+        <button
+          className="Listadedietas-btnActionEdit"
+          onClick={() => handleEditDieta(dieta._id)}
+        >
+          <Edit size={16} />
+        </button>
+        <button
+          className="Listadedietas-btnActionDelete"
+          onClick={() => handleDeleteDieta(dieta._id)}
+        >
+          <Trash2 size={16} />
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
           </table>
 
           {/* Renderizar PopupFormDieta solo si showDietas es true */}

@@ -51,6 +51,7 @@ import { titulos, subtitulos } from './textosClientes';
 import { Briefcase } from 'lucide-react';
 import { PlusCircle } from 'lucide-react';
 import ClientesSimplificadaView from './ClientesSimplificadaView';
+import PopupCuestionarios from './PopupCuestionarios.tsx'; // Correcto
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5005';
 
@@ -103,6 +104,14 @@ const ClientesLista = ({ theme, setTheme }) => {
     const [serviceModalVisible, setServiceModalVisible] = useState(false);
     const [clientToAdd, setClientToAdd] = useState(null);
     const [vistaSimplificada, setVistaSimplificada] = useState(false);
+    const [mostrarPopupRevisiones, setMostrarPopupRevisiones] = useState(false);
+    const handleOpenPopupRevisiones = () => {
+        setMostrarPopupRevisiones(true);
+    };
+
+    const handleClosePopupRevisiones = () => {
+        setMostrarPopupRevisiones(false);
+    };
 
     useEffect(() => {
         // Seleccionar un título y subtítulo aleatorios
@@ -395,6 +404,9 @@ const handleToggleServicios = () => {
                         {vistaSimplificada ? <MdViewModule size={20} /> : <MdViewList size={20} />}
                         {vistaSimplificada ? 'Ver Tabla Completa' : 'Vista Simplificada'}
                     </button>
+                    <button className="cliente-action-btn" onClick={handleOpenPopupRevisiones}>
+                Abrir Revisiones
+            </button>
 
                     <button className={`cliente-action-btn ${theme}`} onClick={() => setVistaCalendario(!vistaCalendario)}>
                         {vistaCalendario ? <MdViewList size={20} /> : <MdViewModule size={20} />}
@@ -578,6 +590,10 @@ const handleToggleServicios = () => {
             theme={theme}
         />
     )}
+                {mostrarPopupRevisiones && (
+                <PopupCuestionarios onClose={handleClosePopupRevisiones} />
+            )}
+
     {mostrarModalCategorias && (
         <SeleccionCategoriasModal
             camposDisponibles={camposDisponibles}

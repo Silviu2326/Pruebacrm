@@ -1,0 +1,98 @@
+.lista-cuestionarios {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .lista-titulo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+  }
+  
+  .lista-icono {
+    margin-right: 0.75rem;
+    animation: bounce 1s infinite alternate;
+  }
+  
+  .no-cuestionarios {
+    color: #6b7280;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .cuestionarios-lista {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .cuestionario-item {
+    background-color: #f3f4f6;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  .cuestionario-item:hover {
+    background-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .cuestionario-titulo {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 1.1rem;
+  }
+  
+  .cuestionario-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .cuestionario-preguntas {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-right: 0.75rem;
+  }
+  
+  .cuestionario-icono {
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+  }
+  
+  .cuestionario-item:hover .cuestionario-icono {
+    transform: translateX(5px);
+  }
+  
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
